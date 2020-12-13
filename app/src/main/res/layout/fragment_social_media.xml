@@ -6,55 +6,87 @@
     tools:context=".SocialMediaFragment">
 
     <View
-        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@drawable/dark_gradient"/>
+        android:layout_alignParentTop="true"
+        android:background="@drawable/dark_gradient" />
 
     <LinearLayout
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
 
         <ImageButton
-            android:src="@drawable/play_icon"
-            android:layout_height="35dp"
+            android:id="@+id/play"
             android:layout_width="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:background="@null"
-            android:layout_marginEnd="25dp"/>
-
-        <ImageButton
-            android:src="@drawable/network_icon"
             android:layout_height="35dp"
-            android:layout_width="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:background="@null"
-            android:layout_marginEnd="25dp"/>
-
-        <ImageButton
-            android:src="@drawable/inst_icon"
-            android:layout_height="35dp"
-            android:layout_width="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:background="@null"
             android:layout_marginEnd="25dp"
-            />
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/play_icon" />
 
         <ImageButton
-            android:src="@drawable/facebook_icon"
-            android:layout_height="35dp"
+            android:id="@+id/network"
             android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginEnd="25dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/network_icon" />
+
+        <ImageButton
+            android:id="@+id/instagram"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginEnd="25dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/inst_icon" />
+
+        <ImageButton
+            android:id="@+id/facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/facebook_icon" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/button_exchange"
+        android:layout_width="130dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_red_background"
+        android:orientation="horizontal"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:text="@string/exchange"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_weight="4"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:layout_height="30dp"
+            android:layout_width="0dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/exchange_icon"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
-            android:background="@null"
-            />
+            android:layout_weight="1"/>
 
     </LinearLayout>
 
