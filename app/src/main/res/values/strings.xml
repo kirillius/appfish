@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FishingApp</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tournament">Турнир</string>
+</resources>
