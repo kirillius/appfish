@@ -4,32 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TournamentActivity"
-    android:background="@drawable/tour_back"
+    tools:context=".activities.TournamentActivity"
+    android:background="@drawable/back1"
     android:orientation="vertical">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/top_menu_fragment"
-        android:name="com.linaverde.fishingapp.TopMenuFragment"
+        android:name="com.linaverde.fishingapp.fragments.TopMenuFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.5" />
+        android:layout_height="442dp" />
 
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/content_tournament_fragment"
-        android:name="com.linaverde.fishingapp.ChooseTournamentFragment"
+        android:name="com.linaverde.fishingapp.fragments.ChooseTournamentFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2" />
-
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/bottom_fragment"
-        android:name="com.linaverde.fishingapp.SocialMediaFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.5" />
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

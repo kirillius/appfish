@@ -4,6 +4,11 @@
     <!-- Strings used for fragments for navigation -->
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="tournament">Турнир</string>
+    <string name="tournament">ТУРНИР</string>
     <string name="exchange">Обмен</string>
+    <string name="register_team">Регистрация команд</string>
+    <string name="draw_queue">Жеребьевка очереди</string>
+    <string name="draw_sector">Жеребьевка секторов</string>
+    <string name="weighing">Взвешивание</string>
+    <string name="statistics">Статистика</string>
 </resources>

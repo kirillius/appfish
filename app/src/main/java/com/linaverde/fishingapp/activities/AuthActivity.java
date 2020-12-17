@@ -1,8 +1,10 @@
-package com.linaverde.fishingapp;
+package com.linaverde.fishingapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.linaverde.fishingapp.R;
 
 public class AuthActivity extends AppCompatActivity {
 

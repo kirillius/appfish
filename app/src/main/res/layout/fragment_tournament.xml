@@ -1,0 +1,347 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="533dp"
+        android:layout_weight="1"
+        android:background="@null"
+        tools:context=".activities.TournamentActivity">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/dark_gradient" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/light_gradient" />
+
+        <TextView
+            android:id="@+id/tv_team_name"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:layout_marginStart="96dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="96dp"
+            android:layout_marginBottom="34dp"
+            android:background="@drawable/button_bottom_gradient"
+            android:fontFamily="@font/regular_md"
+            android:gravity="center"
+            android:text="Название команды"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/tv_team_name"
+            android:layout_marginStart="96dp"
+            android:layout_marginEnd="96dp">
+
+            <RelativeLayout
+                android:id="@+id/list_register_team"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="29dp">
+
+                <ImageView
+                    android:id="@+id/icon_reg"
+                    android:layout_width="42dp"
+                    android:layout_height="44dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="32dp"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/register_team_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toEndOf="@id/icon_reg"
+                    android:text="@string/register_team"
+                    android:textColor="@color/white"
+                    android:textSize="26sp"
+                    android:fontFamily="@font/regular_md"/>
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="26dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/arrow_right" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/list_draw_queue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="29dp">
+
+                <ImageView
+                    android:id="@+id/icon_queue"
+                    android:layout_width="42dp"
+                    android:layout_height="44dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="32dp"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/draw_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toEndOf="@id/icon_queue"
+                    android:text="@string/draw_queue"
+                    android:textColor="@color/white"
+                    android:textSize="26sp"
+                    android:fontFamily="@font/regular_md"/>
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="26dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/arrow_right" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/list_draw_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="29dp">
+
+                <ImageView
+                    android:id="@+id/icon_sector"
+                    android:layout_width="42dp"
+                    android:layout_height="44dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="32dp"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/draw_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toEndOf="@id/icon_sector"
+                    android:text="@string/draw_sector"
+                    android:textColor="@color/white"
+                    android:textSize="26sp"
+                    android:fontFamily="@font/regular_md"/>
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="26dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/arrow_right" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/list_weigh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="29dp">
+
+                <ImageView
+                    android:id="@+id/icon_weigh"
+                    android:layout_width="42dp"
+                    android:layout_height="44dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="32dp"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/weight_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toEndOf="@id/icon_weigh"
+                    android:text="@string/weighing"
+                    android:textColor="@color/white"
+                    android:textSize="26sp"
+                    android:fontFamily="@font/regular_md"/>
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="26dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/arrow_right" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="394dp"
+        android:layout_weight="1">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/dark_gradient" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/play"
+                android:layout_width="58dp"
+                android:layout_height="61dp"
+                android:layout_marginEnd="61dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/play_icon" />
+
+            <ImageButton
+                android:id="@+id/network"
+                android:layout_width="58dp"
+                android:layout_height="61dp"
+                android:layout_marginEnd="61dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/network_icon" />
+
+            <ImageButton
+                android:id="@+id/instagram"
+                android:layout_width="58dp"
+                android:layout_height="61dp"
+                android:layout_marginEnd="61dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/inst_icon" />
+
+            <ImageButton
+                android:id="@+id/facebook"
+                android:layout_width="58dp"
+                android:layout_height="61dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/facebook_icon" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/button_exchange"
+            android:layout_width="302dp"
+            android:layout_height="62dp"
+            android:layout_marginStart="96dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/button_red_background"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="64dp"
+                android:fontFamily="@font/regular_md"
+                android:text="@string/exchange"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="19dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/exchange_icon" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/button_statistics"
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:layout_marginStart="96dp"
+            android:layout_marginEnd="96dp"
+            android:background="@drawable/button_dark"
+            android:orientation="horizontal"
+            android:layout_below="@id/button_exchange">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="64dp"
+                android:fontFamily="@font/regular_md"
+                android:text="@string/statistics"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:layout_centerInParent="true" />
+
+            <ImageView
+                android:layout_width="17dp"
+                android:layout_height="26dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="21dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/arrow_right" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,10 +1,12 @@
-package com.linaverde.fishingapp;
+package com.linaverde.fishingapp.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import android.os.Bundle;
 
-public class TournamentActivity extends AppCompatActivity {
+import com.linaverde.fishingapp.R;
+
+public class TournamentActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
