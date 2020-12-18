@@ -3,11 +3,11 @@
     package="com.linaverde.fishingapp">
 
     <supports-screens
-        android:smallScreens="false"
-        android:normalScreens="false"
         android:largeScreens="true"
-        android:xlargeScreens="true"
-        android:requiresSmallestWidthDp="800" />
+        android:normalScreens="false"
+        android:requiresSmallestWidthDp="800"
+        android:smallScreens="false"
+        android:xlargeScreens="true" />
 
     <application
         android:allowBackup="true"
@@ -16,17 +16,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FishingApp">
-        <activity android:name=".activities.TournamentActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity android:name=".activities.PlayerTournamentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".activities.AuthActivity">
 
         </activity>
+        <activity
+            android:name=".activities.JudgeTournamentActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        </activity>
+        <activity android:name=".activities.AuthActivity"></activity>
     </application>
 
 </manifest>

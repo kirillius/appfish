@@ -1,9 +1,11 @@
 package com.linaverde.fishingapp.interfaces;
 
+import org.json.JSONObject;
+
 public interface RequestListener {
 
-    void onComplete(String json);
+    void onComplete(JSONObject json);
 
-    void onError(int err);
+    void onError(JSONObject json);
 }
 

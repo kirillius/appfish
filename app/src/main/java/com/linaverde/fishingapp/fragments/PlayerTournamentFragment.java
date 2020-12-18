@@ -12,10 +12,10 @@ import com.linaverde.fishingapp.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link TournamentFragment#newInstance} factory method to
+ * Use the {@link PlayerTournamentFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TournamentFragment extends Fragment {
+public class PlayerTournamentFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class TournamentFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public TournamentFragment() {
+    public PlayerTournamentFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class TournamentFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment TournamentFragment.
+     * @return A new instance of fragment PlayerTournamentFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TournamentFragment newInstance(String param1, String param2) {
-        TournamentFragment fragment = new TournamentFragment();
+    public static PlayerTournamentFragment newInstance(String param1, String param2) {
+        PlayerTournamentFragment fragment = new PlayerTournamentFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class TournamentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tournament, container, false);
+        return inflater.inflate(R.layout.fragment_player_tournament, container, false);
     }
 }
