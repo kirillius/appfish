@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.JudgeTournamentActivity"
+    tools:context=".activities.TournamentActivity"
     android:background="@android:color/transparent">
 
     <View
@@ -26,6 +26,7 @@
             android:layout_marginEnd="50px"/>
 
         <TextView
+            android:id="@+id/tv_user_name"
             android:text="Имя пользователя"
             android:textColor="@color/white"
             android:textSize="40sp"

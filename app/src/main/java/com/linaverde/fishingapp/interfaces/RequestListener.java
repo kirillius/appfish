@@ -6,6 +6,6 @@ public interface RequestListener {
 
     void onComplete(JSONObject json);
 
-    void onError(JSONObject json);
+    void onError(int responseCode);
 }
 

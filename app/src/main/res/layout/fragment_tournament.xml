@@ -8,7 +8,7 @@
         android:layout_height="533dp"
         android:layout_weight="1"
         android:background="@null"
-        tools:context=".activities.JudgeTournamentActivity">
+        tools:context=".activities.TournamentActivity">
 
         <View
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:background="@drawable/light_gradient" />
 
         <TextView
-            android:id="@+id/tv_team_name"
+            android:id="@+id/tv_tournament_name"
             android:layout_width="match_parent"
             android:layout_height="62dp"
             android:layout_marginStart="96dp"
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_below="@id/tv_team_name"
+            android:layout_below="@id/tv_tournament_name"
             android:layout_marginStart="96dp"
             android:layout_marginEnd="96dp">
 

@@ -5,35 +5,68 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class TopMenuFragment extends Fragment {
 
     private TopMenuEventListener listener;
 
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM = "param";
+
+    private JSONObject mStartParam;
+
     public TopMenuFragment() {
         // Required empty public constructor
     }
 
-    ImageButton menu, settings, gps, chat, message, sync;
-
+    public static TopMenuFragment newInstance(String json) {
+        TopMenuFragment fragment = new TopMenuFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM, json);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            try {
+                mStartParam = new JSONObject(getArguments().getString(ARG_PARAM));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
+    ImageButton menu, settings, gps, chat, message, sync;
+    TextView tvUsername;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_top_menu, container, false);
+
+        tvUsername = view.findViewById(R.id.tv_user_name);
+        try {
+            tvUsername.setText(mStartParam.getString("userName"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         menu = view.findViewById(R.id.top_menu);
         settings = view.findViewById(R.id.settings);
         gps = view.findViewById(R.id.top_gps);

@@ -12,7 +12,24 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -22,10 +39,11 @@ public class RequestHelper {
 
     public RequestHelper(Context context) {
         this.context = context;
+
     }
 
     private JSONObject getAnswerBytes(byte[] response) {
-        if (response.length > 0 && response != null)
+        if (response.length > 0)
             try {
                 return new JSONObject(new String(response, StandardCharsets.UTF_8));
             } catch (JSONException e) {
@@ -36,11 +54,13 @@ public class RequestHelper {
 
     public void executeGet(String method, String[] keys, String[] values, RequestListener listener) {
         AsyncHttpClient client = new AsyncHttpClient();
-
+        String logParam = "";
         RequestParams params = new RequestParams();
         for (int i = 0; i < keys.length; i++) {
             params.put(keys[i], values[i]);
+            logParam += keys[i] + "=" + values[i]+";";
         }
+        Log.d("Request", "init " + method + " get request with params " + logParam);
 
         client.get(context.getResources().getString(R.string.url_backend) + "/" + method, params, new AsyncHttpResponseHandler() {
 
@@ -48,6 +68,7 @@ public class RequestHelper {
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 // called when response HTTP status is "200 OK"
                 Log.d("Request", method + " request successful");
+                Log.d("Request", "answer: " + new String(response, StandardCharsets.UTF_8));
                 listener.onComplete(getAnswerBytes(response));
             }
 
@@ -55,11 +76,10 @@ public class RequestHelper {
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 Log.d("Request", method + " request error with code " + statusCode);
-                if (errorResponse != null) {
-                    listener.onError(getAnswerBytes(errorResponse));
-                } else {
-                    listener.onError(null);
+                if (errorResponse.length>0) {
+                    String res = new String(errorResponse, StandardCharsets.UTF_8);
                 }
+                listener.onError(statusCode);
             }
 
             @Override
@@ -72,6 +92,8 @@ public class RequestHelper {
 
     public void executePost(String method, String[] keys, String[] values, RequestListener listener) {
         AsyncHttpClient client = new AsyncHttpClient();
+
+        Log.d("Request", "init " + method + " post request");
 
         RequestParams params = new RequestParams();
         for (int i = 0; i < keys.length; i++) {
@@ -89,7 +111,7 @@ public class RequestHelper {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                listener.onError(getAnswerBytes(errorResponse));
+                listener.onError(statusCode);
             }
 
             @Override
