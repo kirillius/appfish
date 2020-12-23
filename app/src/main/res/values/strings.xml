@@ -19,4 +19,9 @@
     <string name="weigh">Вес</string>
     <string name="avr">средний</string>
     <string name="sum">общий</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="result">Итого</string>
+    <string name="number">№ п/п</string>
+    <string name="teams">Команды</string>
+    <string name="end_reg">Завершение регистрации</string>
 </resources>

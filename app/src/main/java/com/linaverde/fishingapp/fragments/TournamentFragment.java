@@ -12,7 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.activities.RegisterTeamActivity;
 import com.linaverde.fishingapp.activities.StatisticActivity;
+import com.linaverde.fishingapp.services.SmallCapsBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,6 +79,17 @@ public class TournamentFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        rlRegisterTeam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RegisterTeamActivity.class);
+                Bundle args = new Bundle();
+                args.putString("info", mStartParam.toString());
+                intent.putExtras(args);
+                startActivity(intent);
+            }
+        });
 
         rlStatistics = view.findViewById(R.id.button_statistics);
         rlStatistics.setOnClickListener(new View.OnClickListener() {

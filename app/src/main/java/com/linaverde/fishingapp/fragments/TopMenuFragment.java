@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
@@ -25,7 +26,7 @@ public class TopMenuFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM = "param";
 
-    private JSONObject mStartParam;
+    private JSONObject mStartParam = null;
 
     public TopMenuFragment() {
         // Required empty public constructor
@@ -33,9 +34,11 @@ public class TopMenuFragment extends Fragment {
 
     public static TopMenuFragment newInstance(String json) {
         TopMenuFragment fragment = new TopMenuFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM, json);
-        fragment.setArguments(args);
+        if (json != null) {
+            Bundle args = new Bundle();
+            args.putString(ARG_PARAM, json);
+            fragment.setArguments(args);
+        }
         return fragment;
     }
 
@@ -61,10 +64,15 @@ public class TopMenuFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_top_menu, container, false);
 
         tvUsername = view.findViewById(R.id.tv_user_name);
-        try {
-            tvUsername.setText(mStartParam.getString("userName"));
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (mStartParam != null) {
+            try {
+                tvUsername.setText(mStartParam.getString("userName"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            tvUsername.setText(R.string.tournament);
+            view.findViewById(R.id.iv_user_icon).setVisibility(View.GONE);
         }
 
         menu = view.findViewById(R.id.top_menu);

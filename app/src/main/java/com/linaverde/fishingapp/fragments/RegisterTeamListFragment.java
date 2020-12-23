@@ -12,35 +12,27 @@ import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.services.StatisticAdapter;
+import com.linaverde.fishingapp.services.TeamsAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+public class RegisterTeamListFragment extends Fragment {
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link StatisticsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class StatisticsFragment extends Fragment {
-
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM = "param";
     private static final String TOURNAMENT_NAME = "name";
 
     private JSONObject mStartParam;
     private String tournamentName;
 
-    public StatisticsFragment() {
+    public RegisterTeamListFragment() {
         // Required empty public constructor
     }
 
-    public static StatisticsFragment newInstance(String json, String tournamentName) {
-        StatisticsFragment fragment = new StatisticsFragment();
+    public static RegisterTeamListFragment newInstance(String json, String tournamentName) {
+        RegisterTeamListFragment fragment = new RegisterTeamListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM, json);
         args.putString(TOURNAMENT_NAME, tournamentName);
@@ -64,46 +56,26 @@ public class StatisticsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_statistics, container, false);
+        View view = inflater.inflate(R.layout.fragment_register_team_list, container, false);
 
         TextView tvTournamentName = view.findViewById(R.id.tv_tournament_name);
         tvTournamentName.setText(tournamentName);
 
-        TextView tvDate = view.findViewById(R.id.tv_date);
-        Date c = Calendar.getInstance().getTime();
-        System.out.println("Current time => " + c);
-        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-        tvDate.setText(df.format(c));
-
         ListView statList = view.findViewById(R.id.lv_stats);
-        int count = 0, avr = 0, sum = 0;
         try {
-            JSONArray arr = mStartParam.getJSONArray("stats");
+            JSONArray arr = mStartParam.getJSONArray("teams");
             int len = arr.length();
-            JSONObject [] stats = new JSONObject[len];
+            JSONObject [] teams = new JSONObject[len];
             for (int i = 0; i < len; i ++){
-                stats[i] = arr.getJSONObject(i);
-                count += stats[i].getInt("quantity");
-                avr += stats[i].getInt("avgWeight");
-                sum += stats[i].getInt("maxWeight");
+                teams[i] = arr.getJSONObject(i);
+
             }
-            avr = avr / count;
-            StatisticAdapter adapter = new StatisticAdapter(getContext(), stats);
+            TeamsAdapter adapter = new TeamsAdapter(getContext(), teams);
             statList.setAdapter(adapter);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        TextView resultCoun = view.findViewById(R.id.tv_result_stat_count);
-        resultCoun.setText(Integer.toString(count));
-        TextView resultAvr = view.findViewById(R.id.tv_result_stat_avr);
-        resultAvr.setText(Integer.toString(avr));
-        TextView resultSum = view.findViewById(R.id.tv_result_stat_sum);
-        resultSum.setText(Integer.toString(sum));
-
-
-
         return view;
     }
 }

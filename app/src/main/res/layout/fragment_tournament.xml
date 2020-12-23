@@ -1,14 +1,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@null">
 
-    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="533dp"
         android:layout_weight="1"
-        android:background="@null"
-        tools:context=".activities.TournamentActivity">
+        android:background="@null">
 
         <View
             android:layout_width="match_parent"
@@ -36,7 +36,10 @@
             android:text="@string/tournament"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:fontFeatureSettings="smcp"
+            android:singleLine="true"
+            android:ellipsize="end"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -64,6 +67,7 @@
                     android:src="@drawable/register_team_icon" />
 
                 <TextView
+                    android:id="@+id/tv_register"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -72,7 +76,9 @@
                     android:text="@string/register_team"
                     android:textColor="@color/white"
                     android:textSize="26sp"
-                    android:fontFamily="@font/regular_md"/>
+                    android:fontFamily="@font/regular_md"
+                    
+                    />
 
                 <ImageView
                     android:layout_width="17dp"
@@ -113,7 +119,8 @@
                     android:text="@string/draw_queue"
                     android:textColor="@color/white"
                     android:textSize="26sp"
-                    android:fontFamily="@font/regular_md"/>
+                    android:fontFamily="@font/regular_md"
+                    android:fontFeatureSettings="smcp"/>
 
                 <ImageView
                     android:layout_width="17dp"
@@ -154,7 +161,8 @@
                     android:text="@string/draw_sector"
                     android:textColor="@color/white"
                     android:textSize="26sp"
-                    android:fontFamily="@font/regular_md"/>
+                    android:fontFamily="@font/regular_md"
+                    android:fontFeatureSettings="smcp"/>
 
                 <ImageView
                     android:layout_width="17dp"
@@ -195,7 +203,8 @@
                     android:text="@string/weighing"
                     android:textColor="@color/white"
                     android:textSize="26sp"
-                    android:fontFamily="@font/regular_md"/>
+                    android:fontFamily="@font/regular_md"
+                    android:fontFeatureSettings="smcp"/>
 
                 <ImageView
                     android:layout_width="17dp"
@@ -282,7 +291,8 @@
             android:layout_marginTop="40dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/button_red_background"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -293,7 +303,8 @@
                 android:fontFamily="@font/regular_md"
                 android:text="@string/exchange"
                 android:textColor="@color/white"
-                android:textSize="30sp" />
+                android:textSize="30sp"
+                android:fontFeatureSettings="smcp"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -312,6 +323,7 @@
             android:id="@+id/button_statistics"
             android:layout_width="match_parent"
             android:layout_height="59dp"
+            android:layout_marginTop="40dp"
             android:layout_marginStart="96dp"
             android:layout_marginEnd="96dp"
             android:background="@drawable/button_dark"
@@ -326,7 +338,8 @@
                 android:text="@string/statistics"
                 android:textColor="@color/white"
                 android:textSize="30sp"
-                android:layout_centerInParent="true" />
+                android:layout_centerInParent="true"
+                android:fontFeatureSettings="smcp"/>
 
             <ImageView
                 android:layout_width="17dp"

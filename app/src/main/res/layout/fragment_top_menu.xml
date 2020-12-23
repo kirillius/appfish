@@ -20,6 +20,7 @@
         android:layout_marginBottom="24dp">
 
         <ImageView
+            android:id="@+id/iv_user_icon"
             android:src="@drawable/judge_icon"
             android:layout_width="141px"
             android:layout_height="148px"
