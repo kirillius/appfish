@@ -46,6 +46,13 @@ public class StatisticAdapter extends ArrayAdapter<JSONObject> {
             count.setText(Integer.toString(stat.getInt("quantity")));
             avr.setText(Integer.toString(stat.getInt("avgWeight")));
             sum.setText(Integer.toString(stat.getInt("maxWeight")));
+            if (stat.getInt("mark") == 1){
+                rowView.setBackground(context.getDrawable(R.drawable.stat_back_red));
+            } else if (stat.getInt("mark") == 2) {
+                rowView.setBackground(context.getDrawable(R.drawable.stat_back_green));
+            } else if (stat.getInt("mark") == 3) {
+                rowView.setBackground(context.getDrawable(R.drawable.stat_back_yellow));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

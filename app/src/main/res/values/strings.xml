@@ -24,4 +24,7 @@
     <string name="number">№ п/п</string>
     <string name="teams">Команды</string>
     <string name="end_reg">Завершение регистрации</string>
+
+    <string name="fish_count">Количество рыбы</string>
+    <string name="voilations">Замечание</string>
 </resources>

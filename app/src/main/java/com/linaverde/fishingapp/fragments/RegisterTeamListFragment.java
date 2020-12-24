@@ -1,5 +1,6 @@
 package com.linaverde.fishingapp.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,10 +8,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.interfaces.TeamListClickListener;
+import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
+import com.linaverde.fishingapp.models.Team;
 import com.linaverde.fishingapp.services.StatisticAdapter;
 import com.linaverde.fishingapp.services.TeamsAdapter;
 
@@ -20,7 +25,8 @@ import org.json.JSONObject;
 
 public class RegisterTeamListFragment extends Fragment {
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    TeamListClickListener listener;
+
     private static final String ARG_PARAM = "param";
     private static final String TOURNAMENT_NAME = "name";
 
@@ -53,6 +59,9 @@ public class RegisterTeamListFragment extends Fragment {
         }
     }
 
+    TeamsAdapter adapter;
+    ListView teamsList;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,21 +70,47 @@ public class RegisterTeamListFragment extends Fragment {
         TextView tvTournamentName = view.findViewById(R.id.tv_tournament_name);
         tvTournamentName.setText(tournamentName);
 
-        ListView statList = view.findViewById(R.id.lv_stats);
+        teamsList = view.findViewById(R.id.lv_stats);
+
         try {
             JSONArray arr = mStartParam.getJSONArray("teams");
             int len = arr.length();
-            JSONObject [] teams = new JSONObject[len];
+            Team[] teams = new Team[len];
             for (int i = 0; i < len; i ++){
-                teams[i] = arr.getJSONObject(i);
+                teams[i] = new Team(arr.getJSONObject(i));
 
             }
-            TeamsAdapter adapter = new TeamsAdapter(getContext(), teams);
-            statList.setAdapter(adapter);
+            adapter = new TeamsAdapter(getContext(), teams);
+            teamsList.setAdapter(adapter);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        teamsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                listener.onTeamClicked(adapter.getItem(position));
+            }
+        });
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof TeamListClickListener) {
+            //init the listener
+            listener = (TeamListClickListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement TeamListClickListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
     }
 }

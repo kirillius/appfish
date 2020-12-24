@@ -2,27 +2,36 @@ package com.linaverde.fishingapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.ContentLoadingProgressBar;
+import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.fragments.RegisterOneTeamFragment;
 import com.linaverde.fishingapp.fragments.RegisterTeamListFragment;
 import com.linaverde.fishingapp.fragments.StatisticsFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.fragments.TournamentFragment;
 import com.linaverde.fishingapp.interfaces.RequestListener;
+import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
+import com.linaverde.fishingapp.models.Team;
 import com.linaverde.fishingapp.services.RequestHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEventListener {
+public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEventListener, TeamListClickListener {
 
     FragmentTransaction fragmentTransaction;
+    FragmentManager fragmentManager;
+
+    FragmentContainerView bottomFragmentContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +43,14 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
         ContentLoadingProgressBar progressBar = findViewById(R.id.progress_bar);
         progressBar.show();
 
+        bottomFragmentContainer = findViewById(R.id.bottom_fragment);
+
         TopMenuFragment menuFragment = TopMenuFragment.newInstance(null);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
         fragmentTransaction.commit();
-
-        //RegisterTeamListFragment RTFragment = RegisterTeamListFragment.newInstance(b.getString("info"));
-        //fragmentTransaction.add(R.id.content_fragment, RTFragment);
 
         String matchId = "";
         try {
@@ -75,6 +82,32 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        int count =  getSupportFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            finish();
+        } else {
+            getSupportFragmentManager().popBackStack();
+            bottomFragmentContainer.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onTeamClicked(Team selectedTeam) {
+
+        RegisterOneTeamFragment ROTFragment = RegisterOneTeamFragment.newInstance(selectedTeam.getCaptainName(), selectedTeam.getAssistantName());
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.replace(R.id.content_fragment, ROTFragment);
+        fragmentTransaction.addToBackStack("RegisterTeamFragment");
+        fragmentTransaction.commit();
+        bottomFragmentContainer.setVisibility(View.GONE);
+
+    }
+
 
     @Override
     public void onMenuClick() {
