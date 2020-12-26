@@ -52,6 +52,41 @@ public class RequestHelper {
         return null;
     }
 
+    public void getDocument(String userId, int doc, RequestListener listener){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("userId", userId);
+        params.put("doc", doc);
+
+        Log.d("Request", "init get documents");
+
+        client.get(context.getResources().getString(R.string.url_backend) + "/docs", params, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                // called when response HTTP status is "200 OK"
+                Log.d("Request", "docs request successful");
+                listener.onComplete(getAnswerBytes(response));
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                Log.d("Request", "docs request error with code " + statusCode);
+                if (errorResponse.length>0) {
+                    String res = new String(errorResponse, StandardCharsets.UTF_8);
+                }
+                listener.onError(statusCode);
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                // called when request is retried
+            }
+        });
+    }
+
+
     public void executeGet(String method, String[] keys, String[] values, RequestListener listener) {
         AsyncHttpClient client = new AsyncHttpClient();
         String logParam = "";

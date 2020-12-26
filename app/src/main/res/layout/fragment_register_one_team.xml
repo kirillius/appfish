@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@null"
     tools:context=".fragments.RegisterOneTeamFragment">
 
@@ -22,38 +23,57 @@
         android:layout_marginEnd="96dp"
         android:layout_marginBottom="32dp">
 
+        <RelativeLayout
+            android:id="@+id/rl_captain_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <ImageView
+        <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
             android:id="@+id/iv_captain_photo"
-            android:layout_width="146dp"
-            android:layout_height="142dp"
-            android:adjustViewBounds="true"
-            android:background="@null"
-            android:scaleType="centerInside"
-            android:src="@drawable/captain_photo" />
+            android:layout_width="110dp"
+            android:layout_height="100dp"
+            app:siShape="@drawable/logo_mask"
+            android:src="@drawable/white_bakc"
+            app:siSquare="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="22dp"
+             />
+
+            <ImageView
+                android:layout_width="146dp"
+                android:layout_height="146dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/captain"/>
+
+        </RelativeLayout>
+
+
 
         <TextView
             android:id="@+id/tv_captain_name"
             android:layout_width="match_parent"
-            android:layout_height="85dp"
+            android:layout_height="75dp"
             android:layout_marginStart="42dp"
             android:layout_marginTop="30dp"
-            android:layout_toEndOf="@id/iv_captain_photo"
+            android:layout_toEndOf="@id/rl_captain_photo"
             android:background="@drawable/button_big_bottom_gradient"
             android:fontFamily="@font/regular_md"
             android:text="Капитан"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="40sp" />
+            android:textSize="35sp" />
 
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginStart="188dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:layout_below="@id/tv_captain_name">
 
             <ImageButton
+                android:id="@+id/ib_captain_pass"
                 android:layout_weight="1"
                 android:layout_width="72dp"
                 android:layout_height="56dp"
@@ -63,6 +83,7 @@
                 android:scaleType="centerInside"
                 />
             <ImageButton
+                android:id="@+id/ib_captain_med"
                 android:layout_weight="1"
                 android:layout_width="72dp"
                 android:layout_height="56dp"
@@ -72,6 +93,7 @@
                 android:scaleType="centerInside"
                 />
             <ImageButton
+                android:id="@+id/ib_captain_sport"
                 android:layout_weight="1"
                 android:layout_width="72dp"
                 android:layout_height="56dp"
@@ -90,43 +112,60 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="96dp"
-        android:layout_marginTop="32dp"
+
         android:layout_marginEnd="96dp"
         android:layout_marginBottom="32dp"
         android:layout_below="@id/rl_captain_info">
 
+        <RelativeLayout
+            android:id="@+id/rl_assistant_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/iv_assistant_photo"
-            android:layout_width="146dp"
-            android:layout_height="142dp"
-            android:adjustViewBounds="true"
-            android:background="@null"
-            android:scaleType="centerInside"
-            android:src="@drawable/assistant_photo" />
+            <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
+                android:id="@+id/iv_assistant_photo"
+                android:layout_width="110dp"
+                android:layout_height="120dp"
+                app:siShape="@drawable/logo_mask"
+                android:src="@drawable/white_bakc"
+                app:siSquare="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="22dp"
+                />
+
+            <ImageView
+                android:layout_width="146dp"
+                android:layout_height="142dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/assistant"/>
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_assistant_name"
             android:layout_width="match_parent"
-            android:layout_height="85dp"
+            android:layout_height="75dp"
             android:layout_marginStart="42dp"
             android:layout_marginTop="30dp"
-            android:layout_toEndOf="@id/iv_assistant_photo"
+            android:layout_toEndOf="@id/rl_assistant_photo"
             android:background="@drawable/button_big_bottom_gradient"
             android:fontFamily="@font/regular_md"
             android:text="Ассистент"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="40sp" />
+            android:textSize="35sp" />
 
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginStart="188dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:layout_below="@id/tv_assistant_name">
 
             <ImageButton
+                android:id="@+id/ib_assistant_pass"
                 android:layout_weight="1"
                 android:layout_width="72dp"
                 android:layout_height="56dp"
@@ -136,6 +175,7 @@
                 android:scaleType="centerInside"
                 />
             <ImageButton
+                android:id="@+id/ib_assistant_med"
                 android:layout_weight="1"
                 android:layout_width="72dp"
                 android:layout_height="56dp"
@@ -145,6 +185,7 @@
                 android:scaleType="centerInside"
                 />
             <ImageButton
+                android:id="@+id/ib_assistant_sport"
                 android:layout_weight="1"
                 android:layout_width="72dp"
                 android:layout_height="56dp"
@@ -184,14 +225,14 @@
             android:id="@+id/tv_fish_count"
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
+            android:layout_height="70dp"
             android:background="@drawable/button_big_bottom_gradient"
             android:fontFamily="@font/regular_md"
             android:text="@string/fish_count"
             android:textAlignment="center"
             android:gravity="center_vertical"
             android:textColor="@color/white"
-            android:textSize="28sp"
+            android:textSize="25sp"
             android:layout_marginEnd="10dp"
             tools:ignore="RtlCompat" />
 
@@ -199,14 +240,14 @@
             android:layout_weight="1"
             android:id="@+id/tv_violations"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
+            android:layout_height="70dp"
             android:background="@drawable/button_big_bottom_gradient"
             android:fontFamily="@font/regular_md"
             android:text="@string/voilations"
             android:textAlignment="center"
             android:gravity="center_vertical"
             android:textColor="@color/white"
-            android:textSize="28sp"
+            android:textSize="25sp"
             android:layout_marginStart="10dp"
             tools:ignore="RtlCompat" />
 
@@ -218,7 +259,7 @@
         android:layout_height="59dp"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="96dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="96dp"
         android:layout_marginBottom="40dp"
         android:background="@drawable/button_dark"

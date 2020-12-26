@@ -15,14 +15,17 @@ public class Team {
 
     private String id;
     private String name;
-    private Bitmap logo;
+    private String logo;
     private String pin;
     private String captainId;
     private String captainName;
-    private Bitmap captainPhoto;
+    private String captainPhoto;
     private String assistantId;
     private String assistantName;
-    private Bitmap assistantPhoto;
+    private String assistantPhoto;
+
+    private JSONObject captainDocuments;
+    private JSONObject assistantDocuments;
 
     public Team(JSONObject obj){
         if (obj != null){
@@ -38,33 +41,29 @@ public class Team {
                 if (obj.getString("logo").equals("")){
                     logo = null;
                 } else {
-                    logo = decodeToImage(obj.getString("logo"));
+                    logo = obj.getString("logo");
                 }
 
                 if (obj.getString("captainPhoto").equals("")){
                     captainPhoto = null;
                 } else {
-                    captainPhoto = decodeToImage(obj.getString("captainPhoto"));
+                    captainPhoto = obj.getString("captainPhoto");
                 }
 
                 if (obj.getString("assistantPhoto").equals("")){
                     assistantPhoto = null;
                 } else {
-                    assistantPhoto = decodeToImage(obj.getString("assistantPhoto"));
+                    assistantPhoto = obj.getString("assistantPhoto");
                 }
+
+                captainDocuments = obj.getJSONObject("captainDocs");
+                assistantDocuments = obj.getJSONObject("assistantDocs");
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     }
-
-    private static Bitmap decodeToImage(String encodedImage) {
-
-        byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-    }
-
 
     public String getId() {
         return id;
@@ -74,7 +73,7 @@ public class Team {
         return name;
     }
 
-    public Bitmap getLogo() {
+    public String getLogo() {
         return logo;
     }
 
@@ -90,7 +89,7 @@ public class Team {
         return captainName;
     }
 
-    public Bitmap getCaptainPhoto() {
+    public String getCaptainPhoto() {
         return captainPhoto;
     }
 
@@ -102,7 +101,15 @@ public class Team {
         return assistantName;
     }
 
-    public Bitmap getAssistantPhoto() {
+    public String getAssistantPhoto() {
         return assistantPhoto;
+    }
+
+    public JSONObject getCaptainDocuments() {
+        return captainDocuments;
+    }
+
+    public JSONObject getAssistantDocuments() {
+        return assistantDocuments;
     }
 }

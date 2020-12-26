@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.models.Team;
 
@@ -33,11 +34,16 @@ public class TeamsAdapter extends ArrayAdapter<Team> {
         View rowView = inflater.inflate(R.layout.teams_list_item, parent, false);
         TextView number = (TextView) rowView.findViewById(R.id.tv_team_number);
         TextView name = (TextView) rowView.findViewById(R.id.tv_team_name);
+        PorterShapeImageView logo = (PorterShapeImageView) rowView.findViewById(R.id.iv_team_logo);
 
         Team team = values[pos];
 
         number.setText(Integer.toString(pos + 1) + ".");
         name.setText(team.getName());
+        String logoString = team.getLogo();
+        if (logoString != null && !logoString.equals("null") && !logoString.equals("")) {
+            logo.setImageBitmap(ImageHelper.decodeToImage(logoString));
+        }
 
         return rowView;
     }
