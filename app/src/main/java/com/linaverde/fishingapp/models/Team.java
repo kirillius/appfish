@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
 
-public class Team {
+public class Team implements Comparable<Team> {
 
     private String id;
     private String name;
@@ -63,6 +63,11 @@ public class Team {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public int compareTo(Team another) {
+        return this.name.compareTo(another.name);
     }
 
     public String getId() {

@@ -16,6 +16,7 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
@@ -32,6 +33,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 
 public class RequestHelper {
@@ -111,7 +113,7 @@ public class RequestHelper {
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 Log.d("Request", method + " request error with code " + statusCode);
-                if (errorResponse.length>0) {
+                if (errorResponse != null) {
                     String res = new String(errorResponse, StandardCharsets.UTF_8);
                 }
                 listener.onError(statusCode);
@@ -125,27 +127,39 @@ public class RequestHelper {
 
     }
 
-    public void executePost(String method, String[] keys, String[] values, RequestListener listener) {
+    public void executePost(String method, String[] keys, String[] values, String json, RequestListener listener) {
         AsyncHttpClient client = new AsyncHttpClient();
 
         Log.d("Request", "init " + method + " post request");
 
-        RequestParams params = new RequestParams();
-        for (int i = 0; i < keys.length; i++) {
-            params.put(keys[i], values[i]);
+        String url = context.getResources().getString(R.string.url_backend) + "/" + method + "?";
+        for (int i = 0; i < keys.length; i++){
+            url += keys[i] + "=" + values[i];
+            if (i < keys.length-1) {
+                url += "&";
+            }
+        }
+        StringEntity entity = null;
+        try {
+            entity = new StringEntity(json);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
 
-        client.post(context.getResources().getString(R.string.url_backend) + "/" + method, params, new AsyncHttpResponseHandler() {
+        client.post(context, url, entity, "application/json",  new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 // called when response HTTP status is "200 OK"
+                Log.d("Request", method + " post request successful");
+                Log.d("Request", getAnswerBytes(response).toString());
                 listener.onComplete(getAnswerBytes(response));
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                Log.d("Request", method + " post request failed");
                 listener.onError(statusCode);
             }
 

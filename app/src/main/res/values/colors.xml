@@ -10,4 +10,5 @@
     <color name="gray">#999999</color>
     <color name="lightGray">#E5E5E5</color>
     <color name="colorBackground">#ecedee</color>
+    <color name="darkBlueBackground">#262c4e</color>
 </resources>

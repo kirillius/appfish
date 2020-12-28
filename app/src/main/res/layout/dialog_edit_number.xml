@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginStart="96dp"
+    android:layout_marginEnd="96dp"
+    android:background="@drawable/notification_back"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="34dp"
+        android:fontFamily="@font/regular_md"
+        android:gravity="center"
+        android:text="Введите текст"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="28sp" />
+
+    <EditText
+        android:id="@+id/et_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/tv_dialog"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="34dp"
+        android:background="@color/white"
+        android:textColor="@color/black"
+        android:digits="0123456789"
+        android:inputType="number"
+        android:textSize="25sp"
+        android:textAlignment="center"/>
+
+    <LinearLayout
+        android:id="@+id/ll_dialog_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_dialog"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:id="@+id/tv_ok"
+            tools:ignore="RtlCompat"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_big_bottom_gradient"
+            android:fontFamily="@font/regular_md"
+            android:gravity="center_vertical"
+            android:text="@string/ok"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            tools:ignore="RtlCompat"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_big_bottom_gradient"
+            android:fontFamily="@font/regular_md"
+            android:gravity="center_vertical"
+            android:text="@string/cancel"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

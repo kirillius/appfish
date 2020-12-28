@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@null">
+    tools:context=".activities.TournamentActivity"
+    android:background="@android:color/transparent">
 
     <View
         android:layout_alignParentBottom="true"
@@ -21,9 +22,9 @@
         <ImageView
             android:id="@+id/iv_user_icon"
             android:src="@drawable/judge_icon"
-            android:layout_width="75dp"
-            android:layout_height="78dp"
-            android:layout_marginEnd="26dp"/>
+            android:layout_width="141px"
+            android:layout_height="148px"
+            android:layout_marginEnd="50px"/>
 
         <TextView
             android:id="@+id/tv_user_name"
@@ -56,26 +57,26 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="96dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="101dp">
+        android:layout_marginTop="190px">
 
         <ImageButton
             android:id="@+id/top_menu"
-            android:layout_width="56dp"
-            android:layout_height="48dp"
+            android:layout_width="105px"
+            android:layout_height="90px"
             android:src="@drawable/menu_icon"
             android:background="@null"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="60px"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             android:layout_gravity="center_horizontal"/>
 
         <ImageButton
             android:id="@+id/settings"
-            android:layout_width="49dp"
-            android:layout_height="49dp"
+            android:layout_width="92px"
+            android:layout_height="92px"
             android:src="@drawable/setting_icon"
             android:background="@null"
-            android:layout_marginBottom="26dp"
+            android:layout_marginBottom="50px"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             android:layout_gravity="center_horizontal"
@@ -83,8 +84,8 @@
 
         <ImageButton
             android:id="@+id/top_gps"
-            android:layout_width="65dp"
-            android:layout_height="58dp"
+            android:layout_width="123px"
+            android:layout_height="110px"
             android:src="@drawable/gps_icon"
             android:background="@null"
             android:adjustViewBounds="true"
@@ -99,34 +100,34 @@
         android:orientation="vertical"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="96dp"
-        android:layout_marginTop="101dp">
+        android:layout_marginTop="190px">
 
         <ImageButton
             android:id="@+id/top_chat"
-            android:layout_width="58dp"
-            android:layout_height="64dp"
+            android:layout_width="110px"
+            android:layout_height="120px"
             android:src="@drawable/chat_icon"
             android:background="@null"
-            android:layout_marginBottom="42dp"
+            android:layout_marginBottom="80px"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             android:layout_gravity="center_horizontal"/>
 
         <ImageButton
             android:id="@+id/top_message"
-            android:layout_width="49dp"
-            android:layout_height="36dp"
+            android:layout_width="93px"
+            android:layout_height="68px"
             android:src="@drawable/message_icon"
             android:background="@null"
-            android:layout_marginBottom="37dp"
+            android:layout_marginBottom="70px"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             android:layout_gravity="center_horizontal"/>
 
         <ImageButton
             android:id="@+id/top_sync"
-            android:layout_width="49dp"
-            android:layout_height="53dp"
+            android:layout_width="93px"
+            android:layout_height="100px"
             android:src="@drawable/sync_icon"
             android:background="@null"
             android:adjustViewBounds="true"
