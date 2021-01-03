@@ -18,7 +18,7 @@ public class TournamentActivity extends FragmentActivity implements TopMenuEvent
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tournament);
+        setContentView(R.layout.activity_two_fragments);
 
         Bundle b = getIntent().getExtras();
         TournamentFragment JTFragment = TournamentFragment.newInstance(b.getString("info"));

@@ -7,9 +7,9 @@
     <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="533dp"
+        android:layout_weight="1"
         android:background="@null"
-        tools:context=".activities.TournamentActivity"
-        android:layout_weight="1">
+        tools:context=".activities.TournamentActivity">
 
         <View
             android:layout_width="match_parent"
@@ -31,18 +31,15 @@
             android:layout_marginEnd="96dp"
             android:layout_marginBottom="32dp"
             android:background="@drawable/button_bottom_gradient"
-            android:fontFamily="@font/regular_md"
-            android:gravity="center"
             android:text="@string/tournament"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textAppearance="@style/Roboto"
             android:textSize="30sp" />
 
 
     </RelativeLayout>
 
-    <RelativeLayout
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="394dp"
         android:layout_weight="1"
@@ -107,34 +104,32 @@
             android:id="@+id/button_exchange"
             android:layout_width="302dp"
             android:layout_height="62dp"
-            android:background="@drawable/button_red_background"
-            android:orientation="horizontal"
             android:layout_marginStart="96dp"
-            android:layout_marginTop="40dp">
+            android:layout_marginTop="40dp"
+            android:background="@drawable/button_red_background"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/text_exchange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/exchange"
-                android:layout_marginStart="64dp"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:layout_centerVertical="true"
                 android:layout_alignParentStart="true"
-                android:textSize="30sp"
-                android:fontFamily="@font/regular_md"/>
+                android:layout_centerVertical="true"
+                android:layout_marginStart="64dp"
+                android:text="@string/exchange"
+                android:textAppearance="@style/Roboto"
+                android:textSize="30sp" />
 
             <ImageView
-                android:layout_height="44dp"
                 android:layout_width="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_height="44dp"
                 android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
                 android:layout_marginEnd="19dp"
-                android:src="@drawable/exchange_icon"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                android:layout_gravity="center_vertical"/>
+                android:src="@drawable/exchange_icon" />
 
         </RelativeLayout>
 

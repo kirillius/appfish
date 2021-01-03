@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@null"
     tools:context=".fragments.RegisterOneTeamFragment">
 
@@ -28,16 +28,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-        <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
-            android:id="@+id/iv_captain_photo"
-            android:layout_width="110dp"
-            android:layout_height="100dp"
-            app:siShape="@drawable/logo_mask"
-            android:src="@drawable/white_bakc"
-            app:siSquare="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="22dp"
-             />
+            <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
+                android:id="@+id/iv_captain_photo"
+                android:layout_width="110dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/white_bakc"
+                app:siShape="@drawable/logo_mask"
+                app:siSquare="true" />
 
             <ImageView
                 android:layout_width="146dp"
@@ -45,10 +44,9 @@
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:scaleType="centerInside"
-                android:src="@drawable/captain"/>
+                android:src="@drawable/captain" />
 
         </RelativeLayout>
-
 
 
         <TextView
@@ -59,49 +57,47 @@
             android:layout_marginTop="30dp"
             android:layout_toEndOf="@id/rl_captain_photo"
             android:background="@drawable/button_big_bottom_gradient"
-            android:fontFamily="@font/regular_md"
             android:text="Капитан"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textAppearance="@style/Roboto"
             android:textSize="35sp" />
 
         <LinearLayout
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_captain_name"
             android:layout_marginStart="188dp"
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/tv_captain_name">
+            android:layout_marginTop="20dp">
 
             <ImageButton
                 android:id="@+id/ib_captain_pass"
-                android:layout_weight="1"
                 android:layout_width="72dp"
                 android:layout_height="56dp"
-                android:src="@drawable/document_null"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:scaleType="centerInside"
-                />
+                android:src="@drawable/document_null" />
+
             <ImageButton
                 android:id="@+id/ib_captain_med"
-                android:layout_weight="1"
                 android:layout_width="72dp"
                 android:layout_height="56dp"
-                android:src="@drawable/document_null"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:scaleType="centerInside"
-                />
+                android:src="@drawable/document_null" />
+
             <ImageButton
                 android:id="@+id/ib_captain_sport"
-                android:layout_weight="1"
                 android:layout_width="72dp"
                 android:layout_height="56dp"
-                android:src="@drawable/document_null"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:scaleType="centerInside"
-                />
+                android:src="@drawable/document_null" />
 
         </LinearLayout>
 
@@ -111,11 +107,11 @@
         android:id="@+id/rl_assistant_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
+        android:layout_below="@id/rl_captain_info"
 
+        android:layout_marginStart="96dp"
         android:layout_marginEnd="96dp"
-        android:layout_marginBottom="32dp"
-        android:layout_below="@id/rl_captain_info">
+        android:layout_marginBottom="32dp">
 
         <RelativeLayout
             android:id="@+id/rl_assistant_photo"
@@ -126,12 +122,11 @@
                 android:id="@+id/iv_assistant_photo"
                 android:layout_width="110dp"
                 android:layout_height="120dp"
-                app:siShape="@drawable/logo_mask"
-                android:src="@drawable/white_bakc"
-                app:siSquare="true"
-                android:layout_marginTop="15dp"
                 android:layout_marginStart="22dp"
-                />
+                android:layout_marginTop="15dp"
+                android:src="@drawable/white_bakc"
+                app:siShape="@drawable/logo_mask"
+                app:siSquare="true" />
 
             <ImageView
                 android:layout_width="146dp"
@@ -139,7 +134,7 @@
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:scaleType="centerInside"
-                android:src="@drawable/assistant"/>
+                android:src="@drawable/assistant" />
 
         </RelativeLayout>
 
@@ -151,49 +146,47 @@
             android:layout_marginTop="30dp"
             android:layout_toEndOf="@id/rl_assistant_photo"
             android:background="@drawable/button_big_bottom_gradient"
-            android:fontFamily="@font/regular_md"
             android:text="Ассистент"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textAppearance="@style/Roboto"
             android:textSize="35sp" />
 
         <LinearLayout
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_assistant_name"
             android:layout_marginStart="188dp"
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/tv_assistant_name">
+            android:layout_marginTop="20dp">
 
             <ImageButton
                 android:id="@+id/ib_assistant_pass"
-                android:layout_weight="1"
                 android:layout_width="72dp"
                 android:layout_height="56dp"
-                android:src="@drawable/document_null"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:scaleType="centerInside"
-                />
+                android:src="@drawable/document_null" />
+
             <ImageButton
                 android:id="@+id/ib_assistant_med"
-                android:layout_weight="1"
                 android:layout_width="72dp"
                 android:layout_height="56dp"
-                android:src="@drawable/document_null"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:scaleType="centerInside"
-                />
+                android:src="@drawable/document_null" />
+
             <ImageButton
                 android:id="@+id/ib_assistant_sport"
-                android:layout_weight="1"
                 android:layout_width="72dp"
                 android:layout_height="56dp"
-                android:src="@drawable/document_null"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:scaleType="centerInside"
-                />
+                android:src="@drawable/document_null" />
 
         </LinearLayout>
 
@@ -216,39 +209,37 @@
         android:id="@+id/ll_reg_team_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="20dp"
+        android:layout_above="@id/button_end_reg"
         android:layout_marginStart="96dp"
         android:layout_marginEnd="96dp"
-        android:layout_above="@id/button_end_reg">
+        android:paddingTop="20dp">
 
         <TextView
             android:id="@+id/tv_fish_count"
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
             android:background="@drawable/button_big_bottom_gradient"
-            android:fontFamily="@font/regular_md"
+            android:gravity="center_vertical"
             android:text="@string/fish_count"
             android:textAlignment="center"
-            android:gravity="center_vertical"
-            android:textColor="@color/white"
+            android:textAppearance="@style/Roboto"
             android:textSize="25sp"
-            android:layout_marginEnd="10dp"
             tools:ignore="RtlCompat" />
 
         <TextView
-            android:layout_weight="1"
             android:id="@+id/tv_violations"
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
             android:background="@drawable/button_big_bottom_gradient"
-            android:fontFamily="@font/regular_md"
+            android:gravity="center_vertical"
             android:text="@string/voilations"
             android:textAlignment="center"
-            android:gravity="center_vertical"
-            android:textColor="@color/white"
+            android:textAppearance="@style/Roboto"
             android:textSize="25sp"
-            android:layout_marginStart="10dp"
             tools:ignore="RtlCompat" />
 
     </LinearLayout>
@@ -270,10 +261,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginStart="64dp"
-            android:fontFamily="@font/regular_md"
-            android:fontFeatureSettings="smcp"
             android:text="@string/end_reg"
-            android:textColor="@color/white"
+            android:textAppearance="@style/Roboto"
             android:textSize="30sp" />
 
     </RelativeLayout>

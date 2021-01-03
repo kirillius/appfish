@@ -41,7 +41,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_team);
+        setContentView(R.layout.activity_three_fragments);
 
         Bundle b = getIntent().getExtras();
 

@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.RequestListener;
+import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.RequestHelper;
 
 import org.json.JSONObject;
@@ -33,7 +34,7 @@ public class AuthActivity extends AppCompatActivity {
 
             @Override
             public void onError(int responseCode) {
-                Log.d("Test auth", "Request error with code" + responseCode);
+                DialogBuilder.createDefaultDialog(AuthActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
             }
         });
     }

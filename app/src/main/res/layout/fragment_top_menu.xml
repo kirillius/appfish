@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
-            android:fontFamily="@font/regular_md"/>
+            android:textAppearance="@style/Roboto"/>
 
     </LinearLayout>
 

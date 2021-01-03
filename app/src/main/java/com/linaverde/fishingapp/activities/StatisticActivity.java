@@ -5,16 +5,15 @@ import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.fragments.StatisticsFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
-import com.linaverde.fishingapp.fragments.TournamentFragment;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
+import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.RequestHelper;
 
 import org.json.JSONException;
@@ -27,7 +26,7 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_statistic);
+        setContentView(R.layout.activity_three_fragments);
 
         Bundle b = getIntent().getExtras();
 
@@ -67,7 +66,7 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
 
             @Override
             public void onError(int responseCode) {
-                Log.d("Test auth", "Request error with code" + responseCode);
+                DialogBuilder.createDefaultDialog(StatisticActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
             }
         });
 

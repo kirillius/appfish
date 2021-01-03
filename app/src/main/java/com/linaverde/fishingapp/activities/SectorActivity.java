@@ -39,7 +39,7 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sector);
+        setContentView(R.layout.activity_three_fragments);
         b = getIntent().getExtras();
 
         progressBar = findViewById(R.id.progress_bar);
@@ -112,7 +112,7 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
                             if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")){
                                 setNewQueueFragment();
                             } else {
-                                DialogBuilder.createDefaultDialog(getApplicationContext(), getLayoutInflater(), json.getString("error"), null);
+                                DialogBuilder.createDefaultDialog(SectorActivity.this, getLayoutInflater(), json.getString("error"), null);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -121,7 +121,7 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
 
                     @Override
                     public void onError(int responseCode) {
-                        DialogBuilder.createDefaultDialog(getApplicationContext(), getLayoutInflater(), getString(R.string.request_error), null);
+                        DialogBuilder.createDefaultDialog(SectorActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
                     }
                 });
 

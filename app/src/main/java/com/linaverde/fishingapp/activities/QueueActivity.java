@@ -38,7 +38,7 @@ public class QueueActivity extends AppCompatActivity implements TopMenuEventList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_queue);
+        setContentView(R.layout.activity_three_fragments);
         b = getIntent().getExtras();
 
         progressBar = findViewById(R.id.progress_bar);
@@ -111,7 +111,7 @@ public class QueueActivity extends AppCompatActivity implements TopMenuEventList
                             if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")){
                                 setNewQueueFragment();
                             } else {
-                                DialogBuilder.createDefaultDialog(getApplicationContext(), getLayoutInflater(), json.getString("error"), null);
+                                DialogBuilder.createDefaultDialog(QueueActivity.this, getLayoutInflater(), json.getString("error"), null);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -120,7 +120,7 @@ public class QueueActivity extends AppCompatActivity implements TopMenuEventList
 
                     @Override
                     public void onError(int responseCode) {
-                        DialogBuilder.createDefaultDialog(getApplicationContext(), getLayoutInflater(), getString(R.string.request_error), null);
+                        DialogBuilder.createDefaultDialog(QueueActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
                     }
                 });
 

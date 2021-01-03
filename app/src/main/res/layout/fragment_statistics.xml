@@ -20,14 +20,12 @@
         android:layout_marginEnd="96dp"
         android:layout_marginBottom="34dp"
         android:background="@drawable/button_bottom_gradient"
-        android:fontFamily="@font/regular_md"
-        android:gravity="center"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:text="@string/tournament"
         android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        android:singleLine="true"
-        android:ellipsize="end"/>
+        android:textAppearance="@style/Roboto"
+        android:textSize="30sp" />
 
     <RelativeLayout
         android:id="@+id/ll_stat_date"
@@ -44,7 +42,7 @@
             android:layout_alignParentStart="true"
             android:text="@string/statistics"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textAppearance="@style/Roboto"
             android:textSize="28sp" />
 
         <TextView
@@ -54,7 +52,7 @@
             android:layout_alignParentEnd="true"
             android:text="01.01.2020"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textAppearance="@style/Roboto"
             android:textSize="28sp" />
 
     </RelativeLayout>
@@ -74,10 +72,9 @@
             android:layout_gravity="center"
             android:layout_marginEnd="20dp"
             android:layout_weight="2"
-            android:gravity="center"
             android:text="@string/sector"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textAppearance="@style/Roboto"
             android:textSize="25sp" />
 
         <TextView
@@ -85,10 +82,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="center"
             android:text="@string/count"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textAppearance="@style/Roboto"
             android:textSize="25sp" />
 
         <LinearLayout
@@ -103,7 +99,7 @@
                 android:layout_gravity="center_horizontal"
                 android:text="@string/weigh"
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textAppearance="@style/Roboto"
                 android:textSize="25sp" />
 
             <TextView
@@ -112,7 +108,7 @@
                 android:layout_gravity="center_horizontal"
                 android:text="@string/avr"
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textAppearance="@style/Roboto"
                 android:textSize="22sp" />
         </LinearLayout>
 
@@ -128,7 +124,7 @@
                 android:layout_gravity="center_horizontal"
                 android:text="@string/weigh"
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textAppearance="@style/Roboto"
                 android:textSize="25sp" />
 
             <TextView
@@ -137,7 +133,7 @@
                 android:layout_gravity="center_horizontal"
                 android:text="@string/sum"
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textAppearance="@style/Roboto"
                 android:textSize="22sp" />
         </LinearLayout>
 
@@ -185,10 +181,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:text="@string/result"
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textAppearance="@style/Roboto"
                 android:textSize="25sp" />
 
             <TextView
@@ -197,10 +192,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:text="@string/count"
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textAppearance="@style/Roboto"
                 android:textSize="25sp" />
 
             <TextView
@@ -209,10 +203,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:text="@string/weigh"
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textAppearance="@style/Roboto"
                 android:textSize="25sp" />
 
             <TextView
@@ -221,10 +214,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:text="@string/weigh"
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textAppearance="@style/Roboto"
                 android:textSize="25sp" />
         </LinearLayout>
 

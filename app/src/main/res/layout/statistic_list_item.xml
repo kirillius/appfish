@@ -1,99 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="46dp"
     android:layout_width="match_parent"
-    android:orientation="horizontal"
+    android:layout_height="46dp"
     android:layout_below="@id/ll_stat_date"
     android:background="@drawable/stat_list_item_back"
-    >
+    android:orientation="horizontal">
 
     <RelativeLayout
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        >
+        android:layout_weight="1">
 
         <TextView
             android:id="@+id/tv_stat_place"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="16dp"
             android:text="1."
             android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="25sp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="16dp"/>
+            android:textAppearance="@style/Roboto"
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/tv_stat_sector_name"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/sector"
-            android:textColor="@color/white"
-            android:textSize="25sp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:gravity="center_vertical"
-            android:layout_toEndOf="@id/tv_stat_place"
             android:layout_marginStart="5dp"
-            android:singleLine="true"
-            android:ellipsize="end"
             android:layout_toStartOf="@id/iv_arrow"
-            />
+            android:layout_toEndOf="@id/tv_stat_place"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="@string/sector"
+            android:textAppearance="@style/Roboto"
+            android:textSize="25sp" />
 
         <ImageView
             android:id="@+id/iv_arrow"
             android:layout_width="17dp"
             android:layout_height="26dp"
-            android:src="@drawable/arrow_right"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="5dp"
             android:adjustViewBounds="true"
             android:background="@null"
-            android:scaleType="centerInside"/>
+            android:scaleType="centerInside"
+            android:src="@drawable/arrow_right" />
 
     </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_stat_count"
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
         android:text="@string/count"
         android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="25sp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        />
+        android:textAppearance="@style/Roboto"
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/tv_stat_avr"
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
         android:text="@string/weigh"
         android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="25sp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        />
+        android:textAppearance="@style/Roboto"
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/tv_stat_sum"
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
         android:text="@string/weigh"
         android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="25sp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        />
+        android:textAppearance="@style/Roboto"
+        android:textSize="25sp" />
 
 
 </LinearLayout>

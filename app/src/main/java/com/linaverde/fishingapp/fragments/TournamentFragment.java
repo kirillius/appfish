@@ -16,8 +16,6 @@ import com.linaverde.fishingapp.activities.QueueActivity;
 import com.linaverde.fishingapp.activities.RegisterTeamActivity;
 import com.linaverde.fishingapp.activities.SectorActivity;
 import com.linaverde.fishingapp.activities.StatisticActivity;
-import com.linaverde.fishingapp.services.QueueAdapter;
-import com.linaverde.fishingapp.services.SmallCapsBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;

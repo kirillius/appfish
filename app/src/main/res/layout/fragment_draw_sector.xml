@@ -27,13 +27,10 @@
         android:layout_marginBottom="34dp"
         android:background="@drawable/button_bottom_gradient"
         android:ellipsize="end"
-        android:fontFamily="@font/regular_md"
-        android:fontFeatureSettings="smcp"
-        android:gravity="center"
         android:singleLine="true"
         android:text="@string/tournament"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textAppearance="@style/Roboto"
         android:textSize="30sp" />
 
     <RelativeLayout
@@ -61,9 +58,8 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:layout_toEndOf="@id/icon_queue"
-            android:fontFamily="@font/regular_md"
-            android:fontFeatureSettings="smcp"
             android:text="@string/draw_sector"
+            android:textAppearance="@style/Roboto"
             android:textColor="@color/white"
             android:textSize="26sp" />
 
@@ -84,9 +80,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="2"
-            android:fontFamily="@font/regular_md"
             android:text="@string/queue"
-            android:textColor="@color/white"
+            android:textAppearance="@style/Roboto"
             android:textSize="26sp" />
 
         <TextView
@@ -94,10 +89,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="5"
-            android:fontFamily="@font/regular_md"
             android:text="@string/teams"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textAppearance="@style/Roboto"
             android:textSize="26sp" />
 
         <TextView
@@ -105,10 +99,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="3"
-            android:fontFamily="@font/regular_md"
             android:text="@string/sector"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textAppearance="@style/Roboto"
             android:textSize="26sp" />
     </LinearLayout>
 
@@ -141,10 +134,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginStart="64dp"
-            android:fontFamily="@font/regular_md"
-            android:fontFeatureSettings="smcp"
             android:text="@string/end_draw"
-            android:textColor="@color/white"
+            android:textAppearance="@style/Roboto"
             android:textSize="30sp" />
 
     </RelativeLayout>
