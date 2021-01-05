@@ -49,6 +49,46 @@ public class DialogBuilder {
 
     }
 
+    public static void createTwoButtons(Context context, LayoutInflater inflater, String text, final CompleteActionListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        View viewDialog = inflater.inflate(R.layout.dialog_two_buttons, null);
+
+        TextView tvText, tvOk, tvCancel;
+
+        tvText = viewDialog.findViewById(R.id.tv_dialog);
+        tvOk = viewDialog.findViewById(R.id.tv_ok);
+        tvCancel = viewDialog.findViewById(R.id.tv_cancel);
+
+        if (text != null)
+            tvText.setText(text);
+
+        builder.setView(viewDialog);
+        final AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        tvOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onOk(null);
+                dialog.dismiss();
+            }
+        });
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onCancel();
+                dialog.dismiss();
+            }
+        });
+
+        if (!((Activity) context).isFinishing()) {
+            dialog.show();
+        }
+
+    }
+
     public static void createInputDialog(Context context, LayoutInflater inflater, String text, final CompleteActionListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 

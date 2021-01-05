@@ -3,6 +3,7 @@ package com.linaverde.fishingapp.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -10,14 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.interfaces.DocumentClickListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.models.Team;
+import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.ImageHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
 
@@ -34,6 +38,9 @@ public class RegisterOneTeamFragment extends Fragment {
     private static final String ASSISTANT_PHOTO = "assistant_photo";
     private static final String CAPTAIN_DOCS = "captain_docs";
     private static final String ASSISTANT_DOCS = "assistant_docs";
+    private static final String MATCH_ID = "matchID";
+    private static final String TEAM_ID = "teamID";
+
     private String captainName;
     private String assistantName;
     private String captainId;
@@ -42,12 +49,15 @@ public class RegisterOneTeamFragment extends Fragment {
     private String assistantPhoto;
     private JSONObject captainDocs;
     private JSONObject assistantDocs;
+    private String matchId;
+    private String teamId;
+
 
     DocumentClickListener listener;
 
     public static RegisterOneTeamFragment newInstance(String captain, String captainId, String captainPhoto,
                                                       String assistantName, String assistantId, String assistantPhoto,
-                                                      String captainDocs, String assistantDocs) {
+                                                      String captainDocs, String assistantDocs, String matchId, String teamId) {
 
         RegisterOneTeamFragment fragment = new RegisterOneTeamFragment();
         Bundle args = new Bundle();
@@ -59,6 +69,8 @@ public class RegisterOneTeamFragment extends Fragment {
         args.putString(ASSISTANT_PHOTO, assistantPhoto);
         args.putString(CAPTAIN_DOCS, captainDocs);
         args.putString(ASSISTANT_DOCS, assistantDocs);
+        args.putString(MATCH_ID, matchId);
+        args.putString(TEAM_ID, teamId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,6 +86,8 @@ public class RegisterOneTeamFragment extends Fragment {
             assistantId = getArguments().getString(ASSISTANTID);
             captainPhoto = getArguments().getString(CAPTAIN_PHOTO);
             assistantPhoto = getArguments().getString(ASSISTANT_PHOTO);
+            matchId = getArguments().getString(MATCH_ID);
+            teamId = getArguments().getString(TEAM_ID);
 
             try {
                 captainDocs = new JSONObject(getArguments().getString(CAPTAIN_DOCS));
@@ -92,6 +106,9 @@ public class RegisterOneTeamFragment extends Fragment {
 
     ImageButton captainPass, captainMed, captainSport;
     ImageButton assistantPass, assistantMed, assistantSport;
+
+    RelativeLayout buttonEndReg;
+    ContentLoadingProgressBar progressBar;
 
 
 
@@ -122,6 +139,11 @@ public class RegisterOneTeamFragment extends Fragment {
         assistantPass = view.findViewById(R.id.ib_assistant_pass);
         assistantMed = view.findViewById(R.id.ib_assistant_med);
         assistantSport = view.findViewById(R.id.ib_assistant_sport);
+
+        buttonEndReg = view.findViewById(R.id.button_end_reg);
+
+        progressBar = view.findViewById(R.id.progress_bar);
+        progressBar.hide();
 
         try {
             if (captainDocs.getBoolean("doc1")){
@@ -200,6 +222,49 @@ public class RegisterOneTeamFragment extends Fragment {
                 listener.onDocumentClicked(assistantId, 1);
             }
         });
+
+        buttonEndReg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), getString(R.string.end_reg_team_question), new CompleteActionListener() {
+                    @Override
+                    public void onOk(String input) {
+                        progressBar.show();
+                        RequestHelper requestHelper = new RequestHelper(getContext());
+                        requestHelper.executePost("teamcheckin", new String[]{"match", "team"}, new String[]{matchId, teamId}, null, new RequestListener() {
+                            @Override
+                            public void onComplete(JSONObject json) {
+                                progressBar.hide();
+                                try {
+                                    String error = json.getString("error");
+                                    if (!error.equals("") && !error.equals("null")){
+                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.error) + error, null);
+                                    } else {
+                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.end_reg_team), null);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                            @Override
+                            public void onError(int responseCode) {
+                                progressBar.hide();
+                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+
 
         return view;
     }

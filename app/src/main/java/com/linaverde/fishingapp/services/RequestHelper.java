@@ -54,7 +54,7 @@ public class RequestHelper {
         return null;
     }
 
-    public void getDocument(String userId, int doc, RequestListener listener){
+    public void getDocument(String userId, int doc, RequestListener listener) {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("userId", userId);
@@ -75,7 +75,7 @@ public class RequestHelper {
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 Log.d("Request", "docs request error with code " + statusCode);
-                if (errorResponse.length>0) {
+                if (errorResponse.length > 0) {
                     String res = new String(errorResponse, StandardCharsets.UTF_8);
                 }
                 listener.onError(statusCode);
@@ -95,7 +95,7 @@ public class RequestHelper {
         RequestParams params = new RequestParams();
         for (int i = 0; i < keys.length; i++) {
             params.put(keys[i], values[i]);
-            logParam += keys[i] + "=" + values[i]+";";
+            logParam += keys[i] + "=" + values[i] + ";";
         }
         Log.d("Request", "init " + method + " get request with params " + logParam);
 
@@ -133,20 +133,23 @@ public class RequestHelper {
         Log.d("Request", "init " + method + " post request");
 
         String url = context.getResources().getString(R.string.url_backend) + "/" + method + "?";
-        for (int i = 0; i < keys.length; i++){
+        for (int i = 0; i < keys.length; i++) {
             url += keys[i] + "=" + values[i];
-            if (i < keys.length-1) {
+            if (i < keys.length - 1) {
                 url += "&";
             }
         }
+
         StringEntity entity = null;
-        try {
-            entity = new StringEntity(json);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        if (json != null) {
+            try {
+                entity = new StringEntity(json);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
 
-        client.post(context, url, entity, "application/json",  new AsyncHttpResponseHandler() {
+        client.post(context, url, entity, "application/json", new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {

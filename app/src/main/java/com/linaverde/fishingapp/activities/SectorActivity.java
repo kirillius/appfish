@@ -64,7 +64,7 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
     }
 
     public void setNewQueueFragment(){
-
+        progressBar.show();
         requestHelper.executeGet("queue", new String[]{"match"}, new String[]{matchId}, new RequestListener() {
             @Override
             public void onComplete(JSONObject json) {
@@ -110,8 +110,10 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
                     public void onComplete(JSONObject json) {
                         try {
                             if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")){
+                                progressBar.hide();
                                 setNewQueueFragment();
                             } else {
+                                progressBar.hide();
                                 DialogBuilder.createDefaultDialog(SectorActivity.this, getLayoutInflater(), json.getString("error"), null);
                             }
                         } catch (JSONException e) {
@@ -121,6 +123,7 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
 
                     @Override
                     public void onError(int responseCode) {
+                        progressBar.hide();
                         DialogBuilder.createDefaultDialog(SectorActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
                     }
                 });

@@ -11,11 +11,13 @@ import androidx.annotation.Nullable;
 
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.models.QueueComparator;
 import com.linaverde.fishingapp.models.Team;
 import com.linaverde.fishingapp.models.TeamsQueue;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class QueueAdapter extends ArrayAdapter<TeamsQueue> {
@@ -25,8 +27,9 @@ public class QueueAdapter extends ArrayAdapter<TeamsQueue> {
     public QueueAdapter (Context context, TeamsQueue[] values) {
         super(context, R.layout.teams_list_item, values);
         this.context = context;
-        //Collections.sort(list);
         this.values = Arrays.asList(values);
+        Comparator<TeamsQueue> comparator = new QueueComparator();
+        this.values.sort(comparator);
     }
 
     @Override
@@ -42,7 +45,7 @@ public class QueueAdapter extends ArrayAdapter<TeamsQueue> {
 
         //number.setText(Integer.toString(pos + 1) + ".");
         name.setText(team.getTeamName());
-        if (team.getQueue() !=0)
+        if (team.getQueue() != 0)
             number.setText(Integer.toString(team.getQueue()));
         String logoString = team.getLogo();
         if (logoString != null && !logoString.equals("null") && !logoString.equals("")) {

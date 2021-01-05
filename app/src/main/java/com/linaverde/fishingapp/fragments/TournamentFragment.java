@@ -16,6 +16,7 @@ import com.linaverde.fishingapp.activities.QueueActivity;
 import com.linaverde.fishingapp.activities.RegisterTeamActivity;
 import com.linaverde.fishingapp.activities.SectorActivity;
 import com.linaverde.fishingapp.activities.StatisticActivity;
+import com.linaverde.fishingapp.activities.WeightingActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -96,6 +97,17 @@ public class TournamentFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), QueueActivity.class);
+                Bundle args = new Bundle();
+                args.putString("info", mStartParam.toString());
+                intent.putExtras(args);
+                startActivity(intent);
+            }
+        });
+
+        rlWeighting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), WeightingActivity.class);
                 Bundle args = new Bundle();
                 args.putString("info", mStartParam.toString());
                 intent.putExtras(args);

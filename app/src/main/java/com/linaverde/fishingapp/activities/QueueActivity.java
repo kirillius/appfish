@@ -63,7 +63,7 @@ public class QueueActivity extends AppCompatActivity implements TopMenuEventList
     }
 
     public void setNewQueueFragment(){
-
+        progressBar.show();
         requestHelper.executeGet("queue", new String[]{"match"}, new String[]{matchId}, new RequestListener() {
             @Override
             public void onComplete(JSONObject json) {
@@ -109,8 +109,10 @@ public class QueueActivity extends AppCompatActivity implements TopMenuEventList
                     public void onComplete(JSONObject json) {
                         try {
                             if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")){
+                                progressBar.hide();
                                 setNewQueueFragment();
                             } else {
+                                progressBar.hide();
                                 DialogBuilder.createDefaultDialog(QueueActivity.this, getLayoutInflater(), json.getString("error"), null);
                             }
                         } catch (JSONException e) {
@@ -120,6 +122,7 @@ public class QueueActivity extends AppCompatActivity implements TopMenuEventList
 
                     @Override
                     public void onError(int responseCode) {
+                        progressBar.hide();
                         DialogBuilder.createDefaultDialog(QueueActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
                     }
                 });

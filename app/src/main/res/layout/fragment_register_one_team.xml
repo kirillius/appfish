@@ -267,4 +267,12 @@
 
     </RelativeLayout>
 
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:visibility="visible"
+        android:layout_centerInParent="true"
+        style="?android:attr/progressBarStyleLarge"/>
+
 </RelativeLayout>

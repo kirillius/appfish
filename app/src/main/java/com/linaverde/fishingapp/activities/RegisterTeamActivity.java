@@ -38,6 +38,8 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
 
     RequestHelper requestHelper;
 
+    String matchId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +59,6 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
         fragmentTransaction.commit();
 
-        String matchId = "";
         try {
             matchId = (new JSONObject(b.getString("info"))).getString("matchId");
         } catch (JSONException e) {
@@ -71,7 +72,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
                 RegisterTeamListFragment RTFragment = null;
                 try {
                     RTFragment = RegisterTeamListFragment.newInstance(json.toString(),
-                            (new JSONObject(b.getString("info"))).getString("matchName"));
+                            (new JSONObject(b.getString("info"))).getString("matchName"), matchId);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -105,7 +106,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
 
         RegisterOneTeamFragment ROTFragment = RegisterOneTeamFragment.newInstance(selectedTeam.getCaptainName(), selectedTeam.getCaptainId(), selectedTeam.getCaptainPhoto(),
                 selectedTeam.getAssistantName(), selectedTeam.getAssistantId(), selectedTeam.getAssistantPhoto(),
-                selectedTeam.getCaptainDocuments().toString(), selectedTeam.getAssistantDocuments().toString());
+                selectedTeam.getCaptainDocuments().toString(), selectedTeam.getAssistantDocuments().toString(), matchId, selectedTeam.getId());
         LogoTopMenuFragment LTMFragment = LogoTopMenuFragment.newInstance(selectedTeam.getLogo());
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);

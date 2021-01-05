@@ -19,6 +19,7 @@ import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.interfaces.QueueUpdateListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.TeamListClickListener;
+import com.linaverde.fishingapp.models.QueueComparator;
 import com.linaverde.fishingapp.models.Team;
 import com.linaverde.fishingapp.models.TeamsQueue;
 import com.linaverde.fishingapp.services.DialogBuilder;
@@ -29,6 +30,8 @@ import com.linaverde.fishingapp.services.TeamsAdapter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Comparator;
 
 public class DrawQueueFragment extends Fragment {
 

@@ -23,6 +23,10 @@
     <string name="number">№ п/п</string>
     <string name="teams">Команды</string>
     <string name="end_reg">Завершение регистрации</string>
+    <string name="end_reg_match_question">Вы уверены, что хотите завершить регистрацию турнира?</string>
+    <string name="end_reg_team_question">Вы уверены, что хотите завершить регистрацию команды?</string>
+    <string name="end_reg_match">Регистрация турнира успешно завершена</string>
+    <string name="end_reg_team">Регистрация команды успешно завершена</string>
     <string name="end_draw">Завершить жеребьевку</string>
     <string name="fish_count">Количество рыбы</string>
     <string name="voilations">Замечание</string>
@@ -40,6 +44,7 @@
     <string name="ok">Ок</string>
     <string name="cancel">Отмена</string>
     <string name="request_error">Во время выполнения запроса возникла ошибка, проверьте подключение к интернету</string>
+    <string name="error">Ошибка! </string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="end_weighting">Завершить взвешивание</string>
 </resources>

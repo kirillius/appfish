@@ -3,7 +3,7 @@ package com.linaverde.fishingapp.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class TeamsQueue {
+public class TeamsQueue{
     
     private String teamId;
     private String teamName;
@@ -11,7 +11,7 @@ public class TeamsQueue {
     private int queue;
     private int sector;
     
-    public TeamsQueue(JSONObject obj){
+    public TeamsQueue(JSONObject obj) {
         if (obj != null) {
             try {
                 this.teamId = obj.getString("teamId");
@@ -22,12 +22,9 @@ public class TeamsQueue {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
 
     }
-
-
     public String getTeamId() {
         return teamId;
     }
