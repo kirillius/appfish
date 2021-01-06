@@ -44,7 +44,10 @@
     <string name="ok">Ок</string>
     <string name="cancel">Отмена</string>
     <string name="request_error">Во время выполнения запроса возникла ошибка, проверьте подключение к интернету</string>
+    <string name="login_error">Ошибка авторизации! Не найден пользователь с указанными логином и паролем</string>
     <string name="error">Ошибка! </string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="end_weighting">Завершить взвешивание</string>
+    <string name="fishes">Рыба</string>
+    <string name="bad">Нарушения</string>
+
 </resources>

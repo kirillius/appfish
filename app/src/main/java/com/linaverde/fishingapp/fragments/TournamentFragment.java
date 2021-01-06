@@ -17,6 +17,7 @@ import com.linaverde.fishingapp.activities.RegisterTeamActivity;
 import com.linaverde.fishingapp.activities.SectorActivity;
 import com.linaverde.fishingapp.activities.StatisticActivity;
 import com.linaverde.fishingapp.activities.WeightingActivity;
+import com.linaverde.fishingapp.services.UserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,11 +56,14 @@ public class TournamentFragment extends Fragment {
     TextView tvTournamentName;
     RelativeLayout rlRegisterTeam, rlDrawQueue, rlDrawSector, rlWeighting;
     RelativeLayout rlExchange, rlStatistics;
+    UserInfo userInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tournament, container, false);
+
+        userInfo = new UserInfo(getContext());
 
         tvTournamentName = view.findViewById(R.id.tv_tournament_name);
         try {
@@ -73,14 +77,11 @@ public class TournamentFragment extends Fragment {
         rlDrawSector = view.findViewById(R.id.list_draw_sector);
         rlWeighting = view.findViewById(R.id.list_weigh);
 
-        try {
-            if (mStartParam.getInt("userType") == 2) {
-                rlDrawQueue.setVisibility(View.GONE);
-                rlDrawSector.setVisibility(View.GONE);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (userInfo.getUserType() == 2) {
+            rlDrawQueue.setVisibility(View.GONE);
+            rlDrawSector.setVisibility(View.GONE);
         }
+
 
         rlRegisterTeam.setOnClickListener(new View.OnClickListener() {
             @Override

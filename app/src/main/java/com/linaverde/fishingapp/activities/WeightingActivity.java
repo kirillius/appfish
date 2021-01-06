@@ -7,21 +7,26 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.fragments.LogoTopMenuFragment;
 import com.linaverde.fishingapp.fragments.RegisterTeamListFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
+import com.linaverde.fishingapp.fragments.WeightingSelectedTeamFragment;
 import com.linaverde.fishingapp.fragments.WeightingTeamListFragment;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
+import com.linaverde.fishingapp.interfaces.WeightTeamClickListener;
 import com.linaverde.fishingapp.models.Team;
+import com.linaverde.fishingapp.models.TeamsQueue;
 import com.linaverde.fishingapp.services.RequestHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class WeightingActivity extends AppCompatActivity implements TopMenuEventListener, TeamListClickListener {
+public class WeightingActivity extends AppCompatActivity implements TopMenuEventListener, WeightTeamClickListener {
 
     FragmentTransaction fragmentTransaction;
     FragmentManager fragmentManager;
@@ -87,9 +92,29 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
     }
 
     @Override
-    public void onTeamClicked(Team selectedTeam) {
-
+    public void onTeamClicked(TeamsQueue selectedTeam) {
+        WeightingSelectedTeamFragment WSTFragment = WeightingSelectedTeamFragment.newInstance(selectedTeam.getSector());
+        LogoTopMenuFragment LTMFragment = LogoTopMenuFragment.newInstance(selectedTeam.getLogo(), selectedTeam.getTeamName());
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.replace(R.id.content_fragment, WSTFragment);
+        fragmentTransaction.addToBackStack("WeightingSelected");
+        fragmentTransaction.replace(R.id.top_menu_fragment, LTMFragment);
+        fragmentTransaction.addToBackStack("LogoFragment");
+        fragmentTransaction.commit();
     }
+
+    @Override
+    public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            finish();
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
+    }
+
 
     @Override
     public void onMenuClick() {
@@ -120,5 +145,4 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
     public void onSyncClick() {
 
     }
-
 }

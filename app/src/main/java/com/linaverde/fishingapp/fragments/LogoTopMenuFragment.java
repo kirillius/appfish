@@ -16,36 +16,34 @@ import com.github.siyamed.shapeimageview.mask.PorterImageView;
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
+import com.linaverde.fishingapp.models.Team;
 import com.linaverde.fishingapp.services.ImageHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LogoTopMenuFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class LogoTopMenuFragment extends Fragment {
 
     private TopMenuEventListener listener;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM = "param";
+    private static final String LOGO = "logo";
+    private static final String TEAM = "team";
 
     private String logo = null;
+    private String team = null;
 
     public LogoTopMenuFragment() {
         // Required empty public constructor
     }
 
-    public static LogoTopMenuFragment newInstance(String logo) {
+    public static LogoTopMenuFragment newInstance(String logo, String team) {
         LogoTopMenuFragment fragment = new LogoTopMenuFragment();
-        if (logo != null) {
-            Bundle args = new Bundle();
-            args.putString(ARG_PARAM, logo);
-            fragment.setArguments(args);
-        }
+        Bundle args = new Bundle();
+        if (logo != null)
+            args.putString(LOGO, logo);
+        args.putString(TEAM, team);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -53,24 +51,28 @@ public class LogoTopMenuFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            logo = getArguments().getString(ARG_PARAM);
+            Log.d("teamname", getArguments().getString(TEAM));
+            team = getArguments().getString(TEAM);
+            logo = getArguments().getString(LOGO);
         }
     }
 
     ImageButton menu, settings, gps, chat, message, sync;
     PorterShapeImageView ivLogo;
+    TextView teamName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_logo_top_menu, container, false);
 
         ivLogo = view.findViewById(R.id.iv_team_logo);
-        Log.d("decodeToBitmap", "Logo is " + logo);
-        if (logo != null && !logo.equals("null") && !logo.equals("")){
+        if (logo != null && !logo.equals("null") && !logo.equals("")) {
             ivLogo.setImageBitmap(ImageHelper.decodeToImage(logo));
         }
+        teamName = view.findViewById(R.id.tv_team_name);
+        teamName.setText(team);
+
 
         menu = view.findViewById(R.id.top_menu);
         settings = view.findViewById(R.id.settings);
