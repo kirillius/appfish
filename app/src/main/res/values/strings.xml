@@ -49,5 +49,12 @@
     <string name="end_weighting">Завершить взвешивание</string>
     <string name="fishes">Рыба</string>
     <string name="bad">Нарушения</string>
+    <string name="time">Время</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="stage">Этап</string>
+    <string name="stage_end">Завершен</string>
+    <string name="stage_continue">Открыт</string>
+    <string name="status">Статус</string>
+
 
 </resources>

@@ -28,7 +28,10 @@
             android:text="Название команды"
             android:textAppearance="@style/Roboto"
             android:textColor="@color/white"
-            android:textSize="40sp" />
+            android:textSize="40sp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:maxWidth="500dp"/>
 
     </LinearLayout>
 

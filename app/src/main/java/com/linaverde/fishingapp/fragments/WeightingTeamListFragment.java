@@ -29,10 +29,12 @@ public class WeightingTeamListFragment extends Fragment {
     private static final String ARG_PARAM = "param";
     private static final String TOURNAMENT_NAME = "name";
     private static final String MATCH = "match";
+    private static final String STAGE = "stage";
 
     private JSONObject mStartParam;
     private String tournamentName;
     private String matchId;
+    private String stageId;
 
     WeightTeamClickListener listener;
 
@@ -40,12 +42,13 @@ public class WeightingTeamListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static WeightingTeamListFragment newInstance(String json, String tournamentName, String matchId) {
+    public static WeightingTeamListFragment newInstance(String json, String tournamentName, String matchId, String stageId) {
         WeightingTeamListFragment fragment = new WeightingTeamListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM, json);
         args.putString(TOURNAMENT_NAME, tournamentName);
         args.putString(MATCH, matchId);
+        args.putString(STAGE, stageId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,6 +64,7 @@ public class WeightingTeamListFragment extends Fragment {
             }
             tournamentName = getArguments().getString(TOURNAMENT_NAME);
             matchId = getArguments().getString(MATCH);
+            stageId = getArguments().getString(STAGE);
         }
     }
 
@@ -96,7 +100,7 @@ public class WeightingTeamListFragment extends Fragment {
             teamsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    listener.onTeamClicked(adapter.getItem(position));
+                    listener.onTeamClicked(adapter.getItem(position), stageId);
                 }
             });
 
@@ -111,7 +115,6 @@ public class WeightingTeamListFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof WeightTeamClickListener) {
-            //init the listener
             listener = (WeightTeamClickListener) context;
         } else {
             throw new RuntimeException(context.toString()

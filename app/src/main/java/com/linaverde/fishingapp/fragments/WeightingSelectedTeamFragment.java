@@ -1,5 +1,6 @@
 package com.linaverde.fishingapp.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,28 +9,36 @@ import android.se.omapi.SEService;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.interfaces.WeightFishesClickListener;
 import com.linaverde.fishingapp.services.UserInfo;
 
 public class WeightingSelectedTeamFragment extends Fragment {
 
 
     private static final String SECTOR = "sector";
+    private static final String TEAM = "team";
+    private static final String STAGE = "stage";
 
-
-    // TODO: Rename and change types of parameters
     private int sector;
+    private String teamId;
+    private String stageId;
+
+    WeightFishesClickListener listener;
 
     public WeightingSelectedTeamFragment() {
         // Required empty public constructor
     }
 
-    public static WeightingSelectedTeamFragment newInstance(int sector) {
+    public static WeightingSelectedTeamFragment newInstance(int sector, String teamId, String stageId) {
         WeightingSelectedTeamFragment fragment = new WeightingSelectedTeamFragment();
         Bundle args = new Bundle();
         args.putInt(SECTOR, sector);
+        args.putString(TEAM, teamId);
+        args.putString(STAGE, stageId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,6 +48,8 @@ public class WeightingSelectedTeamFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             sector = getArguments().getInt(SECTOR);
+            teamId = getArguments().getString(TEAM);
+            stageId = getArguments().getString(STAGE);
         }
 
     }
@@ -61,6 +72,35 @@ public class WeightingSelectedTeamFragment extends Fragment {
         tvSector.setText("Сектор " + Integer.toString(sector));
         tvMatch.setText(userInfo.getMatchName());
 
+        RelativeLayout fish, violation;
+
+        fish = view.findViewById(R.id.rl_weighting_fish);
+
+        fish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.fishClicked(teamId, stageId);
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof WeightFishesClickListener) {
+            //init the listener
+            listener = (WeightFishesClickListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement WeightFishesClickListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
     }
 }

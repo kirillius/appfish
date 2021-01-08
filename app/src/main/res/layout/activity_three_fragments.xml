@@ -25,7 +25,7 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/bottom_fragment"
         android:layout_width="match_parent"
-        android:layout_height="122dp"
+        android:layout_height="100dp"
         android:layout_alignParentBottom="true"/>
 
     <androidx.core.widget.ContentLoadingProgressBar
