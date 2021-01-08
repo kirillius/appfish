@@ -185,8 +185,17 @@
 
         </RelativeLayout>
 
-
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_fishes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_table_name"
+        android:layout_marginStart="96dp"
+        android:layout_marginEnd="96dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp" />
 
 
     <ImageView

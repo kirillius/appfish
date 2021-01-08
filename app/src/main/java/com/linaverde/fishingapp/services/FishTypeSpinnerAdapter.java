@@ -1,11 +1,13 @@
 package com.linaverde.fishingapp.services;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,64 +20,51 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class FishTypeSpinnerAdapter extends ArrayAdapter<FishDictionaryItem> {
+public class FishTypeSpinnerAdapter extends ArrayAdapter<FishDictionaryItem> implements SpinnerAdapter {
+    private Activity context;
+    FishDictionaryItem[] data;
+    String selected;
 
-    // Your sent context
-    private Context context;
-    // Your custom values for the spinner (User)
-    private List<FishDictionaryItem> values;
-    private LayoutInflater inflater;
-
-    public FishTypeSpinnerAdapter(@NonNull Context context, int resource, LayoutInflater inflater, FishDictionaryItem[] values) {
-        super(context, resource);
+    public FishTypeSpinnerAdapter(Activity context, int layoutId, int textViewId, FishDictionaryItem[] data) {
+        super(context, layoutId, textViewId, data);
         this.context = context;
-        List<FishDictionaryItem> list = Arrays.asList(values);
-        Collections.sort(list);
-        this.values = list;
+        this.data = data;
     }
 
     @Override
-    public int getCount() {
-        return values.size();
+    @NonNull
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        View view =  View.inflate(context, R.layout.fish_spinner_item, null);
+        TextView textView = (TextView) view.findViewById(R.id.tv_spinner_item);
+        textView.setText(data[position].getName());
+        return textView;
+    }
+
+    @Override
+    public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
+        View row = convertView;
+        if (row == null) {
+            LayoutInflater inflater = context.getLayoutInflater();
+            row = inflater.inflate(R.layout.fish_spinner_item, parent, false);
+        }
+
+        FishDictionaryItem item = data[position];
+
+        if (item != null) { // парсим данные с каждого объекта
+            ImageView image = (ImageView) row.findViewById(R.id.iv_spinner_item);
+            TextView type = (TextView) row.findViewById(R.id.tv_spinner_item);
+//            if (myFlag != null) {
+//                myFlag.setBackground(context.getResources().getDrawable(item.getCountryFlag(), context.getTheme()));
+//            }
+            if (type != null)
+                type.setText(item.getName());
+        }
+
+        return row;
     }
 
     @Override
     public FishDictionaryItem getItem(int position) {
-        return values.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getDropDownView(int position, View convertView,
-                                ViewGroup parent) {
-
-        return getCustomView(position, convertView, parent);
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        return getCustomView(position, convertView, parent);
-    }
-
-    public View getCustomView(int position, View convertView,
-                              ViewGroup parent) {
-        View row = inflater.inflate(R.layout.fish_spinner_item, parent, false);
-        TextView fishName = (TextView) row.findViewById(R.id.tv_spinner_item);
-        fishName.setText(values.get(position).getName());
-
-//        ImageView icon = (ImageView) row.findViewById(R.id.icon);
-//
-//        if (dayOfWeek[position] == "Котопятница"
-//                || dayOfWeek[position] == "Субкота") {
-//            icon.setImageResource(R.drawable.paw_on);
-//        } else {
-//            icon.setImageResource(R.drawable.ic_launcher);
-//        }
-        return row;
+        return data[position];
     }
 }

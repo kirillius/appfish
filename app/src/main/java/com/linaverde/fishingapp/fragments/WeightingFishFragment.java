@@ -8,12 +8,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.WeightFishesClickListener;
 import com.linaverde.fishingapp.interfaces.WeightTeamClickListener;
 import com.linaverde.fishingapp.models.Fish;
+import com.linaverde.fishingapp.models.FishDictionaryItem;
+import com.linaverde.fishingapp.services.FishAdapter;
 import com.linaverde.fishingapp.services.RequestHelper;
 import com.linaverde.fishingapp.services.UserInfo;
 
@@ -49,6 +52,8 @@ public class WeightingFishFragment extends Fragment {
         return fragment;
     }
 
+    ListView lvFishes;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,13 +67,33 @@ public class WeightingFishFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_weighting_fish, container, false);
 
-        return inflater.inflate(R.layout.fragment_weighting_fish, container, false);
+        lvFishes = view.findViewById(R.id.lv_fishes);
+        Fish[] fishesArr;
+        fishesArr = new Fish[fishes.length()];
+        FishDictionaryItem[] dictArr;
+        dictArr = new FishDictionaryItem[dict.length()];
+        try {
+            for (int i = 0; i < fishes.length(); i++) {
+                fishesArr[i] = new Fish(fishes.getJSONObject(i));
+            }
+            for (int i = 0; i < dict.length(); i++) {
+                dictArr[i] = new FishDictionaryItem(dict.getJSONObject(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        FishAdapter adapter = new FishAdapter(getContext(), fishesArr, dictArr);
+        lvFishes.setAdapter(adapter);
+        return view;
     }
 
 
