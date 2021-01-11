@@ -17,6 +17,7 @@ import com.linaverde.fishingapp.fragments.WeightingFishFragment;
 import com.linaverde.fishingapp.fragments.WeightingSelectedTeamFragment;
 import com.linaverde.fishingapp.fragments.WeightingStagesFragment;
 import com.linaverde.fishingapp.fragments.WeightingTeamListFragment;
+import com.linaverde.fishingapp.interfaces.FishChangedRequestListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
@@ -31,7 +32,8 @@ import com.linaverde.fishingapp.services.RequestHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class WeightingActivity extends AppCompatActivity implements TopMenuEventListener, WeightTeamClickListener, WeightFishesClickListener, WeightStageClickedListener {
+public class WeightingActivity extends AppCompatActivity implements TopMenuEventListener, WeightTeamClickListener, WeightFishesClickListener,
+        WeightStageClickedListener, FishChangedRequestListener {
 
     FragmentTransaction fragmentTransaction;
     FragmentManager fragmentManager;
@@ -143,7 +145,7 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
 
     @Override
     public void onTeamClicked(TeamsQueue selectedTeam, String stageId) {
-        WeightingSelectedTeamFragment WSTFragment = WeightingSelectedTeamFragment.newInstance(selectedTeam.getSector(), selectedTeam.getTeamId(), stageId);
+        WeightingSelectedTeamFragment WSTFragment = WeightingSelectedTeamFragment.newInstance(selectedTeam.getSector(), selectedTeam.getTeamId(), stageId, selectedTeam.getPin());
         LogoTopMenuFragment LTMFragment = LogoTopMenuFragment.newInstance(selectedTeam.getLogo(), selectedTeam.getTeamName());
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -155,7 +157,7 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
     }
 
     @Override
-    public void fishClicked(String teamId, String stageId) {
+    public void fishClicked(String teamId, String stageId, String pin, int sector) {
         progressBar.show();
         requestHelper.executeGet("weighing", new String[]{"stage", "team"}, new String[]{stageId, teamId}, new RequestListener() {
             @Override
@@ -164,7 +166,7 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
                 try {
                     if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
                         WeightingFishFragment WSFragment = WeightingFishFragment.newInstance(json.getJSONArray("weighing").toString(), json.getJSONArray("dictionary").toString(),
-                                stageId, teamId);
+                                stageId, teamId, pin, sector);
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, WSFragment);
@@ -186,7 +188,64 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
                 DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
             }
         });
+    }
 
+    @Override
+    public void fishChangedRequest(String stageId, String teamId, String pin, String fish, int sector) {
+        progressBar.show();
+        requestHelper.executePost("weighing", new String[]{"stage", "team"}, new String[]{stageId, teamId}, fish, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                try {
+                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                        updateFishList(teamId, stageId, pin, sector);
+                    } else {
+                        progressBar.hide();
+                        DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+            }
+        });
+    }
+
+    private void updateFishList(String teamId, String stageId, String pin, int sector) {
+        progressBar.show();
+        requestHelper.executeGet("weighing", new String[]{"stage", "team"}, new String[]{stageId, teamId}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                progressBar.hide();
+                try {
+                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                        WeightingFishFragment WSFragment = WeightingFishFragment.newInstance(json.getJSONArray("weighing").toString(), json.getJSONArray("dictionary").toString(),
+                                stageId, teamId, pin, sector);
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                        fragmentTransaction.replace(R.id.content_fragment, WSFragment);
+                        fragmentTransaction.commit();
+                    } else {
+                        DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+            }
+        });
     }
 
     @Override
@@ -218,4 +277,5 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
     public void onSyncClick() {
 
     }
+
 }

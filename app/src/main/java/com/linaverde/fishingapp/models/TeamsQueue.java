@@ -10,6 +10,7 @@ public class TeamsQueue{
     private String logo;
     private int queue;
     private int sector;
+    private String pin;
     
     public TeamsQueue(JSONObject obj) {
         if (obj != null) {
@@ -19,6 +20,7 @@ public class TeamsQueue{
                 this.queue = obj.getInt("queue");
                 this.sector = obj.getInt("sector");
                 this.logo = obj.getString("logo");
+                this.pin = obj.getString("pin");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -45,4 +47,7 @@ public class TeamsQueue{
         return sector;
     }
 
+    public String getPin() {
+        return pin;
+    }
 }

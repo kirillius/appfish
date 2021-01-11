@@ -140,21 +140,24 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="9">
+
             <LinearLayout
                 android:id="@+id/ll_table_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
                     android:layout_weight="1"
+                    android:gravity="start"
                     android:text="@string/time"
                     android:textAppearance="@style/Roboto"
-                    android:gravity="start"
-                    android:textSize="28sp"
-                    android:layout_marginStart="10dp"/>
+                    android:textSize="28sp" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -164,24 +167,25 @@
                     android:textAlignment="center"
                     android:textAppearance="@style/Roboto"
                     android:textSize="28sp" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginEnd="10dp"
                     android:layout_weight="1"
-                    android:text="@string/weigh"
                     android:gravity="end"
+                    android:text="@string/weigh"
                     android:textAppearance="@style/Roboto"
-                    android:textSize="28sp"
-                    android:layout_marginEnd="10dp"/>
+                    android:textSize="28sp" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/white"
+                android:layout_below="@id/ll_table_name"
                 android:layout_marginTop="5dp"
-                android:layout_below="@id/ll_table_name"/>
+                android:background="@color/white" />
 
         </RelativeLayout>
 
@@ -191,24 +195,71 @@
         android:id="@+id/lv_fishes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/rl_below_lv"
         android:layout_below="@id/rl_table_name"
         android:layout_marginStart="96dp"
         android:layout_marginEnd="96dp"
         android:divider="@android:color/transparent"
         android:dividerHeight="10.0sp" />
 
-
-    <ImageView
-        android:id="@+id/button_add_weighting"
-        android:layout_width="81dp"
-        android:layout_height="59dp"
-        android:layout_alignParentEnd="true"
+    <RelativeLayout
+        android:id="@+id/rl_below_lv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="96dp"
-        android:layout_marginBottom="42dp"
-        android:adjustViewBounds="true"
-        android:background="@null"
-        android:scaleType="centerInside"
-        android:src="@drawable/icon_add" />
+        android:layout_marginBottom="42dp">
+
+        <LinearLayout
+            android:id="@+id/ll_pin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="96dp"
+            android:layout_marginEnd="96dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="62dp"
+                android:layout_marginEnd="40dp"
+                android:text="@string/pin_code"
+                android:textAlignment="center"
+                android:textAppearance="@style/Roboto"
+                android:textSize="30sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/et_pin"
+                    android:layout_width="match_parent"
+                    android:layout_height="62dp"
+                    android:background="@drawable/button_bottom_gradient"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/Roboto" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="22sp"
+                    android:text="@string/sms"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/button_add_weighting"
+            android:layout_width="81dp"
+            android:layout_height="59dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="96dp"
+            android:layout_marginBottom="20dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_add" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

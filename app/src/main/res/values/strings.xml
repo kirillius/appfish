@@ -50,11 +50,16 @@
     <string name="fishes">Рыба</string>
     <string name="bad">Нарушения</string>
     <string name="time">Время</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="stage">Этап</string>
     <string name="stage_end">Завершен</string>
     <string name="stage_continue">Открыт</string>
     <string name="status">Статус</string>
+    <string name="input_new_weight">Введите новый вес</string>
+    <string name="input_new_time">Введите новое время</string>
+    <string name="pin_code">ПИН-КОД</string>
+    <string name="end_weighting_question">Вы уверены, что хотите завершить этап взвешивания?</string>
+    <string name="end_weighting_success">Этап взвешивания завершен</string>
+    <string name="sms">Вам придет SMS с кодом</string>
 
 
 </resources>

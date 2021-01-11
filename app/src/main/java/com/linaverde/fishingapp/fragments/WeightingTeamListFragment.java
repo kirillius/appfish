@@ -3,6 +3,7 @@ package com.linaverde.fishingapp.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -14,10 +15,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.interfaces.CompleteActionListener;
+import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.interfaces.WeightTeamClickListener;
 import com.linaverde.fishingapp.models.TeamsQueue;
+import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.QueueAdapter;
+import com.linaverde.fishingapp.services.RequestHelper;
 import com.linaverde.fishingapp.services.WeightingTeamListAdapter;
 
 import org.json.JSONArray;
@@ -72,6 +77,7 @@ public class WeightingTeamListFragment extends Fragment {
     ListView teamsList;
     RelativeLayout endWeighting;
     TeamsQueue[] teams;
+    ContentLoadingProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,7 +89,10 @@ public class WeightingTeamListFragment extends Fragment {
         teamsList = view.findViewById(R.id.lv_stats);
 
         teamsList = view.findViewById(R.id.lv_sectors);
-        endWeighting = view.findViewById(R.id.button_end_draw);
+        endWeighting = view.findViewById(R.id.button_end_weighting);
+
+        progressBar = view.findViewById(R.id.progress_bar);
+        progressBar.hide();
 
         try {
             JSONArray arr = mStartParam.getJSONArray("teams");
@@ -107,6 +116,47 @@ public class WeightingTeamListFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        endWeighting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), getString(R.string.end_weighting_question), new CompleteActionListener() {
+                    @Override
+                    public void onOk(String input) {
+                        progressBar.show();
+                        RequestHelper requestHelper = new RequestHelper(getContext());
+                        requestHelper.executePost("stageclose", new String[]{"stage"}, new String[]{stageId}, null, new RequestListener() {
+                            @Override
+                            public void onComplete(JSONObject json) {
+                                progressBar.hide();
+                                try {
+                                    String error = json.getString("error");
+                                    if (!error.equals("") && !error.equals("null")) {
+                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.error) + error, null);
+                                    } else {
+                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.end_weighting_success), null);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                            @Override
+                            public void onError(int responseCode) {
+                                progressBar.hide();
+                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
 
         return view;
     }
