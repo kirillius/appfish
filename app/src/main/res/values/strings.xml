@@ -4,16 +4,17 @@
 
     <string name="url_backend">http://10.10.29.16:80/carpfishing_test/hs/v1</string>
 
-
+    <string name="auth">Авторизация</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="fill_login_password">Заполните логин и пароль</string>
     <string name="tournament">ТУРНИР</string>
-    <!-- Страница турнира -->
     <string name="exchange">Обмен</string>
     <string name="register_team">Регистрация команд</string>
     <string name="draw_queue">Жеребьевка очереди</string>
     <string name="draw_sector">Жеребьевка секторов</string>
     <string name="weighing">Взвешивание</string>
     <string name="statistics">Статистика</string>
-    <!-- Статистика -->
     <string name="sector">Сектор</string>
     <string name="count">Кол-во</string>
     <string name="weigh">Вес</string>
