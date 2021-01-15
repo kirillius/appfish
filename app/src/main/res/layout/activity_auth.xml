@@ -4,34 +4,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/auth_back"
+    android:background="@drawable/back1"
     android:orientation="vertical"
     tools:context=".activities.AuthActivity">
 
     <RelativeLayout
-        android:id="@+id/rl_auth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp"
-        android:paddingTop="150dp">
+        android:id="@+id/rl_auth_top"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:layout_width="205dp"
+            android:layout_height="153dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="72dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/appin_logo" />
+
 
         <TextView
             android:id="@+id/tv_auth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="30dp"
             android:text="@string/auth"
             android:textAppearance="@style/Roboto"
             android:textSize="40sp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/light_gradient" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_below="@id/rl_auth_top"
+        android:background="@drawable/dark_gradient" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/light_gradient" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_auth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_auth_top"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="96dp">
+
+
         <LinearLayout
             android:id="@+id/ll_login"
-            android:layout_width="450dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_auth"
             android:layout_marginBottom="20dp"
             android:orientation="horizontal">
 
@@ -39,16 +79,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Логин"
+                android:text="@string/login"
                 android:textAlignment="center"
-                android:textAppearance="@style/Roboto" />
+                android:textAppearance="@style/Roboto"
+                android:textSize="30dp"/>
 
             <EditText
                 android:id="@+id/et_login"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_weight="3"
-                android:background="@drawable/auth_edittext"
+                android:background="@drawable/button_bottom_gradient"
                 android:textAlignment="center"
                 android:textAppearance="@style/Roboto"
                 android:textColor="@color/white" />
@@ -57,7 +98,7 @@
 
         <LinearLayout
             android:id="@+id/ll_password"
-            android:layout_width="450dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ll_login"
             android:orientation="horizontal">
@@ -66,9 +107,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Пароль"
+                android:text="@string/password"
                 android:textAlignment="center"
-                android:textAppearance="@style/Roboto" />
+                android:textAppearance="@style/Roboto"
+                android:textSize="30dp"/>
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -79,7 +121,7 @@
                     android:id="@+id/et_password"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:background="@drawable/auth_edittext"
+                    android:background="@drawable/button_bottom_gradient"
                     android:textAlignment="center"
                     android:textAppearance="@style/Roboto"
                     android:textColor="@color/white"
@@ -99,32 +141,69 @@
                     android:layout_marginEnd="15dp"/>
 
             </RelativeLayout>
+
         </LinearLayout>
 
-        <ImageButton
+        <Button
             android:id="@+id/button_sign_in"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="60dp"
             android:layout_below="@id/ll_password"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
             android:adjustViewBounds="true"
-            android:background="@null"
+            android:background="@drawable/button_red_background"
             android:scaleType="centerInside"
-            android:src="@drawable/auth_button" />
-
-
+            android:text="@string/auth_button"
+            android:textAppearance="@style/Roboto" />
     </RelativeLayout>
 
-    <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="130dp"
-        android:adjustViewBounds="true"
-        android:background="@null"
-        android:scaleType="centerInside"
-        android:src="@drawable/setting_icon" />
+        android:layout_marginBottom="40dp"
+        android:orientation="horizontal">
 
+        <ImageButton
+            android:id="@+id/play"
+            android:layout_width="58dp"
+            android:layout_height="61dp"
+            android:layout_marginEnd="61dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/play_icon" />
+
+        <ImageButton
+            android:id="@+id/network"
+            android:layout_width="58dp"
+            android:layout_height="61dp"
+            android:layout_marginEnd="61dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/network_icon" />
+
+        <ImageButton
+            android:id="@+id/instagram"
+            android:layout_width="58dp"
+            android:layout_height="61dp"
+            android:layout_marginEnd="61dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/inst_icon" />
+
+        <ImageButton
+            android:id="@+id/facebook"
+            android:layout_width="58dp"
+            android:layout_height="61dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/facebook_icon" />
+
+    </LinearLayout>
 </RelativeLayout>

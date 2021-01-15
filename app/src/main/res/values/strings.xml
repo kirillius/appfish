@@ -5,6 +5,7 @@
     <string name="url_backend">http://10.10.29.16:80/carpfishing_test/hs/v1</string>
 
     <string name="auth">Авторизация</string>
+    <string name="auth_button">Вход</string>
     <string name="login">Логин</string>
     <string name="password">Пароль</string>
     <string name="fill_login_password">Заполните логин и пароль</string>
@@ -49,7 +50,7 @@
     <string name="error">Ошибка! </string>
     <string name="end_weighting">Завершить взвешивание</string>
     <string name="fishes">Рыба</string>
-    <string name="bad">Нарушения</string>
+    <string name="violations">Нарушения</string>
     <string name="time">Время</string>
     <string name="stage">Этап</string>
     <string name="stage_end">Завершен</string>
@@ -61,6 +62,8 @@
     <string name="end_weighting_question">Вы уверены, что хотите завершить этап взвешивания?</string>
     <string name="end_weighting_success">Этап взвешивания завершен</string>
     <string name="sms">Вам придет SMS с кодом</string>
-
+    <string name="ending">Завершение</string>
+    <string name="violation_type">Тип нарушения</string>
+    <string name="confirm">Подтвердить</string>
 
 </resources>

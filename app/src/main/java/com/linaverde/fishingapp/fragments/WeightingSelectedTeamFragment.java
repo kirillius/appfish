@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.se.omapi.SEService;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
-import com.linaverde.fishingapp.interfaces.WeightFishesClickListener;
+import com.linaverde.fishingapp.interfaces.WeightingSelectedTeamClickListener;
 import com.linaverde.fishingapp.services.UserInfo;
 
 public class WeightingSelectedTeamFragment extends Fragment {
@@ -29,7 +28,7 @@ public class WeightingSelectedTeamFragment extends Fragment {
     private String stageId;
     private String pin;
 
-    WeightFishesClickListener listener;
+    WeightingSelectedTeamClickListener listener;
 
     public WeightingSelectedTeamFragment() {
         // Required empty public constructor
@@ -87,18 +86,27 @@ public class WeightingSelectedTeamFragment extends Fragment {
             }
         });
 
+        violation = view.findViewById(R.id.rl_weighting_violation);
+
+        violation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.violationClicked(teamId, stageId, pin, sector);
+            }
+        });
+
         return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof WeightFishesClickListener) {
+        if (context instanceof WeightingSelectedTeamClickListener) {
             //init the listener
-            listener = (WeightFishesClickListener) context;
+            listener = (WeightingSelectedTeamClickListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement WeightFishesClickListener");
+                    + " must implement WeightingSelectedTeamClickListener");
         }
     }
 

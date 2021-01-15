@@ -7,24 +7,22 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.fragments.LogoTopMenuFragment;
-import com.linaverde.fishingapp.fragments.RegisterTeamListFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
+import com.linaverde.fishingapp.fragments.ViolationsFragment;
 import com.linaverde.fishingapp.fragments.WeightingFishFragment;
 import com.linaverde.fishingapp.fragments.WeightingSelectedTeamFragment;
 import com.linaverde.fishingapp.fragments.WeightingStagesFragment;
 import com.linaverde.fishingapp.fragments.WeightingTeamListFragment;
 import com.linaverde.fishingapp.interfaces.FishChangedRequestListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
-import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
-import com.linaverde.fishingapp.interfaces.WeightFishesClickListener;
+import com.linaverde.fishingapp.interfaces.ViolationChangedRequestListener;
+import com.linaverde.fishingapp.interfaces.WeightingSelectedTeamClickListener;
 import com.linaverde.fishingapp.interfaces.WeightStageClickedListener;
 import com.linaverde.fishingapp.interfaces.WeightTeamClickListener;
-import com.linaverde.fishingapp.models.Team;
 import com.linaverde.fishingapp.models.TeamsQueue;
 import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.RequestHelper;
@@ -32,8 +30,8 @@ import com.linaverde.fishingapp.services.RequestHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class WeightingActivity extends AppCompatActivity implements TopMenuEventListener, WeightTeamClickListener, WeightFishesClickListener,
-        WeightStageClickedListener, FishChangedRequestListener {
+public class WeightingActivity extends AppCompatActivity implements TopMenuEventListener, WeightTeamClickListener, WeightingSelectedTeamClickListener,
+        WeightStageClickedListener, FishChangedRequestListener, ViolationChangedRequestListener {
 
     FragmentTransaction fragmentTransaction;
     FragmentManager fragmentManager;
@@ -190,6 +188,40 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
     }
 
     @Override
+    public void violationClicked(String teamId, String stageId, String pin, int sector) {
+        progressBar.show();
+        requestHelper.executeGet("fouls", new String[]{"stage", "team"}, new String[]{stageId, teamId}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                progressBar.hide();
+                try {
+                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                        ViolationsFragment VFragment = ViolationsFragment.newInstance(json.getJSONArray("fouls").toString(), json.getJSONArray("dictionary").toString(),
+                                stageId, teamId, sector);
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                        fragmentTransaction.replace(R.id.content_fragment, VFragment);
+                        fragmentTransaction.addToBackStack("WeightingStages");
+                        fragmentTransaction.commit();
+                    } else {
+                        DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+            }
+        });
+    }
+
+    @Override
     public void fishChangedRequest(String stageId, String teamId, String pin, String fish, int sector) {
         progressBar.show();
         requestHelper.executePost("weighing", new String[]{"stage", "team"}, new String[]{stageId, teamId}, fish, new RequestListener() {
@@ -198,6 +230,32 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
                 try {
                     if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
                         updateFishList(teamId, stageId, pin, sector);
+                    } else {
+                        progressBar.hide();
+                        DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+            }
+        });
+    }
+
+    @Override
+    public void violationChangedRequest(String stageId, String teamId, String violation, int sector) {
+        progressBar.show();
+        requestHelper.executePost("fouls", new String[]{"stage", "team"}, new String[]{stageId, teamId}, violation, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                try {
+                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                        updateViolationList(teamId, stageId, sector);
                     } else {
                         progressBar.hide();
                         DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
@@ -247,6 +305,38 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
         });
     }
 
+    private void updateViolationList(String teamId, String stageId, int sector){
+        progressBar.show();
+        requestHelper.executeGet("fouls", new String[]{"stage", "team"}, new String[]{stageId, teamId}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                progressBar.hide();
+                try {
+                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                        ViolationsFragment VFragment = ViolationsFragment.newInstance(json.getJSONArray("fouls").toString(), json.getJSONArray("dictionary").toString(),
+                                stageId, teamId, sector);
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                        fragmentTransaction.replace(R.id.content_fragment, VFragment);
+                        fragmentTransaction.commit();
+                    } else {
+                        DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+            }
+        });
+    }
+
     @Override
     public void onMenuClick() {
 
@@ -276,5 +366,4 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
     public void onSyncClick() {
 
     }
-
 }

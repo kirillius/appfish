@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -32,36 +33,75 @@
         android:textAppearance="@style/Roboto"
         android:textSize="30sp" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/weighting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_tournament_name"
-        android:layout_marginStart="96dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/icon_weigh"
             android:layout_width="42dp"
             android:layout_height="44dp"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="32dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
             android:background="@null"
             android:scaleType="centerInside"
             android:src="@drawable/weight_icon" />
 
         <TextView
-            android:id="@+id/tv_register"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:layout_toEndOf="@id/icon_weigh"
+            android:layout_weight="9"
             android:text="@string/weighing"
+            android:textAlignment="center"
             android:textAppearance="@style/Roboto"
-            android:textSize="26sp" />
-    </RelativeLayout>
+            android:textSize="25sp" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/arrow_right" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            android:text="@string/ending"
+            android:textAlignment="center"
+            android:textAppearance="@style/Roboto"
+            android:textSize="25sp" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/arrow_right" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            android:text="@string/violations"
+            android:textAlignment="center"
+            android:textAppearance="@style/Roboto"
+            android:textSize="25sp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_pond_sector"
@@ -122,10 +162,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_pond_sector"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp"
         android:layout_marginBottom="25dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginStart="96dp"
+        android:layout_marginEnd="96dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -134,12 +174,13 @@
             android:layout_weight="1"
             android:text="№"
             android:textAppearance="@style/Roboto"
-            android:textSize="26sp" />
+            android:textSize="26sp"
+            android:gravity="center"/>
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="9">
+            android:layout_weight="5">
 
             <LinearLayout
                 android:id="@+id/ll_table_name"
@@ -152,7 +193,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:gravity="start"
                     android:text="@string/time"
                     android:textAppearance="@style/Roboto"
@@ -162,20 +203,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="@string/fishes"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/Roboto"
-                    android:textSize="26sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="@string/weigh"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="@string/violation_type"
                     android:textAppearance="@style/Roboto"
                     android:textSize="26sp" />
             </LinearLayout>
@@ -192,7 +223,7 @@
     </LinearLayout>
 
     <ListView
-        android:id="@+id/lv_fishes"
+        android:id="@+id/lv_violations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/rl_below_lv"
@@ -209,7 +240,7 @@
         android:layout_marginBottom="30dp">
 
         <LinearLayout
-            android:id="@+id/ll_pin"
+            android:id="@+id/ll_button_violation_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="96dp"
@@ -217,39 +248,27 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="62dp"
-                android:layout_marginEnd="40dp"
-                android:text="@string/pin_code"
-                android:textAlignment="center"
-                android:textAppearance="@style/Roboto"
-                android:textSize="30sp" />
-
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/button_end_reg"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="59dp"
+                android:background="@drawable/button_dark"
+                android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/et_pin"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/button_bottom_gradient"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/Roboto" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="64dp"
+                    android:text="@string/confirm"
                     android:textAppearance="@style/Roboto"
-                    android:textSize="22sp"
-                    android:text="@string/sms"
-                    android:visibility="gone"/>
-            </LinearLayout>
+                    android:textSize="30sp" />
+
+            </RelativeLayout>
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/button_add_weighting"
+            android:id="@+id/button_add_violation"
             android:layout_width="60dp"
             android:layout_height="59dp"
             android:layout_alignParentEnd="true"

@@ -13,17 +13,19 @@ import androidx.annotation.NonNull;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.models.FishDictionaryItem;
+import com.linaverde.fishingapp.models.ViolationDictionaryItem;
 
-public class FishTypeSpinnerAdapter extends ArrayAdapter<FishDictionaryItem> implements SpinnerAdapter {
+public class ViolationSpinnerAdapter extends ArrayAdapter<ViolationDictionaryItem> implements SpinnerAdapter {
+
     private Activity context;
-    FishDictionaryItem[] data;
+    ViolationDictionaryItem[] data;
 
-    public FishTypeSpinnerAdapter(Activity context, int layoutId, int textViewId, FishDictionaryItem[] data) {
+    public ViolationSpinnerAdapter(Activity context, int layoutId, int textViewId, ViolationDictionaryItem[] data) {
         super(context, layoutId, textViewId, data);
         this.context = context;
         this.data = data;
     }
-
+    
     @Override
     @NonNull
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
@@ -33,6 +35,7 @@ public class FishTypeSpinnerAdapter extends ArrayAdapter<FishDictionaryItem> imp
         return textView;
     }
 
+
     @Override
     public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
         View row = convertView;
@@ -41,7 +44,7 @@ public class FishTypeSpinnerAdapter extends ArrayAdapter<FishDictionaryItem> imp
             row = inflater.inflate(R.layout.spinner_item, parent, false);
         }
 
-        FishDictionaryItem item = data[position];
+        ViolationDictionaryItem item = data[position];
 
         if (item != null) { // парсим данные с каждого объекта
             ImageView image = (ImageView) row.findViewById(R.id.iv_spinner_item);
@@ -57,7 +60,7 @@ public class FishTypeSpinnerAdapter extends ArrayAdapter<FishDictionaryItem> imp
     }
 
     @Override
-    public FishDictionaryItem getItem(int position) {
+    public ViolationDictionaryItem getItem(int position) {
         return data[position];
     }
 }

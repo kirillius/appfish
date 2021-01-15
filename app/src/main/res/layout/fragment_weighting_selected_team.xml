@@ -174,7 +174,7 @@
                 android:layout_centerInParent="true"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="@string/bad"
+                android:text="@string/violations"
                 android:textAlignment="center"
                 android:textAppearance="@style/Roboto"
                 android:textSize="30sp" />

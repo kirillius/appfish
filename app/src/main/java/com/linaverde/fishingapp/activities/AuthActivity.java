@@ -29,7 +29,8 @@ import org.json.JSONObject;
 public class AuthActivity extends AppCompatActivity {
 
     EditText login, password;
-    ImageButton signIn, showPass;
+    ImageButton showPass;
+    Button signIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

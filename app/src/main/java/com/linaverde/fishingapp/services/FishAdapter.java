@@ -59,7 +59,7 @@ public class FishAdapter extends ArrayAdapter<Fish> {
         time.setText(fish.getTime());
         weight.setText(Integer.toString(fish.getWeight()));
 
-        FishTypeSpinnerAdapter adapter = new FishTypeSpinnerAdapter((Activity) context, R.layout.fish_spinner_item, R.id.tv_spinner_item, dict);
+        FishTypeSpinnerAdapter adapter = new FishTypeSpinnerAdapter((Activity) context, R.layout.spinner_item, R.id.tv_spinner_item, dict);
         type.setAdapter(adapter);
 
         String caughtId = fish.getFishId();
