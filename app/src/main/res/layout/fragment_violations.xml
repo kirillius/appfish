@@ -162,20 +162,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_pond_sector"
-        android:layout_marginBottom="25dp"
-        android:orientation="horizontal"
         android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp">
+        android:layout_marginEnd="96dp"
+        android:layout_marginBottom="25dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="№"
             android:textAppearance="@style/Roboto"
-            android:textSize="26sp"
-            android:gravity="center"/>
+            android:textSize="26sp" />
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -240,20 +240,20 @@
         android:layout_marginBottom="30dp">
 
         <LinearLayout
-            android:id="@+id/ll_button_violation_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="96dp"
-            android:layout_marginEnd="96dp"
+            android:layout_marginEnd="20dp"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:layout_toStartOf="@id/button_add_violation">
 
             <RelativeLayout
-                android:id="@+id/button_end_reg"
+                android:id="@+id/rl_button_violation_save"
                 android:layout_width="match_parent"
                 android:layout_height="59dp"
                 android:background="@drawable/button_dark"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -265,6 +265,32 @@
                     android:textSize="30sp" />
 
             </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_sanction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="62dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="@string/sanction"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="28sp" />
+                <TextView
+                    android:id="@+id/tv_sanction"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/button_bottom_gradient"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="30sp"
+                    android:text="@string/warning"/>
+
+            </LinearLayout>
         </LinearLayout>
 
         <ImageView

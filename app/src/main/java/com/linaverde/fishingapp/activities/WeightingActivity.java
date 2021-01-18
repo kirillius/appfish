@@ -80,7 +80,8 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
-        fragmentTransaction.commit();
+        if (!fragmentManager.isDestroyed())
+            fragmentTransaction.commit();
 
         try {
             matchId = (new JSONObject(b.getString("info"))).getString("matchId");
@@ -100,7 +101,8 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
                         WeightingStagesFragment WSFragment = WeightingStagesFragment.newInstance(json.getJSONArray("stages").toString(), matchName);
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.add(R.id.content_fragment, WSFragment);
-                        fragmentTransaction.commit();
+                        if (!fragmentManager.isDestroyed())
+                            fragmentTransaction.commit();
                     } else {
                         DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
                     }
@@ -135,7 +137,8 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, WTLragment);
                         fragmentTransaction.addToBackStack("WeightingStage");
-                        fragmentTransaction.commit();
+                        if (!fragmentManager.isDestroyed())
+                            fragmentTransaction.commit();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -169,7 +172,8 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
         fragmentTransaction.addToBackStack("WeightingSelected");
         fragmentTransaction.replace(R.id.top_menu_fragment, LTMFragment);
         fragmentTransaction.addToBackStack("LogoFragment");
-        fragmentTransaction.commit();
+        if (!fragmentManager.isDestroyed())
+            fragmentTransaction.commit();
     }
 
     @Override
@@ -187,7 +191,8 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, WSFragment);
                         fragmentTransaction.addToBackStack("WeightingStages");
-                        fragmentTransaction.commit();
+                        if (!fragmentManager.isDestroyed())
+                            fragmentTransaction.commit();
                     } else {
                         DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
                     }
@@ -221,7 +226,8 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, VFragment);
                         fragmentTransaction.addToBackStack("WeightingStages");
-                        fragmentTransaction.commit();
+                        if (!fragmentManager.isDestroyed())
+                            fragmentTransaction.commit();
                     } else {
                         DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
                     }
@@ -307,7 +313,8 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, WSFragment);
                         fragmentTransaction.addToBackStack("WeightingStages");
-                        fragmentTransaction.commit();
+                        if (!fragmentManager.isDestroyed())
+                            fragmentTransaction.commit();
                     } else {
                         DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
                     }
@@ -341,7 +348,8 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, VFragment);
                         fragmentTransaction.addToBackStack("WeightingStages");
-                        fragmentTransaction.commit();
+                        if (!fragmentManager.isDestroyed())
+                            fragmentTransaction.commit();
                     } else {
                         DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
                     }

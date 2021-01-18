@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
@@ -85,11 +86,12 @@ public class ViolationsFragment extends Fragment {
         }
     }
 
-    TextView tvPond, tvSector, tvMatch;
+    TextView tvPond, tvSector, tvMatch, tvSanction;
     ListView lvViolations;
     ImageView buttonAdd;
     ViolationAdapter adapter;
-    LinearLayout confirm;
+    LinearLayout  sanction;
+    RelativeLayout confirm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,10 +107,11 @@ public class ViolationsFragment extends Fragment {
         tvSector.setText("Сектор " + Integer.toString(sector));
         tvMatch.setText(userInfo.getMatchName());
 
-
         lvViolations = view.findViewById(R.id.lv_violations);
         buttonAdd = view.findViewById(R.id.button_add_violation);
-        confirm = view.findViewById(R.id.ll_button_violation_save);
+        confirm = view.findViewById(R.id.rl_button_violation_save);
+        sanction = view.findViewById(R.id.ll_sanction);
+        tvSanction = view.findViewById(R.id.tv_sanction);
 
         List<Violation> violationsArr = new ArrayList<>();
         ViolationDictionaryItem[] dictArr;
@@ -124,6 +127,25 @@ public class ViolationsFragment extends Fragment {
             e.printStackTrace();
         }
 
+        //определяем меру пресечения
+        boolean dis = false;
+        for (int i = 0; i < violationsArr.size(); i++){
+            Violation curr = violationsArr.get(i);
+            for (int j = 0; j < dictArr.length; j++){
+                if (dictArr[j].getId().equals(curr.getViolationId())){
+                    if (dictArr[j].getSendOff() == 1){
+                        dis = true;
+                        break;
+                    }
+                }
+            }
+            if (dis) break;
+        }
+
+        if (dis) {
+            tvSanction.setText(R.string.disqualification);
+        }
+
         ViolationListChangeListener violationListChangeListener = new ViolationListChangeListener() {
             @Override
             public void selectionChanged(int pos, String foulId) {
@@ -132,6 +154,7 @@ public class ViolationsFragment extends Fragment {
                 changedPos = pos;
                 confirm.setVisibility(View.VISIBLE);
                 buttonAdd.setVisibility(View.GONE);
+                sanction.setVisibility(View.GONE);
                 violationsArr.get(pos).setViolationId(foulId);
                 adapter.setChangedId(pos);
                 adapter.notifyDataSetChanged();
@@ -144,6 +167,7 @@ public class ViolationsFragment extends Fragment {
                 changedPos = pos;
                 confirm.setVisibility(View.VISIBLE);
                 buttonAdd.setVisibility(View.GONE);
+                sanction.setVisibility(View.GONE);
                 adapter.setChangedId(pos);
                 violationsArr.get(pos).setTime(time);
                 adapter.notifyDataSetChanged();
@@ -161,6 +185,7 @@ public class ViolationsFragment extends Fragment {
                     adapter.notifyDataSetChanged();
                     confirm.setVisibility(View.VISIBLE);
                     buttonAdd.setVisibility(View.GONE);
+                    sanction.setVisibility(View.GONE);
                 }
             }
         });

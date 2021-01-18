@@ -66,5 +66,9 @@
     <string name="violation_type">Тип нарушения</string>
     <string name="confirm">Подтвердить</string>
     <string name="protocol_sent">Протоколы отправлены</string>
+    <string name="sanction">Мера</string>
+    <string name="warning">Предупреждение</string>
+    <string name="disqualification">Дисквалификация</string>
+    
 
 </resources>

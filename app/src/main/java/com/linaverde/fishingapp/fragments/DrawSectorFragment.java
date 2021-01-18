@@ -125,7 +125,7 @@ public class DrawSectorFragment extends Fragment {
                     DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_empty), null);
                 } else {
                     RequestHelper requestHelper = new RequestHelper(getContext());
-                    requestHelper.executeGet("sectorclose", new String[]{"match"}, new String[]{matchId}, new RequestListener() {
+                    requestHelper.executePost("sectorclose", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
                         @Override
                         public void onComplete(JSONObject json) {
                             try {

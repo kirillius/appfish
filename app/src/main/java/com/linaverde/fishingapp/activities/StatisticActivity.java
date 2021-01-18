@@ -26,7 +26,7 @@ import com.linaverde.fishingapp.services.RequestHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class StatisticActivity extends AppCompatActivity implements TopMenuEventListener{
+public class StatisticActivity extends AppCompatActivity implements TopMenuEventListener {
 
     FragmentTransaction fragmentTransaction;
     DrawerLayout drawer;
@@ -80,7 +80,8 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
                 }
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.add(R.id.content_fragment, statisticsFragment);
-                fragmentTransaction.commit();
+                if (!fragmentManager.isDestroyed())
+                    fragmentTransaction.commit();
                 progressBar.hide();
             }
 
@@ -126,5 +127,5 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
     public void onBackPressed() {
         finish();
     }
-    
+
 }

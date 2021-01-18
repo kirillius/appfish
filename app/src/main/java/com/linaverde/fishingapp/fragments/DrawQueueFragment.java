@@ -126,7 +126,7 @@ public class DrawQueueFragment extends Fragment {
                     DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.queue_empty), null);
                 } else {
                     RequestHelper requestHelper = new RequestHelper(getContext());
-                    requestHelper.executeGet("queueclose", new String[]{"match"}, new String[]{matchId}, new RequestListener() {
+                    requestHelper.executePost("queueclose", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
                         @Override
                         public void onComplete(JSONObject json) {
                             try {

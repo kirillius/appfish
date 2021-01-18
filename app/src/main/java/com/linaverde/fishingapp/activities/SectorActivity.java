@@ -68,7 +68,8 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
-        fragmentTransaction.commit();
+        if (!fragmentManager.isDestroyed())
+            fragmentTransaction.commit();
 
         try {
             matchId = (new JSONObject(b.getString("info"))).getString("matchId");
@@ -81,7 +82,7 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
 
     }
 
-    public void setNewQueueFragment(){
+    public void setNewQueueFragment() {
         progressBar.show();
         requestHelper.executeGet("queue", new String[]{"match"}, new String[]{matchId}, new RequestListener() {
             @Override
@@ -95,7 +96,8 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
                 }
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.content_fragment, DSFragment);
-                fragmentTransaction.commit();
+                if (!fragmentManager.isDestroyed())
+                    fragmentTransaction.commit();
                 progressBar.hide();
             }
 
@@ -127,7 +129,7 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
                     @Override
                     public void onComplete(JSONObject json) {
                         try {
-                            if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")){
+                            if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
                                 progressBar.hide();
                                 setNewQueueFragment();
                             } else {

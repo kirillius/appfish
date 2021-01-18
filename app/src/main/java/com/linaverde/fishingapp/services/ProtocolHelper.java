@@ -4,10 +4,13 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.widget.Toast;
 
+import androidx.core.content.FileProvider;
 import androidx.core.widget.ContentLoadingProgressBar;
 
 import com.linaverde.fishingapp.BuildConfig;
@@ -83,13 +86,25 @@ public class ProtocolHelper {
                             }
                         }
 
-                        File path = new File(context.getFilesDir(), "doc");
-                        File newFile = new File(path, "fish_protocol.pdf");
-                        Uri contentUri = getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", newFile);
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setDataAndType(contentUri, "application/pdf");
-                        //intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/manual.pdf");  // -> filename = manual.pdf
 
+                        Uri path;
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+                            path = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", pdfFile);
+                        } else {
+                            path = Uri.fromFile(pdfFile);
+                        }
+
+                        //File path = new File(context.getFilesDir(), "doc");
+                        //File newFile = new File(path, "fish_protocol.pdf");
+                        //Uri contentUri = getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", newFile);
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setDataAndType(path, "application/pdf");
+                        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         try {
                             context.startActivity(intent);
                         } catch (ActivityNotFoundException e) {

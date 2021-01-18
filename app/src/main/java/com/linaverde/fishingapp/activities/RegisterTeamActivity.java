@@ -77,7 +77,8 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
-        fragmentTransaction.commit();
+        if (!fragmentManager.isDestroyed())
+            fragmentTransaction.commit();
 
         try {
             matchId = (new JSONObject(b.getString("info"))).getString("matchId");
@@ -98,7 +99,8 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
                 }
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.add(R.id.content_fragment, RTFragment);
-                fragmentTransaction.commit();
+                if (!fragmentManager.isDestroyed())
+                    fragmentTransaction.commit();
                 progressBar.hide();
             }
 
@@ -135,7 +137,8 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
         fragmentTransaction.addToBackStack("RegisterTeamFragment");
         fragmentTransaction.replace(R.id.top_menu_fragment, LTMFragment);
         fragmentTransaction.addToBackStack("LogoFragment");
-        fragmentTransaction.commit();
+        if (!fragmentManager.isDestroyed())
+            fragmentTransaction.commit();
         bottomFragmentContainer.setVisibility(View.GONE);
 
     }

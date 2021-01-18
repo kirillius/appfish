@@ -24,7 +24,7 @@ import com.linaverde.fishingapp.services.UserInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class TournamentActivity extends FragmentActivity implements TopMenuEventListener{
+public class TournamentActivity extends FragmentActivity implements TopMenuEventListener {
 
     DrawerLayout drawer;
     String matchId;
@@ -62,7 +62,8 @@ public class TournamentActivity extends FragmentActivity implements TopMenuEvent
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.content_fragment, JTFragment);
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
-        fragmentTransaction.commit();
+        if (!fragmentManager.isDestroyed())
+            fragmentTransaction.commit();
 
     }
 
