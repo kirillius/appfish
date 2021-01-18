@@ -14,6 +14,7 @@ import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.interfaces.ViolationListChangeListener;
 import com.linaverde.fishingapp.models.Fish;
+import com.linaverde.fishingapp.models.FishDictionaryItem;
 import com.linaverde.fishingapp.models.Violation;
 import com.linaverde.fishingapp.models.ViolationDictionaryItem;
 
@@ -52,49 +53,43 @@ public class ViolationAdapter extends ArrayAdapter<Violation> {
         View rowView = inflater.inflate(R.layout.violation_list_item, parent, false);
         TextView number = (TextView) rowView.findViewById(R.id.tv_violation_number);
         TextView time = (TextView) rowView.findViewById(R.id.tv_violation_time);
-        Spinner name = (Spinner) rowView.findViewById(R.id.spinner_violation_name);
+        TextView name = (TextView) rowView.findViewById(R.id.tv_violation_name);
 
         Violation violation = values.get(pos);
         number.setText(Integer.toString(pos + 1) + ".");
         time.setText(violation.getTime());
 
-
-        ViolationSpinnerAdapter adapter = new ViolationSpinnerAdapter((Activity) context, R.layout.spinner_item, R.id.tv_spinner_item, dict);
-        name.setAdapter(adapter);
-
-        String foulId = violation.getViolationId();
-        int selectionId = 0;
-        for (int i = 0; i < dict.length; i++) {
-            if (dict[i].getId().equals(foulId)) {
-                name.setSelection(i, false);
-                selectionId = i;
-                break;
+        for (ViolationDictionaryItem violationDictionaryItem : dict) {
+            if (violation.getViolationId().equals(violationDictionaryItem.getId())) {
+                name.setText(violationDictionaryItem.getName());
             }
         }
 
-        if (changedId != -1 && changedId != pos){
-            name.setEnabled(false);
-        }
-
-        int finalSelectionId = selectionId;
-
-        name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        name.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onClick(View v) {
                 if (changedId == -1 || changedId == pos) {
-                    if (position != finalSelectionId) {
-                        clickListener.selectionChanged(pos, dict[position].getId());
-                    }
-                } else {
-                    name.setSelection(finalSelectionId, false);
+                    DialogBuilder.createSelectViolationTypeDialog(context, inflater, "Выберите тип нарушения", dict, violation.getViolationId(), new CompleteActionListener() {
+                        @Override
+                        public void onOk(String input) {
+                            for (ViolationDictionaryItem violationDictionaryItem : dict) {
+                                if (input.equals(violationDictionaryItem.getId())) {
+                                    name.setText(violationDictionaryItem.getName());
+                                }
+                            }
+                            clickListener.selectionChanged(pos, input);
+                            changedId = pos;
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
                 }
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
         });
+
 
         time.setOnClickListener(new View.OnClickListener() {
             @Override

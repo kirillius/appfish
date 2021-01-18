@@ -8,13 +8,18 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
+import com.linaverde.fishingapp.models.FishDictionaryItem;
+import com.linaverde.fishingapp.models.Violation;
+import com.linaverde.fishingapp.models.ViolationDictionaryItem;
 
 public class DialogBuilder {
 
@@ -266,5 +271,123 @@ public class DialogBuilder {
         if (!((Activity) context).isFinishing()) {
             dialog.show();
         }
+    }
+
+    public static void createSelectFishTypeDialog(Context context, LayoutInflater inflater, String text, FishDictionaryItem[] dict, String selectedId, final CompleteActionListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View viewDialog = inflater.inflate(R.layout.dialog_listview, null);
+        TextView tvText, tvOk, tvCancel;
+        ListView listView;
+        tvText = viewDialog.findViewById(R.id.tv_dialog);
+        tvOk = viewDialog.findViewById(R.id.tv_ok);
+        tvCancel = viewDialog.findViewById(R.id.tv_cancel);
+
+        listView = viewDialog.findViewById(R.id.lv_dialog);
+
+        if (text != null)
+            tvText.setText(text);
+
+        builder.setView(viewDialog);
+        final AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        int selected = -1;
+        for (int i = 0; i < dict.length; i++){
+            if (dict[i].getId().equals(selectedId)){
+                selected = i;
+                break;
+            }
+        }
+
+        FishTypeAdapter adapter = new FishTypeAdapter(context, dict, selected);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                adapter.setSelected(position);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        tvOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onOk(adapter.getItem(adapter.getSelected()).getId());
+                dialog.dismiss();
+            }
+        });
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onCancel();
+                dialog.dismiss();
+            }
+        });
+
+        if (!((Activity) context).isFinishing()) {
+            dialog.show();
+        }
+
+    }
+
+    public static void createSelectViolationTypeDialog(Context context, LayoutInflater inflater, String text, ViolationDictionaryItem[] dict, String selectedId, final CompleteActionListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View viewDialog = inflater.inflate(R.layout.dialog_listview, null);
+        TextView tvText, tvOk, tvCancel;
+        ListView listView;
+        tvText = viewDialog.findViewById(R.id.tv_dialog);
+        tvOk = viewDialog.findViewById(R.id.tv_ok);
+        tvCancel = viewDialog.findViewById(R.id.tv_cancel);
+
+        listView = viewDialog.findViewById(R.id.lv_dialog);
+
+        if (text != null)
+            tvText.setText(text);
+
+        builder.setView(viewDialog);
+        final AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        int selected = -1;
+        for (int i = 0; i < dict.length; i++){
+            if (dict[i].getId().equals(selectedId)){
+                selected = i;
+                break;
+            }
+        }
+
+        ViolationTypeAdapter adapter = new ViolationTypeAdapter(context, dict, selected);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                adapter.setSelected(position);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        tvOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onOk(adapter.getItem(adapter.getSelected()).getId());
+                dialog.dismiss();
+            }
+        });
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onCancel();
+                dialog.dismiss();
+            }
+        });
+
+        if (!((Activity) context).isFinishing()) {
+            dialog.show();
+        }
+
     }
 }

@@ -65,5 +65,6 @@
     <string name="ending">Завершение</string>
     <string name="violation_type">Тип нарушения</string>
     <string name="confirm">Подтвердить</string>
+    <string name="protocol_sent">Протоколы отправлены</string>
 
 </resources>

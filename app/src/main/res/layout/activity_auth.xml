@@ -65,7 +65,8 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="96dp"
         android:layout_marginTop="100dp"
-        android:layout_marginEnd="96dp">
+        android:layout_marginEnd="96dp"
+        android:visibility="gone">
 
 
         <LinearLayout
@@ -204,6 +205,14 @@
             android:background="@null"
             android:scaleType="centerInside"
             android:src="@drawable/facebook_icon" />
-
     </LinearLayout>
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:visibility="visible"
+        android:layout_centerInParent="true"
+        style="?android:attr/progressBarStyleLarge"/>
+
 </RelativeLayout>

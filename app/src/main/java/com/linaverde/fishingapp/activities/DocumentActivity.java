@@ -19,4 +19,9 @@ public class DocumentActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         ivDocument.setImageBitmap(ImageHelper.decodeToImage(b.getString("image")));
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

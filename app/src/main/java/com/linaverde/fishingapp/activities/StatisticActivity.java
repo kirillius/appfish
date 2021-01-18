@@ -1,27 +1,37 @@
 package com.linaverde.fishingapp.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.core.widget.ContentLoadingProgressBar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 
+import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.fragments.StatisticsFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
 import com.linaverde.fishingapp.services.DialogBuilder;
+import com.linaverde.fishingapp.services.NavigationHelper;
+import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class StatisticActivity extends AppCompatActivity implements TopMenuEventListener {
+public class StatisticActivity extends AppCompatActivity implements TopMenuEventListener{
 
     FragmentTransaction fragmentTransaction;
+    DrawerLayout drawer;
+    String matchId;
+    ContentLoadingProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +39,20 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
         setContentView(R.layout.activity_three_fragments);
 
         Bundle b = getIntent().getExtras();
-
-        ContentLoadingProgressBar progressBar = findViewById(R.id.progress_bar);
+        drawer = findViewById(R.id.drawer_layout);
+        progressBar = findViewById(R.id.progress_bar);
         progressBar.show();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.bringToFront();
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                NavigationHelper.onMenuItemClicked(getApplicationContext(), item.getItemId(), drawer);
+                return false;
+            }
+        });
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -39,7 +60,6 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
         fragmentTransaction.commit();
 
-        String matchId = "";
         try {
             matchId = (new JSONObject(b.getString("info"))).getString("matchId");
         } catch (JSONException e) {
@@ -74,7 +94,7 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
 
     @Override
     public void onMenuClick() {
-
+        drawer.openDrawer(GravityCompat.START);
     }
 
     @Override
@@ -94,12 +114,12 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
 
     @Override
     public void onMessageClick() {
-
+        ProtocolHelper.sendProtocols(this, matchId, progressBar);
     }
 
     @Override
     public void onSyncClick() {
-
+        ProtocolHelper.getProtocol(this, matchId, progressBar);
     }
 
     @Override

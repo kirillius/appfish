@@ -1,13 +1,18 @@
 package com.linaverde.fishingapp.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.core.widget.ContentLoadingProgressBar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
+import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.fragments.LogoTopMenuFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
@@ -25,6 +30,8 @@ import com.linaverde.fishingapp.interfaces.WeightStageClickedListener;
 import com.linaverde.fishingapp.interfaces.WeightTeamClickListener;
 import com.linaverde.fishingapp.models.TeamsQueue;
 import com.linaverde.fishingapp.services.DialogBuilder;
+import com.linaverde.fishingapp.services.NavigationHelper;
+import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
 
 import org.json.JSONException;
@@ -44,15 +51,27 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
     String matchId;
     String matchName;
 
+    DrawerLayout drawer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_three_fragments);
 
         Bundle b = getIntent().getExtras();
-
+        drawer = findViewById(R.id.drawer_layout);
         progressBar = findViewById(R.id.progress_bar);
         progressBar.show();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.bringToFront();
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                NavigationHelper.onMenuItemClicked(getApplicationContext(), item.getItemId(), drawer);
+                return false;
+            }
+        });
 
         bottomFragmentContainer = findViewById(R.id.bottom_fragment);
 
@@ -283,9 +302,11 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
                     if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
                         WeightingFishFragment WSFragment = WeightingFishFragment.newInstance(json.getJSONArray("weighing").toString(), json.getJSONArray("dictionary").toString(),
                                 stageId, teamId, pin, sector);
+                        getSupportFragmentManager().popBackStack();
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, WSFragment);
+                        fragmentTransaction.addToBackStack("WeightingStages");
                         fragmentTransaction.commit();
                     } else {
                         DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
@@ -305,7 +326,7 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
         });
     }
 
-    private void updateViolationList(String teamId, String stageId, int sector){
+    private void updateViolationList(String teamId, String stageId, int sector) {
         progressBar.show();
         requestHelper.executeGet("fouls", new String[]{"stage", "team"}, new String[]{stageId, teamId}, new RequestListener() {
             @Override
@@ -315,9 +336,11 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
                     if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
                         ViolationsFragment VFragment = ViolationsFragment.newInstance(json.getJSONArray("fouls").toString(), json.getJSONArray("dictionary").toString(),
                                 stageId, teamId, sector);
+                        getSupportFragmentManager().popBackStack();
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, VFragment);
+                        fragmentTransaction.addToBackStack("WeightingStages");
                         fragmentTransaction.commit();
                     } else {
                         DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
@@ -339,7 +362,7 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
 
     @Override
     public void onMenuClick() {
-
+        drawer.openDrawer(GravityCompat.START);
     }
 
     @Override
@@ -359,11 +382,12 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
 
     @Override
     public void onMessageClick() {
-
+        ProtocolHelper.sendProtocols(this, matchId, progressBar);
     }
 
     @Override
     public void onSyncClick() {
-
+        ProtocolHelper.getProtocol(this, matchId, progressBar);
     }
+
 }
