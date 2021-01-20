@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.fragments.EditFishFragment;
 import com.linaverde.fishingapp.fragments.LogoTopMenuFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.fragments.ViolationsFragment;
@@ -273,6 +274,29 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
     }
 
     @Override
+    public void fishAdded(String dict, String pin, String teamId, String stageId, int sector) {
+        EditFishFragment EFFragment = EditFishFragment.newInstance(null, dict, pin, teamId, stageId, sector);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.replace(R.id.content_fragment, EFFragment);
+        fragmentTransaction.addToBackStack("WeightingFish");
+        if (!fragmentManager.isDestroyed())
+            fragmentTransaction.commit();
+    }
+
+    @Override
+    public void fishChanged(String fish, String dict, String pin, String teamId, String stageId, int sector) {
+        EditFishFragment EFFragment = EditFishFragment.newInstance(fish, dict, pin, teamId, stageId, sector);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.replace(R.id.content_fragment, EFFragment);
+        fragmentTransaction.addToBackStack("WeightingFish");
+        if (!fragmentManager.isDestroyed())
+            fragmentTransaction.commit();
+    }
+
+
+    @Override
     public void violationChangedRequest(String stageId, String teamId, String violation, int sector) {
         progressBar.show();
         requestHelper.executePost("fouls", new String[]{"stage", "team"}, new String[]{stageId, teamId}, violation, new RequestListener() {
@@ -308,7 +332,8 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
                     if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
                         WeightingFishFragment WSFragment = WeightingFishFragment.newInstance(json.getJSONArray("weighing").toString(), json.getJSONArray("dictionary").toString(),
                                 stageId, teamId, pin, sector);
-                        getSupportFragmentManager().popBackStack();
+                        fragmentManager.popBackStack();
+                        fragmentManager.popBackStack();
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, WSFragment);

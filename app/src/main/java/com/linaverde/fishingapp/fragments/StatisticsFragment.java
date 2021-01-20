@@ -87,7 +87,11 @@ public class StatisticsFragment extends Fragment {
                 avr += stats[i].getInt("avgWeight");
                 sum += stats[i].getInt("maxWeight");
             }
-            avr = avr / count;
+            if (count != 0) {
+                avr = avr / count;
+            } else {
+                avr = 0;
+            }
             StatisticAdapter adapter = new StatisticAdapter(getContext(), stats);
             statList.setAdapter(adapter);
 

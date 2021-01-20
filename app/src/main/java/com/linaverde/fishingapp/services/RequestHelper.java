@@ -116,7 +116,7 @@ public class RequestHelper {
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 // called when response HTTP status is "200 OK"
                 Log.d("Request", method + " request successful");
-                Log.d("Request", "answer: " + new String(response, StandardCharsets.UTF_8));
+                //Log.d("Request", "answer: " + new String(response, StandardCharsets.UTF_8));
                 ((Activity)context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 listener.onComplete(getAnswerBytes(response));
             }
@@ -171,7 +171,7 @@ public class RequestHelper {
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 // called when response HTTP status is "200 OK"
                 Log.d("Request", method + " post request successful");
-                Log.d("Request", getAnswerBytes(response).toString());
+                //Log.d("Request", getAnswerBytes(response).toString());
                 ((Activity)context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 listener.onComplete(getAnswerBytes(response));
             }

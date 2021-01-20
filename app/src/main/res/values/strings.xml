@@ -53,11 +53,14 @@
     <string name="violations">Нарушения</string>
     <string name="time">Время</string>
     <string name="stage">Этап</string>
+    <string name="weighting_stages">Этапы взвешивания</string>
+    <string name="weighting_confirm">Подтвердите взвешивание</string>
     <string name="stage_end">Завершен</string>
     <string name="stage_continue">Открыт</string>
     <string name="status">Статус</string>
-    <string name="input_new_weight">Введите новый вес</string>
+    <string name="input_weight">Введите вес</string>
     <string name="input_new_time">Введите новое время</string>
+    <string name="select_fish_type">Выберите тип рыбы</string>
     <string name="pin_code">ПИН-КОД</string>
     <string name="end_weighting_question">Вы уверены, что хотите завершить этап взвешивания?</string>
     <string name="end_weighting_success">Этап взвешивания завершен</string>
@@ -69,6 +72,23 @@
     <string name="sanction">Мера</string>
     <string name="warning">Предупреждение</string>
     <string name="disqualification">Дисквалификация</string>
-    
+    <string name="wrong_pin">Неверный пин-код</string>
+    <string-array name="rods_params">
+        <item>Расстояние</item>
+        <item>Глубина</item>
+        <item>Насадка</item>
+        <item>Удочка</item>
+        <item>Катушка</item>
+        <item>Леска</item>
+        <item>Монтаж</item>
+        <item>Проводок</item>
+        <item>Тип дна</item>
+        <item>Пресс</item>
+        <item>Ориентир</item>
+        <item>Время</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

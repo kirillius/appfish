@@ -82,6 +82,21 @@ public class Fish implements Comparable<Fish> {
         return id;
     }
 
+
+    public String toString(){
+        JSONObject object = new JSONObject();
+        try {
+            object.put("id", id);
+            object.put("fishId", fishId);
+            object.put("time", this.getDateTime());
+            object.put("weight", weight);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return object.toString();
+    }
+
     @Override
     public int compareTo(Fish another) {
         return this.time.compareTo(another.time);

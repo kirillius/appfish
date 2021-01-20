@@ -145,29 +145,12 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
 
     @Override
     public void onDocumentClicked(String userId, int doc) {
-        progressBar.show();
-        requestHelper.getDocument(userId, doc, new RequestListener() {
-            @Override
-            public void onComplete(JSONObject json) {
-                Intent intent = new Intent(RegisterTeamActivity.this, DocumentActivity.class);
-                Bundle args = new Bundle();
-                try {
-                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                        args.putString("image", json.getString("doc"));
-                        intent.putExtras(args);
-                        progressBar.hide();
-                        startActivity(intent);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onError(int responseCode) {
-                progressBar.hide();
-            }
-        });
+        Intent intent = new Intent(RegisterTeamActivity.this, DocumentActivity.class);
+        Bundle b = new Bundle();
+        b.putInt("doc", doc);
+        b.putString("user", userId);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
 

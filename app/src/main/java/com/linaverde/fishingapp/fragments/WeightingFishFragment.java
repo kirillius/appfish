@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -129,110 +130,22 @@ public class WeightingFishFragment extends Fragment {
 
         llPinCode = view.findViewById(R.id.ll_pin);
         buttonAdd = view.findViewById(R.id.button_add_weighting);
-
-        FishListChangeActionListener changeActionListener = new FishListChangeActionListener() {
-            @Override
-            public void fishWeighChanged(int pos, int weight) {
-                fishChanged = true;
-                changedPos = pos;
-                newWeight = weight;
-                llPinCode.setVisibility(View.VISIBLE);
-                buttonAdd.setVisibility(View.GONE);
-                fishesArr.get(pos).setWeight(weight);
-                adapter.setChangedId(pos);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void fishTimeChanged(int pos, String date, String time) {
-                fishChanged = true;
-                newTime = date + "T" + time;
-                changedPos = pos;
-                llPinCode.setVisibility(View.VISIBLE);
-                buttonAdd.setVisibility(View.GONE);
-                adapter.setChangedId(pos);
-                fishesArr.get(pos).setTime(time);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void selectionChanged(int pos, String fishId) {
-                fishChanged = true;
-                newId = fishId;
-                changedPos = pos;
-                llPinCode.setVisibility(View.VISIBLE);
-                buttonAdd.setVisibility(View.GONE);
-                fishesArr.get(pos).setFishId(fishId);
-                adapter.setChangedId(pos);
-                adapter.notifyDataSetChanged();
-            }
-        };
-
-        adapter = new FishAdapter(getContext(), fishesArr, dictArr, changeActionListener);
+        adapter = new FishAdapter(getContext(), fishesArr, dictArr);
         lvFishes.setAdapter(adapter);
+
+        lvFishes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                listener.fishChanged(adapter.getItem(position).toString(), dict.toString(), pin, teamId, stageId, sector);
+            }
+        });
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!fishChanged) {
-                    fishChanged = true;
-                    fishesArr.add(new Fish(dictArr[0].getId()));
-                    adapter.setChangedId(fishesArr.size() - 1);
-                    adapter.setNewFishAdded();
-                    adapter.notifyDataSetChanged();
-                    llPinCode.setVisibility(View.VISIBLE);
-                    buttonAdd.setVisibility(View.GONE);
-                }
+                listener.fishAdded(dict.toString(), pin, teamId, stageId, sector);
             }
         });
-
-        EditText etPin = view.findViewById(R.id.et_pin);
-
-        TextWatcher pinWathcer = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.toString().equals(pin)) {
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), 0);
-                    JSONObject object = new JSONObject();
-                    try {
-                        if (!fishesArr.get(changedPos).getId().equals("")){
-                            object.put("id", fishesArr.get(changedPos).getId());
-                        }
-                        if (!newId.equals("")) {
-                            object.put("fishId", newId);
-                        } else {
-                            object.put("fishId", fishesArr.get(changedPos).getFishId());
-                        }
-                        if (!newTime.equals("")) {
-                            object.put("time", newTime);
-                        } else {
-                            object.put("time", fishesArr.get(changedPos).getDateTime());
-                        }
-                        if (newWeight != -1) {
-                            object.put("weight", newWeight);
-                        } else {
-                            object.put("weight", fishesArr.get(changedPos).getWeight());
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    listener.fishChangedRequest(stageId, teamId, pin, object.toString(), sector);
-                }
-            }
-        };
-
-        etPin.addTextChangedListener(pinWathcer);
 
         return view;
     }

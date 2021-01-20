@@ -90,32 +90,6 @@ public class ViolationAdapter extends ArrayAdapter<Violation> {
             }
         });
 
-
-        time.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //clickListener.fishTimeClicked(fish.getDate(), fish.getTime());
-                if (changedId == pos && pos == values.size()-1 && newViolationAdded) {
-                    DialogBuilder.createTimeInputDialog(context, inflater, context.getString(R.string.input_new_time), violation.getTime(),
-                            new CompleteActionListener() {
-                                @Override
-                                public void onOk(String input) {
-                                    if (!input.equals(violation.getTime())) {
-                                        time.setText(input);
-                                        changedId = pos;
-                                        clickListener.violationTimeChanged(pos, violation.getDate(), input);
-                                    }
-                                }
-
-                                @Override
-                                public void onCancel() {
-
-                                }
-                            });
-                }
-            }
-        });
-
         return rowView;
     }
 

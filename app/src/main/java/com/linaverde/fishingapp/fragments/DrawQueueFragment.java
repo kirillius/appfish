@@ -156,17 +156,9 @@ public class DrawQueueFragment extends Fragment {
                     DialogBuilder.createInputDialog(getContext(), getLayoutInflater(), getString(R.string.enter_queue), new CompleteActionListener() {
                         @Override
                         public void onOk(String input) {
-                            boolean unic = true;
-                            for (TeamsQueue team : teams) {
-                                if (Integer.parseInt(input) == team.getQueue()) {
-                                    unic = false;
-                                    break;
-                                }
-                            }
+
                             if (Integer.parseInt(input) == 0) {
                                 DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.queue_zero), null);
-                            } else if (!unic) {
-                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.queue_unic), null);
                             } else {
                                 listener.update(adapter.getItem(position), input);
                             }

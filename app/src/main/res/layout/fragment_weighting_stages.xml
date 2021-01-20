@@ -59,7 +59,7 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:layout_toEndOf="@id/icon_weigh"
-            android:text="@string/weighing"
+            android:text="@string/weighting_stages"
             android:textAppearance="@style/Roboto"
             android:textSize="26sp" />
     </RelativeLayout>

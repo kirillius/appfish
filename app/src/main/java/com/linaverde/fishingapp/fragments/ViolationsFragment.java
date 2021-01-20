@@ -186,6 +186,7 @@ public class ViolationsFragment extends Fragment {
                     confirm.setVisibility(View.VISIBLE);
                     buttonAdd.setVisibility(View.GONE);
                     sanction.setVisibility(View.GONE);
+                    changedPos = violationsArr.size() - 1;
                 }
             }
         });
