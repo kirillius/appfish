@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.models.QueueComparator;
+import com.linaverde.fishingapp.models.SectorComparator;
 import com.linaverde.fishingapp.models.TeamsQueue;
 
 import java.util.Arrays;
@@ -26,7 +27,7 @@ public class WeightingTeamListAdapter extends ArrayAdapter<TeamsQueue> {
         super(context, R.layout.teams_list_item, values);
         this.context = context;
         this.values = Arrays.asList(values);
-        Comparator<TeamsQueue> comparator = new QueueComparator();
+        Comparator<TeamsQueue> comparator = new SectorComparator();
         this.values.sort(comparator);
     }
 

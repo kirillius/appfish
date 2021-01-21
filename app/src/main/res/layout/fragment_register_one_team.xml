@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="96dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginEnd="30dp"
         android:layout_marginBottom="32dp">
 
         <RelativeLayout
@@ -52,26 +52,79 @@
         <TextView
             android:id="@+id/tv_captain_name"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
+            android:layout_height="62dp"
             android:layout_marginStart="42dp"
             android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            android:layout_toStartOf="@id/ll_captain_network"
             android:layout_toEndOf="@id/rl_captain_photo"
             android:background="@drawable/button_big_bottom_gradient"
+            android:gravity="center"
             android:text="Капитан"
             android:textAlignment="center"
             android:textAppearance="@style/Roboto"
-            android:textSize="35sp" />
+            android:textSize="30sp" />
+
+        <LinearLayout
+            android:id="@+id/ll_captain_network"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="30dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/captain_net1"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/facebook_icon" />
+
+            <ImageButton
+                android:id="@+id/captain_net2"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/inst_icon" />
+
+            <ImageButton
+                android:id="@+id/captain_net3"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/network_icon" />
+
+            <ImageButton
+                android:id="@+id/captain_net4"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/play_icon" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_captain_name"
             android:layout_marginStart="188dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_toStartOf="@id/ll_captain_network">
 
             <ImageButton
                 android:id="@+id/ib_captain_pass"
-                android:layout_width="72dp"
+                android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
@@ -81,7 +134,7 @@
 
             <ImageButton
                 android:id="@+id/ib_captain_med"
-                android:layout_width="72dp"
+                android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
@@ -91,7 +144,7 @@
 
             <ImageButton
                 android:id="@+id/ib_captain_sport"
-                android:layout_width="72dp"
+                android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
@@ -108,10 +161,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_captain_info"
-
         android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp"
-        android:layout_marginBottom="32dp">
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="30dp">
 
         <RelativeLayout
             android:id="@+id/rl_assistant_photo"
@@ -141,26 +193,80 @@
         <TextView
             android:id="@+id/tv_assistant_name"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
+            android:layout_height="62dp"
             android:layout_marginStart="42dp"
             android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            android:layout_toStartOf="@id/ll_assistant_network"
             android:layout_toEndOf="@id/rl_assistant_photo"
             android:background="@drawable/button_big_bottom_gradient"
+            android:gravity="center"
             android:text="Ассистент"
             android:textAlignment="center"
             android:textAppearance="@style/Roboto"
-            android:textSize="35sp" />
+            android:textSize="30sp" />
+
+        <LinearLayout
+            android:id="@+id/ll_assistant_network"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="30dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/assistant_net1"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/facebook_icon" />
+
+            <ImageButton
+                android:id="@+id/assistant_net2"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/inst_icon" />
+
+            <ImageButton
+                android:id="@+id/assistant_net3"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/network_icon" />
+
+            <ImageButton
+                android:id="@+id/assistant_net4"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/play_icon" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_assistant_name"
             android:layout_marginStart="188dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_toStartOf="@id/ll_assistant_network">
 
             <ImageButton
                 android:id="@+id/ib_assistant_pass"
-                android:layout_width="72dp"
+                android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
@@ -170,7 +276,7 @@
 
             <ImageButton
                 android:id="@+id/ib_assistant_med"
-                android:layout_width="72dp"
+                android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
@@ -180,7 +286,7 @@
 
             <ImageButton
                 android:id="@+id/ib_assistant_sport"
-                android:layout_width="72dp"
+                android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
@@ -195,10 +301,11 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="76dp"
-        android:layout_above="@id/ll_reg_team_buttons"
+        android:layout_above="@id/grad_bottom"
         android:background="@drawable/light_gradient" />
 
     <View
+        android:id="@+id/grad_bottom"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:layout_alignTop="@id/ll_reg_team_buttons"
@@ -209,8 +316,9 @@
         android:id="@+id/ll_reg_team_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/button_end_reg"
+        android:layout_below="@id/rl_assistant_info"
         android:layout_marginStart="96dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="96dp"
         android:paddingTop="20dp">
 
@@ -248,9 +356,9 @@
         android:id="@+id/button_end_reg"
         android:layout_width="match_parent"
         android:layout_height="59dp"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/ll_reg_team_buttons"
         android:layout_marginStart="96dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="96dp"
         android:layout_marginBottom="40dp"
         android:background="@drawable/button_dark"
@@ -261,7 +369,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginStart="64dp"
-            android:text="@string/end_reg"
+            android:text="@string/confirm_reg"
             android:textAppearance="@style/Roboto"
             android:textSize="30sp" />
 
@@ -269,10 +377,21 @@
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:visibility="visible"
         android:layout_centerInParent="true"
-        style="?android:attr/progressBarStyleLarge"/>
+        android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/iv_photo"
+        android:layout_width="match_parent"
+        android:layout_height="700dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="96dp"
+        android:scaleType="centerCrop"
+        android:visibility="gone"/>
 
 </RelativeLayout>

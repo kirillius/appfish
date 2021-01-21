@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 public class Rod {
     private String id, distance, depth, attachment, rod, reel, line,
-            mounting, wire, bottom, press, landmark, time;
+            mounting, wire, bottom, press, landmark, time, date;
 
     public Rod(JSONObject obj) {
         if (obj != null) {
@@ -23,10 +23,29 @@ public class Rod {
                 press = obj.getString("press");
                 landmark = obj.getString("landmark");
                 time = obj.getString("time");
+                date = time.substring(0, time.indexOf("T"));
+                time = time.substring(time.indexOf("T") + 1);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public String[] getRodsAsStrings(){
+        String[] rods = new String[12];
+        rods[0] = distance;
+        rods[1] = depth;
+        rods[2] = attachment;
+        rods[3] = rod;
+        rods[4] = reel;
+        rods[5] = line;
+        rods[6] = mounting;
+        rods[7] = wire;
+        rods[8] = bottom;
+        rods[9] = press;
+        rods[10] = landmark;
+        rods[11] = time.substring(0, 5);
+        return rods;
     }
 
     public String getId() {

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,28 +23,26 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link StatisticsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class StatisticsFragment extends Fragment {
 
     private static final String ARG_PARAM = "param";
     private static final String TOURNAMENT_NAME = "name";
+    private static final String RESULT = "result";
 
     private JSONObject mStartParam;
     private String tournamentName;
+    private boolean result;
 
     public StatisticsFragment() {
         // Required empty public constructor
     }
 
-    public static StatisticsFragment newInstance(String json, String tournamentName) {
+    public static StatisticsFragment newInstance(String json, String tournamentName, boolean result) {
         StatisticsFragment fragment = new StatisticsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM, json);
         args.putString(TOURNAMENT_NAME, tournamentName);
+        args.putBoolean(RESULT, result);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,6 +57,7 @@ public class StatisticsFragment extends Fragment {
                 e.printStackTrace();
             }
             tournamentName = getArguments().getString(TOURNAMENT_NAME);
+            result = getArguments().getBoolean(RESULT);
         }
     }
 
@@ -98,6 +98,10 @@ public class StatisticsFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        LinearLayout llRes = view.findViewById(R.id.ll_result);
+        if (!result)
+            llRes.setVisibility(View.GONE);
 
         TextView resultCoun = view.findViewById(R.id.tv_result_stat_count);
         resultCoun.setText(Integer.toString(count));

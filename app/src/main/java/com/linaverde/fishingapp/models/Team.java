@@ -19,10 +19,10 @@ public class Team implements Comparable<Team> {
     private String pin;
     private String captainId;
     private String captainName;
-    private String captainPhoto;
     private String assistantId;
     private String assistantName;
-    private String assistantPhoto;
+    private String [] captainLinks;
+    private String [] assistantLinks;
 
     private JSONObject captainDocuments;
     private JSONObject assistantDocuments;
@@ -37,27 +37,25 @@ public class Team implements Comparable<Team> {
                 captainName = obj.getString("captainName");
                 assistantId = obj.getString("assistantId");
                 assistantName = obj.getString("assistantName");
-
                 if (obj.getString("logo").equals("")){
                     logo = null;
                 } else {
                     logo = obj.getString("logo");
                 }
-
-                if (obj.getString("captainPhoto").equals("")){
-                    captainPhoto = null;
-                } else {
-                    captainPhoto = obj.getString("captainPhoto");
-                }
-
-                if (obj.getString("assistantPhoto").equals("")){
-                    assistantPhoto = null;
-                } else {
-                    assistantPhoto = obj.getString("assistantPhoto");
-                }
-
                 captainDocuments = obj.getJSONObject("captainDocs");
                 assistantDocuments = obj.getJSONObject("assistantDocs");
+
+                captainLinks = new String[4];
+                captainLinks[0] = obj.getString("captainLink1");
+                captainLinks[1] = obj.getString("captainLink2");
+                captainLinks[2] = obj.getString("captainLink3");
+                captainLinks[3] = obj.getString("captainLink4");
+
+                assistantLinks = new String[4];
+                assistantLinks[0] = obj.getString("assistantLink1");
+                assistantLinks[1] = obj.getString("assistantLink2");
+                assistantLinks[2] = obj.getString("assistantLink3");
+                assistantLinks[3] = obj.getString("assistantLink4");
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -94,10 +92,6 @@ public class Team implements Comparable<Team> {
         return captainName;
     }
 
-    public String getCaptainPhoto() {
-        return captainPhoto;
-    }
-
     public String getAssistantId() {
         return assistantId;
     }
@@ -106,15 +100,19 @@ public class Team implements Comparable<Team> {
         return assistantName;
     }
 
-    public String getAssistantPhoto() {
-        return assistantPhoto;
-    }
-
     public JSONObject getCaptainDocuments() {
         return captainDocuments;
     }
 
     public JSONObject getAssistantDocuments() {
         return assistantDocuments;
+    }
+
+    public String[] getCaptainLinks() {
+        return captainLinks;
+    }
+
+    public String[] getAssistantLinks() {
+        return assistantLinks;
     }
 }

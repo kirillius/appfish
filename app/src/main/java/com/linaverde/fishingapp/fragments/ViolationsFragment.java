@@ -40,12 +40,14 @@ public class ViolationsFragment extends Fragment {
     private static final String TEAM = "team";
     private static final String PIN = "pin";
     private static final String SECTOR = "sector";
+    private static final String EDIT = "edit";
 
     private JSONArray violations;
     private JSONArray dict;
     private String stageId;
     private String teamId;
     private int sector;
+    private boolean edit;
 
     public ViolationsFragment() {
         // Required empty public constructor
@@ -56,7 +58,7 @@ public class ViolationsFragment extends Fragment {
     private String newTime = "";
     private String newId = "";
 
-    public static ViolationsFragment newInstance(String violations, String dict, String stage, String team, int sector) {
+    public static ViolationsFragment newInstance(String violations, String dict, String stage, String team, int sector, boolean edit) {
         ViolationsFragment fragment = new ViolationsFragment();
         Bundle args = new Bundle();
         args.putString(VIOLATIONS, violations);
@@ -64,6 +66,7 @@ public class ViolationsFragment extends Fragment {
         args.putString(STAGE, stage);
         args.putString(TEAM, team);
         args.putInt(SECTOR, sector);
+        args.putBoolean(EDIT, edit);
         fragment.setArguments(args);
         return fragment;
     }
@@ -77,6 +80,7 @@ public class ViolationsFragment extends Fragment {
             teamId = getArguments().getString(TEAM);
             stageId = getArguments().getString(STAGE);
             sector = getArguments().getInt(SECTOR);
+            edit = getArguments().getBoolean(EDIT);
             try {
                 violations = new JSONArray(getArguments().getString(VIOLATIONS));
                 dict = new JSONArray(getArguments().getString(DICTIONARY));
@@ -90,7 +94,7 @@ public class ViolationsFragment extends Fragment {
     ListView lvViolations;
     ImageView buttonAdd;
     ViolationAdapter adapter;
-    LinearLayout  sanction;
+    LinearLayout sanction;
     RelativeLayout confirm;
 
     @Override
@@ -104,7 +108,11 @@ public class ViolationsFragment extends Fragment {
         tvMatch = view.findViewById(R.id.tv_tournament_name);
         UserInfo userInfo = new UserInfo(getContext());
         tvPond.setText(userInfo.getPond());
-        tvSector.setText("Сектор " + Integer.toString(sector));
+        if (sector != -1) {
+            tvSector.setText("Сектор " + Integer.toString(sector));
+        } else {
+            tvSector.setVisibility(View.GONE);
+        }
         tvMatch.setText(userInfo.getMatchName());
 
         lvViolations = view.findViewById(R.id.lv_violations);
@@ -129,11 +137,11 @@ public class ViolationsFragment extends Fragment {
 
         //определяем меру пресечения
         boolean dis = false;
-        for (int i = 0; i < violationsArr.size(); i++){
+        for (int i = 0; i < violationsArr.size(); i++) {
             Violation curr = violationsArr.get(i);
-            for (int j = 0; j < dictArr.length; j++){
-                if (dictArr[j].getId().equals(curr.getViolationId())){
-                    if (dictArr[j].getSendOff() == 1){
+            for (int j = 0; j < dictArr.length; j++) {
+                if (dictArr[j].getId().equals(curr.getViolationId())) {
+                    if (dictArr[j].getSendOff() == 1) {
                         dis = true;
                         break;
                     }
@@ -174,6 +182,12 @@ public class ViolationsFragment extends Fragment {
             }
         };
 
+        if (!edit)
+            lvViolations.setEnabled(false);
+
+        if (!edit)
+            buttonAdd.setVisibility(View.GONE);
+
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -194,12 +208,15 @@ public class ViolationsFragment extends Fragment {
         adapter = new ViolationAdapter(getContext(), violationsArr, dictArr, violationListChangeListener);
         lvViolations.setAdapter(adapter);
 
+        if (!edit)
+            confirm.setVisibility(View.GONE);
+
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 JSONObject object = new JSONObject();
                 try {
-                    if (!violationsArr.get(changedPos).getId().equals("")){
+                    if (!violationsArr.get(changedPos).getId().equals("")) {
                         object.put("id", violationsArr.get(changedPos).getId());
                     }
                     if (!newId.equals("")) {
@@ -228,9 +245,6 @@ public class ViolationsFragment extends Fragment {
         if (context instanceof ViolationChangedRequestListener) {
             //init the listener
             listener = (ViolationChangedRequestListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement ViolationChangedRequestListener");
         }
     }
 

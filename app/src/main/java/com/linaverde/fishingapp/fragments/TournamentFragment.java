@@ -1,6 +1,7 @@
 package com.linaverde.fishingapp.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,17 +28,20 @@ public class TournamentFragment extends Fragment {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM = "param";
+    private static final String LINKS = "links";
 
     private JSONObject mStartParam;
+    private JSONObject links;
 
     public TournamentFragment() {
         // Required empty public constructor
     }
 
-    public static TournamentFragment newInstance(String json) {
+    public static TournamentFragment newInstance(String json, String links) {
         TournamentFragment fragment = new TournamentFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM, json);
+        args.putString(LINKS, links);
         fragment.setArguments(args);
         return fragment;
     }
@@ -47,6 +52,7 @@ public class TournamentFragment extends Fragment {
         if (getArguments() != null) {
             try {
                 mStartParam = new JSONObject(getArguments().getString(ARG_PARAM));
+                links = new JSONObject(getArguments().getString(LINKS));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -57,6 +63,7 @@ public class TournamentFragment extends Fragment {
     RelativeLayout rlRegisterTeam, rlDrawQueue, rlDrawSector, rlWeighting;
     RelativeLayout rlExchange, rlStatistics;
     UserInfo userInfo;
+    ImageView net1, net2, net3, net4;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -133,9 +140,72 @@ public class TournamentFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StatisticActivity.class);
                 Bundle args = new Bundle();
-                args.putString("info", mStartParam.toString());
+                try {
+                    args.putString("matchId", mStartParam.getString("matchId"));
+                    args.putString("teamId", "");
+                    args.putString("matchName",mStartParam.getString("matchName"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 intent.putExtras(args);
                 startActivity(intent);
+            }
+        });
+
+        net1 = view.findViewById(R.id.play);
+        net2 = view.findViewById(R.id.network);
+        net3 = view.findViewById(R.id.instagram);
+        net4 = view.findViewById(R.id.facebook);
+
+        net1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links.getString("Link1")));
+                    startActivity(browserIntent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        net2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links.getString("Link2")));
+                    startActivity(browserIntent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        net3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links.getString("Link3")));
+                    startActivity(browserIntent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        net4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links.getString("Link4")));
+                    startActivity(browserIntent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 

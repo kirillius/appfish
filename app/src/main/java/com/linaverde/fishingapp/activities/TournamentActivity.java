@@ -16,9 +16,11 @@ import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.fragments.TournamentFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
+import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
 import com.linaverde.fishingapp.services.NavigationHelper;
 import com.linaverde.fishingapp.services.ProtocolHelper;
+import com.linaverde.fishingapp.services.RequestHelper;
 import com.linaverde.fishingapp.services.UserInfo;
 
 import org.json.JSONException;
@@ -37,7 +39,7 @@ public class TournamentActivity extends FragmentActivity implements TopMenuEvent
 
         drawer = findViewById(R.id.drawer_layout);
         progressBar = findViewById(R.id.progress_bar);
-        progressBar.hide();
+        progressBar.show();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.bringToFront();
@@ -50,7 +52,6 @@ public class TournamentActivity extends FragmentActivity implements TopMenuEvent
         });
 
         Bundle b = getIntent().getExtras();
-        TournamentFragment JTFragment = TournamentFragment.newInstance(b.getString("info"));
         TopMenuFragment menuFragment = TopMenuFragment.newInstance(b.getString("info"));
         try {
             matchId = (new JSONObject(b.getString("info"))).getString("matchId");
@@ -60,11 +61,25 @@ public class TournamentActivity extends FragmentActivity implements TopMenuEvent
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.content_fragment, JTFragment);
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
-        if (!fragmentManager.isDestroyed())
-            fragmentTransaction.commit();
 
+
+        RequestHelper requestHelper = new RequestHelper(this);
+        requestHelper.executeGet("links", null, null, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                progressBar.hide();
+                TournamentFragment JTFragment = TournamentFragment.newInstance(b.getString("info"), json.toString());
+                fragmentTransaction.add(R.id.content_fragment, JTFragment);
+                if (!fragmentManager.isDestroyed())
+                    fragmentTransaction.commit();
+            }
+
+            @Override
+            public void onError(int responseCode) {
+
+            }
+        });
     }
 
     @Override

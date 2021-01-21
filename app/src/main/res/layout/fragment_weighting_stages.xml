@@ -31,7 +31,7 @@
         android:text="@string/tournament"
         android:textAlignment="center"
         android:textAppearance="@style/Roboto"
-        android:textSize="30sp" />
+        android:textSize="28sp" />
 
     <RelativeLayout
         android:id="@+id/weighting"

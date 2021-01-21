@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -59,6 +60,7 @@ public class WeightingSelectedTeamFragment extends Fragment {
 
     TextView tvPond, tvSector, tvMatch;
     UserInfo userInfo;
+    ImageView rods;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,6 +94,14 @@ public class WeightingSelectedTeamFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 listener.violationClicked(teamId, stageId, pin, sector);
+            }
+        });
+
+        rods = view.findViewById(R.id.icon_rods);
+        rods.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.rodsClicked(teamId);
             }
         });
 

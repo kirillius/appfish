@@ -1,26 +1,27 @@
 package com.linaverde.fishingapp.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.activities.StatisticActivity;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
-import com.linaverde.fishingapp.interfaces.DocumentClickListener;
+import com.linaverde.fishingapp.interfaces.OneTeamClickListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
-import com.linaverde.fishingapp.interfaces.TeamListClickListener;
-import com.linaverde.fishingapp.models.Team;
 import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.ImageHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
@@ -34,30 +35,34 @@ public class RegisterOneTeamFragment extends Fragment {
     private static final String ASSISTANT = "assistant";
     private static final String CAPTAINID = "captainID";
     private static final String ASSISTANTID = "assistantID";
-    private static final String CAPTAIN_PHOTO = "captain_photo";
-    private static final String ASSISTANT_PHOTO = "assistant_photo";
     private static final String CAPTAIN_DOCS = "captain_docs";
     private static final String ASSISTANT_DOCS = "assistant_docs";
     private static final String MATCH_ID = "matchID";
     private static final String TEAM_ID = "teamID";
+    private static final String CAPTAIN_LINK = "captainLink";
+    private static final String ASSISTANT_LINK = "assistantLink";
+    private static final String MATCH_NAME = "matchName";
 
+    private String matchName;
     private String captainName;
     private String assistantName;
     private String captainId;
     private String assistantId;
-    private String captainPhoto;
-    private String assistantPhoto;
+    private String captainPhoto = "";
+    private String assistantPhoto = "";
     private JSONObject captainDocs;
     private JSONObject assistantDocs;
     private String matchId;
     private String teamId;
+    private String[] captainLinks;
+    private String[] assistantLinks;
 
+    OneTeamClickListener listener;
 
-    DocumentClickListener listener;
-
-    public static RegisterOneTeamFragment newInstance(String captain, String captainId, String captainPhoto,
-                                                      String assistantName, String assistantId, String assistantPhoto,
-                                                      String captainDocs, String assistantDocs, String matchId, String teamId) {
+    public static RegisterOneTeamFragment newInstance(String captain, String captainId,
+                                                      String assistantName, String assistantId,
+                                                      String captainDocs, String assistantDocs, String matchId, String teamId,
+                                                      String[] captainLinks, String[] assistantLinks, String matchName) {
 
         RegisterOneTeamFragment fragment = new RegisterOneTeamFragment();
         Bundle args = new Bundle();
@@ -65,12 +70,13 @@ public class RegisterOneTeamFragment extends Fragment {
         args.putString(ASSISTANT, assistantName);
         args.putString(CAPTAINID, captainId);
         args.putString(ASSISTANTID, assistantId);
-        args.putString(CAPTAIN_PHOTO, captainPhoto);
-        args.putString(ASSISTANT_PHOTO, assistantPhoto);
+        args.putStringArray(CAPTAIN_LINK, captainLinks);
+        args.putStringArray(ASSISTANT_LINK, assistantLinks);
         args.putString(CAPTAIN_DOCS, captainDocs);
         args.putString(ASSISTANT_DOCS, assistantDocs);
         args.putString(MATCH_ID, matchId);
         args.putString(TEAM_ID, teamId);
+        args.putString(MATCH_NAME, matchName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -84,10 +90,11 @@ public class RegisterOneTeamFragment extends Fragment {
             assistantName = getArguments().getString(ASSISTANT);
             captainId = getArguments().getString(CAPTAINID);
             assistantId = getArguments().getString(ASSISTANTID);
-            captainPhoto = getArguments().getString(CAPTAIN_PHOTO);
-            assistantPhoto = getArguments().getString(ASSISTANT_PHOTO);
             matchId = getArguments().getString(MATCH_ID);
             teamId = getArguments().getString(TEAM_ID);
+            captainLinks = getArguments().getStringArray(CAPTAIN_LINK);
+            assistantLinks = getArguments().getStringArray(ASSISTANT_LINK);
+            matchName = getArguments().getString(MATCH_NAME);
 
             try {
                 captainDocs = new JSONObject(getArguments().getString(CAPTAIN_DOCS));
@@ -110,7 +117,7 @@ public class RegisterOneTeamFragment extends Fragment {
     RelativeLayout buttonEndReg;
     ContentLoadingProgressBar progressBar;
 
-
+    TextView statistics, violations;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -123,14 +130,54 @@ public class RegisterOneTeamFragment extends Fragment {
         tvAssistantName.setText(assistantName);
         ivCaptainPhoto = view.findViewById(R.id.iv_captain_photo);
         ivAssistantPhoto = view.findViewById(R.id.iv_assistant_photo);
-        Log.d("Log Photo", captainPhoto);
-        Log.d("Log Photo", assistantPhoto);
-        if (captainPhoto != null && !captainPhoto.equals("null") && !captainPhoto.equals("")){
-            ivCaptainPhoto.setImageBitmap(ImageHelper.decodeToImage(captainPhoto));
-        }
-        if (assistantPhoto != null && !assistantPhoto.equals("null") && !assistantPhoto.equals("")){
-            ivAssistantPhoto.setImageBitmap(ImageHelper.decodeToImage(assistantPhoto));
-        }
+
+        ImageView photo = view.findViewById(R.id.iv_photo);
+        photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                photo.setVisibility(View.GONE);
+            }
+        });
+
+        RequestHelper requestHelper = new RequestHelper(getContext());
+        requestHelper.executeGet("teams", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                try {
+                    json = json.getJSONObject("teams");
+                    captainPhoto = json.getString("captainPhoto");
+                    assistantPhoto = json.getString("assistantPhoto");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (captainPhoto != null && !captainPhoto.equals("null") && !captainPhoto.equals("")) {
+                    ivCaptainPhoto.setImageBitmap(ImageHelper.decodeToImage(captainPhoto));
+                    ivCaptainPhoto.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            photo.setImageBitmap(ImageHelper.decodeToImage(captainPhoto));
+                            photo.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+                if (assistantPhoto != null && !assistantPhoto.equals("null") && !assistantPhoto.equals("")) {
+                    ivAssistantPhoto.setImageBitmap(ImageHelper.decodeToImage(assistantPhoto));
+                    ivAssistantPhoto.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            photo.setImageBitmap(ImageHelper.decodeToImage(assistantPhoto));
+                            photo.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onError(int responseCode) {
+
+            }
+        });
 
         captainPass = view.findViewById(R.id.ib_captain_pass);
         captainMed = view.findViewById(R.id.ib_captain_med);
@@ -146,33 +193,32 @@ public class RegisterOneTeamFragment extends Fragment {
         progressBar.hide();
 
         try {
-            if (captainDocs.getBoolean("doc1")){
+            if (captainDocs.getBoolean("doc1")) {
                 captainPass.setImageResource(R.drawable.document_check);
             } else {
                 captainPass.setEnabled(false);
             }
-            if (captainDocs.getBoolean("doc2")){
+            if (captainDocs.getBoolean("doc2")) {
                 captainMed.setImageResource(R.drawable.document_check);
             } else {
                 captainMed.setEnabled(false);
             }
-            if (captainDocs.getBoolean("doc3")){
+            if (captainDocs.getBoolean("doc3")) {
                 captainSport.setImageResource(R.drawable.document_check);
-            }
-            else {
+            } else {
                 captainSport.setEnabled(false);
             }
-            if (assistantDocs.getBoolean("doc1")){
+            if (assistantDocs.getBoolean("doc1")) {
                 assistantPass.setImageResource(R.drawable.document_check);
             } else {
                 assistantPass.setEnabled(false);
             }
-            if (assistantDocs.getBoolean("doc2")){
+            if (assistantDocs.getBoolean("doc2")) {
                 assistantMed.setImageResource(R.drawable.document_check);
             } else {
                 assistantMed.setEnabled(false);
             }
-            if (assistantDocs.getBoolean("doc2")){
+            if (assistantDocs.getBoolean("doc3")) {
                 assistantSport.setImageResource(R.drawable.document_check);
             } else {
                 assistantSport.setEnabled(false);
@@ -212,14 +258,118 @@ public class RegisterOneTeamFragment extends Fragment {
         assistantMed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onDocumentClicked(assistantId, 1);
+                listener.onDocumentClicked(assistantId, 2);
             }
         });
 
         assistantSport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onDocumentClicked(assistantId, 1);
+                listener.onDocumentClicked(assistantId, 3);
+            }
+        });
+
+        view.findViewById(R.id.captain_net1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!captainLinks[0].equals("")) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(captainLinks[0]));
+                    startActivity(browserIntent);
+                }
+            }
+        });
+
+        view.findViewById(R.id.captain_net2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!captainLinks[1].equals("")) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(captainLinks[1]));
+                    startActivity(browserIntent);
+                }
+            }
+        });
+
+        view.findViewById(R.id.captain_net3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!captainLinks[2].equals("")) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(captainLinks[2]));
+                    startActivity(browserIntent);
+                }
+            }
+        });
+
+        view.findViewById(R.id.captain_net4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!captainLinks[3].equals("")) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(captainLinks[3]));
+                    startActivity(browserIntent);
+                }
+            }
+        });
+
+        view.findViewById(R.id.assistant_net1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!assistantLinks[0].equals("")) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(assistantLinks[0]));
+                    startActivity(browserIntent);
+                }
+            }
+        });
+
+        view.findViewById(R.id.assistant_net2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!assistantLinks[1].equals("")) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(assistantLinks[1]));
+                    startActivity(browserIntent);
+                }
+            }
+        });
+
+        view.findViewById(R.id.assistant_net3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!assistantLinks[2].equals("")) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(assistantLinks[2]));
+                    startActivity(browserIntent);
+                }
+            }
+        });
+
+        view.findViewById(R.id.assistant_net4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!assistantLinks[3].equals("")) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(assistantLinks[3]));
+                    startActivity(browserIntent);
+                }
+            }
+        });
+
+        statistics = view.findViewById(R.id.tv_statistics);
+
+        statistics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), StatisticActivity.class);
+                Bundle b = new Bundle();
+                b.putString("matchId", matchId);
+                b.putString("teamId", teamId);
+                b.putString("matchName", matchName);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
+
+        violations = view.findViewById(R.id.tv_violations);
+
+        violations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
@@ -238,7 +388,7 @@ public class RegisterOneTeamFragment extends Fragment {
                                 progressBar.hide();
                                 try {
                                     String error = json.getString("error");
-                                    if (!error.equals("") && !error.equals("null")){
+                                    if (!error.equals("") && !error.equals("null")) {
                                         DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.error) + error, null);
                                     } else {
                                         DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.end_reg_team), null);
@@ -272,9 +422,9 @@ public class RegisterOneTeamFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof DocumentClickListener) {
+        if (context instanceof OneTeamClickListener) {
             //init the listener
-            listener = (DocumentClickListener) context;
+            listener = (OneTeamClickListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement DocumentClickListener");

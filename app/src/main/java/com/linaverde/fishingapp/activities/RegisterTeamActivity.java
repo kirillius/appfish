@@ -20,10 +20,8 @@ import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.fragments.LogoTopMenuFragment;
 import com.linaverde.fishingapp.fragments.RegisterOneTeamFragment;
 import com.linaverde.fishingapp.fragments.RegisterTeamListFragment;
-import com.linaverde.fishingapp.fragments.StatisticsFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
-import com.linaverde.fishingapp.fragments.TournamentFragment;
-import com.linaverde.fishingapp.interfaces.DocumentClickListener;
+import com.linaverde.fishingapp.interfaces.OneTeamClickListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
@@ -35,7 +33,7 @@ import com.linaverde.fishingapp.services.RequestHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEventListener, TeamListClickListener, DocumentClickListener {
+public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEventListener, TeamListClickListener, OneTeamClickListener {
 
     DrawerLayout drawer;
     FragmentTransaction fragmentTransaction;
@@ -46,7 +44,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
 
     RequestHelper requestHelper;
 
-    String matchId;
+    String matchId, matchName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +80,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
 
         try {
             matchId = (new JSONObject(b.getString("info"))).getString("matchId");
+            matchName = (new JSONObject(b.getString("info"))).getString("matchName");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -126,9 +125,10 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
     @Override
     public void onTeamClicked(Team selectedTeam) {
 
-        RegisterOneTeamFragment ROTFragment = RegisterOneTeamFragment.newInstance(selectedTeam.getCaptainName(), selectedTeam.getCaptainId(), selectedTeam.getCaptainPhoto(),
-                selectedTeam.getAssistantName(), selectedTeam.getAssistantId(), selectedTeam.getAssistantPhoto(),
-                selectedTeam.getCaptainDocuments().toString(), selectedTeam.getAssistantDocuments().toString(), matchId, selectedTeam.getId());
+        RegisterOneTeamFragment ROTFragment = RegisterOneTeamFragment.newInstance(selectedTeam.getCaptainName(), selectedTeam.getCaptainId(),
+                selectedTeam.getAssistantName(), selectedTeam.getAssistantId(),
+                selectedTeam.getCaptainDocuments().toString(), selectedTeam.getAssistantDocuments().toString(), matchId, selectedTeam.getId(),
+                selectedTeam.getCaptainLinks(), selectedTeam.getAssistantLinks(), matchName);
         Log.d("On team clicked", selectedTeam.getName());
         LogoTopMenuFragment LTMFragment = LogoTopMenuFragment.newInstance(selectedTeam.getLogo(), selectedTeam.getName());
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -151,6 +151,11 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
         b.putString("user", userId);
         intent.putExtras(b);
         startActivity(intent);
+    }
+
+    @Override
+    public void onViolationClicked() {
+
     }
 
 

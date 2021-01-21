@@ -84,8 +84,7 @@
             android:text="@string/count"
             android:textAlignment="center"
             android:textAppearance="@style/Roboto"
-            android:textSize="24sp"
-            />
+            android:textSize="24sp" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -115,9 +114,9 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_gravity="end">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -160,7 +159,7 @@
     <RelativeLayout
         android:id="@+id/result"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="160dp"
         android:layout_alignParentBottom="true">
 
         <View
@@ -170,6 +169,7 @@
             android:background="@drawable/dark_gradient" />
 
         <LinearLayout
+            android:id="@+id/ll_result"
             android:layout_width="match_parent"
             android:layout_height="46dp"
             android:layout_marginStart="96dp"
@@ -221,7 +221,20 @@
                 android:textSize="25sp" />
         </LinearLayout>
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="96dp"
+            android:layout_below="@id/ll_result"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="96dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/stats_comment" />
 
     </RelativeLayout>
+
+
 
 </RelativeLayout>

@@ -1,0 +1,17 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/grid_item_back">
+
+    <TextView
+        android:id="@+id/tv_grid_item"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textAppearance="@style/Roboto"
+        android:textSize="20sp"
+        android:layout_margin="5dp"
+        android:background="@null"/>
+</LinearLayout>

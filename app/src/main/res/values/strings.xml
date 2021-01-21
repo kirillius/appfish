@@ -25,6 +25,7 @@
     <string name="number">№ п/п</string>
     <string name="teams">Команды</string>
     <string name="end_reg">Завершение регистрации</string>
+    <string name="confirm_reg">Подвтердить регистрацию</string>
     <string name="end_reg_match_question">Вы уверены, что хотите завершить регистрацию турнира?</string>
     <string name="end_reg_team_question">Вы уверены, что хотите завершить регистрацию команды?</string>
     <string name="end_reg_match">Регистрация турнира успешно завершена</string>
@@ -87,8 +88,10 @@
         <item>Ориентир</item>
         <item>Время</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="values">Значения</string>
+
+    <string name="register_rods">Регистрация удочек</string>
 
 
 </resources>

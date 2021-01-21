@@ -81,7 +81,7 @@
             android:layout_weight="1">
 
             <ImageView
-                android:id="@+id/icon_gps"
+                android:id="@+id/icon_rods"
                 android:layout_width="65dp"
                 android:layout_height="58dp"
                 android:layout_gravity="start"

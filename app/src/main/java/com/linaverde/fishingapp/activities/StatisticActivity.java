@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
@@ -30,13 +31,14 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
 
     FragmentTransaction fragmentTransaction;
     DrawerLayout drawer;
-    String matchId;
+    String matchId, teamId, matchName;
     ContentLoadingProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_three_fragments);
+        setContentView(R.layout.activity_two_fragments);
 
         Bundle b = getIntent().getExtras();
         drawer = findViewById(R.id.drawer_layout);
@@ -60,36 +62,53 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
         fragmentTransaction.commit();
 
-        try {
-            matchId = (new JSONObject(b.getString("info"))).getString("matchId");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        matchId = b.getString("matchId");
+        teamId = b.getString("teamId");
+        matchName = b.getString("matchName");
 
-        RequestHelper requestHelper = new RequestHelper(this);
-        requestHelper.executeGet("stats", new String[]{"match"}, new String[]{matchId}, new RequestListener() {
-            @Override
-            public void onComplete(JSONObject json) {
-                Log.d("Test auth", "Request fine");
-                StatisticsFragment statisticsFragment = null;
-                try {
-                    statisticsFragment = StatisticsFragment.newInstance(json.toString(),
-                            (new JSONObject(b.getString("info"))).getString("matchName"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if (teamId.equals("")) {
+            RequestHelper requestHelper = new RequestHelper(this);
+            requestHelper.executeGet("stats", new String[]{"match"}, new String[]{matchId}, new RequestListener() {
+                @Override
+                public void onComplete(JSONObject json) {
+                    Log.d("Test auth", "Request fine");
+                    StatisticsFragment statisticsFragment = null;
+
+                    statisticsFragment = StatisticsFragment.newInstance(json.toString(), matchName, true);
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.add(R.id.content_fragment, statisticsFragment);
+                    if (!fragmentManager.isDestroyed())
+                        fragmentTransaction.commit();
+                    progressBar.hide();
                 }
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.content_fragment, statisticsFragment);
-                if (!fragmentManager.isDestroyed())
-                    fragmentTransaction.commit();
-                progressBar.hide();
-            }
 
-            @Override
-            public void onError(int responseCode) {
-                DialogBuilder.createDefaultDialog(StatisticActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
-            }
-        });
+                @Override
+                public void onError(int responseCode) {
+                    DialogBuilder.createDefaultDialog(StatisticActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+                }
+            });
+        } else {
+            RequestHelper requestHelper = new RequestHelper(this);
+            requestHelper.executeGet("stats", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
+                @Override
+                public void onComplete(JSONObject json) {
+                    Log.d("Test auth", "Request fine");
+                    StatisticsFragment statisticsFragment = null;
+
+                    statisticsFragment = StatisticsFragment.newInstance(json.toString(), matchName, false);
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.add(R.id.content_fragment, statisticsFragment);
+                    if (!fragmentManager.isDestroyed())
+                        fragmentTransaction.commit();
+                    progressBar.hide();
+                }
+
+                @Override
+                public void onError(int responseCode) {
+                    DialogBuilder.createDefaultDialog(StatisticActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+                }
+            });
+        }
 
     }
 

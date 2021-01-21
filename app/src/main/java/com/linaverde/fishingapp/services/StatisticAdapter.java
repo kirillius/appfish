@@ -46,13 +46,33 @@ public class StatisticAdapter extends ArrayAdapter<JSONObject> {
             count.setText(Integer.toString(stat.getInt("quantity")));
             avr.setText(Integer.toString(stat.getInt("avgWeight")));
             sum.setText(Integer.toString(stat.getInt("maxWeight")));
-            if (stat.getInt("mark") == 1){
-                rowView.setBackground(context.getDrawable(R.drawable.stat_back_red));
-            } else if (stat.getInt("mark") == 2) {
-                rowView.setBackground(context.getDrawable(R.drawable.stat_back_green));
-            } else if (stat.getInt("mark") == 3) {
-                rowView.setBackground(context.getDrawable(R.drawable.stat_back_yellow));
+            int mark = stat.getInt("mark");
+            switch (mark){
+                case 1:
+                    rowView.setBackground(context.getDrawable(R.drawable.stat_back_red));
+                    break;
+                case 2:
+                    rowView.setBackground(context.getDrawable(R.drawable.stat_back_green));
+                    break;
+                case 3:
+                    rowView.setBackground(context.getDrawable(R.drawable.stat_back_yellow));
+                    break;
+                case 4:
+                    rowView.setBackground(context.getDrawable(R.drawable.stats_multicolor));
+                    break;
+                case 5:
+                    rowView.setBackground(context.getDrawable(R.drawable.stats_red_green));
+                    break;
+                case 6:
+                    rowView.setBackground(context.getDrawable(R.drawable.stats_red_yellow));
+                    break;
+                case 7:
+                    rowView.setBackground(context.getDrawable(R.drawable.stats_yellow_green));
+                    break;
+                default:
+                    break;
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
