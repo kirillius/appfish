@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="2">
+        android:layout_weight="3">
 
         <TextView
             android:id="@+id/tv_stat_place"
@@ -58,9 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/count"
-        android:layout_gravity="center_vertical|end"
-        android:textAlignment="textEnd"
-        android:layout_marginEnd="30dp"
+        android:layout_gravity="center"
+        android:textAlignment="center"
         android:textAppearance="@style/Roboto"
         android:textSize="22sp" />
 
@@ -68,8 +67,8 @@
         android:id="@+id/tv_stat_avr"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|end"
-        android:textAlignment="textEnd"
+        android:layout_gravity="center"
+        android:textAlignment="center"
         android:layout_weight="1"
         android:text="@string/weigh"
         android:textAppearance="@style/Roboto"
@@ -83,7 +82,7 @@
         android:text="@string/weigh"
         android:layout_gravity="center_vertical|end"
         android:textAlignment="textEnd"
-        android:layout_marginEnd="72dp"
+        android:layout_marginEnd="55dp"
         android:textAppearance="@style/Roboto"
         android:textSize="22sp" />
 

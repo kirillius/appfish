@@ -21,14 +21,17 @@ import com.linaverde.fishingapp.fragments.LogoTopMenuFragment;
 import com.linaverde.fishingapp.fragments.RegisterOneTeamFragment;
 import com.linaverde.fishingapp.fragments.RegisterTeamListFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
+import com.linaverde.fishingapp.fragments.ViolationsFragment;
 import com.linaverde.fishingapp.interfaces.OneTeamClickListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
 import com.linaverde.fishingapp.models.Team;
+import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.NavigationHelper;
 import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
+import com.linaverde.fishingapp.services.UserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -142,8 +145,40 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
     }
 
     @Override
-    public void onViolationClicked() {
+    public void onViolationClicked(String teamId) {
+        progressBar.show();
+        requestHelper.executeGet("fouls", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                progressBar.hide();
+               // UserInfo userInfo = new UserInfo(RegisterTeamActivity.this);
+                try {
+                    //boolean edit = userInfo.getUserType() == 1;
+                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                        ViolationsFragment VFragment = ViolationsFragment.newInstance(json.getJSONArray("fouls").toString(), json.getJSONArray("dictionary").toString(),
+                                null, teamId, -1, false);
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                        fragmentTransaction.replace(R.id.content_fragment, VFragment);
+                        fragmentTransaction.addToBackStack("WeightingStages");
+                        if (!fragmentManager.isDestroyed())
+                            fragmentTransaction.commit();
+                    } else {
+                        DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), json.getString("error"), null);
+                    }
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+            }
+        });
     }
 
 
@@ -180,11 +215,15 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
     @Override
     public void onBackPressed() {
         progressBar.hide();
+
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 0) {
             finish();
         } else {
             getSupportFragmentManager().popBackStack();
+            if (count == 1){
+                bottomFragmentContainer.setVisibility(View.VISIBLE);
+            }
         }
     }
 

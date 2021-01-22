@@ -11,7 +11,7 @@
         android:layout_weight="2"
         android:textAlignment="textStart"
         android:textAppearance="@style/Roboto"
-        android:textSize="26sp" />
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/tv_stage_status"
@@ -21,6 +21,6 @@
         android:background="@drawable/button_bottom_gradient"
         android:textAlignment="center"
         android:textAppearance="@style/Roboto"
-        android:textSize="26sp" />
+        android:textSize="25sp" />
 
 </LinearLayout>

@@ -23,6 +23,7 @@ import com.linaverde.fishingapp.models.TeamsQueue;
 import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.QueueAdapter;
 import com.linaverde.fishingapp.services.RequestHelper;
+import com.linaverde.fishingapp.services.UserInfo;
 import com.linaverde.fishingapp.services.WeightingTeamListAdapter;
 
 import org.json.JSONArray;
@@ -117,46 +118,51 @@ public class WeightingTeamListFragment extends Fragment {
             e.printStackTrace();
         }
 
-        endWeighting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), getString(R.string.end_weighting_question), new CompleteActionListener() {
-                    @Override
-                    public void onOk(String input) {
-                        progressBar.show();
-                        RequestHelper requestHelper = new RequestHelper(getContext());
-                        requestHelper.executePost("stageclose", new String[]{"stage"}, new String[]{stageId}, null, new RequestListener() {
-                            @Override
-                            public void onComplete(JSONObject json) {
-                                progressBar.hide();
-                                try {
-                                    String error = json.getString("error");
-                                    if (!error.equals("") && !error.equals("null")) {
-                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.error) + error, null);
-                                    } else {
-                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.end_weighting_success), null);
+        UserInfo userInfo = new UserInfo(getContext());
+        if (userInfo.getUserType() == 1) {
+            endWeighting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), getString(R.string.end_weighting_question), new CompleteActionListener() {
+                        @Override
+                        public void onOk(String input) {
+                            progressBar.show();
+                            RequestHelper requestHelper = new RequestHelper(getContext());
+                            requestHelper.executePost("stageclose", new String[]{"stage"}, new String[]{stageId}, null, new RequestListener() {
+                                @Override
+                                public void onComplete(JSONObject json) {
+                                    progressBar.hide();
+                                    try {
+                                        String error = json.getString("error");
+                                        if (!error.equals("") && !error.equals("null")) {
+                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.error) + error, null);
+                                        } else {
+                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.end_weighting_success), null);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+
                                 }
 
-                            }
+                                @Override
+                                public void onError(int responseCode) {
+                                    progressBar.hide();
+                                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
+                                }
+                            });
+                        }
 
-                            @Override
-                            public void onError(int responseCode) {
-                                progressBar.hide();
-                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
-                            }
-                        });
-                    }
+                        @Override
+                        public void onCancel() {
 
-                    @Override
-                    public void onCancel() {
-
-                    }
-                });
-            }
-        });
+                        }
+                    });
+                }
+            });
+        }else {
+            endWeighting.setVisibility(View.GONE);
+        }
 
         return view;
     }

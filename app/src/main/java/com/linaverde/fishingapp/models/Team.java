@@ -21,6 +21,7 @@ public class Team implements Comparable<Team> {
     private String captainName;
     private String assistantId;
     private String assistantName;
+    private boolean checkIn;
 
     private JSONObject captainDocuments;
     private JSONObject assistantDocuments;
@@ -42,8 +43,7 @@ public class Team implements Comparable<Team> {
                 }
                 captainDocuments = obj.getJSONObject("captainDocs");
                 assistantDocuments = obj.getJSONObject("assistantDocs");
-
-
+                checkIn = obj.getBoolean("checkin");
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -94,5 +94,9 @@ public class Team implements Comparable<Team> {
 
     public JSONObject getAssistantDocuments() {
         return assistantDocuments;
+    }
+
+    public boolean getCheckIn(){
+        return checkIn;
     }
 }

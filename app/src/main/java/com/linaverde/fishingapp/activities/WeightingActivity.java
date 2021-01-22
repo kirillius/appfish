@@ -253,7 +253,41 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
         });
     }
 
+    @Override
+    public void rodsClicked(String teamId) {
+        progressBar.show();
+        requestHelper.executeGet("rods", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                progressBar.hide();
+                try {
+                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                        RodsFragment RFragment = RodsFragment.newInstance(json.toString());
+                        RodTopFragment RTFragment = new RodTopFragment();
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                        fragmentTransaction.replace(R.id.content_fragment, RFragment);
+                        fragmentTransaction.replace(R.id.top_menu_fragment, RTFragment);
+                        fragmentTransaction.addToBackStack("WeightingStages");
+                        if (!fragmentManager.isDestroyed())
+                            fragmentTransaction.commit();
+                    } else {
+                        DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
+                    }
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+            }
+        });
+    }
 
     @Override
     public void fishChangedRequest(String stageId, String teamId, String pin, String fish, int sector) {

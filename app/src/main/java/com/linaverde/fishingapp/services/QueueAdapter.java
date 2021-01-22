@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -51,6 +52,8 @@ public class QueueAdapter extends ArrayAdapter<TeamsQueue> {
         if (logoString != null && !logoString.equals("null") && !logoString.equals("")) {
             logo.setImageBitmap(ImageHelper.decodeToImage(logoString));
         }
+        ImageView checkIn = (ImageView) rowView.findViewById(R.id.iv_team_checkin);
+        checkIn.setVisibility(View.GONE);
 
         return rowView;
     }

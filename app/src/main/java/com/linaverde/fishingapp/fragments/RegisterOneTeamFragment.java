@@ -124,6 +124,7 @@ public class RegisterOneTeamFragment extends Fragment {
         tvAssistantName.setText(assistantName);
         ivCaptainPhoto = view.findViewById(R.id.iv_captain_photo);
         ivAssistantPhoto = view.findViewById(R.id.iv_assistant_photo);
+        progressBar = view.findViewById(R.id.progress_bar);
 
         ImageView photo = view.findViewById(R.id.iv_photo);
         photo.setOnClickListener(new View.OnClickListener() {
@@ -134,9 +135,11 @@ public class RegisterOneTeamFragment extends Fragment {
         });
 
         RequestHelper requestHelper = new RequestHelper(getContext());
+        progressBar.show();
         requestHelper.executeGet("teams", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
             @Override
             public void onComplete(JSONObject json) {
+                progressBar.hide();
                 try {
                     json = json.getJSONObject("teams");
                     captainPhoto = json.getString("captainPhoto");
@@ -259,7 +262,7 @@ public class RegisterOneTeamFragment extends Fragment {
 
             @Override
             public void onError(int responseCode) {
-
+                progressBar.hide();
             }
         });
 
@@ -272,9 +275,6 @@ public class RegisterOneTeamFragment extends Fragment {
         assistantSport = view.findViewById(R.id.ib_assistant_sport);
 
         buttonEndReg = view.findViewById(R.id.button_end_reg);
-
-        progressBar = view.findViewById(R.id.progress_bar);
-        progressBar.hide();
 
         try {
             if (captainDocs.getBoolean("doc1")) {
@@ -373,7 +373,7 @@ public class RegisterOneTeamFragment extends Fragment {
         violations.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                listener.onViolationClicked(teamId);
             }
         });
 

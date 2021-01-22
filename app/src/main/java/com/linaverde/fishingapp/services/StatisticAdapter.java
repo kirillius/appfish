@@ -45,7 +45,7 @@ public class StatisticAdapter extends ArrayAdapter<JSONObject> {
             sector.setText(stat.getString("teamName"));
             count.setText(Integer.toString(stat.getInt("quantity")));
             avr.setText(Integer.toString(stat.getInt("avgWeight")));
-            sum.setText(Integer.toString(stat.getInt("maxWeight")));
+            sum.setText(Integer.toString(stat.getInt("weight")));
             int mark = stat.getInt("mark");
             switch (mark){
                 case 1:

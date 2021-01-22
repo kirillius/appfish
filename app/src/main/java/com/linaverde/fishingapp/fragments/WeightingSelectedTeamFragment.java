@@ -60,6 +60,7 @@ public class WeightingSelectedTeamFragment extends Fragment {
 
     TextView tvPond, tvSector, tvMatch;
     UserInfo userInfo;
+    ImageView rod;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,6 +94,15 @@ public class WeightingSelectedTeamFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 listener.violationClicked(teamId, stageId, pin, sector);
+            }
+        });
+
+        rod = view.findViewById(R.id.icon_rods);
+
+        rod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.rodsClicked(teamId);
             }
         });
 

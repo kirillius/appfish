@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -40,6 +41,7 @@ public class TeamsAdapter extends ArrayAdapter<Team> {
         View rowView = inflater.inflate(R.layout.teams_list_item, parent, false);
         TextView number = (TextView) rowView.findViewById(R.id.tv_team_number);
         TextView name = (TextView) rowView.findViewById(R.id.tv_team_name);
+        ImageView checkIn = (ImageView) rowView.findViewById(R.id.iv_team_checkin);
         PorterShapeImageView logo = (PorterShapeImageView) rowView.findViewById(R.id.iv_team_logo);
 
         Team team = values.get(pos);
@@ -49,6 +51,10 @@ public class TeamsAdapter extends ArrayAdapter<Team> {
         String logoString = team.getLogo();
         if (logoString != null && !logoString.equals("null") && !logoString.equals("")) {
             logo.setImageBitmap(ImageHelper.decodeToImage(logoString));
+        }
+
+        if (team.getCheckIn()){
+            checkIn.setImageDrawable(context.getDrawable(R.drawable.team_check));
         }
 
         return rowView;
