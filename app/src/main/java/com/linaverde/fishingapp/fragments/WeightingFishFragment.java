@@ -50,6 +50,7 @@ public class WeightingFishFragment extends Fragment {
     private String pin;
     private int sector;
 
+
     private boolean fishChanged = false;
     private int changedPos = -1;
     private int newWeight = -1;
@@ -133,19 +134,25 @@ public class WeightingFishFragment extends Fragment {
         adapter = new FishAdapter(getContext(), fishesArr, dictArr);
         lvFishes.setAdapter(adapter);
 
-        lvFishes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                listener.fishChanged(adapter.getItem(position).toString(), dict.toString(), pin, teamId, stageId, sector);
-            }
-        });
+        if (userInfo.getUserType() == 1)
+            lvFishes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    listener.fishChanged(adapter.getItem(position).toString(), dict.toString(), pin, teamId, stageId, sector);
+                }
+            });
 
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.fishAdded(dict.toString(), pin, teamId, stageId, sector);
-            }
-        });
+        if (userInfo.getUserType() == 1) {
+            buttonAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.fishAdded(dict.toString(), pin, teamId, stageId, sector);
+                }
+            });
+        } else {
+            buttonAdd.setVisibility(View.GONE);
+            lvFishes.setEnabled(false);
+        }
 
         return view;
     }

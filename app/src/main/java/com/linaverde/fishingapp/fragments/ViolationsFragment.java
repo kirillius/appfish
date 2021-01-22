@@ -38,7 +38,6 @@ public class ViolationsFragment extends Fragment {
     private static final String DICTIONARY = "dict";
     private static final String STAGE = "stage";
     private static final String TEAM = "team";
-    private static final String PIN = "pin";
     private static final String SECTOR = "sector";
     private static final String EDIT = "edit";
 
@@ -136,22 +135,27 @@ public class ViolationsFragment extends Fragment {
         }
 
         //определяем меру пресечения
-        boolean dis = false;
-        for (int i = 0; i < violationsArr.size(); i++) {
-            Violation curr = violationsArr.get(i);
-            for (int j = 0; j < dictArr.length; j++) {
-                if (dictArr[j].getId().equals(curr.getViolationId())) {
-                    if (dictArr[j].getSendOff() == 1) {
-                        dis = true;
-                        break;
+
+        if (violationsArr.size() > 0) {
+            boolean dis = false;
+            for (int i = 0; i < violationsArr.size(); i++) {
+                Violation curr = violationsArr.get(i);
+                for (int j = 0; j < dictArr.length; j++) {
+                    if (dictArr[j].getId().equals(curr.getViolationId())) {
+                        if (dictArr[j].getSendOff() == 1) {
+                            dis = true;
+                            break;
+                        }
                     }
                 }
+                if (dis) break;
             }
-            if (dis) break;
-        }
 
-        if (dis) {
-            tvSanction.setText(R.string.disqualification);
+            if (dis) {
+                tvSanction.setText(R.string.disqualification);
+            }
+        } else {
+            tvSanction.setText("");
         }
 
         ViolationListChangeListener violationListChangeListener = new ViolationListChangeListener() {
@@ -205,7 +209,7 @@ public class ViolationsFragment extends Fragment {
             }
         });
 
-        adapter = new ViolationAdapter(getContext(), violationsArr, dictArr, violationListChangeListener);
+        adapter = new ViolationAdapter(getContext(), violationsArr, dictArr, edit, violationListChangeListener);
         lvViolations.setAdapter(adapter);
 
         if (!edit)

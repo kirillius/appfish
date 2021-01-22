@@ -50,6 +50,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
+            android:name=".activities.RodsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
             android:name=".activities.RegisterTeamActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

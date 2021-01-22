@@ -62,7 +62,7 @@ public class QueueActivity extends AppCompatActivity implements TopMenuEventList
             }
         });
 
-        TopMenuFragment menuFragment = TopMenuFragment.newInstance(null);
+        TopMenuFragment menuFragment = TopMenuFragment.newInstance(false);
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -177,6 +177,17 @@ public class QueueActivity extends AppCompatActivity implements TopMenuEventList
     @Override
     public void onSyncClick() {
         ProtocolHelper.getProtocol(this, matchId, progressBar);
+    }
+
+    @Override
+    public void onBackPressed() {
+        progressBar.hide();
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count == 0) {
+            finish();
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
     }
 
 }

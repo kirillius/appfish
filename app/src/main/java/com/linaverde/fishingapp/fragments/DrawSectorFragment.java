@@ -27,6 +27,7 @@ import com.linaverde.fishingapp.services.QueueAdapter;
 import com.linaverde.fishingapp.services.RequestHelper;
 import com.linaverde.fishingapp.services.SectorAdapter;
 import com.linaverde.fishingapp.services.TeamsAdapter;
+import com.linaverde.fishingapp.services.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -107,7 +108,9 @@ public class DrawSectorFragment extends Fragment {
             e.printStackTrace();
         }
 
-        if (!drawOpen){
+        UserInfo userInfo = new UserInfo(getContext());
+
+        if (!drawOpen || userInfo.getUserType() != 1) {
             endDraw.setVisibility(View.GONE);
         }
 
@@ -148,31 +151,35 @@ public class DrawSectorFragment extends Fragment {
             }
         });
 
-        teamsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (drawOpen) {
-                    DialogBuilder.createInputDialog(getContext(), getLayoutInflater(), getString(R.string.enter_sector), new CompleteActionListener() {
-                        @Override
-                        public void onOk(String input) {
+        if (userInfo.getUserType() == 1) {
+            teamsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (drawOpen) {
+                        DialogBuilder.createInputDialog(getContext(), getLayoutInflater(), getString(R.string.enter_sector), new CompleteActionListener() {
+                            @Override
+                            public void onOk(String input) {
 
-                            if (Integer.parseInt(input) == 0) {
-                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_zero), null);
-                            } else {
-                                listener.update(adapter.getItem(position), input);
+                                if (Integer.parseInt(input) == 0) {
+                                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_zero), null);
+                                } else {
+                                    listener.update(adapter.getItem(position), input);
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onCancel() {
-                            //do nothing
-                        }
-                    });
-                } else {
-                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_draw_end), null);
+                            @Override
+                            public void onCancel() {
+                                //do nothing
+                            }
+                        });
+                    } else {
+                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_draw_end), null);
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            teamsList.setEnabled(false);
+        }
         return view;
     }
 

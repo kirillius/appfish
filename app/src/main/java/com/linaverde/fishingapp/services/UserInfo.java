@@ -13,6 +13,7 @@ public class UserInfo {
     public static final String APP_PREFERENCES_MATCH_NAME = "mathcName";
     public static final String APP_PREFERENCES_POND = "pond";
     public static final String APP_PREFERENCES_TEAM_ID = "teamId";
+    public static final String APP_PREFERENCES_USER_CAPTION = "userCaption";
 
     private SharedPreferences mSettings;
     private Context context;
@@ -31,10 +32,11 @@ public class UserInfo {
         mSettings.edit().remove(APP_PREFERENCES_TEAM_ID).apply();
         mSettings.edit().remove(APP_PREFERENCES_MATCH_ID).apply();
         mSettings.edit().remove(APP_PREFERENCES_MATCH_NAME).apply();
+        mSettings.edit().remove(APP_PREFERENCES_USER_CAPTION).apply();
     }
 
     public void saveUser(String login, String password, String userName, int type, String pond,
-                         String matchId, String matchName, String teamId){
+                         String matchId, String matchName, String teamId, String caption){
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putString(APP_PREFERENCES_USER_LOGIN, login);
         editor.putString(APP_PREFERENCES_USER_PASSWORD, password);
@@ -44,7 +46,16 @@ public class UserInfo {
         editor.putString(APP_PREFERENCES_MATCH_ID, matchId);
         editor.putString(APP_PREFERENCES_MATCH_NAME, matchName);
         editor.putString(APP_PREFERENCES_TEAM_ID, teamId);
+        editor.putString(APP_PREFERENCES_USER_CAPTION, caption);
         editor.apply();
+    }
+
+    public String getCaption() {
+        if (mSettings.contains(APP_PREFERENCES_USER_CAPTION)) {
+            return mSettings.getString(APP_PREFERENCES_USER_CAPTION, "");
+        } else {
+            return null;
+        }
     }
 
     public String getLogin() {

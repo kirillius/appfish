@@ -70,7 +70,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
 
         bottomFragmentContainer = findViewById(R.id.bottom_fragment);
 
-        TopMenuFragment menuFragment = TopMenuFragment.newInstance(null);
+        TopMenuFragment menuFragment = TopMenuFragment.newInstance(true);
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -111,24 +111,12 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
     }
 
     @Override
-    public void onBackPressed() {
-        int count = getSupportFragmentManager().getBackStackEntryCount();
-
-        if (count == 0) {
-            finish();
-        } else {
-            getSupportFragmentManager().popBackStack();
-            bottomFragmentContainer.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
     public void onTeamClicked(Team selectedTeam) {
 
         RegisterOneTeamFragment ROTFragment = RegisterOneTeamFragment.newInstance(selectedTeam.getCaptainName(), selectedTeam.getCaptainId(),
                 selectedTeam.getAssistantName(), selectedTeam.getAssistantId(),
                 selectedTeam.getCaptainDocuments().toString(), selectedTeam.getAssistantDocuments().toString(), matchId, selectedTeam.getId(),
-                selectedTeam.getCaptainLinks(), selectedTeam.getAssistantLinks(), matchName);
+                matchName);
         Log.d("On team clicked", selectedTeam.getName());
         LogoTopMenuFragment LTMFragment = LogoTopMenuFragment.newInstance(selectedTeam.getLogo(), selectedTeam.getName());
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -187,6 +175,17 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
     @Override
     public void onSyncClick() {
         ProtocolHelper.getProtocol(this, matchId, progressBar);
+    }
+
+    @Override
+    public void onBackPressed() {
+        progressBar.hide();
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count == 0) {
+            finish();
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
     }
 
 }

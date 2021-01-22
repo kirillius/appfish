@@ -60,7 +60,7 @@ public class AuthActivity extends AppCompatActivity {
                     Log.d("Test auth", "Request fine");
                     try {
                         userInfo.saveUser(userInfo.getLogin(), userInfo.getPassword(), json.getString("userName"), json.getInt("userType"), json.getString("pond"),
-                                json.getString("matchId"), json.getString("matchName"), json.getString("teamId"));
+                                json.getString("matchId"), json.getString("matchName"), json.getString("teamId"), json.getString("caption"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -108,13 +108,15 @@ public class AuthActivity extends AppCompatActivity {
                     sLogin = login.getText().toString();
                     sPassword = password.getText().toString();
                     if (!sLogin.equals("") && !sPassword.equals("")) {
+                        progressBar.show();
                         requestHelper.executeGet("session", new String[]{"username", "password"}, new String[]{sLogin, sPassword}, new RequestListener() {
                             @Override
                             public void onComplete(JSONObject json) {
+                                progressBar.hide();
                                 Log.d("Test auth", "Request fine");
                                 try {
                                     userInfo.saveUser(sLogin, sPassword, json.getString("userName"), json.getInt("userType"), json.getString("pond"),
-                                            json.getString("matchId"), json.getString("matchName"), json.getString("teamId"));
+                                            json.getString("matchId"), json.getString("matchName"), json.getString("teamId"), json.getString("caption"));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -129,6 +131,7 @@ public class AuthActivity extends AppCompatActivity {
 
                             @Override
                             public void onError(int responseCode) {
+                                progressBar.hide();
                                 if (responseCode == 401) {
                                     DialogBuilder.createDefaultDialog(AuthActivity.this, getLayoutInflater(), getString(R.string.login_error), null);
                                 } else {

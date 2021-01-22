@@ -25,6 +25,7 @@ import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.ImageHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
+import com.linaverde.fishingapp.services.UserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,8 +40,6 @@ public class RegisterOneTeamFragment extends Fragment {
     private static final String ASSISTANT_DOCS = "assistant_docs";
     private static final String MATCH_ID = "matchID";
     private static final String TEAM_ID = "teamID";
-    private static final String CAPTAIN_LINK = "captainLink";
-    private static final String ASSISTANT_LINK = "assistantLink";
     private static final String MATCH_NAME = "matchName";
 
     private String matchName;
@@ -61,8 +60,7 @@ public class RegisterOneTeamFragment extends Fragment {
 
     public static RegisterOneTeamFragment newInstance(String captain, String captainId,
                                                       String assistantName, String assistantId,
-                                                      String captainDocs, String assistantDocs, String matchId, String teamId,
-                                                      String[] captainLinks, String[] assistantLinks, String matchName) {
+                                                      String captainDocs, String assistantDocs, String matchId, String teamId, String matchName) {
 
         RegisterOneTeamFragment fragment = new RegisterOneTeamFragment();
         Bundle args = new Bundle();
@@ -70,8 +68,6 @@ public class RegisterOneTeamFragment extends Fragment {
         args.putString(ASSISTANT, assistantName);
         args.putString(CAPTAINID, captainId);
         args.putString(ASSISTANTID, assistantId);
-        args.putStringArray(CAPTAIN_LINK, captainLinks);
-        args.putStringArray(ASSISTANT_LINK, assistantLinks);
         args.putString(CAPTAIN_DOCS, captainDocs);
         args.putString(ASSISTANT_DOCS, assistantDocs);
         args.putString(MATCH_ID, matchId);
@@ -92,8 +88,6 @@ public class RegisterOneTeamFragment extends Fragment {
             assistantId = getArguments().getString(ASSISTANTID);
             matchId = getArguments().getString(MATCH_ID);
             teamId = getArguments().getString(TEAM_ID);
-            captainLinks = getArguments().getStringArray(CAPTAIN_LINK);
-            assistantLinks = getArguments().getStringArray(ASSISTANT_LINK);
             matchName = getArguments().getString(MATCH_NAME);
 
             try {
@@ -147,6 +141,17 @@ public class RegisterOneTeamFragment extends Fragment {
                     json = json.getJSONObject("teams");
                     captainPhoto = json.getString("captainPhoto");
                     assistantPhoto = json.getString("assistantPhoto");
+                    captainLinks = new String[4];
+                    captainLinks[0] = json.getString("captainLink1");
+                    captainLinks[1] = json.getString("captainLink2");
+                    captainLinks[2] = json.getString("captainLink3");
+                    captainLinks[3] = json.getString("captainLink4");
+
+                    assistantLinks = new String[4];
+                    assistantLinks[0] = json.getString("assistantLink1");
+                    assistantLinks[1] = json.getString("assistantLink2");
+                    assistantLinks[2] = json.getString("assistantLink3");
+                    assistantLinks[3] = json.getString("assistantLink4");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -171,6 +176,85 @@ public class RegisterOneTeamFragment extends Fragment {
                         }
                     });
                 }
+                view.findViewById(R.id.captain_net1).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!captainLinks[0].equals("")) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(captainLinks[0]));
+                            startActivity(browserIntent);
+                        }
+                    }
+                });
+
+                view.findViewById(R.id.captain_net2).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!captainLinks[1].equals("")) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(captainLinks[1]));
+                            startActivity(browserIntent);
+                        }
+                    }
+                });
+
+                view.findViewById(R.id.captain_net3).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!captainLinks[2].equals("")) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(captainLinks[2]));
+                            startActivity(browserIntent);
+                        }
+                    }
+                });
+
+                view.findViewById(R.id.captain_net4).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!captainLinks[3].equals("")) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(captainLinks[3]));
+                            startActivity(browserIntent);
+                        }
+                    }
+                });
+
+                view.findViewById(R.id.assistant_net1).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!assistantLinks[0].equals("")) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(assistantLinks[0]));
+                            startActivity(browserIntent);
+                        }
+                    }
+                });
+
+                view.findViewById(R.id.assistant_net2).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!assistantLinks[1].equals("")) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(assistantLinks[1]));
+                            startActivity(browserIntent);
+                        }
+                    }
+                });
+
+                view.findViewById(R.id.assistant_net3).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!assistantLinks[2].equals("")) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(assistantLinks[2]));
+                            startActivity(browserIntent);
+                        }
+                    }
+                });
+
+                view.findViewById(R.id.assistant_net4).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!assistantLinks[3].equals("")) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(assistantLinks[3]));
+                            startActivity(browserIntent);
+                        }
+                    }
+                });
             }
 
             @Override
@@ -269,86 +353,6 @@ public class RegisterOneTeamFragment extends Fragment {
             }
         });
 
-        view.findViewById(R.id.captain_net1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!captainLinks[0].equals("")) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(captainLinks[0]));
-                    startActivity(browserIntent);
-                }
-            }
-        });
-
-        view.findViewById(R.id.captain_net2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!captainLinks[1].equals("")) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(captainLinks[1]));
-                    startActivity(browserIntent);
-                }
-            }
-        });
-
-        view.findViewById(R.id.captain_net3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!captainLinks[2].equals("")) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(captainLinks[2]));
-                    startActivity(browserIntent);
-                }
-            }
-        });
-
-        view.findViewById(R.id.captain_net4).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!captainLinks[3].equals("")) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(captainLinks[3]));
-                    startActivity(browserIntent);
-                }
-            }
-        });
-
-        view.findViewById(R.id.assistant_net1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!assistantLinks[0].equals("")) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(assistantLinks[0]));
-                    startActivity(browserIntent);
-                }
-            }
-        });
-
-        view.findViewById(R.id.assistant_net2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!assistantLinks[1].equals("")) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(assistantLinks[1]));
-                    startActivity(browserIntent);
-                }
-            }
-        });
-
-        view.findViewById(R.id.assistant_net3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!assistantLinks[2].equals("")) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(assistantLinks[2]));
-                    startActivity(browserIntent);
-                }
-            }
-        });
-
-        view.findViewById(R.id.assistant_net4).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!assistantLinks[3].equals("")) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(assistantLinks[3]));
-                    startActivity(browserIntent);
-                }
-            }
-        });
-
         statistics = view.findViewById(R.id.tv_statistics);
 
         statistics.setOnClickListener(new View.OnClickListener() {
@@ -372,6 +376,11 @@ public class RegisterOneTeamFragment extends Fragment {
 
             }
         });
+
+        UserInfo userInfo = new UserInfo(getContext());
+        if (userInfo.getUserType() != 1){
+            buttonEndReg.setVisibility(View.GONE);
+        }
 
         buttonEndReg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -417,6 +426,10 @@ public class RegisterOneTeamFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void getPhotosAndLinks() {
+
     }
 
     @Override

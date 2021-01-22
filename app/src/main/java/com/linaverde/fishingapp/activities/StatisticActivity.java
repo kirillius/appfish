@@ -58,7 +58,7 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
-        TopMenuFragment menuFragment = TopMenuFragment.newInstance(b.getString("info"));
+        TopMenuFragment menuFragment = TopMenuFragment.newInstance(true);
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
         fragmentTransaction.commit();
 

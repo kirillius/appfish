@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.activities.QueueActivity;
 import com.linaverde.fishingapp.activities.RegisterTeamActivity;
+import com.linaverde.fishingapp.activities.RodsActivity;
 import com.linaverde.fishingapp.activities.SectorActivity;
 import com.linaverde.fishingapp.activities.StatisticActivity;
 import com.linaverde.fishingapp.activities.WeightingActivity;
@@ -60,7 +61,7 @@ public class TournamentFragment extends Fragment {
     }
 
     TextView tvTournamentName;
-    RelativeLayout rlRegisterTeam, rlDrawQueue, rlDrawSector, rlWeighting;
+    RelativeLayout rlRegisterTeam, rlDrawQueue, rlDrawSector, rlWeighting, rlRods;
     RelativeLayout rlExchange, rlStatistics;
     UserInfo userInfo;
     ImageView net1, net2, net3, net4;
@@ -83,10 +84,13 @@ public class TournamentFragment extends Fragment {
         rlDrawQueue = view.findViewById(R.id.list_draw_queue);
         rlDrawSector = view.findViewById(R.id.list_draw_sector);
         rlWeighting = view.findViewById(R.id.list_weigh);
+        rlRods = view.findViewById(R.id.list_rods);
 
-        if (userInfo.getUserType() == 2) {
+        if (userInfo.getUserType() == 1) {
+            rlRods.setVisibility(View.GONE);
+        } else {
+            rlRegisterTeam.setVisibility(View.GONE);
             rlDrawQueue.setVisibility(View.GONE);
-            rlDrawSector.setVisibility(View.GONE);
         }
 
 
@@ -130,6 +134,14 @@ public class TournamentFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString("info", mStartParam.toString());
                 intent.putExtras(args);
+                startActivity(intent);
+            }
+        });
+
+        rlRods.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RodsActivity.class);
                 startActivity(intent);
             }
         });

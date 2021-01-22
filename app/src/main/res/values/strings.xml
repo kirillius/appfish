@@ -15,6 +15,7 @@
     <string name="draw_queue">Жеребьевка очереди</string>
     <string name="draw_sector">Жеребьевка секторов</string>
     <string name="weighing">Взвешивание</string>
+    <string name="settings_rods">Настройка удочек</string>
     <string name="statistics">Статистика</string>
     <string name="sector">Сектор</string>
     <string name="count">Кол-во</string>

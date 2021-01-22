@@ -36,6 +36,7 @@ import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.NavigationHelper;
 import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
+import com.linaverde.fishingapp.services.UserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,7 +79,7 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
 
         bottomFragmentContainer = findViewById(R.id.bottom_fragment);
 
-        TopMenuFragment menuFragment = TopMenuFragment.newInstance(null);
+        TopMenuFragment menuFragment = TopMenuFragment.newInstance(false);
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -157,6 +158,7 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
 
     @Override
     public void onBackPressed() {
+        progressBar.hide();
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 0) {
             finish();
@@ -221,10 +223,12 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
             @Override
             public void onComplete(JSONObject json) {
                 progressBar.hide();
+                UserInfo userInfo = new UserInfo(WeightingActivity.this);
                 try {
+                    boolean edit = userInfo.getUserType() == 1;
                     if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
                         ViolationsFragment VFragment = ViolationsFragment.newInstance(json.getJSONArray("fouls").toString(), json.getJSONArray("dictionary").toString(),
-                                stageId, teamId, sector, true);
+                                stageId, teamId, sector, edit);
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, VFragment);
@@ -398,42 +402,6 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
     }
 
     @Override
-    public void rodsClicked(String teamId) {
-        progressBar.show();
-        requestHelper.executeGet("rods", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
-            @Override
-            public void onComplete(JSONObject json) {
-                progressBar.hide();
-                try {
-                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                        RodsFragment RFragment = RodsFragment.newInstance(json.toString());
-                        RodTopFragment RTFragment = new RodTopFragment();
-                        fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                        fragmentTransaction.replace(R.id.content_fragment, RFragment);
-                        fragmentTransaction.replace(R.id.top_menu_fragment, RTFragment);
-                        fragmentTransaction.addToBackStack("WeightingStages");
-                        if (!fragmentManager.isDestroyed())
-                            fragmentTransaction.commit();
-                    } else {
-                        DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onError(int responseCode) {
-                progressBar.hide();
-                DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
-            }
-        });
-    }
-
-    @Override
     public void onMenuClick() {
         drawer.openDrawer(GravityCompat.START);
     }
@@ -462,5 +430,6 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
     public void onSyncClick() {
         ProtocolHelper.getProtocol(this, matchId, progressBar);
     }
+
 
 }

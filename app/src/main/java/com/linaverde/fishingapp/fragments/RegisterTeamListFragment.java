@@ -25,6 +25,7 @@ import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.RequestHelper;
 import com.linaverde.fishingapp.services.StatisticAdapter;
 import com.linaverde.fishingapp.services.TeamsAdapter;
+import com.linaverde.fishingapp.services.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -108,6 +109,11 @@ public class RegisterTeamListFragment extends Fragment {
                 listener.onTeamClicked(adapter.getItem(position));
             }
         });
+
+        UserInfo userInfo = new UserInfo(getContext());
+        if (userInfo.getUserType() != 1){
+            buttonEndReg.setVisibility(View.GONE);
+        }
 
         buttonEndReg.setOnClickListener(new View.OnClickListener() {
             @Override

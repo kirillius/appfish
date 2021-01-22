@@ -21,8 +21,6 @@ public class Team implements Comparable<Team> {
     private String captainName;
     private String assistantId;
     private String assistantName;
-    private String [] captainLinks;
-    private String [] assistantLinks;
 
     private JSONObject captainDocuments;
     private JSONObject assistantDocuments;
@@ -45,17 +43,7 @@ public class Team implements Comparable<Team> {
                 captainDocuments = obj.getJSONObject("captainDocs");
                 assistantDocuments = obj.getJSONObject("assistantDocs");
 
-                captainLinks = new String[4];
-                captainLinks[0] = obj.getString("captainLink1");
-                captainLinks[1] = obj.getString("captainLink2");
-                captainLinks[2] = obj.getString("captainLink3");
-                captainLinks[3] = obj.getString("captainLink4");
 
-                assistantLinks = new String[4];
-                assistantLinks[0] = obj.getString("assistantLink1");
-                assistantLinks[1] = obj.getString("assistantLink2");
-                assistantLinks[2] = obj.getString("assistantLink3");
-                assistantLinks[3] = obj.getString("assistantLink4");
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -106,13 +94,5 @@ public class Team implements Comparable<Team> {
 
     public JSONObject getAssistantDocuments() {
         return assistantDocuments;
-    }
-
-    public String[] getCaptainLinks() {
-        return captainLinks;
-    }
-
-    public String[] getAssistantLinks() {
-        return assistantLinks;
     }
 }
