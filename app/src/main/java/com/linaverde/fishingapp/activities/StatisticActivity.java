@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,10 +16,16 @@ import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.fragments.LogoTopMenuFragment;
+import com.linaverde.fishingapp.fragments.RegisterOneTeamFragment;
 import com.linaverde.fishingapp.fragments.StatisticsFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
+import com.linaverde.fishingapp.fragments.ViolationsFragment;
+import com.linaverde.fishingapp.interfaces.OneTeamClickListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
+import com.linaverde.fishingapp.interfaces.StatisticTeamNameClicked;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
+import com.linaverde.fishingapp.models.Team;
 import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.NavigationHelper;
 import com.linaverde.fishingapp.services.ProtocolHelper;
@@ -27,12 +34,14 @@ import com.linaverde.fishingapp.services.RequestHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class StatisticActivity extends AppCompatActivity implements TopMenuEventListener {
+public class StatisticActivity extends AppCompatActivity implements TopMenuEventListener, StatisticTeamNameClicked, OneTeamClickListener {
 
     FragmentTransaction fragmentTransaction;
     DrawerLayout drawer;
     String matchId, teamId, matchName;
     ContentLoadingProgressBar progressBar;
+    RequestHelper requestHelper;
+    FragmentManager fragmentManager;
 
 
     @Override
@@ -44,6 +53,7 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
         drawer = findViewById(R.id.drawer_layout);
         progressBar = findViewById(R.id.progress_bar);
         progressBar.show();
+        requestHelper = new RequestHelper(this);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.bringToFront();
@@ -55,7 +65,7 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
             }
         });
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
         TopMenuFragment menuFragment = TopMenuFragment.newInstance(true);
@@ -88,7 +98,6 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
                 }
             });
         } else {
-            RequestHelper requestHelper = new RequestHelper(this);
             requestHelper.executeGet("stats", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
                 @Override
                 public void onComplete(JSONObject json) {
@@ -109,7 +118,41 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
                 }
             });
         }
+    }
 
+    @Override
+    public void teamClicked(String teamId) {
+        progressBar.show();
+        requestHelper.executeGet("teams", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                progressBar.hide();
+                try {
+                    Team selectedTeam = new Team(json.getJSONObject("teams"));
+                    RegisterOneTeamFragment ROTFragment = RegisterOneTeamFragment.newInstance(selectedTeam.getCaptainName(), selectedTeam.getCaptainId(),
+                            selectedTeam.getAssistantName(), selectedTeam.getAssistantId(),
+                            selectedTeam.getCaptainDocuments().toString(), selectedTeam.getAssistantDocuments().toString(), matchId, selectedTeam.getId(),
+                            matchName, json.toString());
+                    Log.d("On team clicked", selectedTeam.getName());
+                    LogoTopMenuFragment LTMFragment = LogoTopMenuFragment.newInstance(selectedTeam.getLogo(), selectedTeam.getName());
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    fragmentTransaction.replace(R.id.content_fragment, ROTFragment);
+                    fragmentTransaction.addToBackStack("StatisticFragment");
+                    fragmentTransaction.replace(R.id.top_menu_fragment, LTMFragment);
+                    fragmentTransaction.addToBackStack("LogoFragment");
+                    if (!fragmentManager.isDestroyed())
+                        fragmentTransaction.commit();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+            }
+        });
     }
 
     @Override
@@ -147,4 +190,51 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
         finish();
     }
 
+
+    @Override
+    public void onDocumentClicked(String userId, int doc) {
+        Intent intent = new Intent(StatisticActivity.this, DocumentActivity.class);
+        Bundle b = new Bundle();
+        b.putInt("doc", doc);
+        b.putString("user", userId);
+        intent.putExtras(b);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onViolationClicked(String teamId) {
+        progressBar.show();
+        requestHelper.executeGet("fouls", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                progressBar.hide();
+                // UserInfo userInfo = new UserInfo(RegisterTeamActivity.this);
+                try {
+                    //boolean edit = userInfo.getUserType() == 1;
+                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                        ViolationsFragment VFragment = ViolationsFragment.newInstance(json.getJSONArray("fouls").toString(), json.getJSONArray("dictionary").toString(),
+                                null, teamId, -1, false);
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                        fragmentTransaction.replace(R.id.content_fragment, VFragment);
+                        fragmentTransaction.addToBackStack("WeightingStages");
+                        if (!fragmentManager.isDestroyed())
+                            fragmentTransaction.commit();
+                    } else {
+                        DialogBuilder.createDefaultDialog(StatisticActivity.this, getLayoutInflater(), json.getString("error"), null);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(StatisticActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+            }
+        });
+    }
 }

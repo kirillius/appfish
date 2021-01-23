@@ -119,7 +119,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
         RegisterOneTeamFragment ROTFragment = RegisterOneTeamFragment.newInstance(selectedTeam.getCaptainName(), selectedTeam.getCaptainId(),
                 selectedTeam.getAssistantName(), selectedTeam.getAssistantId(),
                 selectedTeam.getCaptainDocuments().toString(), selectedTeam.getAssistantDocuments().toString(), matchId, selectedTeam.getId(),
-                matchName);
+                matchName, null);
         Log.d("On team clicked", selectedTeam.getName());
         LogoTopMenuFragment LTMFragment = LogoTopMenuFragment.newInstance(selectedTeam.getLogo(), selectedTeam.getName());
         fragmentTransaction = fragmentManager.beginTransaction();

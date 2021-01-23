@@ -44,7 +44,6 @@ public class Team implements Comparable<Team> {
                 captainDocuments = obj.getJSONObject("captainDocs");
                 assistantDocuments = obj.getJSONObject("assistantDocs");
                 checkIn = obj.getBoolean("checkin");
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }

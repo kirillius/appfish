@@ -75,22 +75,20 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="-10dp">
+            android:layout_weight="1">
 
             <ImageView
                 android:id="@+id/icon_rods"
-                android:layout_width="65dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center"
+                android:layout_width="42dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:scaleType="centerInside"
-                android:src="@drawable/rod_icon" />
+                android:src="@drawable/icon_rod" />
         </LinearLayout>
 
 
@@ -106,7 +104,7 @@
             android:text="Название водоема"
             android:textAlignment="center"
             android:textAppearance="@style/Roboto"
-            android:textSize="30sp" />
+            android:textSize="26sp" />
 
         <TextView
             android:id="@+id/tv_sector"

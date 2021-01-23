@@ -21,6 +21,7 @@ public class StatisticAdapter extends ArrayAdapter<JSONObject> {
     Context context;
     JSONObject [] values;
 
+
     public StatisticAdapter(Context context, JSONObject [] values) {
         super(context, R.layout.statistic_list_item, values);
         this.context = context;
@@ -33,7 +34,7 @@ public class StatisticAdapter extends ArrayAdapter<JSONObject> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.statistic_list_item, parent, false);
         TextView place = (TextView) rowView.findViewById(R.id.tv_stat_place);
-        TextView sector = (TextView) rowView.findViewById(R.id.tv_stat_sector_name);
+        TextView team = (TextView) rowView.findViewById(R.id.tv_stat_sector_name);
         TextView count = (TextView) rowView.findViewById(R.id.tv_stat_count);
         TextView avr = (TextView) rowView.findViewById(R.id.tv_stat_avr);
         TextView sum = (TextView) rowView.findViewById(R.id.tv_stat_sum);
@@ -42,7 +43,7 @@ public class StatisticAdapter extends ArrayAdapter<JSONObject> {
 
         try {
             place.setText(Integer.toString(stat.getInt("place")));
-            sector.setText(stat.getString("teamName"));
+            team.setText(stat.getString("teamName"));
             count.setText(Integer.toString(stat.getInt("quantity")));
             avr.setText(Integer.toString(stat.getInt("avgWeight")));
             sum.setText(Integer.toString(stat.getInt("weight")));
@@ -78,5 +79,16 @@ public class StatisticAdapter extends ArrayAdapter<JSONObject> {
         }
 
         return rowView;
+    }
+
+    public String getTeamId(int pos){
+        JSONObject stat = values[pos];
+        String teamId = "";
+        try {
+        teamId = stat.getString("teamId");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return teamId;
     }
 }

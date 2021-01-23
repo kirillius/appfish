@@ -1,5 +1,6 @@
 package com.linaverde.fishingapp.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,11 +8,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.interfaces.StatisticTeamNameClicked;
+import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.services.StatisticAdapter;
 
 import org.json.JSONArray;
@@ -32,6 +36,8 @@ public class StatisticsFragment extends Fragment {
     private JSONObject mStartParam;
     private String tournamentName;
     private boolean result;
+
+    StatisticTeamNameClicked listener;
 
     public StatisticsFragment() {
         // Required empty public constructor
@@ -61,6 +67,8 @@ public class StatisticsFragment extends Fragment {
         }
     }
 
+    StatisticAdapter adapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,7 +82,6 @@ public class StatisticsFragment extends Fragment {
         System.out.println("Current time => " + c);
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         tvDate.setText(df.format(c));
-
         ListView statList = view.findViewById(R.id.lv_stats);
         int count = 0, avr = 0, sum = 0;
         try {
@@ -92,7 +99,7 @@ public class StatisticsFragment extends Fragment {
             } else {
                 avr = 0;
             }
-            StatisticAdapter adapter = new StatisticAdapter(getContext(), stats);
+            adapter = new StatisticAdapter(getContext(), stats);
             statList.setAdapter(adapter);
 
         } catch (JSONException e) {
@@ -110,8 +117,34 @@ public class StatisticsFragment extends Fragment {
         TextView resultSum = view.findViewById(R.id.tv_result_stat_sum);
         resultSum.setText(Integer.toString(sum));
 
-
-
+        if (result){
+            statList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    listener.teamClicked(adapter.getTeamId(position));
+                }
+            });
+        } else {
+            statList.setEnabled(false);
+        }
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof StatisticTeamNameClicked) {
+            //init the listener
+            listener = (StatisticTeamNameClicked) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement StatisticTeamNameClicked");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
     }
 }
