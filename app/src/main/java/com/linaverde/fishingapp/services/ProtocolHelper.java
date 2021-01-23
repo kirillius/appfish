@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Objects;
 
 import static androidx.core.content.FileProvider.getUriForFile;
 
@@ -69,49 +72,48 @@ public class ProtocolHelper {
                 try {
                     if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
                         String base64 = json.getString("doc");
-                        base64 = base64.replaceAll("/r/n", "");
-                        FileOutputStream fos = null;
+                        //base64 = base64.replaceAll("/r/n", "");
+                        String root = context.getFilesDir().toString();
+
+                        Log.d("ResponseEnv", root);
+
+                        File myDir = new File(root);
+                        if (!myDir.exists()) {
+                            myDir.mkdirs();
+                        }
+
+
+                        String fname = "fishProtocol.pdf";
+                        File file = new File(myDir, fname);
+                        if (file.exists())
+                            file.delete();
                         try {
-                            fos = context.openFileOutput("fish_protocol.pdf", Context.MODE_PRIVATE);
-                            byte[] decodedString = android.util.Base64.decode(base64, android.util.Base64.DEFAULT);
-                            fos.write(decodedString);
-                            fos.flush();
-                            fos.close();
+
+                            FileOutputStream out = new FileOutputStream(file);
+                            byte[] pdfAsBytes = Base64.decode(base64, 0);
+                            out.write(pdfAsBytes);
+                            out.flush();
+                            out.close();
+
 
                         } catch (Exception e) {
-
-                        } finally {
-                            if (fos != null) {
-                                fos = null;
-                            }
+                            e.printStackTrace();
                         }
 
-                        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/manual.pdf");  // -> filename = manual.pdf
+                        File imgFile = new File(myDir, fname);
+                        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
 
-                        Uri path;
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
-                            path = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", pdfFile);
+                        Uri uri;
+                        if (Build.VERSION.SDK_INT < 24) {
+                            uri = Uri.fromFile(file);
                         } else {
-                            path = Uri.fromFile(pdfFile);
+                            uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", imgFile);
                         }
 
-                        //File path = new File(context.getFilesDir(), "doc");
-                        //File newFile = new File(path, "fish_protocol.pdf");
-                        //Uri contentUri = getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", newFile);
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setDataAndType(path, "application/pdf");
-                        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        try {
-                            context.startActivity(intent);
-                        } catch (ActivityNotFoundException e) {
-                            Toast.makeText(context,
-                                    "Не обнаружено приложений для открытия PDF!",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                        sendIntent.setDataAndType(uri, "application/pdf");
+                        sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        context.startActivity(sendIntent);
 
 
                     } else {
