@@ -18,6 +18,7 @@ import com.linaverde.fishingapp.fragments.EditFishFragment;
 import com.linaverde.fishingapp.fragments.LogoTopMenuFragment;
 import com.linaverde.fishingapp.fragments.RodTopFragment;
 import com.linaverde.fishingapp.fragments.RodsFragment;
+import com.linaverde.fishingapp.fragments.TimeFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.fragments.ViolationsFragment;
 import com.linaverde.fishingapp.fragments.WeightingFishFragment;
@@ -80,10 +81,12 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
         bottomFragmentContainer = findViewById(R.id.bottom_fragment);
 
         TopMenuFragment menuFragment = TopMenuFragment.newInstance(false);
+        TimeFragment timeFragment = new TimeFragment();
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
+        fragmentTransaction.add(R.id.bottom_fragment, timeFragment);
         if (!fragmentManager.isDestroyed())
             fragmentTransaction.commit();
 

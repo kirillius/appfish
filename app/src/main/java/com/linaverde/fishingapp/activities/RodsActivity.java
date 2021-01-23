@@ -15,6 +15,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.fragments.RodTopFragment;
 import com.linaverde.fishingapp.fragments.RodsFragment;
+import com.linaverde.fishingapp.fragments.TimeFragment;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
 import com.linaverde.fishingapp.services.DialogBuilder;
@@ -71,10 +72,12 @@ public class RodsActivity extends AppCompatActivity implements TopMenuEventListe
                     if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
                         RodsFragment RFragment = RodsFragment.newInstance(json.toString());
                         RodTopFragment RTFragment = new RodTopFragment();
+                        TimeFragment timeFragment = new TimeFragment();
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.add(R.id.content_fragment, RFragment);
                         fragmentTransaction.add(R.id.top_menu_fragment, RTFragment);
+                        fragmentTransaction.add(R.id.bottom_fragment, timeFragment);
                         if (!fragmentManager.isDestroyed())
                             fragmentTransaction.commit();
                     } else {

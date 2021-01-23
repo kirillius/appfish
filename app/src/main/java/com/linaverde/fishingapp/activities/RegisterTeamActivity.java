@@ -20,6 +20,7 @@ import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.fragments.LogoTopMenuFragment;
 import com.linaverde.fishingapp.fragments.RegisterOneTeamFragment;
 import com.linaverde.fishingapp.fragments.RegisterTeamListFragment;
+import com.linaverde.fishingapp.fragments.TimeFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.fragments.ViolationsFragment;
 import com.linaverde.fishingapp.interfaces.OneTeamClickListener;
@@ -74,10 +75,12 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
         bottomFragmentContainer = findViewById(R.id.bottom_fragment);
 
         TopMenuFragment menuFragment = TopMenuFragment.newInstance(true);
+        TimeFragment timeFragment = new TimeFragment();
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
+        fragmentTransaction.add(R.id.bottom_fragment, timeFragment);
         if (!fragmentManager.isDestroyed())
             fragmentTransaction.commit();
 

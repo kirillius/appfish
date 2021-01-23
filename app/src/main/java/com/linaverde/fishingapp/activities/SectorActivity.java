@@ -17,6 +17,7 @@ import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.fragments.DrawQueueFragment;
 import com.linaverde.fishingapp.fragments.DrawSectorFragment;
 import com.linaverde.fishingapp.fragments.RegisterTeamListFragment;
+import com.linaverde.fishingapp.fragments.TimeFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.interfaces.QueueUpdateListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
@@ -64,10 +65,12 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
         });
 
         TopMenuFragment menuFragment = TopMenuFragment.newInstance(false);
+        TimeFragment timeFragment = new TimeFragment();
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
+        fragmentTransaction.add(R.id.bottom_fragment, timeFragment);
         if (!fragmentManager.isDestroyed())
             fragmentTransaction.commit();
 

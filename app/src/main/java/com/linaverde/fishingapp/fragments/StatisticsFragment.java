@@ -83,21 +83,12 @@ public class StatisticsFragment extends Fragment {
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         tvDate.setText(df.format(c));
         ListView statList = view.findViewById(R.id.lv_stats);
-        int count = 0, avr = 0, sum = 0;
         try {
             JSONArray arr = mStartParam.getJSONArray("stats");
             int len = arr.length();
-            JSONObject [] stats = new JSONObject[len];
-            for (int i = 0; i < len; i ++){
+            JSONObject[] stats = new JSONObject[len];
+            for (int i = 0; i < len; i++) {
                 stats[i] = arr.getJSONObject(i);
-                count += stats[i].getInt("quantity");
-                avr += stats[i].getInt("avgWeight");
-                sum += stats[i].getInt("maxWeight");
-            }
-            if (count != 0) {
-                avr = avr / count;
-            } else {
-                avr = 0;
             }
             adapter = new StatisticAdapter(getContext(), stats);
             statList.setAdapter(adapter);
@@ -107,17 +98,26 @@ public class StatisticsFragment extends Fragment {
         }
 
         LinearLayout llRes = view.findViewById(R.id.ll_result);
-        if (!result)
+        if (!result) {
             llRes.setVisibility(View.GONE);
+        } else {
 
-        TextView resultCoun = view.findViewById(R.id.tv_result_stat_count);
-        resultCoun.setText(Integer.toString(count));
-        TextView resultAvr = view.findViewById(R.id.tv_result_stat_avr);
-        resultAvr.setText(Integer.toString(avr));
-        TextView resultSum = view.findViewById(R.id.tv_result_stat_sum);
-        resultSum.setText(Integer.toString(sum));
+            try {
+                JSONObject total = mStartParam.getJSONObject("total");
+                TextView resultCoun = view.findViewById(R.id.tv_result_stat_count);
+                resultCoun.setText(Integer.toString(total.getInt("quantity")));
+                TextView resultAvr = view.findViewById(R.id.tv_result_stat_avr);
+                resultAvr.setText(Integer.toString(total.getInt("avgWeight")));
+                TextView resultSum = view.findViewById(R.id.tv_result_stat_sum);
+                resultSum.setText(Integer.toString(total.getInt("weight")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        if (result){
+
+        }
+
+        if (result) {
             statList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
