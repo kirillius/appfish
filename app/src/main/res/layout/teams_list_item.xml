@@ -14,7 +14,7 @@
         android:text=" "
         android:textAlignment="center"
         android:textAppearance="@style/Roboto"
-        android:textSize="30sp" />
+        android:textSize="26sp" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -53,19 +53,18 @@
         android:text="@string/tournament"
         android:textAlignment="center"
         android:textAppearance="@style/Roboto"
-        android:textSize="26sp"
-        />
+        android:textSize="22sp" />
 
     <ImageView
         android:id="@+id/iv_team_checkin"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="20dp"
         android:adjustViewBounds="true"
         android:background="@null"
-        android:scaleType="centerInside"
-        android:src="@drawable/team_unckeck"
         android:gravity="center"
-        android:layout_gravity="center"
-        android:layout_marginStart="20dp"/>
+        android:scaleType="centerInside"
+        android:src="@drawable/team_unckeck" />
 
 </LinearLayout>

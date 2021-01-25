@@ -38,7 +38,7 @@
         android:layout_weight="3"
         android:text=" "
         android:textAppearance="@style/Roboto"
-        android:textSize="26sp"
+        android:textSize="24sp"
         android:ellipsize="end"
         android:singleLine="true"/>
 

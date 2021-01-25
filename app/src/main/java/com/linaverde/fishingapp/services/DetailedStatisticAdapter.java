@@ -5,25 +5,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
 
 import com.linaverde.fishingapp.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-public class StatisticAdapter extends ArrayAdapter<JSONObject> {
+public class DetailedStatisticAdapter extends ArrayAdapter<JSONObject> {
 
     Context context;
     JSONObject [] values;
 
 
-    public StatisticAdapter(Context context, JSONObject [] values) {
-        super(context, R.layout.statistic_list_item, values);
+    public DetailedStatisticAdapter(Context context, JSONObject [] values) {
+        super(context, R.layout.detailed_stats_item, values);
         this.context = context;
         this.values = values;
     }
@@ -32,21 +28,24 @@ public class StatisticAdapter extends ArrayAdapter<JSONObject> {
     public View getView(int pos, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.statistic_list_item, parent, false);
+        View rowView = inflater.inflate(R.layout.detailed_stats_item, parent, false);
         TextView place = (TextView) rowView.findViewById(R.id.tv_stat_place);
-        TextView team = (TextView) rowView.findViewById(R.id.tv_stat_sector_name);
-        TextView count = (TextView) rowView.findViewById(R.id.tv_stat_count);
-        TextView avr = (TextView) rowView.findViewById(R.id.tv_stat_avr);
-        TextView sum = (TextView) rowView.findViewById(R.id.tv_stat_sum);
+        TextView date = (TextView) rowView.findViewById(R.id.tv_stat_date);
+        TextView time = (TextView) rowView.findViewById(R.id.tv_stat_time);
+        TextView fish = (TextView) rowView.findViewById(R.id.tv_stat_fish);
+        TextView weight = (TextView) rowView.findViewById(R.id.tv_stat_weight);
 
         JSONObject stat = values[pos];
 
         try {
-            place.setText(Integer.toString(stat.getInt("place")));
-            team.setText(stat.getString("teamName"));
-            count.setText(Integer.toString(stat.getInt("quantity")));
-            avr.setText(Integer.toString(stat.getInt("avgWeight")));
-            sum.setText(Integer.toString(stat.getInt("weight")));
+            place.setText(Integer.toString(pos+1)+ ".");
+            String stime = stat.getString("date");
+            String [] sdate = stime.substring(0, stime.indexOf("T")).split("-");
+            stime = stime.substring(stime.indexOf("T") + 1);
+            date.setText(sdate[2]+"-"+sdate[1]+"-"+sdate[0]);
+            time.setText(stime);
+            fish.setText(stat.getString("fish"));
+            weight.setText(Integer.toString(stat.getInt("weight")));
             int mark = stat.getInt("mark");
             switch (mark){
                 case 1:
@@ -85,18 +84,7 @@ public class StatisticAdapter extends ArrayAdapter<JSONObject> {
         JSONObject stat = values[pos];
         String teamId = "";
         try {
-        teamId = stat.getString("teamId");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return teamId;
-    }
-
-    public String getTeamName(int pos){
-        JSONObject stat = values[pos];
-        String teamId = "";
-        try {
-            teamId = stat.getString("teamName");
+            teamId = stat.getString("teamId");
         } catch (JSONException e) {
             e.printStackTrace();
         }

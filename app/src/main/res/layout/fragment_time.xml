@@ -11,186 +11,215 @@
         android:layout_alignParentTop="true"
         android:background="@drawable/dark_gradient" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginStart="96dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="96dp"
-        android:background="@drawable/time_back"
-        android:weightSum="13">
+        android:background="@drawable/time_back">
 
         <ImageView
-            android:id="@+id/time_icon_1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/time_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
+            android:src="@drawable/icon_moon"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"/>
 
         <ImageView
-            android:id="@+id/time_icon_2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/time_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
+            android:src="@drawable/icon_sun"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"/>
 
-        <ImageView
-            android:id="@+id/time_icon_3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/time_dot"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
 
-        <ImageView
-            android:id="@+id/time_icon_4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/time_dot"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
+            android:orientation="horizontal"
+            android:weightSum="13">
 
-        <ImageView
-            android:id="@+id/time_icon_5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/time_dot"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
+            <ImageView
+                android:id="@+id/time_icon_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/time_dot"
+                android:visibility="invisible" />
 
-        <ImageView
-            android:id="@+id/time_icon_6"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/time_dot"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
+            <ImageView
+                android:id="@+id/time_icon_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/time_dot"
+                android:visibility="invisible" />
 
-        <ImageView
-            android:id="@+id/time_icon_7"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/time_dot"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
+            <ImageView
+                android:id="@+id/time_icon_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/time_dot"
+                android:visibility="invisible" />
 
-        <ImageView
-            android:id="@+id/time_icon_8"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/time_dot"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
+            <ImageView
+                android:id="@+id/time_icon_4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/time_dot"
+                android:visibility="invisible" />
 
-        <ImageView
-            android:id="@+id/time_icon_9"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/time_dot"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
+            <ImageView
+                android:id="@+id/time_icon_5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/time_dot"
+                android:visibility="invisible" />
 
-        <ImageView
-            android:id="@+id/time_icon_10"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/time_dot"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
+            <ImageView
+                android:id="@+id/time_icon_6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/time_dot"
+                android:visibility="invisible" />
 
-        <ImageView
-            android:id="@+id/time_icon_11"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/time_dot"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
+            <ImageView
+                android:id="@+id/time_icon_7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/time_dot"
+                android:visibility="invisible" />
 
-        <ImageView
-            android:id="@+id/time_icon_12"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/time_dot"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
+            <ImageView
+                android:id="@+id/time_icon_8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/time_dot"
+                android:visibility="invisible" />
 
-        <ImageView
-            android:id="@+id/time_icon_13"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/time_dot"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
+            <ImageView
+                android:id="@+id/time_icon_9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/time_dot"
+                android:visibility="invisible" />
 
+            <ImageView
+                android:id="@+id/time_icon_10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/time_dot"
+                android:visibility="invisible" />
 
+            <ImageView
+                android:id="@+id/time_icon_11"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/time_dot"
+                android:visibility="invisible" />
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/time_icon_12"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/time_dot"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/time_icon_13"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/time_dot"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

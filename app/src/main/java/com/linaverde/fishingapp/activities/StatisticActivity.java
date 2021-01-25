@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.fragments.DetailedStatsFragment;
 import com.linaverde.fishingapp.fragments.LogoTopMenuFragment;
 import com.linaverde.fishingapp.fragments.RegisterOneTeamFragment;
 import com.linaverde.fishingapp.fragments.StatisticsFragment;
@@ -121,31 +122,19 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
     }
 
     @Override
-    public void teamClicked(String teamId) {
+    public void teamClicked(String teamId, String teamName) {
         progressBar.show();
-        requestHelper.executeGet("teams", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
+        requestHelper.executeGet("statsdetail", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
             @Override
             public void onComplete(JSONObject json) {
                 progressBar.hide();
-                try {
-                    Team selectedTeam = new Team(json.getJSONObject("teams"));
-                    RegisterOneTeamFragment ROTFragment = RegisterOneTeamFragment.newInstance(selectedTeam.getCaptainName(), selectedTeam.getCaptainId(),
-                            selectedTeam.getAssistantName(), selectedTeam.getAssistantId(),
-                            selectedTeam.getCaptainDocuments().toString(), selectedTeam.getAssistantDocuments().toString(), matchId, selectedTeam.getId(),
-                            matchName, json.toString());
-                    Log.d("On team clicked", selectedTeam.getName());
-                    LogoTopMenuFragment LTMFragment = LogoTopMenuFragment.newInstance(selectedTeam.getLogo(), selectedTeam.getName());
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                    fragmentTransaction.replace(R.id.content_fragment, ROTFragment);
-                    fragmentTransaction.addToBackStack("StatisticFragment");
-                    fragmentTransaction.replace(R.id.top_menu_fragment, LTMFragment);
-                    fragmentTransaction.addToBackStack("LogoFragment");
-                    if (!fragmentManager.isDestroyed())
-                        fragmentTransaction.commit();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                DetailedStatsFragment DSFragment = DetailedStatsFragment.newInstance(json.toString(), teamName);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.replace(R.id.content_fragment, DSFragment);
+                fragmentTransaction.addToBackStack("StatisticFragment");
+                if (!fragmentManager.isDestroyed())
+                    fragmentTransaction.commit();
             }
 
             @Override
@@ -187,7 +176,13 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
 
     @Override
     public void onBackPressed() {
-        finish();
+        progressBar.hide();
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count == 0) {
+            finish();
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
     }
 
 

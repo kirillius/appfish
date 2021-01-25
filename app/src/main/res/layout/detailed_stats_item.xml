@@ -25,60 +25,51 @@
             android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/tv_stat_sector_name"
+            android:id="@+id/tv_stat_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="5dp"
-            android:layout_toStartOf="@id/iv_arrow"
             android:layout_toEndOf="@id/tv_stat_place"
-            android:ellipsize="end"
             android:gravity="center_vertical"
-            android:singleLine="true"
-            android:text="@string/sector"
+            android:text="ДАТА"
             android:textAppearance="@style/Roboto"
             android:textSize="22sp" />
 
-        <ImageView
-            android:id="@+id/iv_arrow"
-            android:layout_width="17dp"
-            android:layout_height="26dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="5dp"
-            android:adjustViewBounds="true"
-            android:background="@null"
-            android:scaleType="centerInside"
-            android:src="@drawable/arrow_right" />
 
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/tv_stat_count"
+        android:id="@+id/tv_stat_time"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/count"
+        android:layout_gravity="center"
+        android:layout_marginStart="5dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="ВРЕМЯ"
+        android:textAppearance="@style/Roboto"
+        android:textSize="22sp"
+        android:layout_weight="2"/>
+
+    <TextView
+        android:id="@+id/tv_stat_fish"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="РЫБА"
         android:layout_gravity="center"
         android:textAlignment="center"
         android:textAppearance="@style/Roboto"
         android:textSize="22sp" />
 
-    <TextView
-        android:id="@+id/tv_stat_avr"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textAlignment="center"
-        android:layout_weight="1"
-        android:text="@string/weigh_big"
-        android:textAppearance="@style/Roboto"
-        android:textSize="22sp" />
 
     <TextView
-        android:id="@+id/tv_stat_sum"
+        android:id="@+id/tv_stat_weight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:text="@string/weigh_big"
         android:layout_gravity="center_vertical|end"
         android:textAlignment="textEnd"

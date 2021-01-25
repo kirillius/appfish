@@ -121,7 +121,7 @@ public class StatisticsFragment extends Fragment {
             statList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    listener.teamClicked(adapter.getTeamId(position));
+                    listener.teamClicked(adapter.getTeamId(position), adapter.getTeamName(position));
                 }
             });
         } else {

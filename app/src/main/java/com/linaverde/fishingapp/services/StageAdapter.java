@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -37,6 +38,7 @@ public class StageAdapter extends ArrayAdapter<Stage> {
         View rowView = inflater.inflate(R.layout.stages_list_item, parent, false);
         TextView name = (TextView) rowView.findViewById(R.id.tv_stage_name);
         TextView status = (TextView) rowView.findViewById(R.id.tv_stage_status);
+        ImageView stats = (ImageView) rowView.findViewById(R.id.iv_stages_stats);
 
         name.setText(values.get(pos).getName());
         if (values.get(pos).getStatus() == 0){

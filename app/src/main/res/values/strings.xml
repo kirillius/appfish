@@ -19,7 +19,7 @@
     <string name="statistics">Статистика</string>
     <string name="sector">Сектор</string>
     <string name="count">Кол-во</string>
-    <string name="weigh">ВEC</string>
+    <string name="weigh_big">ВEC</string>
     <string name="avr">средний</string>
     <string name="sum">общий</string>
     <string name="result">Итого</string>
@@ -93,8 +93,8 @@
     <string name="values">Значения</string>
 
     <string name="register_rods">Регистрация удочек</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="date">Дата</string>
+    <string name="weight">Вес</string>
 
 
 </resources>

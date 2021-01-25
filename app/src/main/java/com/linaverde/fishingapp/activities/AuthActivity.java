@@ -79,8 +79,8 @@ public class AuthActivity extends AppCompatActivity {
                         @Override
                         public void onOk(String input) {
                             Intent intent = getIntent();
-                            finish();
                             startActivity(intent);
+                            finish();
                         }
 
                         @Override
@@ -164,4 +164,10 @@ public class AuthActivity extends AppCompatActivity {
             });
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
 }

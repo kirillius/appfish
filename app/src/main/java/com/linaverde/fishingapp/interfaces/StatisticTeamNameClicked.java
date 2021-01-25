@@ -1,5 +1,5 @@
 package com.linaverde.fishingapp.interfaces;
 
 public interface StatisticTeamNameClicked {
-    void teamClicked(String teamId);
+    void teamClicked(String teamId, String teamName);
 }
