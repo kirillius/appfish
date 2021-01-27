@@ -1,27 +1,18 @@
 package com.linaverde.fishingapp.services;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
-import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 import androidx.core.widget.ContentLoadingProgressBar;
 
 import com.linaverde.fishingapp.BuildConfig;
 import com.linaverde.fishingapp.R;
-import com.linaverde.fishingapp.activities.AuthActivity;
-import com.linaverde.fishingapp.activities.DocumentActivity;
-import com.linaverde.fishingapp.activities.RegisterTeamActivity;
-import com.linaverde.fishingapp.activities.WeightingActivity;
-import com.linaverde.fishingapp.fragments.WeightingStagesFragment;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 
 import org.json.JSONException;
@@ -29,9 +20,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Objects;
-
-import static androidx.core.content.FileProvider.getUriForFile;
 
 public class ProtocolHelper {
 

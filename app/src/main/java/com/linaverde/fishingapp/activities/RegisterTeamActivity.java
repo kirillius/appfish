@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -17,14 +18,18 @@ import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.fragments.DetailedStatsFragment;
 import com.linaverde.fishingapp.fragments.LogoTopMenuFragment;
 import com.linaverde.fishingapp.fragments.RegisterOneTeamFragment;
 import com.linaverde.fishingapp.fragments.RegisterTeamListFragment;
+import com.linaverde.fishingapp.fragments.StatisticsFragment;
 import com.linaverde.fishingapp.fragments.TimeFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.fragments.ViolationsFragment;
+import com.linaverde.fishingapp.interfaces.IOnBackPressed;
 import com.linaverde.fishingapp.interfaces.OneTeamClickListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
+import com.linaverde.fishingapp.interfaces.StatisticTeamNameClicked;
 import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
 import com.linaverde.fishingapp.models.Team;
@@ -37,7 +42,7 @@ import com.linaverde.fishingapp.services.UserInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEventListener, TeamListClickListener, OneTeamClickListener {
+public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEventListener, TeamListClickListener, OneTeamClickListener, StatisticTeamNameClicked {
 
     DrawerLayout drawer;
     FragmentTransaction fragmentTransaction;
@@ -118,33 +123,41 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
 
     @Override
     public void onTeamClicked(Team selectedTeam) {
+        progressBar.show();
+        requestHelper.executeGet("teams", new String[]{"match", "team"}, new String[]{matchId, selectedTeam.getId()}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                progressBar.hide();
+                try {
+                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                        RegisterOneTeamFragment ROTFragment = RegisterOneTeamFragment.newInstance(matchId, matchName, selectedTeam.getId(), json.toString());
+                        Log.d("On team clicked", selectedTeam.getName());
+                        LogoTopMenuFragment LTMFragment = LogoTopMenuFragment.newInstance(selectedTeam.getLogo(), selectedTeam.getName());
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                        fragmentTransaction.replace(R.id.content_fragment, ROTFragment);
+                        fragmentTransaction.addToBackStack("RegisterTeamFragment");
+                        fragmentTransaction.replace(R.id.top_menu_fragment, LTMFragment);
+                        fragmentTransaction.addToBackStack("LogoFragment");
+                        if (!fragmentManager.isDestroyed())
+                            fragmentTransaction.commit();
+                        bottomFragmentContainer.setVisibility(View.GONE);
+                    } else {
+                        DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), json.getString("error"), null);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
 
-        RegisterOneTeamFragment ROTFragment = RegisterOneTeamFragment.newInstance(selectedTeam.getCaptainName(), selectedTeam.getCaptainId(),
-                selectedTeam.getAssistantName(), selectedTeam.getAssistantId(),
-                selectedTeam.getCaptainDocuments().toString(), selectedTeam.getAssistantDocuments().toString(), matchId, selectedTeam.getId(),
-                matchName, null);
-        Log.d("On team clicked", selectedTeam.getName());
-        LogoTopMenuFragment LTMFragment = LogoTopMenuFragment.newInstance(selectedTeam.getLogo(), selectedTeam.getName());
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        fragmentTransaction.replace(R.id.content_fragment, ROTFragment);
-        fragmentTransaction.addToBackStack("RegisterTeamFragment");
-        fragmentTransaction.replace(R.id.top_menu_fragment, LTMFragment);
-        fragmentTransaction.addToBackStack("LogoFragment");
-        if (!fragmentManager.isDestroyed())
-            fragmentTransaction.commit();
-        bottomFragmentContainer.setVisibility(View.GONE);
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+            }
+        });
 
-    }
 
-    @Override
-    public void onDocumentClicked(String userId, int doc) {
-        Intent intent = new Intent(RegisterTeamActivity.this, DocumentActivity.class);
-        Bundle b = new Bundle();
-        b.putInt("doc", doc);
-        b.putString("user", userId);
-        intent.putExtras(b);
-        startActivity(intent);
     }
 
     @Override
@@ -154,7 +167,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
             @Override
             public void onComplete(JSONObject json) {
                 progressBar.hide();
-               // UserInfo userInfo = new UserInfo(RegisterTeamActivity.this);
+                // UserInfo userInfo = new UserInfo(RegisterTeamActivity.this);
                 try {
                     //boolean edit = userInfo.getUserType() == 1;
                     if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
@@ -182,6 +195,56 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
                 DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
             }
         });
+    }
+
+    @Override
+    public void onStatisticsClicked(String teamId) {
+        progressBar.show();
+        requestHelper.executeGet("stats", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                Log.d("Test auth", "Request fine");
+                StatisticsFragment statisticsFragment = null;
+
+                statisticsFragment = StatisticsFragment.newInstance(json.toString(), matchName, false);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_fragment, statisticsFragment);
+                fragmentTransaction.addToBackStack("OneTeamFragment");
+                if (!fragmentManager.isDestroyed())
+                    fragmentTransaction.commit();
+                progressBar.hide();
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+            }
+        });
+    }
+
+    @Override
+    public void teamClicked(String teamId, String teamName) {
+//        progressBar.show();
+//        requestHelper.executeGet("statsdetail", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
+//            @Override
+//            public void onComplete(JSONObject json) {
+//                progressBar.hide();
+//                DetailedStatsFragment DSFragment = DetailedStatsFragment.newInstance(json.toString(), teamName);
+//                fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//                fragmentTransaction.replace(R.id.content_fragment, DSFragment);
+//                fragmentTransaction.addToBackStack("StatisticFragment");
+//                if (!fragmentManager.isDestroyed())
+//                    fragmentTransaction.commit();
+//            }
+//
+//            @Override
+//            public void onError(int responseCode) {
+//                progressBar.hide();
+//                DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+//            }
+//        });
     }
 
 
@@ -219,15 +282,18 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
     public void onBackPressed() {
         progressBar.hide();
 
-        int count = getSupportFragmentManager().getBackStackEntryCount();
-        if (count == 0) {
-            finish();
-        } else {
-            getSupportFragmentManager().popBackStack();
-            if (count == 1){
-                bottomFragmentContainer.setVisibility(View.VISIBLE);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_fragment);
+        if (!(fragment instanceof IOnBackPressed) || !((IOnBackPressed) fragment).onBackPressed()) {
+            //super.onBackPressed();
+            int count = getSupportFragmentManager().getBackStackEntryCount();
+            if (count == 0) {
+                finish();
+            } else {
+                getSupportFragmentManager().popBackStack();
+                if (count == 1) {
+                    bottomFragmentContainer.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
-
 }

@@ -20,6 +20,8 @@ import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.activities.StatisticActivity;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
+import com.linaverde.fishingapp.interfaces.IOnBackPressed;
+import com.linaverde.fishingapp.interfaces.LoadDocumentListener;
 import com.linaverde.fishingapp.interfaces.OneTeamClickListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.services.DialogBuilder;
@@ -30,54 +32,32 @@ import com.linaverde.fishingapp.services.UserInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RegisterOneTeamFragment extends Fragment {
+public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed, LoadDocumentListener {
 
-    private static final String CAPTAIN = "captain";
-    private static final String ASSISTANT = "assistant";
-    private static final String CAPTAINID = "captainID";
-    private static final String ASSISTANTID = "assistantID";
-    private static final String CAPTAIN_DOCS = "captain_docs";
-    private static final String ASSISTANT_DOCS = "assistant_docs";
     private static final String MATCH_ID = "matchID";
-    private static final String TEAM_ID = "teamID";
     private static final String MATCH_NAME = "matchName";
-    private static final String FULL = "full";
+    private static final String TEAM_ID = "teamId";
+    private static final String TEAM = "team";
 
     private String matchName;
-    private String captainName;
-    private String assistantName;
-    private String captainId;
-    private String assistantId;
     private String captainPhoto = "";
     private String assistantPhoto = "";
-    private JSONObject captainDocs;
-    private JSONObject assistantDocs;
     private String matchId;
-    private String teamId;
     private String[] captainLinks;
     private String[] assistantLinks;
-    String fullInfo;
+    private JSONObject team;
+    private String teamId;
 
     OneTeamClickListener listener;
 
-    public static RegisterOneTeamFragment newInstance(String captain, String captainId,
-                                                      String assistantName, String assistantId,
-                                                      String captainDocs, String assistantDocs,
-                                                      String matchId, String teamId,
-                                                      String matchName, String full) {
+    public static RegisterOneTeamFragment newInstance(String matchId, String matchName, String teamId, String teamJson) {
 
         RegisterOneTeamFragment fragment = new RegisterOneTeamFragment();
         Bundle args = new Bundle();
-        args.putString(CAPTAIN, captain);
-        args.putString(ASSISTANT, assistantName);
-        args.putString(CAPTAINID, captainId);
-        args.putString(ASSISTANTID, assistantId);
-        args.putString(CAPTAIN_DOCS, captainDocs);
-        args.putString(ASSISTANT_DOCS, assistantDocs);
         args.putString(MATCH_ID, matchId);
-        args.putString(TEAM_ID, teamId);
         args.putString(MATCH_NAME, matchName);
-        args.putString(FULL, full);
+        args.putString(TEAM_ID, teamId);
+        args.putString(TEAM, teamJson);
         fragment.setArguments(args);
         return fragment;
     }
@@ -86,28 +66,18 @@ public class RegisterOneTeamFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
-            captainName = getArguments().getString(CAPTAIN);
-            assistantName = getArguments().getString(ASSISTANT);
-            captainId = getArguments().getString(CAPTAINID);
-            assistantId = getArguments().getString(ASSISTANTID);
             matchId = getArguments().getString(MATCH_ID);
-            teamId = getArguments().getString(TEAM_ID);
             matchName = getArguments().getString(MATCH_NAME);
-            fullInfo = getArguments().getString(FULL);
-
+            teamId = getArguments().getString(TEAM_ID);
             try {
-                captainDocs = new JSONObject(getArguments().getString(CAPTAIN_DOCS));
-                assistantDocs = new JSONObject(getArguments().getString(ASSISTANT_DOCS));
+                team = new JSONObject(getArguments().getString(TEAM));
+                team = team.getJSONObject("teams");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
-    TextView tvCaptainName;
-    TextView tvAssistantName;
     PorterShapeImageView ivCaptainPhoto;
     PorterShapeImageView ivAssistantPhoto;
 
@@ -118,174 +88,61 @@ public class RegisterOneTeamFragment extends Fragment {
     ContentLoadingProgressBar progressBar;
 
     TextView statistics, violations;
-    ImageView photo;
+    ImageView photo, ivDocument;
+    boolean documentOpen = false;
+    boolean photoOpen = false;
+    RegisterOneTeamFragment fragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register_one_team, container, false);
-        tvCaptainName = view.findViewById(R.id.tv_captain_name);
-        tvCaptainName.setText(captainName);
-        tvAssistantName = view.findViewById(R.id.tv_assistant_name);
-        tvAssistantName.setText(assistantName);
-        ivCaptainPhoto = view.findViewById(R.id.iv_captain_photo);
-        ivAssistantPhoto = view.findViewById(R.id.iv_assistant_photo);
+        fragment = this;
         progressBar = view.findViewById(R.id.progress_bar);
-
+        progressBar.hide();
         photo = view.findViewById(R.id.iv_photo);
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 photo.setVisibility(View.GONE);
+                photoOpen = false;
             }
         });
 
-        if (fullInfo == null) {
-            RequestHelper requestHelper = new RequestHelper(getContext());
-            progressBar.show();
-            requestHelper.executeGet("teams", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
-                @Override
-                public void onComplete(JSONObject json) {
-                    progressBar.hide();
-                    fullPhotosAndLinks(view, json);
-                }
-
-                @Override
-                public void onError(int responseCode) {
-                    progressBar.hide();
-                }
-            });
-        } else {
-            progressBar.hide();
-            try {
-                fullPhotosAndLinks(view, new JSONObject(fullInfo));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        captainPass = view.findViewById(R.id.ib_captain_pass);
-        captainMed = view.findViewById(R.id.ib_captain_med);
-        captainSport = view.findViewById(R.id.ib_captain_sport);
-
-        assistantPass = view.findViewById(R.id.ib_assistant_pass);
-        assistantMed = view.findViewById(R.id.ib_assistant_med);
-        assistantSport = view.findViewById(R.id.ib_assistant_sport);
-
-        buttonEndReg = view.findViewById(R.id.button_end_reg);
+        ivDocument = view.findViewById(R.id.iv_document);
 
         try {
-            if (captainDocs.getBoolean("doc1")) {
-                captainPass.setImageResource(R.drawable.document_check);
-            } else {
-                captainPass.setEnabled(false);
-            }
-            if (captainDocs.getBoolean("doc2")) {
-                captainMed.setImageResource(R.drawable.document_check);
-            } else {
-                captainMed.setEnabled(false);
-            }
-            if (captainDocs.getBoolean("doc3")) {
-                captainSport.setImageResource(R.drawable.document_check);
-            } else {
-                captainSport.setEnabled(false);
-            }
-            if (assistantDocs.getBoolean("doc1")) {
-                assistantPass.setImageResource(R.drawable.document_check);
-            } else {
-                assistantPass.setEnabled(false);
-            }
-            if (assistantDocs.getBoolean("doc2")) {
-                assistantMed.setImageResource(R.drawable.document_check);
-            } else {
-                assistantMed.setEnabled(false);
-            }
-            if (assistantDocs.getBoolean("doc3")) {
-                assistantSport.setImageResource(R.drawable.document_check);
-            } else {
-                assistantSport.setEnabled(false);
-            }
+            ((TextView) view.findViewById(R.id.tv_captain_name)).setText(team.getString("captainName"));
+            ((TextView) view.findViewById(R.id.tv_assistant_name)).setText(team.getString("assistantName"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        captainPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onDocumentClicked(captainId, 1);
-            }
-        });
-
-        captainMed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onDocumentClicked(captainId, 2);
-            }
-        });
-
-        captainSport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onDocumentClicked(captainId, 3);
-            }
-        });
-
-        assistantPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onDocumentClicked(assistantId, 1);
-            }
-        });
-
-        assistantMed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onDocumentClicked(assistantId, 2);
-            }
-        });
-
-        assistantSport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onDocumentClicked(assistantId, 3);
-            }
-        });
-
+        fillPhotosAndLinks(view);
+        fillDocuments(view);
         statistics = view.findViewById(R.id.tv_statistics);
 
-        if (fullInfo == null) {
-            statistics.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getContext(), StatisticActivity.class);
-                    Bundle b = new Bundle();
-                    b.putString("matchId", matchId);
-                    b.putString("teamId", teamId);
-                    b.putString("matchName", matchName);
-                    intent.putExtras(b);
-                    startActivity(intent);
-                }
-            });
-        } else {
-            statistics.setVisibility(View.GONE);
-        }
+        statistics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onStatisticsClicked(teamId);
+            }
+        });
+
 
         violations = view.findViewById(R.id.tv_violations);
 
-        if (fullInfo == null) {
-            violations.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onViolationClicked(teamId);
-                }
-            });
-        } else {
-            violations.setVisibility(View.GONE);
-        }
+        violations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onViolationClicked(teamId);
+            }
+        });
+
 
         UserInfo userInfo = new UserInfo(getContext());
-        if (userInfo.getUserType() != 1 || fullInfo != null) {
+        if (userInfo.getUserType() != 1) {
             buttonEndReg.setVisibility(View.GONE);
         } else {
             buttonEndReg.setOnClickListener(new View.OnClickListener() {
@@ -329,28 +186,136 @@ public class RegisterOneTeamFragment extends Fragment {
                 }
             });
         }
-
-
         return view;
     }
 
-    private void fullPhotosAndLinks(View view, JSONObject json) {
+    String captainId;
+    String assistantId;
+
+    private void fillDocuments(View view) {
+
+        captainPass = view.findViewById(R.id.ib_captain_pass);
+        captainMed = view.findViewById(R.id.ib_captain_med);
+        captainSport = view.findViewById(R.id.ib_captain_sport);
+
+        assistantPass = view.findViewById(R.id.ib_assistant_pass);
+        assistantMed = view.findViewById(R.id.ib_assistant_med);
+        assistantSport = view.findViewById(R.id.ib_assistant_sport);
+
+        buttonEndReg = view.findViewById(R.id.button_end_reg);
+        JSONObject captainDocs = null;
+        JSONObject assistantDocs = null;
 
         try {
-            json = json.getJSONObject("teams");
-            captainPhoto = json.getString("captainPhoto");
-            assistantPhoto = json.getString("assistantPhoto");
+            captainDocs = team.getJSONObject("captainDocs");
+            assistantDocs = team.getJSONObject("assistantDocs");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            if (captainDocs.getBoolean("doc1")) {
+                captainPass.setImageResource(R.drawable.document_check);
+            } else {
+                captainPass.setEnabled(false);
+            }
+            if (captainDocs.getBoolean("doc2")) {
+                captainMed.setImageResource(R.drawable.document_check);
+            } else {
+                captainMed.setEnabled(false);
+            }
+            if (captainDocs.getBoolean("doc3")) {
+                captainSport.setImageResource(R.drawable.document_check);
+            } else {
+                captainSport.setEnabled(false);
+            }
+            if (assistantDocs.getBoolean("doc1")) {
+                assistantPass.setImageResource(R.drawable.document_check);
+            } else {
+                assistantPass.setEnabled(false);
+            }
+            if (assistantDocs.getBoolean("doc2")) {
+                assistantMed.setImageResource(R.drawable.document_check);
+            } else {
+                assistantMed.setEnabled(false);
+            }
+            if (assistantDocs.getBoolean("doc3")) {
+                assistantSport.setImageResource(R.drawable.document_check);
+            } else {
+                assistantSport.setEnabled(false);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            captainId = team.getString("captainId");
+            assistantId = team.getString("assistantId");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        captainPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment.onDocumentClicked(captainId, 1);
+            }
+        });
+
+        captainMed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment.onDocumentClicked(captainId, 2);
+            }
+        });
+
+        captainSport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment.onDocumentClicked(captainId, 3);
+            }
+        });
+
+        assistantPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment.onDocumentClicked(assistantId, 1);
+            }
+        });
+
+        assistantMed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment.onDocumentClicked(assistantId, 2);
+            }
+        });
+
+        assistantSport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment.onDocumentClicked(assistantId, 3);
+            }
+        });
+    }
+
+    private void fillPhotosAndLinks(View view) {
+        ivCaptainPhoto = view.findViewById(R.id.iv_captain_photo);
+        ivAssistantPhoto = view.findViewById(R.id.iv_assistant_photo);
+
+        try {
+            captainPhoto = team.getString("captainPhoto");
+            assistantPhoto = team.getString("assistantPhoto");
             captainLinks = new String[4];
-            captainLinks[0] = json.getString("captainLink1");
-            captainLinks[1] = json.getString("captainLink2");
-            captainLinks[2] = json.getString("captainLink3");
-            captainLinks[3] = json.getString("captainLink4");
+            captainLinks[0] = team.getString("captainLink1");
+            captainLinks[1] = team.getString("captainLink2");
+            captainLinks[2] = team.getString("captainLink3");
+            captainLinks[3] = team.getString("captainLink4");
 
             assistantLinks = new String[4];
-            assistantLinks[0] = json.getString("assistantLink1");
-            assistantLinks[1] = json.getString("assistantLink2");
-            assistantLinks[2] = json.getString("assistantLink3");
-            assistantLinks[3] = json.getString("assistantLink4");
+            assistantLinks[0] = team.getString("assistantLink1");
+            assistantLinks[1] = team.getString("assistantLink2");
+            assistantLinks[2] = team.getString("assistantLink3");
+            assistantLinks[3] = team.getString("assistantLink4");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -359,9 +324,9 @@ public class RegisterOneTeamFragment extends Fragment {
             ivCaptainPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     photo.setImageBitmap(ImageHelper.decodeToImage(captainPhoto));
                     photo.setVisibility(View.VISIBLE);
+                    photoOpen = true;
                 }
             });
         }
@@ -372,6 +337,7 @@ public class RegisterOneTeamFragment extends Fragment {
                 public void onClick(View v) {
                     photo.setImageBitmap(ImageHelper.decodeToImage(assistantPhoto));
                     photo.setVisibility(View.VISIBLE);
+                    photoOpen = true;
                 }
             });
         }
@@ -474,4 +440,46 @@ public class RegisterOneTeamFragment extends Fragment {
         listener = null;
     }
 
+    @Override
+    public boolean onBackPressed() {
+        if (photoOpen || documentOpen) {
+            photo.setVisibility(View.GONE);
+            photoOpen = false;
+            documentOpen= false;
+            ivDocument.setVisibility(View.GONE);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void onDocumentClicked(String userId, int doc) {
+        progressBar.show();
+        RequestHelper requestHelper = new RequestHelper(getContext());
+        requestHelper.getDocument(userId, doc, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                progressBar.hide();
+                try {
+                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                        ivDocument.setImageBitmap(ImageHelper.decodeToImage(json.getString("doc")));
+                        ivDocument.setVisibility(View.VISIBLE);
+                        documentOpen = true;
+
+                    } else {
+                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), json.getString("error"), null);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
+            }
+        });
+    }
 }

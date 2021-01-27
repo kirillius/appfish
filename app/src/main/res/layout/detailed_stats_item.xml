@@ -34,7 +34,7 @@
             android:gravity="center_vertical"
             android:text="ДАТА"
             android:textAppearance="@style/Roboto"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
 
 
     </RelativeLayout>
@@ -50,7 +50,7 @@
         android:singleLine="true"
         android:text="ВРЕМЯ"
         android:textAppearance="@style/Roboto"
-        android:textSize="22sp"
+        android:textSize="20sp"
         android:layout_weight="2"/>
 
     <TextView
@@ -62,7 +62,7 @@
         android:layout_gravity="center"
         android:textAlignment="center"
         android:textAppearance="@style/Roboto"
-        android:textSize="22sp" />
+        android:textSize="20sp" />
 
 
     <TextView
@@ -75,7 +75,7 @@
         android:textAlignment="textEnd"
         android:layout_marginEnd="55dp"
         android:textAppearance="@style/Roboto"
-        android:textSize="22sp" />
+        android:textSize="20sp" />
 
 
 </LinearLayout>

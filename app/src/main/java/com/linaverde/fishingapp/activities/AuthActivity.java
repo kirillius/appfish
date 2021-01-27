@@ -51,118 +51,72 @@ public class AuthActivity extends AppCompatActivity {
 
         RequestHelper requestHelper = new RequestHelper(this);
         UserInfo userInfo = new UserInfo(this);
-        if (userInfo.getLogin() != null) {
-            progressBar.show();
-            requestHelper.executeGet("session", new String[]{"username", "password"}, new String[]{userInfo.getLogin(), userInfo.getPassword()}, new RequestListener() {
-                @Override
-                public void onComplete(JSONObject json) {
-                    progressBar.hide();
-                    Log.d("Test auth", "Request fine");
-                    try {
-                        userInfo.saveUser(userInfo.getLogin(), userInfo.getPassword(), json.getString("userName"), json.getInt("userType"), json.getString("pond"),
-                                json.getString("matchId"), json.getString("matchName"), json.getString("teamId"), json.getString("caption"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    Bundle args = new Bundle();
-                    args.putString("info", json.toString());
-                    Intent next = new Intent(AuthActivity.this, TournamentActivity.class);
-                    next.putExtras(args); //Optional parameters
-                    startActivity(next);
-                    finish();
-                }
-
-                @Override
-                public void onError(int responseCode) {
-                    progressBar.hide();
-                    CompleteActionListener listener = new CompleteActionListener() {
+        progressBar.hide();
+        rlAuth.setVisibility(View.VISIBLE);
+        signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+                String sLogin, sPassword;
+                sLogin = login.getText().toString();
+                sPassword = password.getText().toString();
+                if (!sLogin.equals("") && !sPassword.equals("")) {
+                    progressBar.show();
+                    requestHelper.executeGet("session", new String[]{"username", "password"}, new String[]{sLogin, sPassword}, new RequestListener() {
                         @Override
-                        public void onOk(String input) {
-                            Intent intent = getIntent();
-                            startActivity(intent);
+                        public void onComplete(JSONObject json) {
+                            progressBar.hide();
+                            Log.d("Test auth", "Request fine");
+                            try {
+                                userInfo.saveUser(sLogin, sPassword, json.getString("userName"), json.getInt("userType"), json.getString("pond"),
+                                        json.getString("matchId"), json.getString("matchName"), json.getString("teamId"), json.getString("caption"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Bundle args = new Bundle();
+                            args.putString("info", json.toString());
+                            Intent next = new Intent(AuthActivity.this, TournamentActivity.class);
+                            next.putExtras(args); //Optional parameters
+                            startActivity(next);
                             finish();
                         }
 
+
                         @Override
-                        public void onCancel() {
-
+                        public void onError(int responseCode) {
+                            progressBar.hide();
+                            if (responseCode == 401) {
+                                DialogBuilder.createDefaultDialog(AuthActivity.this, getLayoutInflater(), getString(R.string.login_error), null);
+                            } else {
+                                DialogBuilder.createDefaultDialog(AuthActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+                            }
                         }
-                    };
-                    if (responseCode == 401) {
-                        DialogBuilder.createDefaultDialog(AuthActivity.this, getLayoutInflater(), getString(R.string.login_error), listener);
-                        userInfo.clearUserInfo();
-                    } else {
-                        DialogBuilder.createDefaultDialog(AuthActivity.this, getLayoutInflater(), getString(R.string.request_error), listener);
-                    }
+                    });
+                } else {
+                    DialogBuilder.createDefaultDialog(AuthActivity.this, getLayoutInflater(), getString(R.string.fill_login_password), null);
                 }
-            });
-        } else {
-            progressBar.hide();
-            rlAuth.setVisibility(View.VISIBLE);
-            signIn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
-                    String sLogin, sPassword;
-                    sLogin = login.getText().toString();
-                    sPassword = password.getText().toString();
-                    if (!sLogin.equals("") && !sPassword.equals("")) {
-                        progressBar.show();
-                        requestHelper.executeGet("session", new String[]{"username", "password"}, new String[]{sLogin, sPassword}, new RequestListener() {
-                            @Override
-                            public void onComplete(JSONObject json) {
-                                progressBar.hide();
-                                Log.d("Test auth", "Request fine");
-                                try {
-                                    userInfo.saveUser(sLogin, sPassword, json.getString("userName"), json.getInt("userType"), json.getString("pond"),
-                                            json.getString("matchId"), json.getString("matchName"), json.getString("teamId"), json.getString("caption"));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                Bundle args = new Bundle();
-                                args.putString("info", json.toString());
-                                Intent next = new Intent(AuthActivity.this, TournamentActivity.class);
-                                next.putExtras(args); //Optional parameters
-                                startActivity(next);
-                                finish();
-                            }
+            }
+        });
 
+        showPass.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
 
-                            @Override
-                            public void onError(int responseCode) {
-                                progressBar.hide();
-                                if (responseCode == 401) {
-                                    DialogBuilder.createDefaultDialog(AuthActivity.this, getLayoutInflater(), getString(R.string.login_error), null);
-                                } else {
-                                    DialogBuilder.createDefaultDialog(AuthActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
-                                }
-                            }
-                        });
-                    } else {
-                        DialogBuilder.createDefaultDialog(AuthActivity.this, getLayoutInflater(), getString(R.string.fill_login_password), null);
-                    }
+                switch (event.getAction()) {
+
+                    case MotionEvent.ACTION_UP:
+                        password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        break;
+
+                    case MotionEvent.ACTION_DOWN:
+                        password.setInputType(InputType.TYPE_CLASS_TEXT);
+                        break;
+
                 }
-            });
+                return true;
+            }
+        });
 
-            showPass.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
-
-                    switch (event.getAction()) {
-
-                        case MotionEvent.ACTION_UP:
-                            password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                            break;
-
-                        case MotionEvent.ACTION_DOWN:
-                            password.setInputType(InputType.TYPE_CLASS_TEXT);
-                            break;
-
-                    }
-                    return true;
-                }
-            });
-        }
     }
 
     @Override

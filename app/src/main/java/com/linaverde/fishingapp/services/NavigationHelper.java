@@ -8,8 +8,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.activities.AuthActivity;
-import com.linaverde.fishingapp.activities.DocumentActivity;
-import com.linaverde.fishingapp.activities.TournamentActivity;
 
 public class NavigationHelper {
 

@@ -35,7 +35,7 @@ import com.linaverde.fishingapp.services.RequestHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class StatisticActivity extends AppCompatActivity implements TopMenuEventListener, StatisticTeamNameClicked, OneTeamClickListener {
+public class StatisticActivity extends AppCompatActivity implements TopMenuEventListener, StatisticTeamNameClicked {
 
     FragmentTransaction fragmentTransaction;
     DrawerLayout drawer;
@@ -115,6 +115,7 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
 
                 @Override
                 public void onError(int responseCode) {
+                    progressBar.hide();
                     DialogBuilder.createDefaultDialog(StatisticActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
                 }
             });
@@ -183,53 +184,5 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
         } else {
             getSupportFragmentManager().popBackStack();
         }
-    }
-
-
-    @Override
-    public void onDocumentClicked(String userId, int doc) {
-        Intent intent = new Intent(StatisticActivity.this, DocumentActivity.class);
-        Bundle b = new Bundle();
-        b.putInt("doc", doc);
-        b.putString("user", userId);
-        intent.putExtras(b);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onViolationClicked(String teamId) {
-        progressBar.show();
-        requestHelper.executeGet("fouls", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
-            @Override
-            public void onComplete(JSONObject json) {
-                progressBar.hide();
-                // UserInfo userInfo = new UserInfo(RegisterTeamActivity.this);
-                try {
-                    //boolean edit = userInfo.getUserType() == 1;
-                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                        ViolationsFragment VFragment = ViolationsFragment.newInstance(json.getJSONArray("fouls").toString(), json.getJSONArray("dictionary").toString(),
-                                null, teamId, -1, false);
-                        fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                        fragmentTransaction.replace(R.id.content_fragment, VFragment);
-                        fragmentTransaction.addToBackStack("WeightingStages");
-                        if (!fragmentManager.isDestroyed())
-                            fragmentTransaction.commit();
-                    } else {
-                        DialogBuilder.createDefaultDialog(StatisticActivity.this, getLayoutInflater(), json.getString("error"), null);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onError(int responseCode) {
-                progressBar.hide();
-                DialogBuilder.createDefaultDialog(StatisticActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
-            }
-        });
     }
 }
