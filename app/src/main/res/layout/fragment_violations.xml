@@ -211,25 +211,6 @@
             android:orientation="horizontal"
             android:layout_toStartOf="@id/button_add_violation">
 
-            <RelativeLayout
-                android:id="@+id/rl_button_violation_save"
-                android:layout_width="match_parent"
-                android:layout_height="59dp"
-                android:background="@drawable/button_dark"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginStart="64dp"
-                    android:text="@string/confirm"
-                    android:textAppearance="@style/Roboto"
-                    android:textSize="30sp" />
-
-            </RelativeLayout>
-
             <LinearLayout
                 android:id="@+id/ll_sanction"
                 android:layout_width="match_parent"

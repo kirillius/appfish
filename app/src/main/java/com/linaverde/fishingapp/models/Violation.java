@@ -70,4 +70,18 @@ public class Violation {
     public String getDateTime(){
         return date+"T"+time;
     }
+
+    public String toString(){
+        JSONObject object = new JSONObject();
+        try {
+            object.put("id", id);
+            object.put("foulName", name);
+            object.put("foulId", violationId);
+            object.put("time", this.getDateTime());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return object.toString();
+    }
 }

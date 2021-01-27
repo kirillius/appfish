@@ -68,14 +68,8 @@ public class WeightingStagesFragment extends Fragment {
             for (int i = 0; i < stagesArray.length(); i++){
                 stages[i] = new Stage(stagesArray.getJSONObject(i));
             }
-            StageAdapter adapter = new StageAdapter(getContext(), stages);
+            StageAdapter adapter = new StageAdapter(getContext(), stages, listener);
             lvStages.setAdapter(adapter);
-            lvStages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    listener.stageClicked(adapter.getItem(position).getId());
-                }
-            });
         } catch (JSONException e) {
             e.printStackTrace();
         }

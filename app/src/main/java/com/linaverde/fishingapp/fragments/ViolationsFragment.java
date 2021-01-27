@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -158,34 +159,6 @@ public class ViolationsFragment extends Fragment {
             tvSanction.setText("");
         }
 
-        ViolationListChangeListener violationListChangeListener = new ViolationListChangeListener() {
-            @Override
-            public void selectionChanged(int pos, String foulId) {
-                violationChanged = true;
-                newId = foulId;
-                changedPos = pos;
-                confirm.setVisibility(View.VISIBLE);
-                buttonAdd.setVisibility(View.GONE);
-                sanction.setVisibility(View.GONE);
-                violationsArr.get(pos).setViolationId(foulId);
-                adapter.setChangedId(pos);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void violationTimeChanged(int pos, String date, String time) {
-                violationChanged = true;
-                newTime = date + "T" + time;
-                changedPos = pos;
-                confirm.setVisibility(View.VISIBLE);
-                buttonAdd.setVisibility(View.GONE);
-                sanction.setVisibility(View.GONE);
-                adapter.setChangedId(pos);
-                violationsArr.get(pos).setTime(time);
-                adapter.notifyDataSetChanged();
-            }
-        };
-
         if (!edit)
             lvViolations.setEnabled(false);
 
@@ -209,36 +182,28 @@ public class ViolationsFragment extends Fragment {
             }
         });
 
-        adapter = new ViolationAdapter(getContext(), violationsArr, dictArr, edit, violationListChangeListener);
+        adapter = new ViolationAdapter(getContext(), violationsArr, dictArr, edit);
         lvViolations.setAdapter(adapter);
 
-        if (!edit)
-            confirm.setVisibility(View.GONE);
-
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                JSONObject object = new JSONObject();
-                try {
-                    if (!violationsArr.get(changedPos).getId().equals("")) {
-                        object.put("id", violationsArr.get(changedPos).getId());
-                    }
-                    if (!newId.equals("")) {
-                        object.put("foulId", newId);
-                    } else {
-                        object.put("foulId", violationsArr.get(changedPos).getViolationId());
-                    }
-                    if (!newTime.equals("")) {
-                        object.put("time", newTime);
-                    } else {
-                        object.put("time", violationsArr.get(changedPos).getDateTime());
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if (userInfo.getUserType() == 1)
+            lvViolations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    listener.violationChanged(adapter.getItem(position).toString(), dict.toString(), teamId, stageId, sector);
                 }
-                listener.violationChangedRequest(stageId, teamId, object.toString(), sector);
-            }
-        });
+            });
+
+        if (userInfo.getUserType() == 1) {
+            buttonAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.violationAdded(dict.toString(), teamId, stageId, sector);
+                }
+            });
+        } else {
+            buttonAdd.setVisibility(View.GONE);
+            lvViolations.setEnabled(false);
+        }
 
         return view;
     }

@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.interfaces.WeightStageClickedListener;
 import com.linaverde.fishingapp.models.QueueComparator;
 import com.linaverde.fishingapp.models.Stage;
 import com.linaverde.fishingapp.models.TeamsQueue;
@@ -23,12 +24,14 @@ import java.util.List;
 public class StageAdapter extends ArrayAdapter<Stage> {
     Context context;
     List<Stage> values;
+    WeightStageClickedListener listener;
 
-    public StageAdapter (Context context, Stage[] values) {
+    public StageAdapter (Context context, Stage[] values, WeightStageClickedListener listener) {
         super(context, R.layout.stages_list_item, values);
         this.context = context;
         //Collections.sort(list);
         this.values = Arrays.asList(values);
+        this.listener = listener;
     }
 
     @Override
@@ -46,6 +49,23 @@ public class StageAdapter extends ArrayAdapter<Stage> {
         } else {
             status.setText(context.getString(R.string.stage_end));
         }
+
+        View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.stageClicked(values.get(pos).getId());
+            }
+        };
+
+        name.setOnClickListener(clickListener);
+        status.setOnClickListener(clickListener);
+
+        stats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.statsClicked(values.get(pos).getId());
+            }
+        });
 
         return rowView;
     }

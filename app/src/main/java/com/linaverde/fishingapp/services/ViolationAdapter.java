@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.interfaces.ViolationListChangeListener;
@@ -26,18 +28,16 @@ public class ViolationAdapter extends ArrayAdapter<Violation> {
     Context context;
     List<Violation> values;
     ViolationDictionaryItem[] dict;
-    ViolationListChangeListener clickListener;
     int changedId = -1;
     boolean newViolationAdded = false;
     boolean edit;
 
-    public ViolationAdapter(Context context, List<Violation> values, ViolationDictionaryItem[] dict, boolean edit, ViolationListChangeListener clickListener) {
+    public ViolationAdapter(Context context, List<Violation> values, ViolationDictionaryItem[] dict, boolean edit) {
         super(context, R.layout.violation_list_item, values);
         this.context = context;
         this.values = values;
         //Collections.sort(values);
         this.dict = dict;
-        this.clickListener = clickListener;
         this.edit = edit;
     }
 
@@ -67,35 +67,6 @@ public class ViolationAdapter extends ArrayAdapter<Violation> {
                 name.setText(violationDictionaryItem.getName());
             }
         }
-
-        if (edit)
-            name.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (changedId == -1 || changedId == pos) {
-                        DialogBuilder.createSelectViolationTypeDialog(context, inflater, "Выберите тип нарушения", dict, violation.getViolationId(), new CompleteActionListener() {
-                            @Override
-                            public void onOk(String input) {
-                                for (ViolationDictionaryItem violationDictionaryItem : dict) {
-                                    if (input.equals(violationDictionaryItem.getId())) {
-                                        name.setText(violationDictionaryItem.getName());
-                                    }
-                                }
-                                clickListener.selectionChanged(pos, input);
-                                changedId = pos;
-                            }
-
-                            @Override
-                            public void onCancel() {
-
-                            }
-                        });
-                    }
-                }
-            });
-
         return rowView;
     }
-
-
 }

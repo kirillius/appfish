@@ -10,14 +10,17 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.fragments.EditFishFragment;
+import com.linaverde.fishingapp.fragments.EditViolationFragment;
 import com.linaverde.fishingapp.fragments.LogoTopMenuFragment;
 import com.linaverde.fishingapp.fragments.RodTopFragment;
 import com.linaverde.fishingapp.fragments.RodsFragment;
+import com.linaverde.fishingapp.fragments.StatisticsFragment;
 import com.linaverde.fishingapp.fragments.TimeFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.fragments.ViolationsFragment;
@@ -27,6 +30,7 @@ import com.linaverde.fishingapp.fragments.WeightingStagesFragment;
 import com.linaverde.fishingapp.fragments.WeightingTeamListFragment;
 import com.linaverde.fishingapp.interfaces.FishChangedRequestListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
+import com.linaverde.fishingapp.interfaces.StatisticTeamNameClicked;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
 import com.linaverde.fishingapp.interfaces.ViolationChangedRequestListener;
 import com.linaverde.fishingapp.interfaces.WeightingSelectedTeamClickListener;
@@ -43,7 +47,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class WeightingActivity extends AppCompatActivity implements TopMenuEventListener, WeightTeamClickListener, WeightingSelectedTeamClickListener,
-        WeightStageClickedListener, FishChangedRequestListener, ViolationChangedRequestListener {
+        WeightStageClickedListener, FishChangedRequestListener, ViolationChangedRequestListener, StatisticTeamNameClicked {
 
     FragmentTransaction fragmentTransaction;
     FragmentManager fragmentManager;
@@ -155,6 +159,31 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
             @Override
             public void onError(int responseCode) {
                 progressBar.hide();
+            }
+        });
+    }
+
+    @Override
+    public void statsClicked(String stageId) {
+        progressBar.show();
+        requestHelper.executeGet("stats", new String[]{"stage"}, new String[]{stageId}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                Log.d("Test auth", "Request fine");
+                StatisticsFragment statisticsFragment = null;
+                statisticsFragment = StatisticsFragment.newInstance(json.toString(), matchName, true);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_fragment, statisticsFragment);
+                fragmentTransaction.addToBackStack("StageFragment");
+                if (!fragmentManager.isDestroyed())
+                    fragmentTransaction.commit();
+                progressBar.hide();
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
             }
         });
     }
@@ -367,6 +396,28 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
         });
     }
 
+    @Override
+    public void violationAdded(String dict, String teamId, String stageId, int sector) {
+        EditViolationFragment EVFragment = EditViolationFragment.newInstance(null, dict, teamId, stageId, sector);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.replace(R.id.content_fragment, EVFragment);
+        fragmentTransaction.addToBackStack("WeightingViolation");
+        if (!fragmentManager.isDestroyed())
+            fragmentTransaction.commit();
+    }
+
+    @Override
+    public void violationChanged(String foul, String dict, String teamId, String stageId, int sector) {
+        EditViolationFragment EVFragment = EditViolationFragment.newInstance(foul, dict, teamId, stageId, sector);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.replace(R.id.content_fragment, EVFragment);
+        fragmentTransaction.addToBackStack("WeightingViolation");
+        if (!fragmentManager.isDestroyed())
+            fragmentTransaction.commit();
+    }
+
     private void updateFishList(String teamId, String stageId, String pin, int sector) {
         progressBar.show();
         requestHelper.executeGet("weighing", new String[]{"stage", "team"}, new String[]{stageId, teamId}, new RequestListener() {
@@ -415,6 +466,8 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
                                 stageId, teamId, sector, true);
                         getSupportFragmentManager().popBackStack();
                         fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentManager.popBackStack();
+                        fragmentManager.popBackStack();
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, VFragment);
                         fragmentTransaction.addToBackStack("WeightingStages");
@@ -469,4 +522,8 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
     }
 
 
+    @Override
+    public void teamClicked(String teamId, String teamName) {
+
+    }
 }

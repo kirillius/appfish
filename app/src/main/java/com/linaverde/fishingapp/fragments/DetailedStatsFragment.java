@@ -68,10 +68,12 @@ public class DetailedStatsFragment extends Fragment {
         tvTournamentName.setText(teamName);
 
         TextView tvDate = view.findViewById(R.id.tv_date);
-        Date c = Calendar.getInstance().getTime();
-        System.out.println("Current time => " + c);
-        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-        tvDate.setText(df.format(c));
+        try {
+            String [] sdate = mStartParam.getString("date").substring(0, mStartParam.getString("date").indexOf("T")).split("-");
+            tvDate.setText(sdate[2]+"-"+sdate[1]+"-"+sdate[0]);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         ListView statList = view.findViewById(R.id.lv_stats);
         try {
