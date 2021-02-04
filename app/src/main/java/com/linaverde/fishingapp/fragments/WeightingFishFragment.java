@@ -134,7 +134,7 @@ public class WeightingFishFragment extends Fragment {
         adapter = new FishAdapter(getContext(), fishesArr, dictArr);
         lvFishes.setAdapter(adapter);
 
-        if (userInfo.getUserType() == 1)
+        if (userInfo.getUserType() == 1) {
             lvFishes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -142,7 +142,6 @@ public class WeightingFishFragment extends Fragment {
                 }
             });
 
-        if (userInfo.getUserType() == 1) {
             buttonAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -151,7 +150,7 @@ public class WeightingFishFragment extends Fragment {
             });
         } else {
             buttonAdd.setVisibility(View.GONE);
-            lvFishes.setEnabled(false);
+            //lvFishes.setEnabled(false);
         }
 
         return view;

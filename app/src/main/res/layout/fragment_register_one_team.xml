@@ -63,7 +63,7 @@
             android:text="Капитан"
             android:textAlignment="center"
             android:textAppearance="@style/Roboto"
-            android:textSize="30sp" />
+            android:textSize="26sp" />
 
         <LinearLayout
             android:id="@+id/ll_captain_network"
@@ -204,7 +204,7 @@
             android:text="Ассистент"
             android:textAlignment="center"
             android:textAppearance="@style/Roboto"
-            android:textSize="30sp" />
+            android:textSize="26sp" />
 
         <LinearLayout
             android:id="@+id/ll_assistant_network"

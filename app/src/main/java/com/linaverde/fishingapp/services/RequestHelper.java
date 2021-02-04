@@ -56,6 +56,42 @@ public class RequestHelper {
         return null;
     }
 
+    public void updateMatchStatus(UserInfo userInfo, RequestListener listener){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("username", userInfo.getUserName());
+        params.put("password", userInfo.getPassword());
+
+//        ((Activity) context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+//                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        client.get(context.getResources().getString(R.string.url_backend) + "/session" , params, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                // called when response HTTP status is "200 OK"
+                Log.d("Request", "answer: " + new String(response, StandardCharsets.UTF_8));
+//                ((Activity) context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                listener.onComplete(getAnswerBytes(response));
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                if (errorResponse != null) {
+                    String res = new String(errorResponse, StandardCharsets.UTF_8);
+                }
+//                ((Activity) context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                listener.onError(statusCode);
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                // called when request is retried
+            }
+        });
+    }
+
     public void getDocument(String userId, int doc, RequestListener listener) {
 
         AsyncHttpClient client = new AsyncHttpClient();

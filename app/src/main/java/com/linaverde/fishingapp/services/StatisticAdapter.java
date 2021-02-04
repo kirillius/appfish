@@ -42,7 +42,7 @@ public class StatisticAdapter extends ArrayAdapter<JSONObject> {
         JSONObject stat = values[pos];
 
         try {
-            place.setText(Integer.toString(stat.getInt("place")));
+            place.setText(Integer.toString(stat.getInt("place"))+".");
             team.setText(stat.getString("teamName"));
             count.setText(Integer.toString(stat.getInt("quantity")));
             avr.setText(Integer.toString(stat.getInt("avgWeight")));

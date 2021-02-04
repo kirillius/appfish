@@ -20,6 +20,8 @@ import com.linaverde.fishingapp.activities.RodsActivity;
 import com.linaverde.fishingapp.activities.SectorActivity;
 import com.linaverde.fishingapp.activities.StatisticActivity;
 import com.linaverde.fishingapp.activities.WeightingActivity;
+import com.linaverde.fishingapp.interfaces.RequestListener;
+import com.linaverde.fishingapp.services.RequestHelper;
 import com.linaverde.fishingapp.services.UserInfo;
 
 import org.json.JSONException;
@@ -61,10 +63,11 @@ public class TournamentFragment extends Fragment {
     }
 
     TextView tvTournamentName;
-    RelativeLayout rlRegisterTeam, rlDrawQueue, rlDrawSector, rlWeighting, rlRods;
+    RelativeLayout rlRegisterTeam, rlDrawQueue, rlDrawSector, rlWeighting;
     RelativeLayout rlExchange, rlStatistics;
     UserInfo userInfo;
     ImageView net1, net2, net3, net4;
+    ImageView checkInStatus, queueStatus, sectorStatus;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,14 +87,6 @@ public class TournamentFragment extends Fragment {
         rlDrawQueue = view.findViewById(R.id.list_draw_queue);
         rlDrawSector = view.findViewById(R.id.list_draw_sector);
         rlWeighting = view.findViewById(R.id.list_weigh);
-        rlRods = view.findViewById(R.id.list_rods);
-
-        if (userInfo.getUserType() == 1) {
-            rlRods.setVisibility(View.GONE);
-        } else {
-            rlRegisterTeam.setVisibility(View.GONE);
-            rlDrawQueue.setVisibility(View.GONE);
-        }
 
 
         rlRegisterTeam.setOnClickListener(new View.OnClickListener() {
@@ -134,14 +129,6 @@ public class TournamentFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString("info", mStartParam.toString());
                 intent.putExtras(args);
-                startActivity(intent);
-            }
-        });
-
-        rlRods.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), RodsActivity.class);
                 startActivity(intent);
             }
         });
@@ -221,7 +208,45 @@ public class TournamentFragment extends Fragment {
             }
         });
 
+        checkInStatus = view.findViewById(R.id.register_complete_icon);
+        queueStatus = view.findViewById(R.id.queue_complete_icon);
+        sectorStatus = view.findViewById(R.id.sector_complete_icon);
+
+        if (userInfo.getCheckInStatus())
+            checkInStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+        if (userInfo.getQueueStatus())
+            queueStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+        if (userInfo.getSectorStatus())
+            sectorStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+
+        updateStatus();
+
         return view;
 
+    }
+
+    private void updateStatus(){
+        RequestHelper requestHelper = new RequestHelper(getContext());
+        requestHelper.updateMatchStatus(userInfo, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                try {
+                    userInfo.setStatus(json.getBoolean("isCheckInClosed"), json.getBoolean("isQueueClosed"), json.getBoolean("isSectorClosed"));
+                    if (userInfo.getCheckInStatus())
+                        checkInStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+                    if (userInfo.getQueueStatus())
+                        queueStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+                    if (userInfo.getSectorStatus())
+                        sectorStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(int responseCode) {
+
+            }
+        });
     }
 }

@@ -26,6 +26,7 @@ import com.linaverde.fishingapp.fragments.StatisticsFragment;
 import com.linaverde.fishingapp.fragments.TimeFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.fragments.ViolationsFragment;
+import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.interfaces.IOnBackPressed;
 import com.linaverde.fishingapp.interfaces.OneTeamClickListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
@@ -100,15 +101,30 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
         requestHelper.executeGet("teams", new String[]{"match"}, new String[]{matchId}, new RequestListener() {
             @Override
             public void onComplete(JSONObject json) {
-                RegisterTeamListFragment RTFragment = null;
-                try {
-                    RTFragment = RegisterTeamListFragment.newInstance(json.toString(),
-                            (new JSONObject(b.getString("info"))).getString("matchName"), matchId);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                RegisterTeamListFragment RTFragment = RegisterTeamListFragment.newInstance(json.toString(), matchName, matchId);
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.add(R.id.content_fragment, RTFragment);
+                if (!fragmentManager.isDestroyed())
+                    fragmentTransaction.commit();
+                progressBar.hide();
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+            }
+        });
+    }
+
+    private void updateTeamList() {
+        progressBar.show();
+        requestHelper.executeGet("teams", new String[]{"match"}, new String[]{matchId}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                RegisterTeamListFragment RTFragment = null;
+                RTFragment = RegisterTeamListFragment.newInstance(json.toString(), matchName, matchId);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_fragment, RTFragment);
                 if (!fragmentManager.isDestroyed())
                     fragmentTransaction.commit();
                 progressBar.hide();
@@ -213,6 +229,45 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
                 if (!fragmentManager.isDestroyed())
                     fragmentTransaction.commit();
                 progressBar.hide();
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+            }
+        });
+    }
+
+    @Override
+    public void teamRegistered(String teamId) {
+        progressBar.show();
+        requestHelper.executePost("teamcheckin", new String[]{"match", "team"}, new String[]{matchId, teamId}, null, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                progressBar.hide();
+                try {
+                    String error = json.getString("error");
+                    if (!error.equals("") && !error.equals("null")) {
+                        DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), getString(R.string.error) + error, null);
+                    } else {
+                        DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), getString(R.string.end_reg_team), new CompleteActionListener() {
+                            @Override
+                            public void onOk(String input) {
+                                fragmentManager.popBackStack();
+                                updateTeamList();
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override

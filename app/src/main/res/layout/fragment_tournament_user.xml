@@ -1,0 +1,219 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@null"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/dark_gradient" />
+
+        <View
+            android:layout_above="@id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:background="@drawable/light_gradient" />
+
+        <View
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:background="@drawable/dark_gradient"
+            android:layout_alignParentBottom="true"/>
+
+        <TextView
+            android:id="@+id/tv_tournament_name"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:layout_marginStart="96dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="96dp"
+            android:layout_marginBottom="34dp"
+            android:background="@drawable/button_bottom_gradient"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/tournament"
+            android:textAlignment="center"
+            android:textAppearance="@style/Roboto.MatchName" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_tournament_name"
+            android:layout_marginStart="96dp"
+            android:layout_marginEnd="96dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/list_online_protocol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="29dp">
+
+                <ImageView
+                    android:id="@+id/icon_online"
+                    android:layout_width="42dp"
+                    android:layout_height="44dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="32dp"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/online_protocol_icpn" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toEndOf="@id/icon_online"
+                    android:text="@string/statistics"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="26sp" />
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="26dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/arrow_right" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/list_map_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="29dp">
+
+                <ImageView
+                    android:id="@+id/icon_sector"
+                    android:layout_width="42dp"
+                    android:layout_height="44dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="32dp"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/sector_map_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toEndOf="@id/icon_sector"
+                    android:text="@string/sector_map"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="26sp" />
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="26dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/arrow_right" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/list_work_rods"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="29dp">
+
+                <ImageView
+                    android:id="@+id/icon_rods_work"
+                    android:layout_width="42dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="32dp"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/icon_rod" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toEndOf="@id/icon_rods_work"
+                    android:text="@string/settings_rods_work"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="26sp" />
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="26dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/arrow_right" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/list_spod_rods"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="29dp">
+
+                <ImageView
+                    android:id="@+id/icon_rods"
+                    android:layout_width="42dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="32dp"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/icon_rod" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toEndOf="@id/icon_rods"
+                    android:text="@string/settings_rods_spod"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="26sp" />
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="26dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/arrow_right" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

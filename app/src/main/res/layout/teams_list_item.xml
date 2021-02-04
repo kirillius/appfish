@@ -14,7 +14,7 @@
         android:text=" "
         android:textAlignment="center"
         android:textAppearance="@style/Roboto"
-        android:textSize="26sp" />
+        android:textSize="24sp" />
 
     <RelativeLayout
         android:layout_width="wrap_content"

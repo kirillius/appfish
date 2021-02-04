@@ -70,7 +70,8 @@ public class AuthActivity extends AppCompatActivity {
                             Log.d("Test auth", "Request fine");
                             try {
                                 userInfo.saveUser(sLogin, sPassword, json.getString("userName"), json.getInt("userType"), json.getString("pond"),
-                                        json.getString("matchId"), json.getString("matchName"), json.getString("teamId"), json.getString("caption"));
+                                        json.getString("matchId"), json.getString("matchName"), json.getString("teamId"), json.getString("caption"),
+                                        json.getBoolean("isCheckInClosed"), json.getBoolean("isQueueClosed"), json.getBoolean("isSectorClosed"));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

@@ -177,8 +177,6 @@ public class DrawSectorFragment extends Fragment {
                     }
                 }
             });
-        } else {
-            teamsList.setEnabled(false);
         }
         return view;
     }

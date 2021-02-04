@@ -151,36 +151,11 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
                     DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), getString(R.string.end_reg_team_question), new CompleteActionListener() {
                         @Override
                         public void onOk(String input) {
-                            progressBar.show();
-                            RequestHelper requestHelper = new RequestHelper(getContext());
-                            requestHelper.executePost("teamcheckin", new String[]{"match", "team"}, new String[]{matchId, teamId}, null, new RequestListener() {
-                                @Override
-                                public void onComplete(JSONObject json) {
-                                    progressBar.hide();
-                                    try {
-                                        String error = json.getString("error");
-                                        if (!error.equals("") && !error.equals("null")) {
-                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.error) + error, null);
-                                        } else {
-                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.end_reg_team), null);
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                }
-
-                                @Override
-                                public void onError(int responseCode) {
-                                    progressBar.hide();
-                                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
-                                }
-                            });
+                            listener.teamRegistered(teamId);
                         }
 
                         @Override
                         public void onCancel() {
-
                         }
                     });
                 }
@@ -445,7 +420,7 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
         if (photoOpen || documentOpen) {
             photo.setVisibility(View.GONE);
             photoOpen = false;
-            documentOpen= false;
+            documentOpen = false;
             ivDocument.setVisibility(View.GONE);
             return true;
         } else {

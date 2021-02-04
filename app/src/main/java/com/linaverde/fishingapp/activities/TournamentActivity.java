@@ -15,11 +15,13 @@ import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.fragments.TournamentFragment;
+import com.linaverde.fishingapp.fragments.TournamentUserFragment;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
 import com.linaverde.fishingapp.services.NavigationHelper;
 import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
+import com.linaverde.fishingapp.services.UserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,23 +63,32 @@ public class TournamentActivity extends FragmentActivity implements TopMenuEvent
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
 
+        UserInfo userInfo = new UserInfo(TournamentActivity.this);
 
-        RequestHelper requestHelper = new RequestHelper(this);
-        requestHelper.executeGet("links", null, null, new RequestListener() {
-            @Override
-            public void onComplete(JSONObject json) {
-                progressBar.hide();
-                TournamentFragment JTFragment = TournamentFragment.newInstance(b.getString("info"), json.toString());
-                fragmentTransaction.add(R.id.content_fragment, JTFragment);
-                if (!fragmentManager.isDestroyed())
-                    fragmentTransaction.commit();
-            }
+        if (userInfo.getUserType() == 1) {
+            RequestHelper requestHelper = new RequestHelper(this);
+            requestHelper.executeGet("links", null, null, new RequestListener() {
+                @Override
+                public void onComplete(JSONObject json) {
+                    progressBar.hide();
+                    TournamentFragment JTFragment = TournamentFragment.newInstance(b.getString("info"), json.toString());
+                    fragmentTransaction.add(R.id.content_fragment, JTFragment);
+                    if (!fragmentManager.isDestroyed())
+                        fragmentTransaction.commit();
+                }
 
-            @Override
-            public void onError(int responseCode) {
+                @Override
+                public void onError(int responseCode) {
 
-            }
-        });
+                }
+            });
+        } else {
+            progressBar.hide();
+            TournamentUserFragment JTFragment = TournamentUserFragment.newInstance(b.getString("info"));
+            fragmentTransaction.add(R.id.content_fragment, JTFragment);
+            if (!fragmentManager.isDestroyed())
+                fragmentTransaction.commit();
+        }
     }
 
     @Override

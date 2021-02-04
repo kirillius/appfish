@@ -24,8 +24,7 @@
         android:singleLine="true"
         android:text="@string/tournament"
         android:textAlignment="center"
-        android:textAppearance="@style/Roboto"
-        android:textSize="30sp" />
+        android:textAppearance="@style/Roboto.MatchName" />
 
     <RelativeLayout
         android:id="@+id/ll_stat_date"

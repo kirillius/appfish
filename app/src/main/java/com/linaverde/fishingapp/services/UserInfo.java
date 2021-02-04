@@ -14,6 +14,9 @@ public class UserInfo {
     public static final String APP_PREFERENCES_POND = "pond";
     public static final String APP_PREFERENCES_TEAM_ID = "teamId";
     public static final String APP_PREFERENCES_USER_CAPTION = "userCaption";
+    public static final String APP_PREFERENCES_CHECKIN = "checkIn";
+    public static final String APP_PREFERENCES_QUEUE = "queue";
+    public static final String APP_PREFERENCES_SECTOR = "sector";
 
     private SharedPreferences mSettings;
     private Context context;
@@ -33,10 +36,14 @@ public class UserInfo {
         mSettings.edit().remove(APP_PREFERENCES_MATCH_ID).apply();
         mSettings.edit().remove(APP_PREFERENCES_MATCH_NAME).apply();
         mSettings.edit().remove(APP_PREFERENCES_USER_CAPTION).apply();
+        mSettings.edit().remove(APP_PREFERENCES_CHECKIN).apply();
+        mSettings.edit().remove(APP_PREFERENCES_QUEUE).apply();
+        mSettings.edit().remove(APP_PREFERENCES_SECTOR).apply();
     }
 
     public void saveUser(String login, String password, String userName, int type, String pond,
-                         String matchId, String matchName, String teamId, String caption){
+                         String matchId, String matchName, String teamId, String caption,
+                         boolean checkIn, boolean queue, boolean sector){
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putString(APP_PREFERENCES_USER_LOGIN, login);
         editor.putString(APP_PREFERENCES_USER_PASSWORD, password);
@@ -47,6 +54,9 @@ public class UserInfo {
         editor.putString(APP_PREFERENCES_MATCH_NAME, matchName);
         editor.putString(APP_PREFERENCES_TEAM_ID, teamId);
         editor.putString(APP_PREFERENCES_USER_CAPTION, caption);
+        editor.putBoolean(APP_PREFERENCES_CHECKIN, checkIn);
+        editor.putBoolean(APP_PREFERENCES_QUEUE, queue);
+        editor.putBoolean(APP_PREFERENCES_QUEUE, sector);
         editor.apply();
     }
 
@@ -122,5 +132,37 @@ public class UserInfo {
         }
     }
 
+    public boolean getCheckInStatus(){
+        if (mSettings.contains(APP_PREFERENCES_CHECKIN)) {
+            return mSettings.getBoolean(APP_PREFERENCES_CHECKIN, false);
+        } else {
+            return false;
+        }
+    }
+
+    public boolean getQueueStatus(){
+        if (mSettings.contains(APP_PREFERENCES_QUEUE)) {
+            return mSettings.getBoolean(APP_PREFERENCES_QUEUE, false);
+        } else {
+            return false;
+        }
+    }
+
+    public boolean getSectorStatus(){
+        if (mSettings.contains(APP_PREFERENCES_SECTOR)) {
+            return mSettings.getBoolean(APP_PREFERENCES_SECTOR, false);
+        } else {
+            return false;
+        }
+    }
+
+    public void setStatus(boolean checkIn, boolean queue, boolean sector){
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.putBoolean(APP_PREFERENCES_CHECKIN, checkIn);
+        editor.putBoolean(APP_PREFERENCES_QUEUE, queue);
+        editor.putBoolean(APP_PREFERENCES_QUEUE, sector);
+        editor.apply();
+
+    }
 
 }

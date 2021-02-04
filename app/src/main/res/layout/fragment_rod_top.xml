@@ -129,7 +129,7 @@
             android:adjustViewBounds="true"
             android:background="@null"
             android:scaleType="centerInside"
-            android:src="@drawable/sync_icon" />
+            android:src="@drawable/protocol_icon" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -21,8 +21,7 @@
             android:layout_marginStart="16dp"
             android:text="1."
             android:textAlignment="center"
-            android:textAppearance="@style/Roboto"
-            android:textSize="22sp" />
+            android:textAppearance="@style/Roboto.StatsItem" />
 
         <TextView
             android:id="@+id/tv_stat_date"
@@ -33,8 +32,7 @@
             android:layout_toEndOf="@id/tv_stat_place"
             android:gravity="center_vertical"
             android:text="ДАТА"
-            android:textAppearance="@style/Roboto"
-            android:textSize="20sp" />
+            android:textAppearance="@style/Roboto.StatsItem" />
 
 
     </RelativeLayout>
@@ -49,8 +47,7 @@
         android:gravity="center"
         android:singleLine="true"
         android:text="ВРЕМЯ"
-        android:textAppearance="@style/Roboto"
-        android:textSize="20sp"
+        android:textAppearance="@style/Roboto.StatsItem"
         android:layout_weight="2"/>
 
     <TextView
@@ -61,8 +58,7 @@
         android:text="РЫБА"
         android:layout_gravity="center"
         android:textAlignment="center"
-        android:textAppearance="@style/Roboto"
-        android:textSize="20sp" />
+        android:textAppearance="@style/Roboto.StatsItem" />
 
 
     <TextView
@@ -74,8 +70,7 @@
         android:layout_gravity="center_vertical|end"
         android:textAlignment="textEnd"
         android:layout_marginEnd="55dp"
-        android:textAppearance="@style/Roboto"
-        android:textSize="20sp" />
+        android:textAppearance="@style/Roboto.StatsItem" />
 
 
 </LinearLayout>
