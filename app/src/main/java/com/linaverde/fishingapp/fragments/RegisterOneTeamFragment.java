@@ -151,6 +151,7 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
             buttonEndReg.setVisibility(View.GONE);
         } else {
             if (!checkIn) {
+                ((TextView)view.findViewById(R.id.button_end_reg_text)).setText(getString(R.string.confirm_reg));
                 buttonEndReg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

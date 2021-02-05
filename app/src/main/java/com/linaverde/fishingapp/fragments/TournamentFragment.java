@@ -220,33 +220,8 @@ public class TournamentFragment extends Fragment {
             queueStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
         if (userInfo.getSectorStatus())
             sectorStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
-
-        //updateStatus();
-
         return view;
-
     }
-
-//    private void updateStatus() {
-//        RequestHelper requestHelper = new RequestHelper(getContext());
-//        requestHelper.updateMatchStatus(userInfo, new RequestListener() {
-//            @Override
-//            public void onComplete(JSONObject json) {
-//                if (userInfo.getCheckInStatus())
-//                    checkInStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
-//                if (userInfo.getQueueStatus())
-//                    queueStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
-//                if (userInfo.getSectorStatus())
-//                    sectorStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
-//            }
-//
-//            @Override
-//            public void onError(int responseCode) {
-//
-//            }
-//        });
-//    }
-
 
     @Override
     public void onResume(){

@@ -122,6 +122,7 @@ public class RegisterTeamListFragment extends Fragment {
             buttonEndReg.setVisibility(View.GONE);
         } else {
             if (!userInfo.getCheckInStatus()) {
+                ((TextView)view.findViewById(R.id.button_end_reg_text)).setText(getString(R.string.end_reg));
                 buttonEndReg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -3,6 +3,7 @@ package com.linaverde.fishingapp.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -42,9 +43,7 @@ public class DrawSectorFragment extends Fragment {
     private JSONObject mStartParam;
     private String tournamentName;
     private String matchId;
-
-    private boolean drawOpen;
-
+    ContentLoadingProgressBar progressBar;
     QueueUpdateListener listener;
 
     public DrawSectorFragment() {
@@ -80,6 +79,7 @@ public class DrawSectorFragment extends Fragment {
     ListView teamsList;
     RelativeLayout endDraw;
     TeamsQueue[] teams;
+    UserInfo userInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,8 +92,6 @@ public class DrawSectorFragment extends Fragment {
         endDraw = view.findViewById(R.id.button_end_draw);
 
         try {
-            drawOpen = mStartParam.getInt("isSectorClosed") == 0;
-
             JSONArray arr = mStartParam.getJSONArray("teams");
             int len = arr.length();
             teams = new TeamsQueue[len];
@@ -107,78 +105,122 @@ public class DrawSectorFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        userInfo = new UserInfo(getContext());
+        progressBar = view.findViewById(R.id.progress_bar);
+        progressBar.hide();
+        setButtons(view);
+        return view;
+    }
 
-        UserInfo userInfo = new UserInfo(getContext());
-
-        if (!drawOpen || userInfo.getUserType() != 1) {
+    private void setButtons(View view) {
+        RequestHelper requestHelper = new RequestHelper(getContext());
+        if (userInfo.getUserType() != 1) {
             endDraw.setVisibility(View.GONE);
-        }
+        } else {
+            if (!userInfo.getSectorStatus()) {
+                ((TextView) view.findViewById(R.id.button_end_draw_text)).setText(getString(R.string.end_draw));
+                endDraw.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        boolean emptySector = false;
+                        for (TeamsQueue team : teams) {
+                            if (team.getSector() == 0) {
+                                emptySector = true;
+                                break;
+                            }
+                        }
+                        if (emptySector) {
+                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_empty), null);
+                        } else {
+                            progressBar.show();
+                            requestHelper.executePost("sectorclose", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
+                                @Override
+                                public void onComplete(JSONObject json) {
+                                    progressBar.hide();
+                                    try {
+                                        if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_draw_end), null);
+                                            userInfo.setStatus(userInfo.getCheckInStatus(), userInfo.getQueueStatus(), true);
+                                            setButtons(view);
+                                        } else {
+                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), json.getString("error"), null);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
 
-        endDraw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean emptySector = false;
-                for (TeamsQueue team : teams) {
-                    if (team.getSector() == 0) {
-                        emptySector = true;
-                        break;
+                                @Override
+                                public void onError(int responseCode) {
+                                    progressBar.hide();
+                                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
+                                }
+                            });
+                        }
                     }
-                }
-                if (emptySector) {
-                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_empty), null);
-                } else {
-                    RequestHelper requestHelper = new RequestHelper(getContext());
-                    requestHelper.executePost("sectorclose", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
-                        @Override
-                        public void onComplete(JSONObject json) {
-                            try {
-                                if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_draw_end), null);
-                                } else {
-                                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), json.getString("error"), null);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onError(int responseCode) {
-                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
-                        }
-                    });
-                }
-            }
-        });
-
-        if (userInfo.getUserType() == 1) {
-            teamsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (drawOpen) {
-                        DialogBuilder.createInputDialog(getContext(), getLayoutInflater(), getString(R.string.enter_sector), new CompleteActionListener() {
+                });
+            } else {
+                ((TextView) view.findViewById(R.id.button_end_draw_text)).setText(getString(R.string.open_draw));
+                endDraw.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        progressBar.show();
+                        requestHelper.executePost("sectoropen", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
                             @Override
-                            public void onOk(String input) {
-
-                                if (Integer.parseInt(input) == 0) {
-                                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_zero), null);
-                                } else {
-                                    listener.update(adapter.getItem(position), input);
+                            public void onComplete(JSONObject json) {
+                                progressBar.hide();
+                                try {
+                                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_draw_open), null);
+                                        userInfo.setStatus(userInfo.getCheckInStatus(), userInfo.getQueueStatus(), false);
+                                        setButtons(view);
+                                    } else {
+                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), json.getString("error"), null);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
                             }
 
                             @Override
-                            public void onCancel() {
-                                //do nothing
+                            public void onError(int responseCode) {
+                                progressBar.hide();
+                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
                             }
                         });
-                    } else {
-                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_draw_end), null);
                     }
-                }
-            });
+                });
+
+            }
+
+            if (userInfo.getUserType() == 1) {
+                teamsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        if (!userInfo.getSectorStatus()) {
+                            DialogBuilder.createInputDialog(getContext(), getLayoutInflater(), getString(R.string.enter_sector), new CompleteActionListener() {
+                                @Override
+                                public void onOk(String input) {
+
+                                    if (Integer.parseInt(input) == 0) {
+                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_zero), null);
+                                    } else {
+                                        listener.update(adapter.getItem(position), input);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancel() {
+                                    //do nothing
+                                }
+                            });
+                        } else {
+                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_draw_end), null);
+                        }
+                    }
+                });
+            }
         }
-        return view;
     }
 
 

@@ -3,6 +3,7 @@ package com.linaverde.fishingapp.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.QueueAdapter;
 import com.linaverde.fishingapp.services.RequestHelper;
 import com.linaverde.fishingapp.services.TeamsAdapter;
+import com.linaverde.fishingapp.services.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,9 +45,8 @@ public class DrawQueueFragment extends Fragment {
     private String tournamentName;
     private String matchId;
 
-    private boolean drawOpen;
-
     QueueUpdateListener listener;
+    ContentLoadingProgressBar progressBar;
 
     public DrawQueueFragment() {
         // Required empty public constructor
@@ -80,6 +81,7 @@ public class DrawQueueFragment extends Fragment {
     ListView teamsList;
     RelativeLayout endDraw;
     TeamsQueue[] teams;
+    UserInfo userInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,8 +94,6 @@ public class DrawQueueFragment extends Fragment {
         endDraw = view.findViewById(R.id.button_end_draw);
 
         try {
-            drawOpen = mStartParam.getInt("isQueueClosed") == 0;
-
             JSONArray arr = mStartParam.getJSONArray("teams");
             int len = arr.length();
             teams = new TeamsQueue[len];
@@ -108,30 +108,74 @@ public class DrawQueueFragment extends Fragment {
             e.printStackTrace();
         }
 
-        if (!drawOpen){
-            endDraw.setVisibility(View.GONE);
-        }
+        progressBar = view.findViewById(R.id.progress_bar);
+        progressBar.hide();
 
-        endDraw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean emptyQueue = false;
-                for (TeamsQueue team : teams) {
-                    if (team.getQueue() == 0) {
-                        emptyQueue = true;
-                        break;
+        userInfo = new UserInfo(getContext());
+
+        setButtons(view);
+        return view;
+    }
+
+    private void setButtons(View view){
+        RequestHelper requestHelper = new RequestHelper(getContext());
+        if (!userInfo.getQueueStatus()){
+            ((TextView) view.findViewById(R.id.button_end_draw_text)).setText(getString(R.string.end_draw));
+            endDraw.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean emptyQueue = false;
+                    for (TeamsQueue team : teams) {
+                        if (team.getQueue() == 0) {
+                            emptyQueue = true;
+                            break;
+                        }
+                    }
+                    if (emptyQueue) {
+                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.queue_empty), null);
+                    } else {
+                        progressBar.show();
+                        requestHelper.executePost("queueclose", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
+                            @Override
+                            public void onComplete(JSONObject json) {
+                                progressBar.hide();
+                                try {
+                                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.queue_draw_end), null);
+                                        userInfo.setStatus(userInfo.getCheckInStatus(), true, userInfo.getSectorStatus());
+                                        setButtons(view);
+                                    } else {
+                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), json.getString("error"), null);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onError(int responseCode) {
+                                progressBar.hide();
+                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
+                            }
+                        });
                     }
                 }
-                if (emptyQueue) {
-                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.queue_empty), null);
-                } else {
-                    RequestHelper requestHelper = new RequestHelper(getContext());
-                    requestHelper.executePost("queueclose", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
+            });
+        } else {
+            ((TextView) view.findViewById(R.id.button_end_draw_text)).setText(getString(R.string.open_draw));
+            endDraw.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    progressBar.show();
+                    requestHelper.executePost("queueopen", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
                         @Override
                         public void onComplete(JSONObject json) {
+                            progressBar.hide();
                             try {
                                 if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.queue_draw_end), null);
+                                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.queue_draw_open), null);
+                                    userInfo.setStatus(userInfo.getCheckInStatus(), false, userInfo.getSectorStatus());
+                                    setButtons(view);
                                 } else {
                                     DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), json.getString("error"), null);
                                 }
@@ -142,21 +186,22 @@ public class DrawQueueFragment extends Fragment {
 
                         @Override
                         public void onError(int responseCode) {
+                            progressBar.hide();
                             DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
                         }
                     });
                 }
-            }
-        });
+            });
+
+        }
 
         teamsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (drawOpen) {
+                if (!userInfo.getQueueStatus()) {
                     DialogBuilder.createInputDialog(getContext(), getLayoutInflater(), getString(R.string.enter_queue), new CompleteActionListener() {
                         @Override
                         public void onOk(String input) {
-
                             if (Integer.parseInt(input) == 0) {
                                 DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.queue_zero), null);
                             } else {
@@ -174,7 +219,6 @@ public class DrawQueueFragment extends Fragment {
                 }
             }
         });
-        return view;
     }
 
 

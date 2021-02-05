@@ -56,7 +56,7 @@ public class UserInfo {
         editor.putString(APP_PREFERENCES_USER_CAPTION, caption);
         editor.putBoolean(APP_PREFERENCES_CHECKIN, checkIn);
         editor.putBoolean(APP_PREFERENCES_QUEUE, queue);
-        editor.putBoolean(APP_PREFERENCES_QUEUE, sector);
+        editor.putBoolean(APP_PREFERENCES_SECTOR, sector);
         editor.apply();
     }
 
@@ -160,7 +160,7 @@ public class UserInfo {
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putBoolean(APP_PREFERENCES_CHECKIN, checkIn);
         editor.putBoolean(APP_PREFERENCES_QUEUE, queue);
-        editor.putBoolean(APP_PREFERENCES_QUEUE, sector);
+        editor.putBoolean(APP_PREFERENCES_SECTOR, sector);
         editor.apply();
 
     }
