@@ -56,23 +56,31 @@ public class RequestHelper {
         return null;
     }
 
-    public void updateMatchStatus(UserInfo userInfo, RequestListener listener){
+    public void updateMatchStatus(UserInfo userInfo, RequestListener listener) {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        params.put("username", userInfo.getUserName());
+        params.put("username", userInfo.getLogin());
         params.put("password", userInfo.getPassword());
 
 //        ((Activity) context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
 //                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-        client.get(context.getResources().getString(R.string.url_backend) + "/session" , params, new AsyncHttpResponseHandler() {
+        Log.d("Request", " status init");
+        client.get(context.getResources().getString(R.string.url_backend) + "/session", params, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 // called when response HTTP status is "200 OK"
-                Log.d("Request", "answer: " + new String(response, StandardCharsets.UTF_8));
+                Log.d("Request", " status completed");
 //                ((Activity) context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                listener.onComplete(getAnswerBytes(response));
+                JSONObject json = getAnswerBytes(response);
+                try {
+                    userInfo.setStatus(json.getBoolean("isCheckInClosed"), json.getBoolean("isQueueClosed"), json.getBoolean("isSectorClosed"));
+                    if (listener != null)
+                        listener.onComplete(getAnswerBytes(response));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -80,9 +88,10 @@ public class RequestHelper {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 if (errorResponse != null) {
                     String res = new String(errorResponse, StandardCharsets.UTF_8);
+                    Log.d("Request", "status request error with code " + statusCode + " with text "+ res);
+                    if (listener != null)
+                        listener.onError(statusCode);
                 }
-//                ((Activity) context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                listener.onError(statusCode);
             }
 
             @Override

@@ -38,6 +38,8 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
     private static final String MATCH_NAME = "matchName";
     private static final String TEAM_ID = "teamId";
     private static final String TEAM = "team";
+    private static final String CHECKIN = "checkIn";
+
 
     private String matchName;
     private String captainPhoto = "";
@@ -47,10 +49,11 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
     private String[] assistantLinks;
     private JSONObject team;
     private String teamId;
+    private boolean checkIn;
 
     OneTeamClickListener listener;
 
-    public static RegisterOneTeamFragment newInstance(String matchId, String matchName, String teamId, String teamJson) {
+    public static RegisterOneTeamFragment newInstance(String matchId, String matchName, String teamId, String teamJson, boolean checkIn) {
 
         RegisterOneTeamFragment fragment = new RegisterOneTeamFragment();
         Bundle args = new Bundle();
@@ -58,6 +61,7 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
         args.putString(MATCH_NAME, matchName);
         args.putString(TEAM_ID, teamId);
         args.putString(TEAM, teamJson);
+        args.putBoolean(CHECKIN, checkIn);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,6 +73,7 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
             matchId = getArguments().getString(MATCH_ID);
             matchName = getArguments().getString(MATCH_NAME);
             teamId = getArguments().getString(TEAM_ID);
+            checkIn = getArguments().getBoolean(CHECKIN);
             try {
                 team = new JSONObject(getArguments().getString(TEAM));
                 team = team.getJSONObject("teams");
@@ -142,24 +147,43 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
 
 
         UserInfo userInfo = new UserInfo(getContext());
-        if (userInfo.getUserType() != 1) {
+        if (userInfo.getUserType() != 1 || userInfo.getCheckInStatus()) {
             buttonEndReg.setVisibility(View.GONE);
         } else {
-            buttonEndReg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), getString(R.string.end_reg_team_question), new CompleteActionListener() {
-                        @Override
-                        public void onOk(String input) {
-                            listener.teamRegistered(teamId);
-                        }
+            if (!checkIn) {
+                buttonEndReg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), getString(R.string.end_reg_team_question), new CompleteActionListener() {
+                            @Override
+                            public void onOk(String input) {
+                                listener.teamRegistered(teamId, false);
+                            }
 
-                        @Override
-                        public void onCancel() {
-                        }
-                    });
-                }
-            });
+                            @Override
+                            public void onCancel() {
+                            }
+                        });
+                    }
+                });
+            } else {
+                ((TextView)view.findViewById(R.id.button_end_reg_text)).setText(getString(R.string.unconfirm_reg));
+                buttonEndReg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), getString(R.string.open_reg_team_question), new CompleteActionListener() {
+                            @Override
+                            public void onOk(String input) {
+                                listener.teamRegistered(teamId, true);
+                            }
+
+                            @Override
+                            public void onCancel() {
+                            }
+                        });
+                    }
+                });
+            }
         }
         return view;
     }

@@ -1,5 +1,6 @@
 package com.linaverde.fishingapp.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.linaverde.fishingapp.activities.SectorActivity;
 import com.linaverde.fishingapp.activities.StatisticActivity;
 import com.linaverde.fishingapp.activities.WeightingActivity;
 import com.linaverde.fishingapp.interfaces.RequestListener;
+import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.services.RequestHelper;
 import com.linaverde.fishingapp.services.UserInfo;
 
@@ -142,7 +144,7 @@ public class TournamentFragment extends Fragment {
                 try {
                     args.putString("matchId", mStartParam.getString("matchId"));
                     args.putString("teamId", "");
-                    args.putString("matchName",mStartParam.getString("matchName"));
+                    args.putString("matchName", mStartParam.getString("matchName"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -219,34 +221,43 @@ public class TournamentFragment extends Fragment {
         if (userInfo.getSectorStatus())
             sectorStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
 
-        updateStatus();
+        //updateStatus();
 
         return view;
 
     }
 
-    private void updateStatus(){
-        RequestHelper requestHelper = new RequestHelper(getContext());
-        requestHelper.updateMatchStatus(userInfo, new RequestListener() {
-            @Override
-            public void onComplete(JSONObject json) {
-                try {
-                    userInfo.setStatus(json.getBoolean("isCheckInClosed"), json.getBoolean("isQueueClosed"), json.getBoolean("isSectorClosed"));
-                    if (userInfo.getCheckInStatus())
-                        checkInStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
-                    if (userInfo.getQueueStatus())
-                        queueStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
-                    if (userInfo.getSectorStatus())
-                        sectorStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
+//    private void updateStatus() {
+//        RequestHelper requestHelper = new RequestHelper(getContext());
+//        requestHelper.updateMatchStatus(userInfo, new RequestListener() {
+//            @Override
+//            public void onComplete(JSONObject json) {
+//                if (userInfo.getCheckInStatus())
+//                    checkInStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+//                if (userInfo.getQueueStatus())
+//                    queueStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+//                if (userInfo.getSectorStatus())
+//                    sectorStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+//            }
+//
+//            @Override
+//            public void onError(int responseCode) {
+//
+//            }
+//        });
+//    }
 
-            @Override
-            public void onError(int responseCode) {
 
-            }
-        });
+    @Override
+    public void onResume(){
+        super.onResume();
+        UserInfo userInfo = new UserInfo(getContext());
+        if (userInfo.getCheckInStatus())
+            checkInStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+        if (userInfo.getQueueStatus())
+            queueStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+        if (userInfo.getSectorStatus())
+            sectorStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
     }
+
 }

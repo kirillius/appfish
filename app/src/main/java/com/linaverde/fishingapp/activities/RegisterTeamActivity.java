@@ -146,7 +146,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
                 progressBar.hide();
                 try {
                     if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                        RegisterOneTeamFragment ROTFragment = RegisterOneTeamFragment.newInstance(matchId, matchName, selectedTeam.getId(), json.toString());
+                        RegisterOneTeamFragment ROTFragment = RegisterOneTeamFragment.newInstance(matchId, matchName, selectedTeam.getId(), json.toString(), selectedTeam.getCheckIn());
                         Log.d("On team clicked", selectedTeam.getName());
                         LogoTopMenuFragment LTMFragment = LogoTopMenuFragment.newInstance(selectedTeam.getLogo(), selectedTeam.getName());
                         fragmentTransaction = fragmentManager.beginTransaction();
@@ -172,8 +172,6 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
                 DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
             }
         });
-
-
     }
 
     @Override
@@ -240,42 +238,79 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
     }
 
     @Override
-    public void teamRegistered(String teamId) {
+    public void teamRegistered(String teamId, boolean register) {
         progressBar.show();
-        requestHelper.executePost("teamcheckin", new String[]{"match", "team"}, new String[]{matchId, teamId}, null, new RequestListener() {
-            @Override
-            public void onComplete(JSONObject json) {
-                progressBar.hide();
-                try {
-                    String error = json.getString("error");
-                    if (!error.equals("") && !error.equals("null")) {
-                        DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), getString(R.string.error) + error, null);
-                    } else {
-                        DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), getString(R.string.end_reg_team), new CompleteActionListener() {
-                            @Override
-                            public void onOk(String input) {
-                                fragmentManager.popBackStack();
-                                updateTeamList();
-                            }
+        if (!register) {
+            requestHelper.executePost("teamcheckin", new String[]{"match", "team"}, new String[]{matchId, teamId}, null, new RequestListener() {
+                @Override
+                public void onComplete(JSONObject json) {
+                    progressBar.hide();
+                    try {
+                        String error = json.getString("error");
+                        if (!error.equals("") && !error.equals("null")) {
+                            DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), error, null);
+                        } else {
+                            DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), getString(R.string.end_reg_team), new CompleteActionListener() {
+                                @Override
+                                public void onOk(String input) {
+                                    fragmentManager.popBackStack();
+                                    updateTeamList();
+                                }
 
-                            @Override
-                            public void onCancel() {
+                                @Override
+                                public void onCancel() {
 
-                            }
-                        });
+                                }
+                            });
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
                 }
 
-            }
+                @Override
+                public void onError(int responseCode) {
+                    progressBar.hide();
+                    DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+                }
+            });
+        } else {
+            requestHelper.executePost("teamcheckout", new String[]{"match", "team"}, new String[]{matchId, teamId}, null, new RequestListener() {
+                @Override
+                public void onComplete(JSONObject json) {
+                    progressBar.hide();
+                    try {
+                        String error = json.getString("error");
+                        if (!error.equals("") && !error.equals("null")) {
+                            DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), error, null);
+                        } else {
+                            DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), getString(R.string.open_reg_team), new CompleteActionListener() {
+                                @Override
+                                public void onOk(String input) {
+                                    fragmentManager.popBackStack();
+                                    updateTeamList();
+                                }
 
-            @Override
-            public void onError(int responseCode) {
-                progressBar.hide();
-                DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
-            }
-        });
+                                @Override
+                                public void onCancel() {
+
+                                }
+                            });
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                @Override
+                public void onError(int responseCode) {
+                    progressBar.hide();
+                    DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+                }
+            });
+        }
     }
 
     @Override
