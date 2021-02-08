@@ -365,7 +365,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/button_eng_reg_text"
+            android:id="@+id/button_end_reg_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

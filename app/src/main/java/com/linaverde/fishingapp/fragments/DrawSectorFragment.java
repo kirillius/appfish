@@ -114,7 +114,7 @@ public class DrawSectorFragment extends Fragment {
 
     private void setButtons(View view) {
         RequestHelper requestHelper = new RequestHelper(getContext());
-        if (userInfo.getUserType() != 1) {
+        if (userInfo.getUserType() != 1 && userInfo.getUserType() != 4) {
             endDraw.setVisibility(View.GONE);
         } else {
             if (!userInfo.getSectorStatus()) {
@@ -160,37 +160,40 @@ public class DrawSectorFragment extends Fragment {
                     }
                 });
             } else {
-                ((TextView) view.findViewById(R.id.button_end_draw_text)).setText(getString(R.string.open_draw));
-                endDraw.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        progressBar.show();
-                        requestHelper.executePost("sectoropen", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
-                            @Override
-                            public void onComplete(JSONObject json) {
-                                progressBar.hide();
-                                try {
-                                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_draw_open), null);
-                                        userInfo.setStatus(userInfo.getCheckInStatus(), userInfo.getQueueStatus(), false);
-                                        setButtons(view);
-                                    } else {
-                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), json.getString("error"), null);
+                if (userInfo.getUserType() != 1) {
+                    endDraw.setVisibility(View.GONE);
+                } else {
+                    ((TextView) view.findViewById(R.id.button_end_draw_text)).setText(getString(R.string.open_draw));
+                    endDraw.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            progressBar.show();
+                            requestHelper.executePost("sectoropen", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
+                                @Override
+                                public void onComplete(JSONObject json) {
+                                    progressBar.hide();
+                                    try {
+                                        if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_draw_open), null);
+                                            userInfo.setStatus(userInfo.getCheckInStatus(), userInfo.getQueueStatus(), false);
+                                            setButtons(view);
+                                        } else {
+                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), json.getString("error"), null);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
                                 }
-                            }
 
-                            @Override
-                            public void onError(int responseCode) {
-                                progressBar.hide();
-                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
-                            }
-                        });
-                    }
-                });
-
+                                @Override
+                                public void onError(int responseCode) {
+                                    progressBar.hide();
+                                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
+                                }
+                            });
+                        }
+                    });
+                }
             }
 
             if (userInfo.getUserType() == 1) {

@@ -147,7 +147,7 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
 
 
         UserInfo userInfo = new UserInfo(getContext());
-        if (userInfo.getUserType() != 1 || userInfo.getCheckInStatus()) {
+        if ((userInfo.getUserType() != 1 && userInfo.getUserType() !=4) || userInfo.getCheckInStatus()) {
             buttonEndReg.setVisibility(View.GONE);
         } else {
             if (!checkIn) {
@@ -168,22 +168,26 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
                     }
                 });
             } else {
-                ((TextView)view.findViewById(R.id.button_end_reg_text)).setText(getString(R.string.unconfirm_reg));
-                buttonEndReg.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), getString(R.string.open_reg_team_question), new CompleteActionListener() {
-                            @Override
-                            public void onOk(String input) {
-                                listener.teamRegistered(teamId, true);
-                            }
+                if (userInfo.getUserType() != 1) {
+                    buttonEndReg.setVisibility(View.GONE);
+                } else {
+                    ((TextView) view.findViewById(R.id.button_end_reg_text)).setText(getString(R.string.unconfirm_reg));
+                    buttonEndReg.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), getString(R.string.open_reg_team_question), new CompleteActionListener() {
+                                @Override
+                                public void onOk(String input) {
+                                    listener.teamRegistered(teamId, true);
+                                }
 
-                            @Override
-                            public void onCancel() {
-                            }
-                        });
-                    }
-                });
+                                @Override
+                                public void onCancel() {
+                                }
+                            });
+                        }
+                    });
+                }
             }
         }
         return view;

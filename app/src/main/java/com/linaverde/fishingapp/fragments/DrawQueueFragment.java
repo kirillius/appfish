@@ -117,82 +117,89 @@ public class DrawQueueFragment extends Fragment {
         return view;
     }
 
-    private void setButtons(View view){
+    private void setButtons(View view) {
         RequestHelper requestHelper = new RequestHelper(getContext());
-        if (!userInfo.getQueueStatus()){
-            ((TextView) view.findViewById(R.id.button_end_draw_text)).setText(getString(R.string.end_draw));
-            endDraw.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    boolean emptyQueue = false;
-                    for (TeamsQueue team : teams) {
-                        if (team.getQueue() == 0) {
-                            emptyQueue = true;
-                            break;
-                        }
-                    }
-                    if (emptyQueue) {
-                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.queue_empty), null);
-                    } else {
-                        progressBar.show();
-                        requestHelper.executePost("queueclose", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
-                            @Override
-                            public void onComplete(JSONObject json) {
-                                progressBar.hide();
-                                try {
-                                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.queue_draw_end), null);
-                                        userInfo.setStatus(userInfo.getCheckInStatus(), true, userInfo.getSectorStatus());
-                                        setButtons(view);
-                                    } else {
-                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), json.getString("error"), null);
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onError(int responseCode) {
-                                progressBar.hide();
-                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
-                            }
-                        });
-                    }
-                }
-            });
+        if (userInfo.getUserType() != 1 && userInfo.getUserType() != 4) {
+            endDraw.setVisibility(View.GONE);
         } else {
-            ((TextView) view.findViewById(R.id.button_end_draw_text)).setText(getString(R.string.open_draw));
-            endDraw.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    progressBar.show();
-                    requestHelper.executePost("queueopen", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
-                        @Override
-                        public void onComplete(JSONObject json) {
-                            progressBar.hide();
-                            try {
-                                if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.queue_draw_open), null);
-                                    userInfo.setStatus(userInfo.getCheckInStatus(), false, userInfo.getSectorStatus());
-                                    setButtons(view);
-                                } else {
-                                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), json.getString("error"), null);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+            if (!userInfo.getQueueStatus()) {
+                ((TextView) view.findViewById(R.id.button_end_draw_text)).setText(getString(R.string.end_draw));
+                endDraw.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        boolean emptyQueue = false;
+                        for (TeamsQueue team : teams) {
+                            if (team.getQueue() == 0) {
+                                emptyQueue = true;
+                                break;
                             }
                         }
+                        if (emptyQueue) {
+                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.queue_empty), null);
+                        } else {
+                            progressBar.show();
+                            requestHelper.executePost("queueclose", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
+                                @Override
+                                public void onComplete(JSONObject json) {
+                                    progressBar.hide();
+                                    try {
+                                        if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.queue_draw_end), null);
+                                            userInfo.setStatus(userInfo.getCheckInStatus(), true, userInfo.getSectorStatus());
+                                            setButtons(view);
+                                        } else {
+                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), json.getString("error"), null);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
 
+                                @Override
+                                public void onError(int responseCode) {
+                                    progressBar.hide();
+                                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
+                                }
+                            });
+                        }
+                    }
+                });
+            } else {
+                if (userInfo.getUserType() != 1) {
+                    endDraw.setVisibility(View.GONE);
+                } else {
+                    ((TextView) view.findViewById(R.id.button_end_draw_text)).setText(getString(R.string.open_draw));
+                    endDraw.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onError(int responseCode) {
-                            progressBar.hide();
-                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
+                        public void onClick(View v) {
+                            progressBar.show();
+                            requestHelper.executePost("queueopen", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
+                                @Override
+                                public void onComplete(JSONObject json) {
+                                    progressBar.hide();
+                                    try {
+                                        if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.queue_draw_open), null);
+                                            userInfo.setStatus(userInfo.getCheckInStatus(), false, userInfo.getSectorStatus());
+                                            setButtons(view);
+                                        } else {
+                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), json.getString("error"), null);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onError(int responseCode) {
+                                    progressBar.hide();
+                                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
+                                }
+                            });
                         }
                     });
                 }
-            });
-
+            }
         }
 
         teamsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

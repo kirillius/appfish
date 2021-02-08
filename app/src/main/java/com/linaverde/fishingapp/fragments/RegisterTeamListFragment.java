@@ -118,7 +118,7 @@ public class RegisterTeamListFragment extends Fragment {
 
     private void setButton(View view){
         UserInfo userInfo = new UserInfo(getContext());
-        if (userInfo.getUserType() != 1) {
+        if (userInfo.getUserType() != 1 && userInfo.getUserType() != 4) {
             buttonEndReg.setVisibility(View.GONE);
         } else {
             if (!userInfo.getCheckInStatus()) {
@@ -165,47 +165,52 @@ public class RegisterTeamListFragment extends Fragment {
                     }
                 });
             } else {
-                ((TextView)view.findViewById(R.id.button_end_reg_text)).setText(getString(R.string.open_reg));
-                buttonEndReg.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), getString(R.string.open_reg_match_question), new CompleteActionListener() {
-                            @Override
-                            public void onOk(String input) {
-                                progressBar.show();
-                                RequestHelper requestHelper = new RequestHelper(getContext());
-                                requestHelper.executePost("matchcheckout", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
-                                    @Override
-                                    public void onComplete(JSONObject json) {
-                                        progressBar.hide();
-                                        try {
-                                            String error = json.getString("error");
-                                            if (!error.equals("") && !error.equals("null")) {
-                                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), error, null);
-                                            } else {
-                                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.open_reg_match), null);
-                                                userInfo.setStatus(false, userInfo.getQueueStatus(), userInfo.getSectorStatus());
-                                                setButton(view);
+                if (userInfo.getUserType() != 1) {
+                    buttonEndReg.setVisibility(View.GONE);
+                } else {
+                    ((TextView) view.findViewById(R.id.button_end_reg_text)).setText(getString(R.string.open_reg));
+                    buttonEndReg.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), getString(R.string.open_reg_match_question), new CompleteActionListener() {
+                                @Override
+                                public void onOk(String input) {
+                                    progressBar.show();
+                                    RequestHelper requestHelper = new RequestHelper(getContext());
+                                    requestHelper.executePost("matchcheckout", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
+                                        @Override
+                                        public void onComplete(JSONObject json) {
+                                            progressBar.hide();
+                                            try {
+                                                String error = json.getString("error");
+                                                if (!error.equals("") && !error.equals("null")) {
+                                                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), error, null);
+                                                } else {
+                                                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.open_reg_match), null);
+                                                    userInfo.setStatus(false, userInfo.getQueueStatus(), userInfo.getSectorStatus());
+                                                    setButton(view);
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
                                             }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
                                         }
-                                    }
 
-                                    @Override
-                                    public void onError(int responseCode) {
-                                        progressBar.hide();
-                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
-                                    }
-                                });
-                            }
-                            @Override
-                            public void onCancel() {
+                                        @Override
+                                        public void onError(int responseCode) {
+                                            progressBar.hide();
+                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
+                                        }
+                                    });
+                                }
 
-                            }
-                        });
-                    }
-                });
+                                @Override
+                                public void onCancel() {
+
+                                }
+                            });
+                        }
+                    });
+                }
             }
         }
     }

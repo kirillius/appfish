@@ -65,7 +65,7 @@ public class TournamentActivity extends FragmentActivity implements TopMenuEvent
 
         UserInfo userInfo = new UserInfo(TournamentActivity.this);
 
-        if (userInfo.getUserType() == 1) {
+        if (userInfo.getUserType() == 1 || userInfo.getUserType() == 4) {
             RequestHelper requestHelper = new RequestHelper(this);
             requestHelper.executeGet("links", null, null, new RequestListener() {
                 @Override

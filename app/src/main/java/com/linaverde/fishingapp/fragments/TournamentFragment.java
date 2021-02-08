@@ -224,15 +224,24 @@ public class TournamentFragment extends Fragment {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         UserInfo userInfo = new UserInfo(getContext());
-        if (userInfo.getCheckInStatus())
+        if (userInfo.getCheckInStatus()) {
             checkInStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
-        if (userInfo.getQueueStatus())
+        } else {
+            checkInStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_unckeck));
+        }
+        if (userInfo.getQueueStatus()) {
             queueStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
-        if (userInfo.getSectorStatus())
+        } else {
+            queueStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_unckeck));
+        }
+        if (userInfo.getSectorStatus()) {
             sectorStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+        } else {
+            sectorStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_unckeck));
+        }
     }
 
 }
