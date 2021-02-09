@@ -235,7 +235,33 @@ public class RequestHelper {
                 // called when request is retried
             }
         });
+    }
 
+    public void getWeather(double latitude, double longitude, RequestListener listener){
+        AsyncHttpClient client = new AsyncHttpClient();
+        String url = "https://api.gismeteo.net/v2/weather/forecast/";
+        RequestParams params = new RequestParams();
+        params.put("lang", "ru");
+        params.put("latitude", latitude);
+        params.put("longitude", longitude);
+        params.put("days", 1);
+        //client.addHeader("X-Gismeteo-Token", "56b30cb255.3443075");
+        client.get(context, url, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                Log.d("Request", "weather get request successful");
+                Log.d("Request", getAnswerBytes(response).toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.d("Request", "weather get request failed with code " + statusCode);
+                if (responseBody.length > 0) {
+                    String res = new String(responseBody, StandardCharsets.UTF_8);
+                    Log.d("Request", "weather error " + res);
+                }
+            }
+        });
     }
 
 }

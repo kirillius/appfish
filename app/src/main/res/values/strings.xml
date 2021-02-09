@@ -102,7 +102,7 @@
     </string-array>
 
     <string name="values">Значения</string>
-
+    <string name="draw_confirm">Подтвердите отправку данных</string>
     <string name="register_rods">Регистрация удочек</string>
     <string name="date">Дата</string>
     <string name="weight">Вес</string>

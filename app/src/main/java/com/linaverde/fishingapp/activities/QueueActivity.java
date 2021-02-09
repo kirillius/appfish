@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -18,6 +19,7 @@ import com.linaverde.fishingapp.fragments.DrawQueueFragment;
 import com.linaverde.fishingapp.fragments.RegisterTeamListFragment;
 import com.linaverde.fishingapp.fragments.TimeFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
+import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.interfaces.QueueUpdateListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.TeamListClickListener;
@@ -110,6 +112,8 @@ public class QueueActivity extends AppCompatActivity implements TopMenuEventList
         });
     }
 
+    CompleteActionListener confirmListener;
+    RequestListener requestListener;
 
     @Override
     public void update(TeamsQueue team, String input) {
@@ -125,30 +129,49 @@ public class QueueActivity extends AppCompatActivity implements TopMenuEventList
             e.printStackTrace();
         }
 
+        confirmListener = new CompleteActionListener() {
+            @Override
+            public void onOk(String input) {
+                progressBar.show();
+                requestHelper.executePost("queue", new String[]{"match", "confirm"}, new String[]{matchId, "true"},
+                        object.toString(), requestListener);
+            }
 
-        requestHelper.executePost("queue", new String[]{"match"}, new String[]{matchId},
-                object.toString(), new RequestListener() {
-                    @Override
-                    public void onComplete(JSONObject json) {
-                        try {
-                            if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                                progressBar.hide();
-                                setNewQueueFragment();
-                            } else {
-                                progressBar.hide();
-                                DialogBuilder.createDefaultDialog(QueueActivity.this, getLayoutInflater(), json.getString("error"), null);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+            @Override
+            public void onCancel() {
+
+            }
+        };
+
+        requestListener = new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                try {
+                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                        progressBar.hide();
+                        setNewQueueFragment();
+                    } else {
+                        progressBar.hide();
+                        if (json.getBoolean("needConfirm")) {
+                            DialogBuilder.createTwoButtons(QueueActivity.this, getLayoutInflater(), json.getString("error") + ". " + getString(R.string.draw_confirm), confirmListener);
+                        } else {
+                            DialogBuilder.createDefaultDialog(QueueActivity.this, getLayoutInflater(), json.getString("error"), null);
                         }
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
 
-                    @Override
-                    public void onError(int responseCode) {
-                        progressBar.hide();
-                        DialogBuilder.createDefaultDialog(QueueActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
-                    }
-                });
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(QueueActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+            }
+        };
+
+        requestHelper.executePost("queue", new String[]{"match"}, new String[]{matchId},
+                object.toString(), requestListener);
 
     }
 
