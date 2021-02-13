@@ -36,23 +36,24 @@ public class RegisterTeamListFragment extends Fragment {
     TeamListClickListener listener;
 
     private static final String ARG_PARAM = "param";
-    private static final String TOURNAMENT_NAME = "name";
-    private static final String MATCH_ID = "ID";
+    private static final String BUTTONS = "buttons";
+
 
     private JSONObject mStartParam;
     private String tournamentName;
     private String matchId;
+    private Boolean showButtons;
+
 
     public RegisterTeamListFragment() {
         // Required empty public constructor
     }
 
-    public static RegisterTeamListFragment newInstance(String json, String tournamentName, String matchId) {
+    public static RegisterTeamListFragment newInstance(String json, Boolean showButtons) {
         RegisterTeamListFragment fragment = new RegisterTeamListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM, json);
-        args.putString(TOURNAMENT_NAME, tournamentName);
-        args.putString(MATCH_ID, matchId);
+        args.putBoolean(BUTTONS, showButtons);
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,11 +64,10 @@ public class RegisterTeamListFragment extends Fragment {
         if (getArguments() != null) {
             try {
                 mStartParam = new JSONObject(getArguments().getString(ARG_PARAM));
+                showButtons = getArguments().getBoolean(BUTTONS);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            tournamentName = getArguments().getString(TOURNAMENT_NAME);
-            matchId = getArguments().getString(MATCH_ID);
         }
     }
 
@@ -75,12 +75,16 @@ public class RegisterTeamListFragment extends Fragment {
     ListView teamsList;
     ContentLoadingProgressBar progressBar;
     RelativeLayout buttonEndReg;
+    UserInfo userInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register_team_list, container, false);
 
+        userInfo = new UserInfo(getContext());
+        tournamentName = userInfo.getMatchName();
+        matchId = userInfo.getMatchId();
         buttonEndReg = view.findViewById(R.id.button_end_reg);
         TextView tvTournamentName = view.findViewById(R.id.tv_tournament_name);
         tvTournamentName.setText(tournamentName);
@@ -117,8 +121,7 @@ public class RegisterTeamListFragment extends Fragment {
     }
 
     private void setButton(View view){
-        UserInfo userInfo = new UserInfo(getContext());
-        if (userInfo.getUserType() != 1 && userInfo.getUserType() != 4) {
+        if ((userInfo.getUserType() != 1 && userInfo.getUserType() != 4) || !showButtons) {
             buttonEndReg.setVisibility(View.GONE);
         } else {
             if (!userInfo.getCheckInStatus()) {

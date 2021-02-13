@@ -10,15 +10,11 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.WeightStageClickedListener;
-import com.linaverde.fishingapp.models.QueueComparator;
 import com.linaverde.fishingapp.models.Stage;
-import com.linaverde.fishingapp.models.TeamsQueue;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 public class StageAdapter extends ArrayAdapter<Stage> {
@@ -46,8 +42,10 @@ public class StageAdapter extends ArrayAdapter<Stage> {
         name.setText(values.get(pos).getName());
         if (values.get(pos).getStatus() == 0){
             status.setText(context.getString(R.string.stage_continue));
+            stats.setImageDrawable(context.getDrawable(R.drawable.stages_stats_open));
         } else {
             status.setText(context.getString(R.string.stage_end));
+            stats.setImageDrawable(context.getDrawable(R.drawable.stages_stats_closed));
         }
 
         View.OnClickListener clickListener = new View.OnClickListener() {

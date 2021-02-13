@@ -55,6 +55,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
     RequestHelper requestHelper;
 
     String matchId, matchName;
+    Boolean showButtons = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
         setContentView(R.layout.activity_three_fragments);
 
         Bundle b = getIntent().getExtras();
-
+        showButtons = b.getBoolean("showButtons");
         drawer = findViewById(R.id.drawer_layout);
 
         progressBar = findViewById(R.id.progress_bar);
@@ -90,18 +91,15 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
         if (!fragmentManager.isDestroyed())
             fragmentTransaction.commit();
 
-        try {
-            matchId = (new JSONObject(b.getString("info"))).getString("matchId");
-            matchName = (new JSONObject(b.getString("info"))).getString("matchName");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        UserInfo userInfo = new UserInfo(RegisterTeamActivity.this);
+        matchId = userInfo.getMatchId();
+        matchName = userInfo.getMatchName();
 
         requestHelper = new RequestHelper(this);
         requestHelper.executeGet("teams", new String[]{"match"}, new String[]{matchId}, new RequestListener() {
             @Override
             public void onComplete(JSONObject json) {
-                RegisterTeamListFragment RTFragment = RegisterTeamListFragment.newInstance(json.toString(), matchName, matchId);
+                RegisterTeamListFragment RTFragment = RegisterTeamListFragment.newInstance(json.toString(), showButtons);
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.add(R.id.content_fragment, RTFragment);
                 if (!fragmentManager.isDestroyed())
@@ -122,7 +120,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
             @Override
             public void onComplete(JSONObject json) {
                 RegisterTeamListFragment RTFragment = null;
-                RTFragment = RegisterTeamListFragment.newInstance(json.toString(), matchName, matchId);
+                RTFragment = RegisterTeamListFragment.newInstance(json.toString(), showButtons);
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.content_fragment, RTFragment);
                 if (!fragmentManager.isDestroyed())
@@ -146,7 +144,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
                 progressBar.hide();
                 try {
                     if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                        RegisterOneTeamFragment ROTFragment = RegisterOneTeamFragment.newInstance(matchId, matchName, selectedTeam.getId(), json.toString(), selectedTeam.getCheckIn());
+                        RegisterOneTeamFragment ROTFragment = RegisterOneTeamFragment.newInstance( selectedTeam.getId(), json.toString(), selectedTeam.getCheckIn(), showButtons);
                         Log.d("On team clicked", selectedTeam.getName());
                         LogoTopMenuFragment LTMFragment = LogoTopMenuFragment.newInstance(selectedTeam.getLogo(), selectedTeam.getName());
                         fragmentTransaction = fragmentManager.beginTransaction();

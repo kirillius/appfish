@@ -122,41 +122,30 @@ public class DrawSectorFragment extends Fragment {
                 endDraw.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        boolean emptySector = false;
-                        for (TeamsQueue team : teams) {
-                            if (team.getSector() == 0) {
-                                emptySector = true;
-                                break;
-                            }
-                        }
-                        if (emptySector) {
-                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_empty), null);
-                        } else {
-                            progressBar.show();
-                            requestHelper.executePost("sectorclose", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
-                                @Override
-                                public void onComplete(JSONObject json) {
-                                    progressBar.hide();
-                                    try {
-                                        if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_draw_end), null);
-                                            userInfo.setStatus(userInfo.getCheckInStatus(), userInfo.getQueueStatus(), true);
-                                            setButtons(view);
-                                        } else {
-                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), json.getString("error"), null);
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                        progressBar.show();
+                        requestHelper.executePost("sectorclose", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
+                            @Override
+                            public void onComplete(JSONObject json) {
+                                progressBar.hide();
+                                try {
+                                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_draw_end), null);
+                                        userInfo.setStatus(userInfo.getCheckInStatus(), userInfo.getQueueStatus(), true);
+                                        setButtons(view);
+                                    } else {
+                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), json.getString("error"), null);
                                     }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
+                            }
 
-                                @Override
-                                public void onError(int responseCode) {
-                                    progressBar.hide();
-                                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
-                                }
-                            });
-                        }
+                            @Override
+                            public void onError(int responseCode) {
+                                progressBar.hide();
+                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
+                            }
+                        });
                     }
                 });
             } else {

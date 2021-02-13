@@ -96,7 +96,7 @@ public class TournamentFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RegisterTeamActivity.class);
                 Bundle args = new Bundle();
-                args.putString("info", mStartParam.toString());
+                args.putBoolean("showButtons", true);
                 intent.putExtras(args);
                 startActivity(intent);
             }

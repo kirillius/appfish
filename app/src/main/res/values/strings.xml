@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FishingApp</string>
+    <string name="app_name">G-Carpfishing</string>
     <string name="action_settings">Settings</string>
 
     <string name="url_backend">http://10.10.29.16:80/carpfishing_test/hs/v1</string>

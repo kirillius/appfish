@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,11 +35,10 @@ import org.json.JSONObject;
 
 public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed, LoadDocumentListener {
 
-    private static final String MATCH_ID = "matchID";
-    private static final String MATCH_NAME = "matchName";
     private static final String TEAM_ID = "teamId";
     private static final String TEAM = "team";
     private static final String CHECKIN = "checkIn";
+    private static final String BUTTONS = "buttons";
 
 
     private String matchName;
@@ -50,18 +50,19 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
     private JSONObject team;
     private String teamId;
     private boolean checkIn;
+    private boolean showButtons;
+
 
     OneTeamClickListener listener;
 
-    public static RegisterOneTeamFragment newInstance(String matchId, String matchName, String teamId, String teamJson, boolean checkIn) {
+    public static RegisterOneTeamFragment newInstance(String teamId, String teamJson, boolean checkIn, boolean showButtons) {
 
         RegisterOneTeamFragment fragment = new RegisterOneTeamFragment();
         Bundle args = new Bundle();
-        args.putString(MATCH_ID, matchId);
-        args.putString(MATCH_NAME, matchName);
         args.putString(TEAM_ID, teamId);
         args.putString(TEAM, teamJson);
         args.putBoolean(CHECKIN, checkIn);
+        args.putBoolean(BUTTONS, showButtons);
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,10 +71,9 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            matchId = getArguments().getString(MATCH_ID);
-            matchName = getArguments().getString(MATCH_NAME);
             teamId = getArguments().getString(TEAM_ID);
             checkIn = getArguments().getBoolean(CHECKIN);
+            showButtons = getArguments().getBoolean(BUTTONS);
             try {
                 team = new JSONObject(getArguments().getString(TEAM));
                 team = team.getJSONObject("teams");
@@ -97,12 +97,16 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
     boolean documentOpen = false;
     boolean photoOpen = false;
     RegisterOneTeamFragment fragment;
+    UserInfo userInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register_one_team, container, false);
+        userInfo = new UserInfo(getContext());
+        matchId = userInfo.getMatchId();
+        matchName = userInfo.getMatchName();
         fragment = this;
         progressBar = view.findViewById(R.id.progress_bar);
         progressBar.hide();
@@ -145,9 +149,8 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
             }
         });
 
-
-        UserInfo userInfo = new UserInfo(getContext());
-        if ((userInfo.getUserType() != 1 && userInfo.getUserType() !=4) || userInfo.getCheckInStatus()) {
+        buttonEndReg = view.findViewById(R.id.button_end_reg);
+        if ((userInfo.getUserType() != 1 && userInfo.getUserType() !=4) || userInfo.getCheckInStatus() || !showButtons) {
             buttonEndReg.setVisibility(View.GONE);
         } else {
             if (!checkIn) {
@@ -198,108 +201,118 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
 
     private void fillDocuments(View view) {
 
-        captainPass = view.findViewById(R.id.ib_captain_pass);
-        captainMed = view.findViewById(R.id.ib_captain_med);
-        captainSport = view.findViewById(R.id.ib_captain_sport);
+        LinearLayout llcaptainDocs, llassistantDocs;
+        llcaptainDocs = view.findViewById(R.id.ll_captain_docs);
+        llassistantDocs = view.findViewById(R.id.ll_assistant_docs);
 
-        assistantPass = view.findViewById(R.id.ib_assistant_pass);
-        assistantMed = view.findViewById(R.id.ib_assistant_med);
-        assistantSport = view.findViewById(R.id.ib_assistant_sport);
+        if (!showButtons){
+            llcaptainDocs.setVisibility(View.GONE);
+            llassistantDocs.setVisibility(View.GONE);
+        } else {
 
-        buttonEndReg = view.findViewById(R.id.button_end_reg);
-        JSONObject captainDocs = null;
-        JSONObject assistantDocs = null;
+            captainPass = view.findViewById(R.id.ib_captain_pass);
+            captainMed = view.findViewById(R.id.ib_captain_med);
+            captainSport = view.findViewById(R.id.ib_captain_sport);
 
-        try {
-            captainDocs = team.getJSONObject("captainDocs");
-            assistantDocs = team.getJSONObject("assistantDocs");
-        } catch (JSONException e) {
-            e.printStackTrace();
+            assistantPass = view.findViewById(R.id.ib_assistant_pass);
+            assistantMed = view.findViewById(R.id.ib_assistant_med);
+            assistantSport = view.findViewById(R.id.ib_assistant_sport);
+
+
+            JSONObject captainDocs = null;
+            JSONObject assistantDocs = null;
+
+            try {
+                captainDocs = team.getJSONObject("captainDocs");
+                assistantDocs = team.getJSONObject("assistantDocs");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                if (captainDocs.getBoolean("doc1")) {
+                    captainPass.setImageResource(R.drawable.document_check);
+                } else {
+                    captainPass.setEnabled(false);
+                }
+                if (captainDocs.getBoolean("doc2")) {
+                    captainMed.setImageResource(R.drawable.document_check);
+                } else {
+                    captainMed.setEnabled(false);
+                }
+                if (captainDocs.getBoolean("doc3")) {
+                    captainSport.setImageResource(R.drawable.document_check);
+                } else {
+                    captainSport.setEnabled(false);
+                }
+                if (assistantDocs.getBoolean("doc1")) {
+                    assistantPass.setImageResource(R.drawable.document_check);
+                } else {
+                    assistantPass.setEnabled(false);
+                }
+                if (assistantDocs.getBoolean("doc2")) {
+                    assistantMed.setImageResource(R.drawable.document_check);
+                } else {
+                    assistantMed.setEnabled(false);
+                }
+                if (assistantDocs.getBoolean("doc3")) {
+                    assistantSport.setImageResource(R.drawable.document_check);
+                } else {
+                    assistantSport.setEnabled(false);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                captainId = team.getString("captainId");
+                assistantId = team.getString("assistantId");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            captainPass.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fragment.onDocumentClicked(captainId, 1);
+                }
+            });
+
+            captainMed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fragment.onDocumentClicked(captainId, 2);
+                }
+            });
+
+            captainSport.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fragment.onDocumentClicked(captainId, 3);
+                }
+            });
+
+            assistantPass.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fragment.onDocumentClicked(assistantId, 1);
+                }
+            });
+
+            assistantMed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fragment.onDocumentClicked(assistantId, 2);
+                }
+            });
+
+            assistantSport.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fragment.onDocumentClicked(assistantId, 3);
+                }
+            });
         }
-
-        try {
-            if (captainDocs.getBoolean("doc1")) {
-                captainPass.setImageResource(R.drawable.document_check);
-            } else {
-                captainPass.setEnabled(false);
-            }
-            if (captainDocs.getBoolean("doc2")) {
-                captainMed.setImageResource(R.drawable.document_check);
-            } else {
-                captainMed.setEnabled(false);
-            }
-            if (captainDocs.getBoolean("doc3")) {
-                captainSport.setImageResource(R.drawable.document_check);
-            } else {
-                captainSport.setEnabled(false);
-            }
-            if (assistantDocs.getBoolean("doc1")) {
-                assistantPass.setImageResource(R.drawable.document_check);
-            } else {
-                assistantPass.setEnabled(false);
-            }
-            if (assistantDocs.getBoolean("doc2")) {
-                assistantMed.setImageResource(R.drawable.document_check);
-            } else {
-                assistantMed.setEnabled(false);
-            }
-            if (assistantDocs.getBoolean("doc3")) {
-                assistantSport.setImageResource(R.drawable.document_check);
-            } else {
-                assistantSport.setEnabled(false);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            captainId = team.getString("captainId");
-            assistantId = team.getString("assistantId");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        captainPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragment.onDocumentClicked(captainId, 1);
-            }
-        });
-
-        captainMed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragment.onDocumentClicked(captainId, 2);
-            }
-        });
-
-        captainSport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragment.onDocumentClicked(captainId, 3);
-            }
-        });
-
-        assistantPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragment.onDocumentClicked(assistantId, 1);
-            }
-        });
-
-        assistantMed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragment.onDocumentClicked(assistantId, 2);
-            }
-        });
-
-        assistantSport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragment.onDocumentClicked(assistantId, 3);
-            }
-        });
     }
 
     private void fillPhotosAndLinks(View view) {

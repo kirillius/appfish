@@ -33,6 +33,6 @@
         android:background="@null"
         android:gravity="center"
         android:scaleType="centerInside"
-        android:src="@drawable/stages_stats" />
+        android:src="@drawable/stages_stats_open" />
 
 </LinearLayout>
