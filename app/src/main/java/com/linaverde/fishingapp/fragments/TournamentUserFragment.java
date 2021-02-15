@@ -18,11 +18,6 @@ import com.linaverde.fishingapp.services.UserInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TournamentUserFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TournamentUserFragment extends Fragment {
 
     private static final String ARG_PARAM = "param";

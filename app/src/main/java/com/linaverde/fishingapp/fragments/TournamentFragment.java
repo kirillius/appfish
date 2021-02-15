@@ -31,22 +31,19 @@ import org.json.JSONObject;
 
 public class TournamentFragment extends Fragment {
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM = "param";
     private static final String LINKS = "links";
 
     private JSONObject mStartParam;
-    private JSONObject links;
 
     public TournamentFragment() {
         // Required empty public constructor
     }
 
-    public static TournamentFragment newInstance(String json, String links) {
+    public static TournamentFragment newInstance(String json) {
         TournamentFragment fragment = new TournamentFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM, json);
-        args.putString(LINKS, links);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,7 +54,6 @@ public class TournamentFragment extends Fragment {
         if (getArguments() != null) {
             try {
                 mStartParam = new JSONObject(getArguments().getString(ARG_PARAM));
-                links = new JSONObject(getArguments().getString(LINKS));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -153,63 +149,6 @@ public class TournamentFragment extends Fragment {
             }
         });
 
-        net1 = view.findViewById(R.id.play);
-        net2 = view.findViewById(R.id.network);
-        net3 = view.findViewById(R.id.instagram);
-        net4 = view.findViewById(R.id.facebook);
-
-        net1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links.getString("Link1")));
-                    startActivity(browserIntent);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
-        net2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links.getString("Link2")));
-                    startActivity(browserIntent);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
-        net3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links.getString("Link3")));
-                    startActivity(browserIntent);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
-        net4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links.getString("Link4")));
-                    startActivity(browserIntent);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
         checkInStatus = view.findViewById(R.id.register_complete_icon);
         queueStatus = view.findViewById(R.id.queue_complete_icon);
         sectorStatus = view.findViewById(R.id.sector_complete_icon);
@@ -220,7 +159,80 @@ public class TournamentFragment extends Fragment {
             queueStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
         if (userInfo.getSectorStatus())
             sectorStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+
+        setLinks(view);
+
         return view;
+    }
+
+    private void setLinks(View view){
+        net1 = view.findViewById(R.id.play);
+        net2 = view.findViewById(R.id.network);
+        net3 = view.findViewById(R.id.instagram);
+        net4 = view.findViewById(R.id.facebook);
+
+        RequestHelper requestHelper = new RequestHelper(getContext());
+        requestHelper.getLinks(new RequestListener() {
+            @Override
+            public void onComplete(JSONObject links) {
+                net1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links.getString("Link1")));
+                            startActivity(browserIntent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+                net2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links.getString("Link2")));
+                            startActivity(browserIntent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+                net3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links.getString("Link3")));
+                            startActivity(browserIntent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+                net4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links.getString("Link4")));
+                            startActivity(browserIntent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+            }
+
+            @Override
+            public void onError(int responseCode) {
+
+            }
+        });
     }
 
     @Override

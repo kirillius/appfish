@@ -101,6 +101,35 @@ public class RequestHelper {
         });
     }
 
+    public void getLinks(RequestListener listener){
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(context.getResources().getString(R.string.url_backend) + "/links" , new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                // called when response HTTP status is "200 OK"
+                Log.d("Request",  "links request successful");
+                Log.d("Request", "answer: " + new String(response, StandardCharsets.UTF_8));
+                listener.onComplete(getAnswerBytes(response));
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                Log.d("Request",  "links request error with code " + statusCode);
+                if (errorResponse != null) {
+                    String res = new String(errorResponse, StandardCharsets.UTF_8);
+                }
+                listener.onError(statusCode);
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                // called when request is retried
+            }
+        });
+    }
+
     public void getDocument(String userId, int doc, RequestListener listener) {
 
         AsyncHttpClient client = new AsyncHttpClient();

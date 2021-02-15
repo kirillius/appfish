@@ -6,6 +6,7 @@ import androidx.core.widget.ContentLoadingProgressBar;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
 import android.text.InputType;
@@ -16,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -36,6 +38,7 @@ public class AuthActivity extends AppCompatActivity {
     Button signIn;
     RelativeLayout rlAuth;
     ContentLoadingProgressBar progressBar;
+    ImageView net1, net2, net3, net4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +120,80 @@ public class AuthActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        setLinks();
+
+    }
+
+    private void setLinks(){
+        net1 = findViewById(R.id.play);
+        net2 = findViewById(R.id.network);
+        net3 = findViewById(R.id.instagram);
+        net4 = findViewById(R.id.facebook);
+
+        RequestHelper requestHelper = new RequestHelper(this);
+        requestHelper.getLinks(new RequestListener() {
+            @Override
+            public void onComplete(JSONObject links) {
+                net1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links.getString("Link1")));
+                            startActivity(browserIntent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+                net2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links.getString("Link2")));
+                            startActivity(browserIntent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+                net3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links.getString("Link3")));
+                            startActivity(browserIntent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+                net4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links.getString("Link4")));
+                            startActivity(browserIntent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+            }
+
+            @Override
+            public void onError(int responseCode) {
+
+            }
+        });
+
 
     }
 

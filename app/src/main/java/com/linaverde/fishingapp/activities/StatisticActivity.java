@@ -19,11 +19,14 @@ import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.fragments.DetailedStatsFragment;
 import com.linaverde.fishingapp.fragments.LogoTopMenuFragment;
 import com.linaverde.fishingapp.fragments.RegisterOneTeamFragment;
+import com.linaverde.fishingapp.fragments.StatisticsDayFragment;
 import com.linaverde.fishingapp.fragments.StatisticsFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.fragments.ViolationsFragment;
+import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.interfaces.OneTeamClickListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
+import com.linaverde.fishingapp.interfaces.StatisticDayClicked;
 import com.linaverde.fishingapp.interfaces.StatisticTeamNameClicked;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
 import com.linaverde.fishingapp.models.Team;
@@ -35,7 +38,7 @@ import com.linaverde.fishingapp.services.RequestHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class StatisticActivity extends AppCompatActivity implements TopMenuEventListener, StatisticTeamNameClicked {
+public class StatisticActivity extends AppCompatActivity implements TopMenuEventListener, StatisticTeamNameClicked, StatisticDayClicked {
 
     FragmentTransaction fragmentTransaction;
     DrawerLayout drawer;
@@ -78,14 +81,13 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
         matchName = b.getString("matchName");
 
         if (teamId.equals("")) {
-            RequestHelper requestHelper = new RequestHelper(this);
             requestHelper.executeGet("stats", new String[]{"match"}, new String[]{matchId}, new RequestListener() {
                 @Override
                 public void onComplete(JSONObject json) {
                     Log.d("Test auth", "Request fine");
-                    StatisticsFragment statisticsFragment = null;
+                    StatisticsDayFragment statisticsFragment = null;
 
-                    statisticsFragment = StatisticsFragment.newInstance(json.toString(), matchName, true);
+                    statisticsFragment = StatisticsDayFragment.newInstance(json.toString(), matchName, true);
                     fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.add(R.id.content_fragment, statisticsFragment);
                     if (!fragmentManager.isDestroyed())
@@ -122,10 +124,12 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
         }
     }
 
+    String selectedDay = null;
+
     @Override
     public void teamClicked(String teamId, String teamName) {
         progressBar.show();
-        requestHelper.executeGet("statsdetail", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
+        RequestListener requestListener = new RequestListener() {
             @Override
             public void onComplete(JSONObject json) {
                 progressBar.hide();
@@ -142,7 +146,92 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
             public void onError(int responseCode) {
                 progressBar.hide();
             }
-        });
+        };
+        if (selectedDay == null) {
+            requestHelper.executeGet("statsdetail", new String[]{"match", "team"}, new String[]{matchId, teamId}, requestListener);
+        } else {
+            requestHelper.executeGet("statsdetail", new String[]{"match", "team", "day"}, new String[]{matchId, teamId, selectedDay}, requestListener);
+        }
+    }
+
+    private void updateDay() {
+        progressBar.show();
+        if (selectedDay == null) {
+            requestHelper.executeGet("stats", new String[]{"match"}, new String[]{matchId}, new RequestListener() {
+                @Override
+                public void onComplete(JSONObject json) {
+                    progressBar.hide();
+                    StatisticsDayFragment statisticsFragment = StatisticsDayFragment.newInstance(json.toString(), matchName, true);
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.content_fragment, statisticsFragment);
+                    if (!fragmentManager.isDestroyed())
+                        fragmentTransaction.commit();
+                }
+
+                @Override
+                public void onError(int responseCode) {
+                    DialogBuilder.createDefaultDialog(StatisticActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+                }
+            });
+        } else {
+            requestHelper.executeGet("stats", new String[]{"match", "day"}, new String[]{matchId, selectedDay}, new RequestListener() {
+                @Override
+                public void onComplete(JSONObject json) {
+                    progressBar.hide();
+                    String error = null;
+                    try {
+                        error = json.getString("error");
+                        if (error.equals("") || error == null || error.equals("null")) {
+                            StatisticsDayFragment statisticsFragment = StatisticsDayFragment.newInstance(json.toString(), matchName, true);
+                            fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.content_fragment, statisticsFragment);
+                            if (!fragmentManager.isDestroyed())
+                                fragmentTransaction.commit();
+                        } else {
+                            DialogBuilder.createDefaultDialog(StatisticActivity.this, getLayoutInflater(), error, null);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(int responseCode) {
+                    DialogBuilder.createDefaultDialog(StatisticActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void dayOneClicked() {
+        selectedDay = "1";
+        updateDay();
+    }
+
+    @Override
+    public void dayTwoClicked() {
+        selectedDay = "2";
+        updateDay();
+    }
+
+    @Override
+    public void dayThreeClicked() {
+        selectedDay = "3";
+        updateDay();
+    }
+
+    @Override
+    public void dayFourClicked() {
+        selectedDay = "4";
+        updateDay();
+    }
+
+    @Override
+    public void onlineClicked() {
+        selectedDay = null;
+        updateDay();
     }
 
     @Override

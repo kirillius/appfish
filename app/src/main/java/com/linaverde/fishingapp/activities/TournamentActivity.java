@@ -66,22 +66,11 @@ public class TournamentActivity extends FragmentActivity implements TopMenuEvent
         UserInfo userInfo = new UserInfo(TournamentActivity.this);
 
         if (userInfo.getUserType() == 1 || userInfo.getUserType() == 4) {
-            RequestHelper requestHelper = new RequestHelper(this);
-            requestHelper.executeGet("links", null, null, new RequestListener() {
-                @Override
-                public void onComplete(JSONObject json) {
-                    progressBar.hide();
-                    TournamentFragment JTFragment = TournamentFragment.newInstance(b.getString("info"), json.toString());
-                    fragmentTransaction.add(R.id.content_fragment, JTFragment);
-                    if (!fragmentManager.isDestroyed())
-                        fragmentTransaction.commit();
-                }
-
-                @Override
-                public void onError(int responseCode) {
-
-                }
-            });
+            progressBar.hide();
+            TournamentFragment JTFragment = TournamentFragment.newInstance(b.getString("info"));
+            fragmentTransaction.add(R.id.content_fragment, JTFragment);
+            if (!fragmentManager.isDestroyed())
+                fragmentTransaction.commit();
         } else {
             progressBar.hide();
             TournamentUserFragment JTFragment = TournamentUserFragment.newInstance(b.getString("info"));

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.StatisticsFragment">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/dark_gradient" />
+
+    <TextView
+        android:id="@+id/tv_tournament_name"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="96dp"
+        android:layout_marginBottom="34dp"
+        android:background="@drawable/button_bottom_gradient"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="@string/tournament"
+        android:textAlignment="center"
+        android:textAppearance="@style/Roboto"
+        android:textSize="30sp" />
+
+    <RelativeLayout
+        android:id="@+id/ll_stat_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_tournament_name"
+        android:layout_marginStart="96dp"
+        android:layout_marginEnd="96dp"
+        android:layout_marginBottom="26dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="@string/statistics"
+            android:textAlignment="center"
+            android:textAppearance="@style/Roboto"
+            android:textSize="28sp" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="01.01.2020"
+            android:textAlignment="center"
+            android:textAppearance="@style/Roboto"
+            android:textSize="28sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_days"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_tournament_name"
+        android:layout_marginStart="96dp"
+        android:layout_marginEnd="96dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:text="@string/protocol"
+            android:textAppearance="@style/Roboto"
+            android:textSize="26sp" />
+
+        <ImageView
+            android:id="@+id/iv_day_1"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/day_1"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/iv_day_2"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/day_2"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/iv_day_3"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/day_3"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/iv_day_4"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/day_4"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/iv_online"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/online"
+            android:layout_weight="3"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/table_names"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_days"
+        android:layout_marginStart="96dp"
+        android:layout_marginEnd="96dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:text="@string/sector"
+            android:textAppearance="@style/Roboto"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="@string/count"
+            android:textAlignment="center"
+            android:textAppearance="@style/Roboto"
+            android:textSize="22sp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/weigh_big"
+                android:textAlignment="center"
+                android:textAppearance="@style/Roboto"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/avr"
+                android:textAlignment="center"
+                android:textAppearance="@style/Roboto"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="55dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/weigh_big"
+                android:textAlignment="center"
+                android:textAppearance="@style/Roboto"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/sum"
+                android:textAlignment="center"
+                android:textAppearance="@style/Roboto"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_stats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/result"
+        android:layout_below="@id/table_names"
+        android:layout_marginStart="96dp"
+        android:layout_marginEnd="96dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:layout_alignBottom="@id/lv_stats"
+        android:background="@drawable/light_gradient" />
+
+    <RelativeLayout
+        android:id="@+id/result"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_alignParentBottom="true">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/dark_gradient" />
+
+        <LinearLayout
+            android:id="@+id/ll_result"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_marginStart="96dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="96dp"
+            android:background="@drawable/result_back">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginStart="16dp"
+                android:layout_weight="3"
+                android:text="@string/result"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/Roboto"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/tv_result_stat_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="@string/count"
+                android:textAlignment="center"
+                android:textAppearance="@style/Roboto"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/tv_result_stat_avr"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="@string/weigh_big"
+                android:textAlignment="center"
+                android:textAppearance="@style/Roboto"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/tv_result_stat_sum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="55dp"
+                android:layout_weight="1"
+                android:text="@string/weigh_big"
+                android:textAlignment="center"
+                android:textAppearance="@style/Roboto"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_result"
+            android:layout_marginStart="96dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="96dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/stats_comment" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
