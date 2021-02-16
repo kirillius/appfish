@@ -30,6 +30,7 @@ import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.NavigationHelper;
 import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
+import com.linaverde.fishingapp.services.UserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,16 +42,14 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
     FragmentTransaction fragmentTransaction;
     FragmentManager fragmentManager;
     RequestHelper requestHelper;
-
+    UserInfo userInfo;
     String matchId;
-    Bundle b;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_three_fragments);
-        b = getIntent().getExtras();
         drawer = findViewById(R.id.drawer_layout);
         progressBar = findViewById(R.id.progress_bar);
         progressBar.show();
@@ -65,6 +64,8 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
             }
         });
 
+        userInfo = new UserInfo(this);
+
         TopMenuFragment menuFragment = TopMenuFragment.newInstance(false);
         TimeFragment timeFragment = new TimeFragment();
 
@@ -75,11 +76,7 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
         if (!fragmentManager.isDestroyed())
             fragmentTransaction.commit();
 
-        try {
-            matchId = (new JSONObject(b.getString("info"))).getString("matchId");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        matchId = userInfo.getMatchId();
 
         requestHelper = new RequestHelper(this);
         setNewQueueFragment();
@@ -92,12 +89,10 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
             @Override
             public void onComplete(JSONObject json) {
                 DrawSectorFragment DSFragment = null;
-                try {
-                    DSFragment = DrawSectorFragment.newInstance(json.toString(),
-                            (new JSONObject(b.getString("info"))).getString("matchName"), (new JSONObject(b.getString("info"))).getString("matchId"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
+                DSFragment = DrawSectorFragment.newInstance(json.toString(),
+                        userInfo.getMatchName(), matchId);
+
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.content_fragment, DSFragment);
                 if (!fragmentManager.isDestroyed())

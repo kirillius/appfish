@@ -21,31 +21,15 @@ import org.json.JSONObject;
 public class TournamentUserFragment extends Fragment {
 
     private static final String ARG_PARAM = "param";
-    private JSONObject mStartParam;
+
 
     public TournamentUserFragment() {
         // Required empty public constructor
     }
 
-
-    public static TournamentUserFragment newInstance(String json) {
-        TournamentUserFragment fragment = new TournamentUserFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM, json);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            try {
-                mStartParam = new JSONObject(getArguments().getString(ARG_PARAM));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     TextView tvTournamentName;
@@ -60,11 +44,7 @@ public class TournamentUserFragment extends Fragment {
         userInfo = new UserInfo(getContext());
 
         tvTournamentName = view.findViewById(R.id.tv_tournament_name);
-        try {
-            tvTournamentName.setText(mStartParam.getString("matchName"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        tvTournamentName.setText(userInfo.getMatchName());
 
         rlOnlineProtocol = view.findViewById(R.id.list_online_protocol);
         rlMap = view.findViewById(R.id.list_map_sector);
@@ -76,13 +56,9 @@ public class TournamentUserFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StatisticActivity.class);
                 Bundle args = new Bundle();
-                try {
-                    args.putString("matchId", mStartParam.getString("matchId"));
-                    args.putString("teamId", "");
-                    args.putString("matchName",mStartParam.getString("matchName"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                args.putString("matchId", userInfo.getMatchId());
+                args.putString("teamId", "");
+                args.putString("matchName", userInfo.getMatchName());
                 intent.putExtras(args);
                 startActivity(intent);
             }

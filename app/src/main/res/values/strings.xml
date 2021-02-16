@@ -111,10 +111,9 @@
     <string name="sector_map">Карта сектора</string>
     <string name="settings_rods_work">Настройка рабочих удочек</string>
     <string name="settings_rods_spod">Настройка сподовых удочек</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="protocol">Протокол</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="team_stats">Статистика команды</string>
+
 
 
 </resources>

@@ -54,7 +54,7 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
 
     FragmentContainerView bottomFragmentContainer;
     ContentLoadingProgressBar progressBar;
-
+    UserInfo userInfo;
     RequestHelper requestHelper;
 
     String matchId;
@@ -67,11 +67,10 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_three_fragments);
 
-        Bundle b = getIntent().getExtras();
         drawer = findViewById(R.id.drawer_layout);
         progressBar = findViewById(R.id.progress_bar);
         progressBar.show();
-
+        userInfo = new UserInfo(this);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -94,12 +93,8 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
         if (!fragmentManager.isDestroyed())
             fragmentTransaction.commit();
 
-        try {
-            matchId = (new JSONObject(b.getString("info"))).getString("matchId");
-            matchName = (new JSONObject(b.getString("info"))).getString("matchName");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        matchId = userInfo.getMatchId();
+        matchName = userInfo.getMatchName();
 
         requestHelper = new RequestHelper(this);
 

@@ -51,29 +51,24 @@ public class TournamentActivity extends FragmentActivity implements TopMenuEvent
             }
         });
 
-        Bundle b = getIntent().getExtras();
+        UserInfo userInfo = new UserInfo(this);
         TopMenuFragment menuFragment = TopMenuFragment.newInstance(true);
-        try {
-            matchId = (new JSONObject(b.getString("info"))).getString("matchId");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            matchId = userInfo.getMatchId();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
 
-        UserInfo userInfo = new UserInfo(TournamentActivity.this);
 
         if (userInfo.getUserType() == 1 || userInfo.getUserType() == 4) {
             progressBar.hide();
-            TournamentFragment JTFragment = TournamentFragment.newInstance(b.getString("info"));
+            TournamentFragment JTFragment = new TournamentFragment();
             fragmentTransaction.add(R.id.content_fragment, JTFragment);
             if (!fragmentManager.isDestroyed())
                 fragmentTransaction.commit();
         } else {
             progressBar.hide();
-            TournamentUserFragment JTFragment = TournamentUserFragment.newInstance(b.getString("info"));
+            TournamentUserFragment JTFragment = new TournamentUserFragment();
             fragmentTransaction.add(R.id.content_fragment, JTFragment);
             if (!fragmentManager.isDestroyed())
                 fragmentTransaction.commit();

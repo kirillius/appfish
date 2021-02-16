@@ -99,13 +99,6 @@ public class WeightingSelectedTeamFragment extends Fragment {
 
         rod = view.findViewById(R.id.icon_rods);
 
-        rod.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.rodsClicked(teamId);
-            }
-        });
-
         return view;
     }
 

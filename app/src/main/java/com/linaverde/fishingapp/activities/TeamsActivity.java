@@ -57,6 +57,7 @@ public class TeamsActivity extends AppCompatActivity implements TopMenuEventList
         setContentView(R.layout.activity_three_fragments);
         userInfo = new UserInfo(this);
         progressBar = findViewById(R.id.progress_bar);
+        drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

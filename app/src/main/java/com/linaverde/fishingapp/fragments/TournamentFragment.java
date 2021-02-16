@@ -34,30 +34,15 @@ public class TournamentFragment extends Fragment {
     private static final String ARG_PARAM = "param";
     private static final String LINKS = "links";
 
-    private JSONObject mStartParam;
 
     public TournamentFragment() {
         // Required empty public constructor
     }
 
-    public static TournamentFragment newInstance(String json) {
-        TournamentFragment fragment = new TournamentFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM, json);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            try {
-                mStartParam = new JSONObject(getArguments().getString(ARG_PARAM));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     TextView tvTournamentName;
@@ -75,11 +60,8 @@ public class TournamentFragment extends Fragment {
         userInfo = new UserInfo(getContext());
 
         tvTournamentName = view.findViewById(R.id.tv_tournament_name);
-        try {
-            tvTournamentName.setText(mStartParam.getString("matchName"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        tvTournamentName.setText(userInfo.getMatchName());
+
 
         rlRegisterTeam = view.findViewById(R.id.list_register_team);
         rlDrawQueue = view.findViewById(R.id.list_draw_queue);
@@ -102,9 +84,6 @@ public class TournamentFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), QueueActivity.class);
-                Bundle args = new Bundle();
-                args.putString("info", mStartParam.toString());
-                intent.putExtras(args);
                 startActivity(intent);
             }
         });
@@ -113,9 +92,6 @@ public class TournamentFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), WeightingActivity.class);
-                Bundle args = new Bundle();
-                args.putString("info", mStartParam.toString());
-                intent.putExtras(args);
                 startActivity(intent);
             }
         });
@@ -124,9 +100,6 @@ public class TournamentFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SectorActivity.class);
-                Bundle args = new Bundle();
-                args.putString("info", mStartParam.toString());
-                intent.putExtras(args);
                 startActivity(intent);
             }
         });
@@ -137,13 +110,11 @@ public class TournamentFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StatisticActivity.class);
                 Bundle args = new Bundle();
-                try {
-                    args.putString("matchId", mStartParam.getString("matchId"));
-                    args.putString("teamId", "");
-                    args.putString("matchName", mStartParam.getString("matchName"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
+                args.putString("matchId", userInfo.getMatchId());
+                args.putString("teamId", "");
+                args.putString("matchName", userInfo.getMatchName());
+
                 intent.putExtras(args);
                 startActivity(intent);
             }
@@ -165,7 +136,7 @@ public class TournamentFragment extends Fragment {
         return view;
     }
 
-    private void setLinks(View view){
+    private void setLinks(View view) {
         net1 = view.findViewById(R.id.play);
         net2 = view.findViewById(R.id.network);
         net3 = view.findViewById(R.id.instagram);
