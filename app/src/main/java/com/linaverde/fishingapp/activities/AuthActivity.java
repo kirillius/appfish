@@ -31,7 +31,7 @@ import com.linaverde.fishingapp.services.UserInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AuthActivity extends AppCompatActivity {
+public class AuthActivity extends AppCompatActivity  {
 
     EditText login, password;
     ImageButton showPass;

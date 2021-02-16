@@ -26,7 +26,11 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.FishingApp">
-        <activity android:name=".activities.MapActivity"></activity>
+        <activity
+            android:name=".activities.TeamsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".activities.MapActivity" />
         <activity android:name=".activities.WeatherActivity" />
 
         <provider

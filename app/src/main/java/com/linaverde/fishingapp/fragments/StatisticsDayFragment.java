@@ -133,31 +133,58 @@ public class StatisticsDayFragment extends Fragment {
         return view;
     }
 
-    private void dayButtons(View view){
-        ((ImageView) view.findViewById(R.id.iv_day_1)).setOnClickListener(new View.OnClickListener() {
+    private void dayButtons(View view) {
+        ImageView day1, day2, day3, day4;
+        day1 = view.findViewById(R.id.iv_day_1);
+        day2 = view.findViewById(R.id.iv_day_2);
+        day3 = view.findViewById(R.id.iv_day_3);
+        day4 = view.findViewById(R.id.iv_day_4);
+        try {
+            JSONObject days = mStartParam.getJSONObject("days");
+            if (days.getBoolean("d1")){
+                day1.setImageDrawable(getContext().getDrawable(R.drawable.day_green));
+            }
+            if (days.getBoolean("d2")){
+                day2.setImageDrawable(getContext().getDrawable(R.drawable.day_green));
+            }
+            if (days.getBoolean("d3")){
+                day3.setImageDrawable(getContext().getDrawable(R.drawable.day_green));
+            }
+            if (days.getBoolean("d4")){
+                day4.setImageDrawable(getContext().getDrawable(R.drawable.day_green));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        day1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dayListener.dayOneClicked();
             }
         });
-        ((ImageView) view.findViewById(R.id.iv_day_2)).setOnClickListener(new View.OnClickListener() {
+
+        day2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dayListener.dayTwoClicked();
             }
         });
-        ((ImageView) view.findViewById(R.id.iv_day_3)).setOnClickListener(new View.OnClickListener() {
+
+        day3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dayListener.dayThreeClicked();
             }
         });
-        ((ImageView) view.findViewById(R.id.iv_day_4)).setOnClickListener(new View.OnClickListener() {
+
+        day4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dayListener.dayFourClicked();
             }
         });
+
         ((ImageView) view.findViewById(R.id.iv_online)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

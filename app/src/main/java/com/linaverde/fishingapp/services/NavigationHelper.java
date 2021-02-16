@@ -10,18 +10,16 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.activities.AuthActivity;
 import com.linaverde.fishingapp.activities.RegisterTeamActivity;
+import com.linaverde.fishingapp.activities.TeamsActivity;
 import com.linaverde.fishingapp.activities.WeatherActivity;
 
 public class NavigationHelper {
 
     public static void onMenuItemClicked(Context context, int id, DrawerLayout drawer) {
         if (id == R.id.nav_teams) {
-            Intent intent = new Intent(context, RegisterTeamActivity.class);
+            Intent intent = new Intent(context, TeamsActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            Bundle args = new Bundle();
-            args.putBoolean("showButtons", false);
-            intent.putExtras(args);
             //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             context.startActivity(intent);
         } else if (id == R.id.nav_weather) {

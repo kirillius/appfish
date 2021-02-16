@@ -51,6 +51,7 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
     private String teamId;
     private boolean checkIn;
     private boolean showButtons;
+    UserInfo userInfo;
 
 
     OneTeamClickListener listener;
@@ -70,6 +71,7 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             teamId = getArguments().getString(TEAM_ID);
             checkIn = getArguments().getBoolean(CHECKIN);
@@ -97,7 +99,6 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
     boolean documentOpen = false;
     boolean photoOpen = false;
     RegisterOneTeamFragment fragment;
-    UserInfo userInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -205,7 +206,7 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
         llcaptainDocs = view.findViewById(R.id.ll_captain_docs);
         llassistantDocs = view.findViewById(R.id.ll_assistant_docs);
 
-        if (!showButtons){
+        if (!showButtons && userInfo.getUserType() != 1 && userInfo.getUserType() != 4){
             llcaptainDocs.setVisibility(View.GONE);
             llassistantDocs.setVisibility(View.GONE);
         } else {

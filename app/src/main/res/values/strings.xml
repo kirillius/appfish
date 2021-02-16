@@ -25,6 +25,7 @@
     <string name="result">Итого</string>
     <string name="number">№ п/п</string>
     <string name="teams">Команды</string>
+    <string name="name">Название</string>
     <string name="end_reg">Завершить регистрацию</string>
     <string name="open_reg">Открыть регистрацию</string>
     <string name="confirm_reg">Подвтердить регистрацию</string>
@@ -112,6 +113,8 @@
     <string name="settings_rods_spod">Настройка сподовых удочек</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="protocol">Протокол</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
