@@ -151,11 +151,11 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
         });
 
         buttonEndReg = view.findViewById(R.id.button_end_reg);
-        if ((userInfo.getUserType() != 1 && userInfo.getUserType() !=4) || userInfo.getCheckInStatus() || !showButtons) {
+        if ((userInfo.getUserType() != 1 && userInfo.getUserType() != 4) || userInfo.getCheckInStatus() || !showButtons) {
             buttonEndReg.setVisibility(View.GONE);
         } else {
             if (!checkIn) {
-                ((TextView)view.findViewById(R.id.button_end_reg_text)).setText(getString(R.string.confirm_reg));
+                ((TextView) view.findViewById(R.id.button_end_reg_text)).setText(getString(R.string.confirm_reg));
                 buttonEndReg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -206,7 +206,7 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
         llcaptainDocs = view.findViewById(R.id.ll_captain_docs);
         llassistantDocs = view.findViewById(R.id.ll_assistant_docs);
 
-        if (!showButtons && userInfo.getUserType() != 1 && userInfo.getUserType() != 4){
+        if (!showButtons && userInfo.getUserType() != 1 && userInfo.getUserType() != 4) {
             llcaptainDocs.setVisibility(View.GONE);
             llassistantDocs.setVisibility(View.GONE);
         } else {
@@ -359,85 +359,108 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
                 }
             });
         }
-        view.findViewById(R.id.captain_net1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!captainLinks[0].equals("")) {
+
+        if (!captainLinks[0].equals("")) {
+            ImageView iv = view.findViewById(R.id.captain_net1);
+            iv.setImageDrawable(getContext().getDrawable(R.drawable.facebook_icon_green));
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(captainLinks[0]));
                     startActivity(browserIntent);
-                }
-            }
-        });
 
-        view.findViewById(R.id.captain_net2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!captainLinks[1].equals("")) {
+                }
+            });
+        }
+
+        if (!captainLinks[1].equals("")) {
+            ImageView iv = view.findViewById(R.id.captain_net2);
+            iv.setImageDrawable(getContext().getDrawable(R.drawable.inst_icon_green));
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(captainLinks[1]));
                     startActivity(browserIntent);
-                }
-            }
-        });
 
-        view.findViewById(R.id.captain_net3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!captainLinks[2].equals("")) {
+                }
+            });
+        }
+
+        if (!captainLinks[2].equals("")) {
+            ImageView iv = view.findViewById(R.id.captain_net3);
+            iv.setImageDrawable(getContext().getDrawable(R.drawable.network_icon_green));
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(captainLinks[2]));
                     startActivity(browserIntent);
                 }
-            }
-        });
 
-        view.findViewById(R.id.captain_net4).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!captainLinks[3].equals("")) {
+            });
+        }
+
+        if (!captainLinks[3].equals("")) {
+            ImageView iv = view.findViewById(R.id.captain_net4);
+            iv.setImageDrawable(getContext().getDrawable(R.drawable.play_icon_green));
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(captainLinks[3]));
                     startActivity(browserIntent);
                 }
-            }
-        });
+            });
+        }
 
-        view.findViewById(R.id.assistant_net1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!assistantLinks[0].equals("")) {
+        if (!assistantLinks[0].equals("")) {
+            ImageView iv = view.findViewById(R.id.assistant_net1);
+            iv.setImageDrawable(getContext().getDrawable(R.drawable.facebook_icon_green));
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(assistantLinks[0]));
                     startActivity(browserIntent);
-                }
-            }
-        });
 
-        view.findViewById(R.id.assistant_net2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!assistantLinks[1].equals("")) {
+                }
+            });
+        }
+
+        if (!assistantLinks[1].equals("")) {
+            ImageView iv = view.findViewById(R.id.assistant_net2);
+            iv.setImageDrawable(getContext().getDrawable(R.drawable.inst_icon_green));
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(assistantLinks[1]));
                     startActivity(browserIntent);
                 }
-            }
-        });
+            });
+        }
 
-        view.findViewById(R.id.assistant_net3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!assistantLinks[2].equals("")) {
+        if (!assistantLinks[2].equals("")) {
+            ImageView iv = view.findViewById(R.id.assistant_net3);
+            iv.setImageDrawable(getContext().getDrawable(R.drawable.network_icon_green));
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(assistantLinks[2]));
                     startActivity(browserIntent);
                 }
-            }
-        });
+            });
+        }
 
-        view.findViewById(R.id.assistant_net4).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!assistantLinks[3].equals("")) {
+        if (!assistantLinks[3].equals("")) {
+            ImageView iv = view.findViewById(R.id.assistant_net4);
+            iv.setImageDrawable(getContext().getDrawable(R.drawable.play_icon_green));
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(assistantLinks[3]));
                     startActivity(browserIntent);
                 }
-            }
-        });
+            });
+        }
+
+
     }
 
     @Override

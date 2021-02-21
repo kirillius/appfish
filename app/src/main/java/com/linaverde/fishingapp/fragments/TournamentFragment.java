@@ -120,16 +120,16 @@ public class TournamentFragment extends Fragment {
             }
         });
 
-        checkInStatus = view.findViewById(R.id.register_complete_icon);
-        queueStatus = view.findViewById(R.id.queue_complete_icon);
-        sectorStatus = view.findViewById(R.id.sector_complete_icon);
+        checkInStatus = view.findViewById(R.id.iv_register);
+        queueStatus = view.findViewById(R.id.iv_queue);
+        sectorStatus = view.findViewById(R.id.iv_sector);
 
         if (userInfo.getCheckInStatus())
-            checkInStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+            checkInStatus.setImageDrawable(getContext().getDrawable(R.drawable.menu_register_green));
         if (userInfo.getQueueStatus())
-            queueStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+            queueStatus.setImageDrawable(getContext().getDrawable(R.drawable.menu_queue_green));
         if (userInfo.getSectorStatus())
-            sectorStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+            sectorStatus.setImageDrawable(getContext().getDrawable(R.drawable.menu_sector_green));
 
         setLinks(view);
 
@@ -211,19 +211,19 @@ public class TournamentFragment extends Fragment {
         super.onResume();
         UserInfo userInfo = new UserInfo(getContext());
         if (userInfo.getCheckInStatus()) {
-            checkInStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+            checkInStatus.setImageDrawable(getContext().getDrawable(R.drawable.menu_register_green));
         } else {
-            checkInStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_unckeck));
+            checkInStatus.setImageDrawable(getContext().getDrawable(R.drawable.menu_register_red));
         }
         if (userInfo.getQueueStatus()) {
-            queueStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+            queueStatus.setImageDrawable(getContext().getDrawable(R.drawable.menu_queue_green));
         } else {
-            queueStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_unckeck));
+            queueStatus.setImageDrawable(getContext().getDrawable(R.drawable.menu_queue_red));
         }
         if (userInfo.getSectorStatus()) {
-            sectorStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_check));
+            sectorStatus.setImageDrawable(getContext().getDrawable(R.drawable.menu_sector_green));
         } else {
-            sectorStatus.setImageDrawable(getContext().getDrawable(R.drawable.team_unckeck));
+            sectorStatus.setImageDrawable(getContext().getDrawable(R.drawable.menu_sector_red));
         }
     }
 
