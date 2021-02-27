@@ -15,9 +15,9 @@
         android:id="@+id/tv_tournament_name"
         android:layout_width="match_parent"
         android:layout_height="62dp"
-        android:layout_marginStart="96dp"
+        android:layout_marginStart="@dimen/se_margin"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginEnd="@dimen/se_margin"
         android:layout_marginBottom="34dp"
         android:background="@drawable/button_bottom_gradient"
         android:ellipsize="end"
@@ -32,8 +32,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_tournament_name"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginStart="@dimen/se_margin"
+        android:layout_marginEnd="@dimen/se_margin"
         android:layout_marginBottom="26dp">
 
         <TextView
@@ -62,8 +62,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_stat_date"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginStart="@dimen/se_margin"
+        android:layout_marginEnd="@dimen/se_margin"
         android:orientation="horizontal">
 
         <TextView
@@ -71,9 +71,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="3"
-            android:text="@string/sector"
             android:textAppearance="@style/Roboto"
             android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="@string/sector"
+            android:textAppearance="@style/Roboto"
+            android:textSize="20sp" />
 
         <TextView
             android:layout_width="0dp"
@@ -83,59 +91,28 @@
             android:text="@string/count"
             android:textAlignment="center"
             android:textAppearance="@style/Roboto"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
 
-        <LinearLayout
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:text="@string/avr"
+            android:textAlignment="center"
+            android:textAppearance="@style/Roboto"
+            android:textSize="20sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/weigh_big"
-                android:textAlignment="center"
-                android:textAppearance="@style/Roboto"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/avr"
-                android:textAlignment="center"
-                android:textAppearance="@style/Roboto"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_marginEnd="55dp">
+            android:text="@string/sum"
+            android:textAlignment="center"
+            android:textAppearance="@style/Roboto"
+            android:textSize="20sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/weigh_big"
-                android:textAlignment="center"
-                android:textAppearance="@style/Roboto"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/sum"
-                android:textAlignment="center"
-                android:textAppearance="@style/Roboto"
-                android:textSize="16sp" />
-        </LinearLayout>
 
     </LinearLayout>
 
@@ -145,8 +122,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/result"
         android:layout_below="@id/table_names"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginStart="@dimen/se_margin"
+        android:layout_marginEnd="@dimen/se_margin"
         android:divider="@android:color/transparent"
         android:dividerHeight="10.0sp" />
 
@@ -172,16 +149,16 @@
             android:id="@+id/ll_result"
             android:layout_width="match_parent"
             android:layout_height="46dp"
-            android:layout_marginStart="96dp"
+            android:layout_marginStart="@dimen/se_margin"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="96dp"
+            android:layout_marginEnd="@dimen/se_margin"
             android:background="@drawable/result_back">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|start"
-                android:layout_weight="3"
+                android:layout_weight="4"
                 android:text="@string/result"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/Roboto"
@@ -205,7 +182,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="@string/weigh_big"
                 android:textAlignment="center"
                 android:textAppearance="@style/Roboto"
                 android:textSize="22sp" />
@@ -216,7 +192,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="@string/weigh_big"
                 android:textAlignment="center"
                 android:textAppearance="@style/Roboto"
                 android:textSize="22sp"
@@ -226,10 +201,10 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="96dp"
+            android:layout_marginStart="@dimen/se_margin"
             android:layout_below="@id/ll_result"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="96dp"
+            android:layout_marginEnd="@dimen/se_margin"
             android:adjustViewBounds="true"
             android:background="@null"
             android:scaleType="centerInside"

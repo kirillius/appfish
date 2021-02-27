@@ -201,7 +201,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_weight="2"
-                android:text="@string/weigh_big"
                 android:textAlignment="textEnd"
                 android:textAppearance="@style/Roboto"
                 android:textSize="22sp" />
@@ -213,7 +212,6 @@
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="55dp"
                 android:layout_weight="2"
-                android:text="@string/weigh_big"
                 android:textAlignment="textEnd"
                 android:textAppearance="@style/Roboto"
                 android:textSize="22sp" />

@@ -26,12 +26,6 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.FishingApp">
-        <activity
-            android:name=".activities.TeamsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".activities.MapActivity" />
-        <activity android:name=".activities.WeatherActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -42,6 +36,14 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <activity
+            android:name=".activities.TeamsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <activity android:name=".activities.MapActivity" />
+        <activity android:name=".activities.WeatherActivity" />
 
         <activity
             android:name=".activities.AuthActivity"

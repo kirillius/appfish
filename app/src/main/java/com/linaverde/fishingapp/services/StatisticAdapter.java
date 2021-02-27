@@ -35,6 +35,7 @@ public class StatisticAdapter extends ArrayAdapter<JSONObject> {
         View rowView = inflater.inflate(R.layout.statistic_list_item, parent, false);
         TextView place = (TextView) rowView.findViewById(R.id.tv_stat_place);
         TextView team = (TextView) rowView.findViewById(R.id.tv_stat_sector_name);
+        TextView sector = (TextView) rowView.findViewById(R.id.tv_stat_sector);
         TextView count = (TextView) rowView.findViewById(R.id.tv_stat_count);
         TextView avr = (TextView) rowView.findViewById(R.id.tv_stat_avr);
         TextView sum = (TextView) rowView.findViewById(R.id.tv_stat_sum);
@@ -44,6 +45,7 @@ public class StatisticAdapter extends ArrayAdapter<JSONObject> {
         try {
             place.setText(Integer.toString(stat.getInt("place"))+".");
             team.setText(stat.getString("teamName"));
+            sector.setText(Integer.toString(stat.getInt("sector")));
             count.setText(Integer.toString(stat.getInt("quantity")));
             avr.setText(Integer.toString(stat.getInt("avgWeight")));
             sum.setText(Integer.toString(stat.getInt("weight")));

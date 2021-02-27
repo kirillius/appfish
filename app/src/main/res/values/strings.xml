@@ -19,9 +19,9 @@
     <string name="statistics">Online протокол</string>
     <string name="sector">Сектор</string>
     <string name="count">Кол-во</string>
-    <string name="weigh_big">ВEC</string>
-    <string name="avr">средний</string>
-    <string name="sum">общий</string>
+    <string name="weigh_big">Вес</string>
+    <string name="avr">Вес средний</string>
+    <string name="sum">Общий</string>
     <string name="result">Итого</string>
     <string name="number">№ п/п</string>
     <string name="teams">Команды</string>

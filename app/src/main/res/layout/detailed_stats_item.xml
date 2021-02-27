@@ -66,7 +66,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:text="@string/weigh_big"
         android:layout_gravity="center_vertical|end"
         android:textAlignment="textEnd"
         android:layout_marginEnd="55dp"

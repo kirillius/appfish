@@ -29,26 +29,25 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="5dp"
-            android:layout_toStartOf="@id/iv_arrow"
             android:layout_toEndOf="@id/tv_stat_place"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:text="@string/sector"
-            android:textAppearance="@style/Roboto.StatsItem" />
-
-        <ImageView
-            android:id="@+id/iv_arrow"
-            android:layout_width="17dp"
-            android:layout_height="26dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="5dp"
-            android:adjustViewBounds="true"
-            android:background="@null"
-            android:scaleType="centerInside"
-            android:src="@drawable/arrow_right" />
+            android:text="@string/teams"
+            android:textAppearance="@style/Roboto.StatsItem"
+            android:textSize="20sp"/>
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_stat_sector"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/sector"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textAppearance="@style/Roboto.StatsItem" />
 
     <TextView
         android:id="@+id/tv_stat_count"
