@@ -24,8 +24,7 @@
         android:singleLine="true"
         android:text="@string/tournament"
         android:textAlignment="center"
-        android:textAppearance="@style/Roboto"
-        android:textSize="30sp" />
+        android:textAppearance="@style/Roboto.MatchName" />
 
     <RelativeLayout
         android:id="@+id/ll_stat_date"
@@ -72,16 +71,17 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="3"
             android:textAppearance="@style/Roboto"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:layout_marginEnd="-30dp"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:text="@string/sector"
-            android:textAppearance="@style/Roboto"
-            android:textSize="20sp" />
+            android:textAppearance="@style/Roboto.StatsTableNames"
+            android:layout_gravity="center"
+            android:textAlignment="center"/>
 
         <TextView
             android:layout_width="0dp"
@@ -90,8 +90,8 @@
             android:layout_weight="1"
             android:text="@string/count"
             android:textAlignment="center"
-            android:textAppearance="@style/Roboto"
-            android:textSize="20sp" />
+            android:textAppearance="@style/Roboto.StatsTableNames"
+            />
 
         <TextView
             android:layout_width="0dp"
@@ -100,8 +100,8 @@
             android:layout_weight="1"
             android:text="@string/avr"
             android:textAlignment="center"
-            android:textAppearance="@style/Roboto"
-            android:textSize="20sp" />
+            android:textAppearance="@style/Roboto.StatsTableNames"
+            />
 
         <TextView
             android:layout_width="0dp"
@@ -110,8 +110,8 @@
             android:layout_weight="1"
             android:text="@string/sum"
             android:textAlignment="center"
-            android:textAppearance="@style/Roboto"
-            android:textSize="20sp" />
+            android:textAppearance="@style/Roboto.StatsTableNames"
+            android:layout_marginEnd="55dp"/>
 
 
     </LinearLayout>
@@ -158,12 +158,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|start"
+                android:layout_marginStart="16dp"
                 android:layout_weight="4"
                 android:text="@string/result"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/Roboto"
-                android:textSize="22sp"
-                android:layout_marginStart="16dp"/>
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/tv_result_stat_count"
@@ -191,18 +191,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginEnd="55dp"
                 android:layout_weight="1"
                 android:textAlignment="center"
                 android:textAppearance="@style/Roboto"
-                android:textSize="22sp"
-                android:layout_marginEnd="55dp"/>
+                android:textSize="22sp" />
         </LinearLayout>
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/se_margin"
             android:layout_below="@id/ll_result"
+            android:layout_marginStart="@dimen/se_margin"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="@dimen/se_margin"
             android:adjustViewBounds="true"

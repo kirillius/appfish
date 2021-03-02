@@ -74,7 +74,7 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
                     android:layout_toEndOf="@id/icon_online"
-                    android:text="@string/statistics"
+                    android:text="@string/online_protocol"
                     android:textAppearance="@style/Roboto"
                     android:textSize="26sp" />
 

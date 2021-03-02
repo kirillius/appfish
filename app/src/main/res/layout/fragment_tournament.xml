@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@null"
@@ -36,7 +37,145 @@
             android:text="@string/tournament"
             android:textAlignment="center"
             android:textAppearance="@style/Roboto.MatchName"
-            android:textSize="28sp" />
+            />
+
+        <androidx.gridlayout.widget.GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tv_tournament_name"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginBottom="20dp"
+            app:columnCount="2"
+            app:rowCount="2">
+
+            <RelativeLayout
+                android:id="@+id/list_register_team"
+                android:layout_width="0dp"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1"
+                android:layout_height="0dp">
+
+                <ImageView
+                    android:id="@+id/iv_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/menu_register_red" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="40dp"
+                    android:lines="2"
+                    android:minLines="2"
+                    android:paddingStart="40dp"
+                    android:text="@string/register_team"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/list_draw_queue"
+                android:layout_width="0dp"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1"
+                android:layout_height="0dp">
+
+                <ImageView
+                    android:id="@+id/iv_queue"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/menu_queue_red" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="40dp"
+                    android:lines="2"
+                    android:minLines="2"
+                    android:paddingStart="40dp"
+                    android:text="@string/draw_queue"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/list_draw_sector"
+                android:layout_width="0dp"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1"
+                android:layout_height="0dp">
+
+                <ImageView
+                    android:id="@+id/iv_sector"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/menu_sector_red" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="40dp"
+                    android:lines="2"
+                    android:minLines="2"
+                    android:paddingStart="40dp"
+                    android:text="@string/draw_sector"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/list_weigh"
+                android:layout_width="0dp"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1"
+                android:layout_height="0dp">
+
+                <ImageView
+                    android:id="@+id/iv_weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/menu_weight" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="40dp"
+                    android:paddingStart="40dp"
+                    android:text="@string/weighing"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+        </androidx.gridlayout.widget.GridLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -44,7 +183,8 @@
             android:layout_below="@id/tv_tournament_name"
             android:layout_marginStart="60dp"
             android:layout_marginEnd="60dp"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -59,63 +199,6 @@
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <RelativeLayout
-                        android:id="@+id/list_register_team"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/iv_register"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_centerInParent="true"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/menu_register_red" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_centerVertical="true"
-                            android:text="@string/register_team"
-                            android:textAppearance="@style/Roboto"
-                            android:layout_margin="40dp"
-                            android:textSize="20sp"
-                            android:lines="2"
-                            android:minLines="2"
-                            android:paddingStart="40dp"/>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/list_draw_queue"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/iv_queue"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_centerInParent="true"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/menu_queue_red" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_centerVertical="true"
-                            android:text="@string/draw_queue"
-                            android:textAppearance="@style/Roboto"
-                            android:layout_margin="40dp"
-                            android:textSize="20sp"
-                            android:lines="2"
-                            android:minLines="2"
-                            android:paddingStart="40dp"/>
-                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -126,61 +209,6 @@
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <RelativeLayout
-                        android:id="@+id/list_draw_sector"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/iv_sector"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_centerInParent="true"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/menu_sector_red" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_centerVertical="true"
-                            android:text="@string/draw_sector"
-                            android:textAppearance="@style/Roboto"
-                            android:layout_margin="40dp"
-                            android:textSize="20sp"
-                            android:lines="2"
-                            android:minLines="2"
-                            android:paddingStart="40dp"/>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/list_weigh"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/iv_weight"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_centerInParent="true"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/menu_weight" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_centerVertical="true"
-                            android:text="@string/weighing"
-                            android:textAppearance="@style/Roboto"
-                            android:layout_margin="40dp"
-                            android:textSize="20sp"
-                            android:paddingStart="40dp"/>
-                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -302,7 +330,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginStart="64dp"
-                android:text="@string/statistics"
+                android:text="@string/online_protocol"
                 android:textAppearance="@style/Roboto"
                 android:textSize="30sp" />
 

@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:text="@string/statistics"
+            android:text="@string/online_protocol"
             android:textAlignment="center"
             android:textAppearance="@style/Roboto"
             android:textSize="28sp" />

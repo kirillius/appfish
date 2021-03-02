@@ -16,7 +16,8 @@
     <string name="draw_sector">Жеребьевка секторов</string>
     <string name="weighing">Взвешивание</string>
     <string name="settings_rods">Настройка удочек</string>
-    <string name="statistics">Online протокол</string>
+    <string name="online_protocol">Online протокол</string>
+    <string name="statistics">Статистика</string>
     <string name="sector">Сектор</string>
     <string name="count">Кол-во</string>
     <string name="weigh_big">Вес</string>
