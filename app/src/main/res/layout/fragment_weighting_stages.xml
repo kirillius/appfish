@@ -21,9 +21,9 @@
         android:id="@+id/tv_tournament_name"
         android:layout_width="match_parent"
         android:layout_height="62dp"
-        android:layout_marginStart="96dp"
+        android:layout_marginStart="@dimen/se_margin"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginEnd="@dimen/se_margin"
         android:layout_marginBottom="34dp"
         android:background="@drawable/button_bottom_gradient"
         android:ellipsize="end"
@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_tournament_name"
-        android:layout_marginStart="96dp"
+        android:layout_marginStart="@dimen/se_margin"
         android:layout_marginBottom="30dp">
 
         <ImageView
@@ -68,8 +68,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/weighting"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp">
+        android:layout_marginStart="@dimen/se_margin"
+        android:layout_marginEnd="@dimen/se_margin">
 
         <TextView
             android:layout_width="0dp"
@@ -99,8 +99,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_table_name"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginStart="@dimen/se_margin"
+        android:layout_marginEnd="@dimen/se_margin"
         android:divider="@android:color/transparent"
         android:dividerHeight="10.0sp" />
 

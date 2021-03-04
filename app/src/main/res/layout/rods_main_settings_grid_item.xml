@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
+    android:layout_height="35dp"
     android:background="@drawable/settings_grid_item_back"
     android:orientation="horizontal">
 
@@ -13,7 +13,7 @@
         android:layout_weight="1"
         android:text="Параметр"
         android:textAppearance="@style/Roboto"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="15dp"/>
@@ -26,7 +26,7 @@
         android:text="Значение"
         android:textAlignment="viewEnd"
         android:textAppearance="@style/Roboto"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
         tools:ignore="RtlCompat"

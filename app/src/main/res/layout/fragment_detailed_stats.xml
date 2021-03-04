@@ -15,9 +15,9 @@
         android:id="@+id/tv_team_name"
         android:layout_width="match_parent"
         android:layout_height="62dp"
-        android:layout_marginStart="96dp"
+        android:layout_marginStart="@dimen/se_margin"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginEnd="@dimen/se_margin"
         android:layout_marginBottom="34dp"
         android:background="@drawable/button_bottom_gradient"
         android:ellipsize="end"
@@ -31,8 +31,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_team_name"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginStart="@dimen/se_margin"
+        android:layout_marginEnd="@dimen/se_margin"
         android:layout_marginBottom="26dp">
 
         <TextView
@@ -61,8 +61,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_stat_date"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginStart="@dimen/se_margin"
+        android:layout_marginEnd="@dimen/se_margin"
         android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
@@ -114,8 +114,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/result"
         android:layout_below="@id/table_names"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginStart="@dimen/se_margin"
+        android:layout_marginEnd="@dimen/se_margin"
         android:divider="@android:color/transparent"
         android:dividerHeight="10.0sp" />
 
@@ -141,9 +141,9 @@
             android:id="@+id/ll_result_names"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="96dp"
+            android:layout_marginStart="@dimen/se_margin"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="96dp"
+            android:layout_marginEnd="@dimen/se_margin"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -179,8 +179,8 @@
             android:layout_width="match_parent"
             android:layout_height="46dp"
             android:layout_below="@id/ll_result_names"
-            android:layout_marginStart="96dp"
-            android:layout_marginEnd="96dp"
+            android:layout_marginStart="@dimen/se_margin"
+            android:layout_marginEnd="@dimen/se_margin"
             android:background="@drawable/result_back">
 
             <TextView
@@ -221,9 +221,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ll_result"
-            android:layout_marginStart="96dp"
+            android:layout_marginStart="@dimen/se_margin"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="96dp"
+            android:layout_marginEnd="@dimen/se_margin"
             android:adjustViewBounds="true"
             android:background="@null"
             android:scaleType="centerInside"

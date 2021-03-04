@@ -20,9 +20,9 @@
         android:id="@+id/tv_tournament_name"
         android:layout_width="match_parent"
         android:layout_height="62dp"
-        android:layout_marginStart="96dp"
+        android:layout_marginStart="@dimen/se_margin"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginEnd="@dimen/se_margin"
         android:layout_marginBottom="20dp"
         android:background="@drawable/button_bottom_gradient"
         android:ellipsize="end"
@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_tournament_name"
-        android:layout_marginStart="96dp"
+        android:layout_marginStart="@dimen/se_margin"
         android:layout_marginBottom="20dp">
 
         <ImageView
@@ -67,8 +67,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/weighting"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginStart="@dimen/se_margin"
+        android:layout_marginEnd="@dimen/se_margin"
         android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
@@ -121,8 +121,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_pond_sector"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginStart="@dimen/se_margin"
+        android:layout_marginEnd="@dimen/se_margin"
         android:layout_marginBottom="25dp"
         android:orientation="horizontal">
 
@@ -196,8 +196,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/rl_below_lv"
         android:layout_below="@id/rl_table_name"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginStart="@dimen/se_margin"
+        android:layout_marginEnd="@dimen/se_margin"
         android:divider="@android:color/transparent" />
 
     <RelativeLayout
@@ -252,7 +252,7 @@
             android:layout_width="60dp"
             android:layout_height="59dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="96dp"
+            android:layout_marginEnd="@dimen/se_margin"
             android:layout_marginBottom="20dp"
             android:adjustViewBounds="true"
             android:background="@null"

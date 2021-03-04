@@ -21,16 +21,16 @@
         android:id="@+id/tv_rods_type"
         android:layout_width="match_parent"
         android:layout_height="62dp"
-        android:layout_marginStart="96dp"
+        android:layout_marginStart="@dimen/se_margin"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginEnd="@dimen/se_margin"
         android:layout_marginBottom="20dp"
         android:background="@drawable/button_bottom_gradient"
         android:ellipsize="end"
         android:singleLine="true"
         android:textAlignment="center"
         android:textAppearance="@style/Roboto.MatchName"
-        android:textSize="26sp"/>
+        android:textSize="26sp" />
 
     <LinearLayout
         android:id="@+id/main_settings"
@@ -48,23 +48,42 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/iv_rod1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/rod_name_1"
-                android:layout_marginBottom="10dp"/>
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/rod_name_1"
+                    android:layout_weight="9"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="15dp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/arrow_right"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
 
             <GridView
                 android:id="@+id/rod1_main_settings_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_rod1"
+                android:horizontalSpacing="10dp"
                 android:numColumns="2"
-                android:verticalSpacing="10dp"
-                android:horizontalSpacing="10dp"/>
+                android:verticalSpacing="5dp" />
 
         </RelativeLayout>
 
@@ -74,23 +93,42 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/iv_rod2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/rod_name_2"
-                android:layout_marginBottom="10dp"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/rod_name_2"
+                    android:layout_weight="9"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="15dp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/arrow_right"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
 
             <GridView
                 android:id="@+id/rod2_main_settings_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_rod2"
+                android:horizontalSpacing="10dp"
                 android:numColumns="2"
-                android:verticalSpacing="10dp"
-                android:horizontalSpacing="10dp"/>
+                android:verticalSpacing="5dp" />
 
         </RelativeLayout>
 
@@ -98,25 +136,44 @@
             android:id="@+id/rod3"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_marginTop="10dp">
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/iv_rod3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/rod_name_3"
-                android:layout_marginBottom="10dp"/>
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/rod_name_3"
+                    android:layout_weight="9"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="15dp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/arrow_right"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
 
             <GridView
                 android:id="@+id/rod3_main_settings_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_rod3"
+                android:horizontalSpacing="10dp"
                 android:numColumns="2"
-                android:verticalSpacing="10dp"
-                android:horizontalSpacing="10dp"/>
+                android:verticalSpacing="5dp" />
 
         </RelativeLayout>
 
@@ -124,25 +181,44 @@
             android:id="@+id/rod4"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_marginTop="10dp">
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/iv_rod4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/rod_name_4"
-                android:layout_marginBottom="10dp"/>
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/rod_name_4"
+                    android:layout_weight="9"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="15dp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/arrow_right"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
 
             <GridView
                 android:id="@+id/rod4_main_settings_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_rod4"
+                android:horizontalSpacing="10dp"
                 android:numColumns="2"
-                android:verticalSpacing="10dp"
-                android:horizontalSpacing="10dp"/>
+                android:verticalSpacing="5dp" />
 
         </RelativeLayout>
 

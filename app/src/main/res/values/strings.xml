@@ -2,7 +2,7 @@
     <string name="app_name">G-Carpfishing</string>
     <string name="action_settings">Settings</string>
 
-    <string name="url_backend">http://10.10.29.16:80/carpfishing_test/hs/v1</string>
+    <string name="url_backend">http://89.17.51.75:4089/carpfishing_test/hs/v1</string>
 
     <string name="auth">Авторизация</string>
     <string name="auth_button">Вход</string>
