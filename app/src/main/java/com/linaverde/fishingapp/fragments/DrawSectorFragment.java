@@ -9,25 +9,19 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
-import com.linaverde.fishingapp.activities.QueueActivity;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.interfaces.QueueUpdateListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
-import com.linaverde.fishingapp.interfaces.TeamListClickListener;
-import com.linaverde.fishingapp.models.Team;
 import com.linaverde.fishingapp.models.TeamsQueue;
 import com.linaverde.fishingapp.services.DialogBuilder;
-import com.linaverde.fishingapp.services.QueueAdapter;
 import com.linaverde.fishingapp.services.RequestHelper;
 import com.linaverde.fishingapp.services.SectorAdapter;
-import com.linaverde.fishingapp.services.TeamsAdapter;
 import com.linaverde.fishingapp.services.UserInfo;
 
 import org.json.JSONArray;
@@ -112,40 +106,62 @@ public class DrawSectorFragment extends Fragment {
         return view;
     }
 
+    CompleteActionListener confirmListener;
+    RequestListener requestListener;
+
     private void setButtons(View view) {
         RequestHelper requestHelper = new RequestHelper(getContext());
         if (userInfo.getUserType() != 1 && userInfo.getUserType() != 4) {
             endDraw.setVisibility(View.GONE);
         } else {
             if (!userInfo.getSectorStatus()) {
+
+                confirmListener = new CompleteActionListener() {
+                    @Override
+                    public void onOk(String input) {
+                        progressBar.show();
+                        requestHelper.executePost("sectorclose", new String[]{"match", "confirm"}, new String[]{matchId, "true"},
+                                null, requestListener);
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                };
+
+                requestListener = new RequestListener() {
+                    @Override
+                    public void onComplete(JSONObject json) {
+                        progressBar.hide();
+                        try {
+                            if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.queue_draw_end), null);
+                                userInfo.setStatus(userInfo.getCheckInStatus(), true, userInfo.getSectorStatus());
+                                setButtons(view);
+                            } else if (json.getBoolean("needConfirm")) {
+                                DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), json.getString("error") + ". " + getString(R.string.draw_confirm), confirmListener);
+                            } else {
+                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), json.getString("error"), null);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(int responseCode) {
+                        progressBar.hide();
+                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
+                    }
+                };
+
                 ((TextView) view.findViewById(R.id.button_end_draw_text)).setText(getString(R.string.end_draw));
                 endDraw.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         progressBar.show();
-                        requestHelper.executePost("sectorclose", new String[]{"match"}, new String[]{matchId}, null, new RequestListener() {
-                            @Override
-                            public void onComplete(JSONObject json) {
-                                progressBar.hide();
-                                try {
-                                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_draw_end), null);
-                                        userInfo.setStatus(userInfo.getCheckInStatus(), userInfo.getQueueStatus(), true);
-                                        setButtons(view);
-                                    } else {
-                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), json.getString("error"), null);
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onError(int responseCode) {
-                                progressBar.hide();
-                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.request_error), null);
-                            }
-                        });
+                        requestHelper.executePost("sectorclose", new String[]{"match"}, new String[]{matchId}, null, requestListener);
                     }
                 });
             } else {
@@ -185,19 +201,20 @@ public class DrawSectorFragment extends Fragment {
                 }
             }
 
-            if (userInfo.getUserType() == 1) {
+            if (userInfo.getUserType() == 1 || userInfo.getUserType() == 4) {
                 teamsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         if (!userInfo.getSectorStatus()) {
-                            DialogBuilder.createInputDialog(getContext(), getLayoutInflater(), getString(R.string.enter_sector), new CompleteActionListener() {
+                            DialogBuilder.createInputNumberDialog(getContext(), getLayoutInflater(), getString(R.string.enter_sector), new CompleteActionListener() {
                                 @Override
                                 public void onOk(String input) {
-
-                                    if (Integer.parseInt(input) == 0) {
-                                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_zero), null);
-                                    } else {
-                                        listener.update(adapter.getItem(position), input);
+                                    if (!input.equals("")) {
+                                        if (Integer.parseInt(input) == 0) {
+                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_zero), null);
+                                        } else {
+                                            listener.update(adapter.getItem(position), input);
+                                        }
                                     }
                                 }
 

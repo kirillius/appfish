@@ -11,6 +11,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.interfaces.CompleteActionListener;
+import com.linaverde.fishingapp.interfaces.RodsSettingsChangeListener;
 import com.linaverde.fishingapp.services.RodsSettingsListAdapter;
 import com.linaverde.fishingapp.services.UserInfo;
 
@@ -23,7 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class RodsDetailFragment extends Fragment {
+public class RodsDetailFragment extends Fragment implements RodsSettingsChangeListener {
 
     private static final String JSON = "json";
     private static final String TYPE = "spod";
@@ -31,6 +33,8 @@ public class RodsDetailFragment extends Fragment {
     private JSONObject settings;
     private String rodType;
     private String rodId;
+    private JSONArray newParams;
+    private RodsSettingsListAdapter adapter1, adapter2;
 
     public RodsDetailFragment() {
         // Required empty public constructor
@@ -56,6 +60,7 @@ public class RodsDetailFragment extends Fragment {
             }
             rodType = getArguments().getString(TYPE);
         }
+        newParams = new JSONArray();
     }
 
     @Override
@@ -78,10 +83,19 @@ public class RodsDetailFragment extends Fragment {
                     section2.add(array.getJSONObject(i));
                 }
             }
+            CompleteActionListener changeListener = new CompleteActionListener() {
+                @Override
+                public void onOk(String input) {
 
-            RodsSettingsListAdapter adapter1, adapter2;
-            adapter1 = new RodsSettingsListAdapter(getContext(), section1);
-            adapter2 = new RodsSettingsListAdapter(getContext(), section2);
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+            };
+            adapter1 = new RodsSettingsListAdapter(getContext(), section1, this);
+            adapter2 = new RodsSettingsListAdapter(getContext(), section2, this);
 
             ((ListView)view.findViewById(R.id.list_rods_settings_1)).setAdapter(adapter1);
             ((ListView)view.findViewById(R.id.list_rods_settings_2)).setAdapter(adapter2);
@@ -89,5 +103,25 @@ public class RodsDetailFragment extends Fragment {
             e.printStackTrace();
         }
         return view;
+    }
+
+    @Override
+    public void paramChanged(String paramId, String value) {
+        try {
+            JSONObject object = new JSONObject();
+            object.put("paramId", paramId);
+            object.put("valueId", value);
+            for (int i = 0; i < newParams.length(); i++) {
+                if (newParams.getJSONObject(i).getString("paramId").equals(paramId)) {
+                    newParams.remove(i);
+                    break;
+                }
+            }
+            newParams.put(object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        adapter1.notifyDataSetChanged();
+        adapter2.notifyDataSetChanged();
     }
 }
