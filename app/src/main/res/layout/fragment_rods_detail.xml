@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.RodsDetailFragment">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/dark_gradient" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/light_gradient" />
+
+    <LinearLayout
+        android:id="@+id/table_names"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/se_margin"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="@dimen/se_margin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_team_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:text="Название команды"
+            android:textAppearance="@style/Roboto" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/rod_1_icon" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:layout_below="@id/table_names">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/light_gradient" />
+
+            <ListView
+                android:id="@+id/list_rods_settings_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/se_margin"
+                android:layout_marginEnd="@dimen/se_margin"
+                android:divider="@android:color/transparent"
+                android:layout_marginBottom="20dp"
+                android:dividerHeight="8dp"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/dark_gradient" />
+
+            <ListView
+                android:id="@+id/list_rods_settings_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/se_margin"
+                android:layout_marginEnd="@dimen/se_margin"
+                android:divider="@android:color/transparent"
+                android:layout_marginTop="20dp"
+                android:dividerHeight="8dp"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</RelativeLayout>

@@ -15,11 +15,14 @@ import android.view.MenuItem;
 import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.fragments.DrawQueueFragment;
+import com.linaverde.fishingapp.fragments.RodTopFragment;
+import com.linaverde.fishingapp.fragments.RodsDetailFragment;
 import com.linaverde.fishingapp.fragments.RodsMainFragment;
 import com.linaverde.fishingapp.fragments.TimeFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.interfaces.IOnBackPressed;
 import com.linaverde.fishingapp.interfaces.RequestListener;
+import com.linaverde.fishingapp.interfaces.RodsSettingsListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
 import com.linaverde.fishingapp.services.NavigationHelper;
 import com.linaverde.fishingapp.services.ProtocolHelper;
@@ -28,7 +31,7 @@ import com.linaverde.fishingapp.services.UserInfo;
 
 import org.json.JSONObject;
 
-public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEventListener {
+public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEventListener, RodsSettingsListener {
 
     DrawerLayout drawer;
     ContentLoadingProgressBar progressBar;
@@ -96,10 +99,36 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
 
 
         if (spod) {
-            requestHelper.executeGet("rods", new String[]{"team", "rodType", "allParams"}, new String[]{userInfo.getTeamId(), "spod", "false"}, listener);
+            requestHelper.executeGet("rods", new String[]{"team", "rodType", "allParams"},
+                    new String[]{userInfo.getTeamId(), "spod", "false"}, listener);
         } else {
-            requestHelper.executeGet("rods", new String[]{"team", "rodType", "allParams"}, new String[]{userInfo.getTeamId(), "carp", "false"}, listener);
+            requestHelper.executeGet("rods", new String[]{"team", "rodType", "allParams"},
+                    new String[]{userInfo.getTeamId(), "carp", "false"}, listener);
         }
+    }
+
+    @Override
+    public void rodsDetailedReqired(String rodType, String rodID) {
+        progressBar.show();
+        requestHelper.executeGet("rods", new String[]{"team", "rodType", "rod", "allParams"},
+                new String[]{userInfo.getTeamId(), rodType, rodID, "true"}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                RodsDetailFragment rodsDetailFragment = RodsDetailFragment.newInstance(json.toString(), rodType);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_fragment, rodsDetailFragment);
+                fragmentTransaction.replace(R.id.top_menu_fragment, new RodTopFragment());
+                fragmentTransaction.addToBackStack("RodsMain");
+                if (!fragmentManager.isDestroyed())
+                    fragmentTransaction.commit();
+                progressBar.hide();
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+            }
+        });
     }
 
     @Override
