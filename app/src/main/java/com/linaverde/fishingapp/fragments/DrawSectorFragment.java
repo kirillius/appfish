@@ -136,8 +136,8 @@ public class DrawSectorFragment extends Fragment {
                         progressBar.hide();
                         try {
                             if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.queue_draw_end), null);
-                                userInfo.setStatus(userInfo.getCheckInStatus(), true, userInfo.getSectorStatus());
+                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.sector_draw_end), null);
+                                userInfo.setStatus(userInfo.getCheckInStatus(), userInfo.getQueueStatus(), true);
                                 setButtons(view);
                             } else if (json.getBoolean("needConfirm")) {
                                 DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), json.getString("error") + ". " + getString(R.string.draw_confirm), confirmListener);

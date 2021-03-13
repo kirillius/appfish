@@ -29,6 +29,7 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -56,59 +57,14 @@ public class RequestHelper {
         return null;
     }
 
-    public void updateMatchStatus(UserInfo userInfo, RequestListener listener) {
+    public void getLinks(RequestListener listener) {
         AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams params = new RequestParams();
-        params.put("username", userInfo.getLogin());
-        params.put("password", userInfo.getPassword());
-
-//        ((Activity) context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-//                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-        Log.d("Request", " status init");
-        client.get(context.getResources().getString(R.string.url_backend) + "/session", params, new AsyncHttpResponseHandler() {
+        client.get(context.getResources().getString(R.string.url_backend) + "/links", new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 // called when response HTTP status is "200 OK"
-                Log.d("Request", " status completed");
-//                ((Activity) context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                JSONObject json = getAnswerBytes(response);
-                try {
-                    userInfo.setStatus(json.getBoolean("isCheckInClosed"), json.getBoolean("isQueueClosed"), json.getBoolean("isSectorClosed"));
-                    if (listener != null)
-                        listener.onComplete(getAnswerBytes(response));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                if (errorResponse != null) {
-                    String res = new String(errorResponse, StandardCharsets.UTF_8);
-                    Log.d("Request", "status request error with code " + statusCode + " with text "+ res);
-                    if (listener != null)
-                        listener.onError(statusCode);
-                }
-            }
-
-            @Override
-            public void onRetry(int retryNo) {
-                // called when request is retried
-            }
-        });
-    }
-
-    public void getLinks(RequestListener listener){
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(context.getResources().getString(R.string.url_backend) + "/links" , new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                // called when response HTTP status is "200 OK"
-                Log.d("Request",  "links request successful");
+                Log.d("Request", "links request successful");
                 Log.d("Request", "answer: " + new String(response, StandardCharsets.UTF_8));
                 listener.onComplete(getAnswerBytes(response));
             }
@@ -116,7 +72,7 @@ public class RequestHelper {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                Log.d("Request",  "links request error with code " + statusCode);
+                Log.d("Request", "links request error with code " + statusCode);
                 if (errorResponse != null) {
                     String res = new String(errorResponse, StandardCharsets.UTF_8);
                 }
@@ -200,9 +156,7 @@ public class RequestHelper {
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 Log.d("Request", method + " request error with code " + statusCode);
-                if (errorResponse != null) {
-                    String res = new String(errorResponse, StandardCharsets.UTF_8);
-                }
+                Log.d("Request", method + " post request failed with error " + new String(errorResponse, StandardCharsets.UTF_8));
                 ((Activity) context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 listener.onError(statusCode);
             }
@@ -217,8 +171,18 @@ public class RequestHelper {
 
     public void executePost(String method, String[] keys, String[] values, String json, RequestListener listener) {
         AsyncHttpClient client = new AsyncHttpClient();
+        String logParam = "";
+        RequestParams params = new RequestParams();
+        if (keys != null)
+            for (int i = 0; i < keys.length; i++) {
+                params.put(keys[i], values[i]);
+                logParam += keys[i] + "=" + values[i] + ";";
+            }
+        Log.d("Request", "init " + method + " post request with params " + logParam);
 
-        Log.d("Request", "init " + method + " post request");
+        if (json != null) {
+            Log.d("Request", method + " request json " + json);
+        }
 
         String url = context.getResources().getString(R.string.url_backend) + "/" + method + "?";
         for (int i = 0; i < keys.length; i++) {
@@ -254,7 +218,8 @@ public class RequestHelper {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                Log.d("Request", method + " post request failed");
+                Log.d("Request", method + " post request failed with code " + statusCode);
+                Log.d("Request", method + " post request failed with error " + new String(errorResponse, StandardCharsets.UTF_8));
                 ((Activity) context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 listener.onError(statusCode);
             }
@@ -266,7 +231,7 @@ public class RequestHelper {
         });
     }
 
-    public void getWeather(double latitude, double longitude, RequestListener listener){
+    public void getWeather(double latitude, double longitude, RequestListener listener) {
         AsyncHttpClient client = new AsyncHttpClient();
         String url = "https://api.gismeteo.net/v2/weather/forecast/";
         RequestParams params = new RequestParams();

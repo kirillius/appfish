@@ -3,6 +3,9 @@ package com.linaverde.fishingapp.services;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class RodsSettingsStorage {
 
     private static final String APP_PREFERENCES = "rods_params";
@@ -23,5 +26,18 @@ public class RodsSettingsStorage {
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putString(paramId, json);
         editor.apply();
+    }
+
+    public JSONObject getParams(String paramId){
+        if (mSettings.contains(paramId)) {
+            try {
+                return new JSONObject(mSettings.getString(paramId, ""));
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 }

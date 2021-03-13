@@ -20,10 +20,12 @@ import com.linaverde.fishingapp.fragments.RodsDetailFragment;
 import com.linaverde.fishingapp.fragments.RodsMainFragment;
 import com.linaverde.fishingapp.fragments.TimeFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
+import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.interfaces.IOnBackPressed;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.RodsSettingsListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
+import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.NavigationHelper;
 import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
@@ -108,27 +110,84 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
     }
 
     @Override
-    public void rodsDetailedReqired(String rodType, String rodID) {
+    public void rodsDetailedReqired(String rodType, int rodID) {
         progressBar.show();
         requestHelper.executeGet("rods", new String[]{"team", "rodType", "rod", "allParams"},
-                new String[]{userInfo.getTeamId(), rodType, rodID, "true"}, new RequestListener() {
-            @Override
-            public void onComplete(JSONObject json) {
-                RodsDetailFragment rodsDetailFragment = RodsDetailFragment.newInstance(json.toString(), rodType);
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.content_fragment, rodsDetailFragment);
-                fragmentTransaction.replace(R.id.top_menu_fragment, new RodTopFragment());
-                fragmentTransaction.addToBackStack("RodsMain");
-                if (!fragmentManager.isDestroyed())
-                    fragmentTransaction.commit();
-                progressBar.hide();
-            }
+                new String[]{userInfo.getTeamId(), rodType, Integer.toString(rodID), "true"}, new RequestListener() {
+                    @Override
+                    public void onComplete(JSONObject json) {
+                        RodsDetailFragment rodsDetailFragment = RodsDetailFragment.newInstance(json.toString(), rodType);
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.content_fragment, rodsDetailFragment);
+                        fragmentTransaction.replace(R.id.top_menu_fragment, new RodTopFragment());
+                        fragmentTransaction.addToBackStack("RodsMain");
+                        if (!fragmentManager.isDestroyed())
+                            fragmentTransaction.commit();
+                        progressBar.hide();
+                    }
 
-            @Override
-            public void onError(int responseCode) {
-                progressBar.hide();
-            }
-        });
+                    @Override
+                    public void onError(int responseCode) {
+                        progressBar.hide();
+                    }
+                });
+    }
+
+    @Override
+    public void updateDetailedFragment(String rodType, int rodID) {
+        progressBar.show();
+        requestHelper.executeGet("rods", new String[]{"team", "rodType", "rod", "allParams"},
+                new String[]{userInfo.getTeamId(), rodType, Integer.toString(rodID), "true"}, new RequestListener() {
+                    @Override
+                    public void onComplete(JSONObject json) {
+                        RodsDetailFragment rodsDetailFragment = RodsDetailFragment.newInstance(json.toString(), rodType);
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.content_fragment, rodsDetailFragment);
+                        if (!fragmentManager.isDestroyed())
+                            fragmentTransaction.commit();
+                        progressBar.hide();
+                    }
+
+                    @Override
+                    public void onError(int responseCode) {
+                        progressBar.hide();
+                    }
+                });
+    }
+
+    @Override
+    public void sendRodsSettings(String rodType, int rodID, String newParams) {
+        progressBar.show();
+        requestHelper.executePost("rods", new String[]{"team", "rod", "rodType"}, new String[]{userInfo.getTeamId(), Integer.toString(rodID), rodType},
+                newParams, new RequestListener() {
+                    @Override
+                    public void onComplete(JSONObject json) {
+//                        RodsDetailFragment rodsDetailFragment = RodsDetailFragment.newInstance(json.toString(), rodType);
+//                        fragmentTransaction = fragmentManager.beginTransaction();
+//                        fragmentTransaction.replace(R.id.content_fragment, rodsDetailFragment);
+//                        if (!fragmentManager.isDestroyed())
+//                            fragmentTransaction.commit();
+//                        progressBar.hide();
+                        updateDetailedFragment(rodType, rodID);
+                    }
+
+                    @Override
+                    public void onError(int responseCode) {
+                        progressBar.hide();
+                        DialogBuilder.createDefaultDialog(RodsSettingsActivity.this, getLayoutInflater(), getString(R.string.request_error),
+                                new CompleteActionListener() {
+                                    @Override
+                                    public void onOk(String input) {
+                                        updateDetailedFragment(rodType, rodID);
+                                    }
+
+                                    @Override
+                                    public void onCancel() {
+
+                                    }
+                                });
+                    }
+                });
     }
 
     @Override

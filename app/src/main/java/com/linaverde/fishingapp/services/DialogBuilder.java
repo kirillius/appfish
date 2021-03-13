@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,6 +21,10 @@ import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.models.FishDictionaryItem;
 import com.linaverde.fishingapp.models.Violation;
 import com.linaverde.fishingapp.models.ViolationDictionaryItem;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class DialogBuilder {
 
@@ -187,8 +192,8 @@ public class DialogBuilder {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         int selected = -1;
-        for (int i = 0; i < dict.length; i++){
-            if (dict[i].getId().equals(selectedId)){
+        for (int i = 0; i < dict.length; i++) {
+            if (dict[i].getId().equals(selectedId)) {
                 selected = i;
                 break;
             }
@@ -227,6 +232,75 @@ public class DialogBuilder {
 
     }
 
+    public static void createRodSettingsSelectDialog(Context context, LayoutInflater inflater, String text, JSONArray dict, String selectedId, final CompleteActionListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View viewDialog = inflater.inflate(R.layout.dialog_listview, null);
+        TextView tvText, tvOk, tvCancel;
+        ListView listView;
+        tvText = viewDialog.findViewById(R.id.tv_dialog);
+        tvOk = viewDialog.findViewById(R.id.tv_ok);
+        tvCancel = viewDialog.findViewById(R.id.tv_cancel);
+
+        listView = viewDialog.findViewById(R.id.lv_dialog);
+
+        if (text != null)
+            tvText.setText(text);
+
+        builder.setView(viewDialog);
+        final AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        JSONObject[] array = new JSONObject[dict.length()];
+
+        int selected = -1;
+        try {
+            for (int i = 0; i < dict.length(); i++) {
+                if (dict.getJSONObject(i).getString("id").equals(selectedId)) {
+                    selected = i;
+                    break;
+                }
+            }
+
+            for (int i = 0; i < dict.length(); i++) {
+                array[i] = dict.getJSONObject(i);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RodsObjectSettingsAdapter adapter = new RodsObjectSettingsAdapter(context, array, selected);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                adapter.setSelected(position);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        tvOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onOk(adapter.getItem(adapter.getSelected()).toString());
+                dialog.dismiss();
+            }
+        });
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onCancel();
+                dialog.dismiss();
+            }
+        });
+
+        if (!((Activity) context).isFinishing()) {
+            dialog.show();
+        }
+    }
+
     public static void createSelectViolationTypeDialog(Context context, LayoutInflater inflater, String text, ViolationDictionaryItem[] dict, String selectedId, final CompleteActionListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View viewDialog = inflater.inflate(R.layout.dialog_listview, null);
@@ -246,8 +320,8 @@ public class DialogBuilder {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         int selected = -1;
-        for (int i = 0; i < dict.length; i++){
-            if (dict[i].getId().equals(selectedId)){
+        for (int i = 0; i < dict.length; i++) {
+            if (dict[i].getId().equals(selectedId)) {
                 selected = i;
                 break;
             }
@@ -361,17 +435,17 @@ public class DialogBuilder {
         tvOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String  hours, mins, sec;
+                String hours, mins, sec;
                 hours = etHours.getText().toString();
                 mins = etMin.getText().toString();
                 sec = etSec.getText().toString();
-                while (hours.length() < 2){
+                while (hours.length() < 2) {
                     hours = "0" + hours;
                 }
-                while (mins.length() < 2){
+                while (mins.length() < 2) {
                     mins = "0" + mins;
                 }
-                while (sec.length() < 2){
+                while (sec.length() < 2) {
                     sec = "0" + sec;
                 }
                 String time = hours + ":" + mins + ":" + sec;
