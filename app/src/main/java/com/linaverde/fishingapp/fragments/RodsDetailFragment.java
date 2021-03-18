@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -77,13 +78,14 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
     }
 
     JSONObject timerJson;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rods_detail, container, false);
 
         UserInfo userInfo = new UserInfo(getContext());
-        ((TextView)view.findViewById(R.id.tv_team_name)).setText(userInfo.getCaption());
+        ((TextView) view.findViewById(R.id.tv_team_name)).setText(userInfo.getCaption());
         buttons = view.findViewById(R.id.ll_buttons);
         progressBar = view.findViewById(R.id.progress_bar);
         progressBar.hide();
@@ -91,15 +93,26 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
         timerJson = null;
         List<JSONObject> section1 = new ArrayList<>();
         List<JSONObject> section2 = new ArrayList<>();
+
         try {
             rodId = settings.getJSONArray("rods").getJSONObject(0).getInt("rodId");
+            switch (rodId) {
+                case 2:
+                    ((ImageView) view.findViewById(R.id.iv_rod_icon)).setImageDrawable(getContext().getDrawable(R.drawable.rod_2_icon));
+                    break;
+                case 3:
+                    ((ImageView) view.findViewById(R.id.iv_rod_icon)).setImageDrawable(getContext().getDrawable(R.drawable.rod_3_icon));
+                    break;
+                case 4:
+                    ((ImageView) view.findViewById(R.id.iv_rod_icon)).setImageDrawable(getContext().getDrawable(R.drawable.rod_4_icon));
+                    break;
+            }
             Log.d("RodId", Integer.toString(rodId));
             JSONArray array = settings.getJSONArray("rods").getJSONObject(0).getJSONArray("settings");
-            for (int i = 0; i < array.length(); i++){
-                if (array.getJSONObject(i).getJSONObject("param").getString("id").equals("TIMER")){
+            for (int i = 0; i < array.length(); i++) {
+                if (array.getJSONObject(i).getJSONObject("param").getString("id").equals("TIMER")) {
                     timerJson = array.getJSONObject(i);
-                }
-                else if (array.getJSONObject(i).getJSONObject("param").getInt("section") == 1){
+                } else if (array.getJSONObject(i).getJSONObject("param").getInt("section") == 1) {
                     section1.add(array.getJSONObject(i));
                 } else {
                     section2.add(array.getJSONObject(i));
@@ -109,8 +122,8 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
             adapter1 = new RodsSettingsListAdapter(getContext(), section1, progressBar, this);
             adapter2 = new RodsSettingsListAdapter(getContext(), section2, progressBar, this);
 
-            ((ListView)view.findViewById(R.id.list_rods_settings_1)).setAdapter(adapter1);
-            ((ListView)view.findViewById(R.id.list_rods_settings_2)).setAdapter(adapter2);
+            ((ListView) view.findViewById(R.id.list_rods_settings_1)).setAdapter(adapter1);
+            ((ListView) view.findViewById(R.id.list_rods_settings_2)).setAdapter(adapter2);
 
             cancel = view.findViewById(R.id.rl_cancel);
             confirm = view.findViewById(R.id.rl_confirm);
@@ -142,7 +155,7 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                                 JSONObject missedParam = new JSONObject();
                                 missedParam.put("paramId", param);
                                 Object value = section1.get(i).get("value");
-                                if (value.getClass() == JSONObject.class){
+                                if (value.getClass() == JSONObject.class) {
                                     missedParam.put("valueId", ((JSONObject) value).getString("id"));
                                 } else {
                                     missedParam.put("valueId", value);
@@ -165,7 +178,7 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                                 JSONObject missedParam = new JSONObject();
                                 missedParam.put("paramId", param);
                                 Object value = section2.get(i).get("value");
-                                if (value.getClass() == JSONObject.class){
+                                if (value.getClass() == JSONObject.class) {
                                     missedParam.put("valueId", ((JSONObject) value).getString("id"));
                                 } else {
                                     missedParam.put("valueId", value);
@@ -173,7 +186,7 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                                 newParams.put(missedParam);
                             }
                         }
-                        if (timerJson != null){
+                        if (timerJson != null) {
                             JSONObject missedParam = new JSONObject();
                             missedParam.put("paramId", timerJson.getJSONObject("param").getString("id"));
                             missedParam.put("valueId", timerJson.getString("value"));
@@ -187,7 +200,7 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
             });
 
             LinearLayout llTimer = view.findViewById(R.id.ll_timer);
-            if (timerJson != null){
+            if (timerJson != null) {
                 String timeValue = timerJson.getString("value");
                 String dateValue = timeValue.split("T")[0];
                 timeValue = timeValue.split("T")[1];
@@ -200,7 +213,7 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                         DialogBuilder.createTimeInputDialog(getContext(), getLayoutInflater(), "Введите время заброса", null, new CompleteActionListener() {
                             @Override
                             public void onOk(String input) {
-                                if (!input.equals(finalTimeValue)){
+                                if (!input.equals(finalTimeValue)) {
                                     buttons.setVisibility(View.VISIBLE);
                                     Log.d("New timer value", dateValue + "T" + input);
                                     ((TextView) view.findViewById(R.id.timer_value)).setText(input);
@@ -239,7 +252,7 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                     break;
                 }
             }
-            if (isJSONValid(value)){
+            if (isJSONValid(value)) {
                 object.put("valueId", (new JSONObject(value)).getString("id"));
             } else {
                 object.put("valueId", value);
@@ -250,7 +263,7 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
         }
         adapter1.notifyDataSetChanged();
         adapter2.notifyDataSetChanged();
-        if (newParams.length() != 0){
+        if (newParams.length() != 0) {
             buttons.setVisibility(View.VISIBLE);
         }
     }

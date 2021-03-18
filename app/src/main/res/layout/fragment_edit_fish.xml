@@ -178,7 +178,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_above="@id/rl_button_fish_save"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="20dp"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"

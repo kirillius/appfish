@@ -134,7 +134,7 @@ public class WeightingFishFragment extends Fragment {
         adapter = new FishAdapter(getContext(), fishesArr, dictArr);
         lvFishes.setAdapter(adapter);
 
-        if (userInfo.getUserType() == 1) {
+        if (userInfo.getUserType() == 1 || userInfo.getUserType() == 4) {
             lvFishes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

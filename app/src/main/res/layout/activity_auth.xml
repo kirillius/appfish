@@ -159,7 +159,30 @@
             android:textAppearance="@style/Roboto" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_change_pin"
+        android:layout_width="match_parent"
+        android:layout_height="59dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/button_dark"
+        android:orientation="horizontal"
+        android:layout_above="@id/ll_links"
+        android:layout_marginEnd="@dimen/se_margin"
+        android:layout_marginStart="@dimen/se_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="64dp"
+            android:text="@string/change_pin"
+            android:textAppearance="@style/Roboto"
+            android:textSize="30sp" />
+
+    </RelativeLayout>
+
     <LinearLayout
+        android:id="@+id/ll_links"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

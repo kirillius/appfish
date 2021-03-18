@@ -98,33 +98,7 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
 
         requestHelper = new RequestHelper(this);
 
-        requestHelper.executeGet("stages", new String[]{"match"}, new String[]{matchId}, new RequestListener() {
-            @Override
-            public void onComplete(JSONObject json) {
-                progressBar.hide();
-                try {
-                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                        WeightingStagesFragment WSFragment = WeightingStagesFragment.newInstance(json.getJSONArray("stages").toString(), matchName);
-                        fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.add(R.id.content_fragment, WSFragment);
-                        if (!fragmentManager.isDestroyed())
-                            fragmentTransaction.commit();
-                    } else {
-                        DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onError(int responseCode) {
-                progressBar.hide();
-                DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
-            }
-        });
+        updateStages(false);
 
     }
 
@@ -206,6 +180,40 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
         fragmentTransaction.addToBackStack("LogoFragment");
         if (!fragmentManager.isDestroyed())
             fragmentTransaction.commit();
+    }
+
+    @Override
+    public void updateStages(boolean popStackBack) {
+        if (popStackBack){
+            onBackPressed();
+        }
+        requestHelper.executeGet("stages", new String[]{"match"}, new String[]{matchId}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                progressBar.hide();
+                try {
+                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                        WeightingStagesFragment WSFragment = WeightingStagesFragment.newInstance(json.getJSONArray("stages").toString(), matchName);
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.content_fragment, WSFragment);
+                        if (!fragmentManager.isDestroyed())
+                            fragmentTransaction.commit();
+                    } else {
+                        DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+            }
+        });
     }
 
     @Override

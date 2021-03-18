@@ -43,6 +43,7 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
     UserInfo userInfo;
     String matchId;
     boolean spod = true;
+    boolean needUpdate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,13 +82,16 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
             spod = b.getBoolean("spod");
 
         progressBar.show();
+        setMainFragment();
+    }
 
+    public void setMainFragment(){
         RequestListener listener = new RequestListener() {
             @Override
             public void onComplete(JSONObject json) {
                 RodsMainFragment rodsMainFragment = RodsMainFragment.newInstance(spod, json.toString());
                 fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.content_fragment, rodsMainFragment);
+                fragmentTransaction.add(R.id.content_fragment, rodsMainFragment);
                 if (!fragmentManager.isDestroyed())
                     fragmentTransaction.commit();
                 progressBar.hide();
@@ -116,8 +120,10 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
                 new String[]{userInfo.getTeamId(), rodType, Integer.toString(rodID), "true"}, new RequestListener() {
                     @Override
                     public void onComplete(JSONObject json) {
+                        needUpdate = true;
                         RodsDetailFragment rodsDetailFragment = RodsDetailFragment.newInstance(json.toString(), rodType);
                         fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, rodsDetailFragment);
                         fragmentTransaction.replace(R.id.top_menu_fragment, new RodTopFragment());
                         fragmentTransaction.addToBackStack("RodsMain");
@@ -142,7 +148,11 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
                     public void onComplete(JSONObject json) {
                         RodsDetailFragment rodsDetailFragment = RodsDetailFragment.newInstance(json.toString(), rodType);
                         fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentManager.popBackStack();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, rodsDetailFragment);
+                        fragmentTransaction.replace(R.id.top_menu_fragment, new RodTopFragment());
+                        fragmentTransaction.addToBackStack("RodsMain");
                         if (!fragmentManager.isDestroyed())
                             fragmentTransaction.commit();
                         progressBar.hide();
@@ -162,13 +172,9 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
                 newParams, new RequestListener() {
                     @Override
                     public void onComplete(JSONObject json) {
-//                        RodsDetailFragment rodsDetailFragment = RodsDetailFragment.newInstance(json.toString(), rodType);
-//                        fragmentTransaction = fragmentManager.beginTransaction();
-//                        fragmentTransaction.replace(R.id.content_fragment, rodsDetailFragment);
-//                        if (!fragmentManager.isDestroyed())
-//                            fragmentTransaction.commit();
-//                        progressBar.hide();
-                        updateDetailedFragment(rodType, rodID);
+                        //updateDetailedFragment(rodType, rodID);
+                        fragmentManager.popBackStack();
+                        setMainFragment();
                     }
 
                     @Override
@@ -223,16 +229,11 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
     @Override
     public void onBackPressed() {
         progressBar.hide();
-
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_fragment);
-        if (!(fragment instanceof IOnBackPressed) || !((IOnBackPressed) fragment).onBackPressed()) {
-            //super.onBackPressed();
-            int count = getSupportFragmentManager().getBackStackEntryCount();
-            if (count == 0) {
-                finish();
-            } else {
-                getSupportFragmentManager().popBackStack();
-            }
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count == 0) {
+            finish();
+        } else {
+            getSupportFragmentManager().popBackStack();
         }
     }
 }

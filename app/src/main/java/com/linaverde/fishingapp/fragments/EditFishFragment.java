@@ -134,8 +134,11 @@ public class EditFishFragment extends Fragment {
                 tvType.setText(fishDictionaryItem.getName());
             }
         }
-
-        etWeight.setText(Integer.toString(fish.getWeight()));
+        if (fish.getWeight() != 0) {
+            etWeight.setText(Integer.toString(fish.getWeight()));
+        } else {
+            etWeight.setText("");
+        }
         tvType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,42 +165,58 @@ public class EditFishFragment extends Fragment {
         rlButtonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (etPin.getText().toString().equals(pin)) {
-                    if (!etWeight.getText().toString().equals("")) {
-                        JSONObject object = new JSONObject();
-                        if (newFish) {
-                            String hours, mins, sec;
-                            hours = etHours.getText().toString();
-                            mins = etMin.getText().toString();
-                            sec = etSec.getText().toString();
-                            while (hours.length() < 2) {
-                                hours = "0" + hours;
+                CompleteActionListener pinListener = new CompleteActionListener() {
+                    @Override
+                    public void onOk(String input) {
+                        if (input.equals(pin)) {
+                            if (!etWeight.getText().toString().equals("")) {
+                                JSONObject object = new JSONObject();
+                                if (newFish) {
+                                    String hours, mins, sec;
+                                    hours = etHours.getText().toString();
+                                    mins = etMin.getText().toString();
+                                    sec = etSec.getText().toString();
+                                    while (hours.length() < 2) {
+                                        hours = "0" + hours;
+                                    }
+                                    while (mins.length() < 2) {
+                                        mins = "0" + mins;
+                                    }
+                                    while (sec.length() < 2) {
+                                        sec = "0" + sec;
+                                    }
+                                    String time = hours + ":" + mins + ":" + sec;
+                                    fish.setTime(time);
+                                }
+                                try {
+                                    if (!newFish) {
+                                        object.put("id", fish.getId());
+                                    }
+                                    object.put("fishId", fish.getFishId());
+                                    object.put("weight", Integer.parseInt(etWeight.getText().toString()));
+                                    object.put("time", fish.getDateTime());
+                                    listener.fishChangedRequest(stageId, teamId, pin, object.toString(), sector);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.input_weight), null);
                             }
-                            while (mins.length() < 2) {
-                                mins = "0" + mins;
-                            }
-                            while (sec.length() < 2) {
-                                sec = "0" + sec;
-                            }
-                            String time = hours + ":" + mins + ":" + sec;
-                            fish.setTime(time);
+                        } else {
+                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.wrong_pin), null);
                         }
-                        try {
-                            if (!newFish) {
-                                object.put("id", fish.getId());
-                            }
-                            object.put("fishId", fish.getFishId());
-                            object.put("weight", Integer.parseInt(etWeight.getText().toString()));
-                            object.put("time", fish.getDateTime());
-                            listener.fishChangedRequest(stageId, teamId, pin, object.toString(), sector);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.input_weight), null);
                     }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                };
+
+                if (!etWeight.getText().toString().equals("")) {
+                    DialogBuilder.createInputNumberDialog(getContext(), getLayoutInflater(), "Введите пин", true, pinListener);
                 } else {
-                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.wrong_pin), null);
+                    DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.fill_weight), null);
                 }
             }
         });

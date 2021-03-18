@@ -31,7 +31,7 @@ import com.linaverde.fishingapp.services.UserInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AuthActivity extends AppCompatActivity  {
+public class AuthActivity extends AppCompatActivity {
 
     EditText login, password;
     ImageButton showPass;
@@ -39,6 +39,7 @@ public class AuthActivity extends AppCompatActivity  {
     RelativeLayout rlAuth;
     ContentLoadingProgressBar progressBar;
     ImageView net1, net2, net3, net4;
+    RequestHelper requestHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class AuthActivity extends AppCompatActivity  {
         rlAuth = findViewById(R.id.rl_auth);
         progressBar = findViewById(R.id.progress_bar);
 
-        RequestHelper requestHelper = new RequestHelper(this);
+        requestHelper = new RequestHelper(this);
         UserInfo userInfo = new UserInfo(this);
         progressBar.hide();
         rlAuth.setVisibility(View.VISIBLE);
@@ -123,15 +124,49 @@ public class AuthActivity extends AppCompatActivity  {
 
         setLinks();
 
+        ((RelativeLayout) findViewById(R.id.rl_change_pin)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String sLogin;
+                sLogin = login.getText().toString();
+                if (sLogin.equals("")) {
+                    DialogBuilder.createDefaultDialog(AuthActivity.this, getLayoutInflater(), "Для смены пин-кода необходимо ввести логин", null);
+                } else {
+                    progressBar.show();
+                    requestHelper.executePost("pin", new String[]{"username"}, new String[]{sLogin}, null, new RequestListener() {
+                        @Override
+                        public void onComplete(JSONObject json) {
+                            progressBar.hide();
+                            try {
+                                if (json.getString("error").equals("")){
+                                    DialogBuilder.createDefaultDialog(AuthActivity.this, getLayoutInflater(), "Пин изменен. Отправлено уведомление", null);
+                                } else {
+                                    DialogBuilder.createDefaultDialog(AuthActivity.this, getLayoutInflater(), json.getString("error"), null);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onError(int responseCode) {
+                            progressBar.hide();
+                            DialogBuilder.createDefaultDialog(AuthActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+                        }
+                    });
+                }
+            }
+        });
+
+
     }
 
-    private void setLinks(){
+    private void setLinks() {
         net1 = findViewById(R.id.play);
         net2 = findViewById(R.id.network);
         net3 = findViewById(R.id.instagram);
         net4 = findViewById(R.id.facebook);
 
-        RequestHelper requestHelper = new RequestHelper(this);
         requestHelper.getLinks(new RequestListener() {
             @Override
             public void onComplete(JSONObject links) {

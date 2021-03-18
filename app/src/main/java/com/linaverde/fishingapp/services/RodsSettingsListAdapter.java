@@ -102,7 +102,7 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
                         switch (type) {
                             case "number":
                                 DialogBuilder.createInputNumberDialog(getContext(), inflater,
-                                        "Введите числовое значение", listener);
+                                        "Введите числовое значение", false, listener);
                                 break;
                             case "string":
                                 DialogBuilder.createInputStringDialog(getContext(), inflater,

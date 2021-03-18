@@ -119,7 +119,7 @@ public class WeightingTeamListFragment extends Fragment {
         }
 
         UserInfo userInfo = new UserInfo(getContext());
-        if (userInfo.getUserType() == 1) {
+        if (userInfo.getUserType() == 1 || userInfo.getUserType() == 4) {
             endWeighting.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -137,7 +137,17 @@ public class WeightingTeamListFragment extends Fragment {
                                         if (!error.equals("") && !error.equals("null")) {
                                             DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.error) + error, null);
                                         } else {
-                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.end_weighting_success), null);
+                                            DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), getString(R.string.end_weighting_success), new CompleteActionListener() {
+                                                @Override
+                                                public void onOk(String input) {
+                                                    listener.updateStages(true);
+                                                }
+
+                                                @Override
+                                                public void onCancel() {
+
+                                                }
+                                            });
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();

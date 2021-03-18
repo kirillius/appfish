@@ -206,7 +206,7 @@ public class DrawSectorFragment extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         if (!userInfo.getSectorStatus()) {
-                            DialogBuilder.createInputNumberDialog(getContext(), getLayoutInflater(), getString(R.string.enter_sector), new CompleteActionListener() {
+                            DialogBuilder.createInputNumberDialog(getContext(), getLayoutInflater(), getString(R.string.enter_sector), false, new CompleteActionListener() {
                                 @Override
                                 public void onOk(String input) {
                                     if (!input.equals("")) {

@@ -185,7 +185,7 @@ public class ViolationsFragment extends Fragment {
         adapter = new ViolationAdapter(getContext(), violationsArr, dictArr, edit);
         lvViolations.setAdapter(adapter);
 
-        if (userInfo.getUserType() == 1) {
+        if (userInfo.getUserType() == 1 || userInfo.getUserType() == 4) {
             lvViolations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

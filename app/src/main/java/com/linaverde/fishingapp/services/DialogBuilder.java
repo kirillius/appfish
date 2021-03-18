@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -94,7 +95,7 @@ public class DialogBuilder {
 
     }
 
-    public static void createInputNumberDialog(Context context, LayoutInflater inflater, String text, final CompleteActionListener listener) {
+    public static void createInputNumberDialog(Context context, LayoutInflater inflater, String text, boolean pin, final CompleteActionListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View viewDialog = inflater.inflate(R.layout.dialog_edit_number, null);
         TextView tvText, tvOk, tvCancel;
@@ -106,6 +107,10 @@ public class DialogBuilder {
 
         if (text != null)
             tvText.setText(text);
+
+        if(pin){
+            etNumber.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        }
 
         builder.setView(viewDialog);
         final AlertDialog dialog = builder.create();

@@ -212,7 +212,7 @@ public class DrawQueueFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (!userInfo.getQueueStatus()) {
-                        DialogBuilder.createInputNumberDialog(getContext(), getLayoutInflater(), getString(R.string.enter_queue), new CompleteActionListener() {
+                        DialogBuilder.createInputNumberDialog(getContext(), getLayoutInflater(), getString(R.string.enter_queue), false, new CompleteActionListener() {
                             @Override
                             public void onOk(String input) {
                                 if (!input.equals("")) {
