@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -108,7 +110,7 @@ public class DialogBuilder {
         if (text != null)
             tvText.setText(text);
 
-        if(pin){
+        if (pin) {
             etNumber.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         }
 
@@ -470,5 +472,59 @@ public class DialogBuilder {
         if (!((Activity) context).isFinishing()) {
             dialog.show();
         }
+    }
+
+    public static void createSelectRegisterStatusDialog(Context context, LayoutInflater inflater, String text, int selected, final CompleteActionListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View viewDialog = inflater.inflate(R.layout.dialog_listview, null);
+        TextView tvText, tvOk, tvCancel;
+        ListView listView;
+        tvText = viewDialog.findViewById(R.id.tv_dialog);
+        tvOk = viewDialog.findViewById(R.id.tv_ok);
+        tvCancel = viewDialog.findViewById(R.id.tv_cancel);
+
+        listView = viewDialog.findViewById(R.id.lv_dialog);
+
+        if (text != null)
+            tvText.setText(text);
+
+        builder.setView(viewDialog);
+        final AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        final String[] statuses = context.getResources().getStringArray(
+                R.array.register_status);
+
+        RegisterStatusAdapter adapter = new RegisterStatusAdapter(context, statuses, selected);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                adapter.setSelected(position);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        tvOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onOk(Integer.toString(adapter.getSelected()));
+                dialog.dismiss();
+            }
+        });
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onCancel();
+                dialog.dismiss();
+            }
+        });
+
+        if (!((Activity) context).isFinishing()) {
+            dialog.show();
+        }
+
     }
 }

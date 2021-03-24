@@ -98,6 +98,7 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
     ImageView photo, ivDocument;
     boolean documentOpen = false;
     boolean photoOpen = false;
+    int status;
     RegisterOneTeamFragment fragment;
 
     @Override
@@ -125,6 +126,7 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
         try {
             ((TextView) view.findViewById(R.id.tv_captain_name)).setText(team.getString("captainName"));
             ((TextView) view.findViewById(R.id.tv_assistant_name)).setText(team.getString("assistantName"));
+            status = team.getInt("status");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -149,50 +151,42 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
                 listener.onViolationClicked(teamId);
             }
         });
+        String sStatus = "";
+        switch (status) {
+            case 0:
+                sStatus = "Не зарегистрирована";
+                break;
+            case 1:
+                sStatus = "Зарегистрирована";
+                break;
+            case 2:
+                sStatus = "Отказано в регистрации";
+                break;
+            default:
+                sStatus = "";
+        }
 
         buttonEndReg = view.findViewById(R.id.button_end_reg);
         if ((userInfo.getUserType() != 1 && userInfo.getUserType() != 4) || userInfo.getCheckInStatus() || !showButtons) {
             buttonEndReg.setVisibility(View.GONE);
         } else {
-            if (!checkIn) {
-                ((TextView) view.findViewById(R.id.button_end_reg_text)).setText(getString(R.string.confirm_reg));
+                ((TextView) view.findViewById(R.id.button_end_reg_text)).setText(sStatus);
                 buttonEndReg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), getString(R.string.end_reg_team_question), new CompleteActionListener() {
+                        DialogBuilder.createSelectRegisterStatusDialog(getContext(), getLayoutInflater(), "Выберите статус регистрации", status, new CompleteActionListener() {
                             @Override
                             public void onOk(String input) {
-                                listener.teamRegistered(teamId, false);
+                                listener.teamRegistered(teamId, Integer.parseInt(input));
                             }
 
                             @Override
                             public void onCancel() {
+
                             }
                         });
                     }
                 });
-            } else {
-                if (userInfo.getUserType() != 1) {
-                    buttonEndReg.setVisibility(View.GONE);
-                } else {
-                    ((TextView) view.findViewById(R.id.button_end_reg_text)).setText(getString(R.string.unconfirm_reg));
-                    buttonEndReg.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), getString(R.string.open_reg_team_question), new CompleteActionListener() {
-                                @Override
-                                public void onOk(String input) {
-                                    listener.teamRegistered(teamId, true);
-                                }
-
-                                @Override
-                                public void onCancel() {
-                                }
-                            });
-                        }
-                    });
-                }
-            }
         }
         return view;
     }

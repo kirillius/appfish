@@ -251,7 +251,7 @@ public class TeamsActivity extends AppCompatActivity implements TopMenuEventList
     }
 
     @Override
-    public void teamRegistered(String teamId, boolean register) {
+    public void teamRegistered(String teamId, int newStatus) {
         //в этой активности регистрация не проводится
     }
 

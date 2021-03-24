@@ -38,6 +38,7 @@
     <string name="end_reg_match">Регистрация турнира успешно завершена</string>
     <string name="open_reg_match">Регистрация турнира успешно открыта</string>
     <string name="end_reg_team">Регистрация команды успешно завершена</string>
+    <string name="reg_status_updated">Статус регистрации обновлен</string>
     <string name="open_reg_team">Регистрация команды успешно отменена</string>
     <string name="end_draw">Завершить жеребьевку</string>
     <string name="open_draw">Открыть жеребьевку</string>
@@ -117,7 +118,11 @@
     <string name="team_stats">Статистика команды</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="change_pin">Сменить пин</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string-array name="register_status">
+        <item>Не зарегистрирована</item>
+        <item>Зарегистрирована</item>
+        <item>Отказано в регистрации</item>
+    </string-array>
 
 
 </resources>
