@@ -170,7 +170,7 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
 
     @Override
     public void onTeamClicked(TeamsQueue selectedTeam, String stageId) {
-        WeightingSelectedTeamFragment WSTFragment = WeightingSelectedTeamFragment.newInstance(selectedTeam.getSector(), selectedTeam.getTeamId(), stageId, selectedTeam.getPin());
+        WeightingSelectedTeamFragment WSTFragment = WeightingSelectedTeamFragment.newInstance(selectedTeam.getSector(), selectedTeam.getTeamId(), stageId, selectedTeam.getPin(), selectedTeam.getPin2());
         LogoTopMenuFragment LTMFragment = LogoTopMenuFragment.newInstance(selectedTeam.getLogo(), selectedTeam.getTeamName());
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -217,7 +217,7 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
     }
 
     @Override
-    public void fishClicked(String teamId, String stageId, String pin, int sector) {
+    public void fishClicked(String teamId, String stageId, String pin, String pin2, int sector) {
         progressBar.show();
         requestHelper.executeGet("weighing", new String[]{"stage", "team"}, new String[]{stageId, teamId}, new RequestListener() {
             @Override
@@ -226,7 +226,7 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
                 try {
                     if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
                         WeightingFishFragment WSFragment = WeightingFishFragment.newInstance(json.getJSONArray("weighing").toString(), json.getJSONArray("dictionary").toString(),
-                                stageId, teamId, pin, sector);
+                                stageId, teamId, pin, pin2, sector);
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, WSFragment);
@@ -252,7 +252,7 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
     }
 
     @Override
-    public void violationClicked(String teamId, String stageId, String pin, int sector) {
+    public void violationClicked(String teamId, String stageId, String pin, String pin2, int sector) {
         progressBar.show();
         requestHelper.executeGet("fouls", new String[]{"stage", "team"}, new String[]{stageId, teamId}, new RequestListener() {
             @Override
@@ -325,14 +325,14 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
     }
 
     @Override
-    public void fishChangedRequest(String stageId, String teamId, String pin, String fish, int sector) {
+    public void fishChangedRequest(String stageId, String teamId, String pin, String pin2, String fish, int sector) {
         progressBar.show();
         requestHelper.executePost("weighing", new String[]{"stage", "team"}, new String[]{stageId, teamId}, fish, new RequestListener() {
             @Override
             public void onComplete(JSONObject json) {
                 try {
                     if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                        updateFishList(teamId, stageId, pin, sector);
+                        updateFishList(teamId, stageId, pin, pin2, sector);
                     } else {
                         progressBar.hide();
                         DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
@@ -351,8 +351,8 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
     }
 
     @Override
-    public void fishAdded(String dict, String pin, String teamId, String stageId, int sector) {
-        EditFishFragment EFFragment = EditFishFragment.newInstance(null, dict, pin, teamId, stageId, sector);
+    public void fishAdded(String dict, String pin, String pin2, String teamId, String stageId, int sector) {
+        EditFishFragment EFFragment = EditFishFragment.newInstance(null, dict, pin, pin2, teamId, stageId, sector);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.replace(R.id.content_fragment, EFFragment);
@@ -362,8 +362,8 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
     }
 
     @Override
-    public void fishChanged(String fish, String dict, String pin, String teamId, String stageId, int sector) {
-        EditFishFragment EFFragment = EditFishFragment.newInstance(fish, dict, pin, teamId, stageId, sector);
+    public void fishChanged(String fish, String dict, String pin, String pin2, String teamId, String stageId, int sector) {
+        EditFishFragment EFFragment = EditFishFragment.newInstance(fish, dict, pin, pin2, teamId, stageId, sector);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.replace(R.id.content_fragment, EFFragment);
@@ -421,7 +421,7 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
             fragmentTransaction.commit();
     }
 
-    private void updateFishList(String teamId, String stageId, String pin, int sector) {
+    private void updateFishList(String teamId, String stageId, String pin, String pin2, int sector) {
         progressBar.show();
         requestHelper.executeGet("weighing", new String[]{"stage", "team"}, new String[]{stageId, teamId}, new RequestListener() {
             @Override
@@ -430,7 +430,7 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
                 try {
                     if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
                         WeightingFishFragment WSFragment = WeightingFishFragment.newInstance(json.getJSONArray("weighing").toString(), json.getJSONArray("dictionary").toString(),
-                                stageId, teamId, pin, sector);
+                                stageId, teamId, pin, pin2, sector);
                         fragmentManager.popBackStack();
                         fragmentManager.popBackStack();
                         fragmentTransaction = fragmentManager.beginTransaction();

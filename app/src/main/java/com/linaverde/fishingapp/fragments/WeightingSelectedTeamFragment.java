@@ -23,11 +23,13 @@ public class WeightingSelectedTeamFragment extends Fragment {
     private static final String TEAM = "team";
     private static final String STAGE = "stage";
     private static final String PIN = "pin";
+    private static final String PIN2 = "pin2";
 
     private int sector;
     private String teamId;
     private String stageId;
     private String pin;
+    private String pin2;
 
     WeightingSelectedTeamClickListener listener;
 
@@ -35,13 +37,14 @@ public class WeightingSelectedTeamFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static WeightingSelectedTeamFragment newInstance(int sector, String teamId, String stageId, String pin) {
+    public static WeightingSelectedTeamFragment newInstance(int sector, String teamId, String stageId, String pin, String pin2) {
         WeightingSelectedTeamFragment fragment = new WeightingSelectedTeamFragment();
         Bundle args = new Bundle();
         args.putInt(SECTOR, sector);
         args.putString(TEAM, teamId);
         args.putString(STAGE, stageId);
         args.putString(PIN, pin);
+        args.putString(PIN2, pin2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,6 +57,7 @@ public class WeightingSelectedTeamFragment extends Fragment {
             teamId = getArguments().getString(TEAM);
             stageId = getArguments().getString(STAGE);
             pin = getArguments().getString(PIN);
+            pin2 = getArguments().getString(PIN2);
         }
 
     }
@@ -84,7 +88,7 @@ public class WeightingSelectedTeamFragment extends Fragment {
         fish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.fishClicked(teamId, stageId, pin, sector);
+                listener.fishClicked(teamId, stageId, pin, pin2, sector);
             }
         });
 
@@ -93,7 +97,7 @@ public class WeightingSelectedTeamFragment extends Fragment {
         violation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.violationClicked(teamId, stageId, pin, sector);
+                listener.violationClicked(teamId, stageId, pin, pin2, sector);
             }
         });
 

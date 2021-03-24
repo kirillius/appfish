@@ -27,6 +27,7 @@ import com.linaverde.fishingapp.interfaces.IOnBackPressed;
 import com.linaverde.fishingapp.interfaces.OneTeamClickListener;
 import com.linaverde.fishingapp.interfaces.QueueUpdateListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
+import com.linaverde.fishingapp.interfaces.StatisticTeamNameClicked;
 import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.interfaces.TeamListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
@@ -41,7 +42,7 @@ import com.linaverde.fishingapp.services.UserInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class TeamsActivity extends AppCompatActivity implements TopMenuEventListener, TeamListener, OneTeamClickListener {
+public class TeamsActivity extends AppCompatActivity implements TopMenuEventListener, TeamListener, OneTeamClickListener, StatisticTeamNameClicked {
 
     DrawerLayout drawer;
     ContentLoadingProgressBar progressBar;
@@ -252,5 +253,10 @@ public class TeamsActivity extends AppCompatActivity implements TopMenuEventList
     @Override
     public void teamRegistered(String teamId, boolean register) {
         //в этой активности регистрация не проводится
+    }
+
+    @Override
+    public void teamClicked(String teamId, String teamName) {
+        //в этой активности указана статистика конкретной команды
     }
 }

@@ -29,6 +29,7 @@ public class EditFishFragment extends Fragment {
 
     private static final String FISH_JSON = "json";
     private static final String PIN = "pin";
+    private static final String PIN2 = "pin2";
     private static final String DICT = "dict";
     private static final String TEAM_ID = "team";
     private static final String SECTOR = "sector";
@@ -37,6 +38,7 @@ public class EditFishFragment extends Fragment {
     private String fishJson;
     private JSONArray dict;
     private String pin;
+    private String pin2;
     private String teamId;
     private int sector;
     private String stageId;
@@ -46,11 +48,12 @@ public class EditFishFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static EditFishFragment newInstance(String fish, String dict, String pin, String teamId, String stageId, int sector) {
+    public static EditFishFragment newInstance(String fish, String dict, String pin, String pin2, String teamId, String stageId, int sector) {
         EditFishFragment fragment = new EditFishFragment();
         Bundle args = new Bundle();
         args.putString(FISH_JSON, fish);
         args.putString(PIN, pin);
+        args.putString(PIN2, pin2);
         args.putString(DICT, dict);
         args.putString(TEAM_ID, teamId);
         args.putString(STAGE_ID, stageId);
@@ -65,6 +68,7 @@ public class EditFishFragment extends Fragment {
         if (getArguments() != null) {
             fishJson = getArguments().getString(FISH_JSON);
             pin = getArguments().getString(PIN);
+            pin2 = getArguments().getString(PIN2);
             teamId = getArguments().getString(TEAM_ID);
             stageId = getArguments().getString(STAGE_ID);
             sector = getArguments().getInt(SECTOR);
@@ -168,7 +172,7 @@ public class EditFishFragment extends Fragment {
                 CompleteActionListener pinListener = new CompleteActionListener() {
                     @Override
                     public void onOk(String input) {
-                        if (input.equals(pin)) {
+                        if (input.equals(pin) || input.equals(pin2)) {
                             if (!etWeight.getText().toString().equals("")) {
                                 JSONObject object = new JSONObject();
                                 if (newFish) {
@@ -195,7 +199,7 @@ public class EditFishFragment extends Fragment {
                                     object.put("fishId", fish.getFishId());
                                     object.put("weight", Integer.parseInt(etWeight.getText().toString()));
                                     object.put("time", fish.getDateTime());
-                                    listener.fishChangedRequest(stageId, teamId, pin, object.toString(), sector);
+                                    listener.fishChangedRequest(stageId, teamId, pin, pin2, object.toString(), sector);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

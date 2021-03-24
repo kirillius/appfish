@@ -41,6 +41,7 @@ public class WeightingFishFragment extends Fragment {
     private static final String STAGE = "stage";
     private static final String TEAM = "team";
     private static final String PIN = "pin";
+    private static final String PIN2 = "pin2";
     private static final String SECTOR = "sector";
 
     private JSONArray fishes;
@@ -48,6 +49,7 @@ public class WeightingFishFragment extends Fragment {
     private String stageId;
     private String teamId;
     private String pin;
+    private String pin2;
     private int sector;
 
 
@@ -63,7 +65,7 @@ public class WeightingFishFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static WeightingFishFragment newInstance(String fishes, String dict, String stage, String team, String pin, int sector) {
+    public static WeightingFishFragment newInstance(String fishes, String dict, String stage, String team, String pin, String pin2, int sector) {
         WeightingFishFragment fragment = new WeightingFishFragment();
         Bundle args = new Bundle();
         args.putString(FISHES, fishes);
@@ -71,6 +73,7 @@ public class WeightingFishFragment extends Fragment {
         args.putString(STAGE, stage);
         args.putString(TEAM, team);
         args.putString(PIN, pin);
+        args.putString(PIN2, pin2);
         args.putInt(SECTOR, sector);
         fragment.setArguments(args);
         return fragment;
@@ -85,6 +88,7 @@ public class WeightingFishFragment extends Fragment {
         if (getArguments() != null) {
             teamId = getArguments().getString(TEAM);
             pin = getArguments().getString(PIN);
+            pin2 = getArguments().getString(PIN2);
             stageId = getArguments().getString(STAGE);
             sector = getArguments().getInt(SECTOR);
             try {
@@ -138,14 +142,14 @@ public class WeightingFishFragment extends Fragment {
             lvFishes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    listener.fishChanged(adapter.getItem(position).toString(), dict.toString(), pin, teamId, stageId, sector);
+                    listener.fishChanged(adapter.getItem(position).toString(), dict.toString(), pin, pin2, teamId, stageId, sector);
                 }
             });
 
             buttonAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.fishAdded(dict.toString(), pin, teamId, stageId, sector);
+                    listener.fishAdded(dict.toString(), pin, pin2, teamId, stageId, sector);
                 }
             });
         } else {
