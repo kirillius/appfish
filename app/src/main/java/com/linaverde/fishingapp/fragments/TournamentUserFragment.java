@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.activities.MapActivity;
 import com.linaverde.fishingapp.activities.RodsSettingsActivity;
 import com.linaverde.fishingapp.activities.StatisticActivity;
 import com.linaverde.fishingapp.services.UserInfo;
@@ -82,6 +83,18 @@ public class TournamentUserFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), RodsSettingsActivity.class);
                 Bundle args = new Bundle();
                 args.putBoolean("spod", true);
+                intent.putExtras(args);
+                startActivity(intent);
+            }
+        });
+
+        rlMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MapActivity.class);
+                Bundle args = new Bundle();
+                args.putString("matchId", userInfo.getMatchId());
+                args.putString("teamId", userInfo.getTeamId());
                 intent.putExtras(args);
                 startActivity(intent);
             }

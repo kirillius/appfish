@@ -509,7 +509,14 @@ public class DialogBuilder {
         tvOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onOk(Integer.toString(adapter.getSelected()));
+                int selected = adapter.getSelected();
+                if (selected == 0){
+                    listener.onOk(Integer.toString(1));
+                } else if (selected == 1){
+                    listener.onOk(Integer.toString(0));
+                } else {
+                    listener.onOk(Integer.toString(selected));
+                }
                 dialog.dismiss();
             }
         });

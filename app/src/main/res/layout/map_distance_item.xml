@@ -1,0 +1,11 @@
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_distance"
+    android:layout_width="match_parent"
+    android:layout_height="20dp"
+    android:layout_margin="5dp"
+    android:background="@null"
+    android:gravity="center"
+    android:textAlignment="center"
+    android:textAppearance="@style/Roboto"
+    android:textSize="16sp" />

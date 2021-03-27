@@ -45,7 +45,9 @@
             android:name=".activities.TeamsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".activities.MapActivity" />
+        <activity android:name=".activities.MapActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".activities.WeatherActivity" />
         <activity
             android:name=".activities.AuthActivity"
