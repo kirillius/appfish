@@ -32,6 +32,7 @@ public class MapHelper {
     JSONObject mapDetail;
     LayoutInflater inflater;
     JSONArray landmark;
+    JSONArray rods;
 
     public MapHelper(Context context, LayoutInflater inflater, GridView map, LinearLayout llMarks, LinearLayout arrow, JSONObject mapDetail) {
         this.context = context;
@@ -40,6 +41,8 @@ public class MapHelper {
         this.mapDetail = mapDetail;
         this.inflater = inflater;
         try {
+            landmark = mapDetail.getJSONArray("landmark");
+            rods = mapDetail.getJSONArray("rods");
             setLandmarks(arrow);
             setMap();
         } catch (JSONException e) {
@@ -49,18 +52,12 @@ public class MapHelper {
     }
 
     public void movePonton(ImageView ponton) {
-//        ViewGroup.MarginLayoutParams marginParams = new ViewGroup.MarginLayoutParams(ponton.getLayoutParams());
-//        marginParams.setMargins(0, 0, 0,0);
-//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(marginParams);
-//        layoutParams.addRule();
-//        ponton.setLayoutParams(layoutParams);
         ViewGroup.MarginLayoutParams marginParams = (ViewGroup.MarginLayoutParams) ponton.getLayoutParams();
         marginParams.setMargins(0, 0, map.getRequestedColumnWidth(), 0);
         Log.d("Column width", Integer.toString(map.getRequestedColumnWidth()));
     }
 
     private void setLandmarks(LinearLayout arrow) throws JSONException {
-        landmark = mapDetail.getJSONArray("landmark");
         for (int i = 0; i < landmark.length(); i++) {
             TextView view = (TextView) inflater.inflate(R.layout.landmark, llMarks, false);
             view.setText(landmark.getString(i));
@@ -82,50 +79,48 @@ public class MapHelper {
         double currStep = distBig.getDouble("step");
         while (curr >= currBot) {
             for (int i = 0; i < landmark.length(); i++) {
-                marks.add(new MapMark());
+                MapMark newMark = null;
+                for (int j = 0; j < rods.length(); j++){
+                    String cMark = rods.getJSONObject(j).getString("landmark");
+                    int cDist = rods.getJSONObject(j).getInt("distance");
+                    if (landmark.getString(i).equals(cMark) && curr >= cDist && curr - currStep < cDist){
+                        newMark = new MapMark(cDist, rods.getJSONObject(j).getInt("id"), cMark);
+                        break;
+                    }
+                }
+                if (newMark == null) {
+                    marks.add(new MapMark());
+                } else {
+                    marks.add(newMark);
+                }
             }
-            marks.add(new MapMark(curr, true));
+            marks.add(new MapMark(curr));
             curr = curr - currStep;
         }
         currBot = distSmall.getDouble("bottom");
         currStep = distSmall.getDouble("step");
         while (curr >= currBot) {
             for (int i = 0; i < landmark.length(); i++) {
-                marks.add(new MapMark());
+                MapMark newMark = null;
+                for (int j = 0; j < rods.length(); j++){
+                    String cMark = rods.getJSONObject(j).getString("landmark");
+                    int cDist = rods.getJSONObject(j).getInt("distance");
+                    if (landmark.getString(i).equals(cMark) && curr >= cDist && curr - currStep < cDist){
+                        newMark = new MapMark(cDist, rods.getJSONObject(j).getInt("id"), cMark);
+                        break;
+                    }
+                }
+                if (newMark == null) {
+                    marks.add(new MapMark());
+                } else {
+                    marks.add(newMark);
+                }
             }
-            marks.add(new MapMark(curr, true));
+            marks.add(new MapMark(curr));
             curr = curr - currStep;
         }
         MapAdapter adapter = new MapAdapter(context, inflater, marks);
         map.setAdapter(adapter);
         //setDistance(distBig, distSmall);
     }
-
-//    private void setDistance(JSONObject distBig, JSONObject distSmall) throws JSONException {
-//        List<Double> distance = new ArrayList<>();
-//        double curr = distBig.getDouble("top");
-//        double currBot = distBig.getDouble("bottom");
-//        double currStep = distBig.getDouble("step");
-//        while(curr >= currBot){
-//            distance.add(curr);
-//            curr = curr - currStep;
-//        }
-//        currBot = distSmall.getDouble("bottom");
-//        currStep = distSmall.getDouble("step");
-//        while(curr >= currBot){
-//            distance.add(curr);
-//            curr = curr - currStep;
-//        }
-//        DistanceAdapter adapter = new DistanceAdapter(context, distance);
-//        lvDistance.setAdapter(adapter);
-//
-//
-//
-////        lvDistance.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-////            @Override
-////            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-////                int top = lvDistance.getTop();
-////            }
-////        });
-//    }
 }

@@ -1,10 +1,12 @@
 package com.linaverde.fishingapp.services;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
@@ -47,9 +49,26 @@ public class MapAdapter extends BaseAdapter {
         View rowView;
         if (marks.get(position).isInfo()){
             rowView = inflater.inflate(R.layout.map_distance_item, parent, false);
-            ((TextView) rowView).setText(Double.toString(marks.get(position).getValue()));
+            ((TextView) rowView).setText(Double.toString(marks.get(position).getDistance()));
         } else {
             rowView = inflater.inflate(R.layout.map_grid_item, parent, false);
+            int rodId = marks.get(position).getRodId();
+            Log.d("rodId", Integer.toString(rodId));
+            switch (rodId){
+                case 1:
+                    ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_1));
+                    break;
+                case 2:
+                    ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_2));
+                    break;
+                case 3:
+                    ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_3));
+                    break;
+                case 4:
+                    ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_4));
+                    break;
+
+            }
         }
 
 
