@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
+
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.models.MapMark;
 
@@ -32,7 +34,7 @@ public class MapAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return position;
+        return marks.get(position);
     }
 
     @Override
@@ -42,8 +44,14 @@ public class MapAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        View rowView;
+        if (marks.get(position).isInfo()){
+            rowView = inflater.inflate(R.layout.map_distance_item, parent, false);
+            ((TextView) rowView).setText(Double.toString(marks.get(position).getValue()));
+        } else {
+            rowView = inflater.inflate(R.layout.map_grid_item, parent, false);
+        }
 
-        View rowView = inflater.inflate(R.layout.map_grid_item_small, parent, false);
 
         return rowView;
     }

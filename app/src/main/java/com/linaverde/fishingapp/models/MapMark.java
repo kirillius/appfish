@@ -2,21 +2,28 @@ package com.linaverde.fishingapp.models;
 
 public class MapMark {
 
-    private int value;
+    private double value;
+    private final boolean isInfo;
 
     public MapMark(){
         value = -1;
+        isInfo = false;
     }
 
-    public MapMark(int value){
+    public MapMark(double  value, boolean info){
         this.value = value;
+        this.isInfo = info;
     }
 
-    public int getValue() {
+    public double  getValue() {
         return value;
     }
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public boolean isInfo() {
+        return isInfo;
     }
 }

@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.services.MapHelper;
@@ -49,16 +51,21 @@ public class MapFragment extends Fragment {
 
     GridView gridView;
     LinearLayout llTableNames;
-    ListView listView;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         gridView = view.findViewById(R.id.grid_map);
         llTableNames = view.findViewById(R.id.ll_table_name);
-        listView = view.findViewById(R.id.lv_distance);
-        MapHelper mapHelper = new MapHelper(getContext(), getLayoutInflater(),gridView, llTableNames, listView, jsonObject);
+        MapHelper mapHelper = new MapHelper(getContext(), getLayoutInflater(),gridView, llTableNames, view.findViewById(R.id.ll_width), jsonObject);
+
+        try {
+            ((TextView) view.findViewById(R.id.ll_width_value)).setText(jsonObject.getString("width"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mapHelper.movePonton((ImageView) view.findViewById(R.id.iv_ponton));
 
         return view;
     }
