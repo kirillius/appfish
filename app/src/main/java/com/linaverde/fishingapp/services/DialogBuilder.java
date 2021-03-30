@@ -7,13 +7,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,7 +19,6 @@ import androidx.appcompat.app.AlertDialog;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.models.FishDictionaryItem;
-import com.linaverde.fishingapp.models.Violation;
 import com.linaverde.fishingapp.models.ViolationDictionaryItem;
 
 import org.json.JSONArray;
@@ -495,7 +491,7 @@ public class DialogBuilder {
         final String[] statuses = context.getResources().getStringArray(
                 R.array.register_status);
 
-        RegisterStatusAdapter adapter = new RegisterStatusAdapter(context, statuses, selected);
+        StringChooseAdapter adapter = new StringChooseAdapter(context, statuses, selected);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -510,13 +506,68 @@ public class DialogBuilder {
             @Override
             public void onClick(View v) {
                 int selected = adapter.getSelected();
-                if (selected == 0){
+                if (selected == 0) {
                     listener.onOk(Integer.toString(1));
-                } else if (selected == 1){
+                } else if (selected == 1) {
                     listener.onOk(Integer.toString(0));
                 } else {
                     listener.onOk(Integer.toString(selected));
                 }
+                dialog.dismiss();
+            }
+        });
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onCancel();
+                dialog.dismiss();
+            }
+        });
+
+        if (!((Activity) context).isFinishing()) {
+            dialog.show();
+        }
+
+    }
+
+    public static void createSelectRodOnMapDialog(Context context, LayoutInflater inflater, String text, int selected, final CompleteActionListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View viewDialog = inflater.inflate(R.layout.dialog_listview, null);
+        TextView tvText, tvOk, tvCancel;
+        ListView listView;
+        tvText = viewDialog.findViewById(R.id.tv_dialog);
+        tvOk = viewDialog.findViewById(R.id.tv_ok);
+        tvCancel = viewDialog.findViewById(R.id.tv_cancel);
+
+        listView = viewDialog.findViewById(R.id.lv_dialog);
+
+        if (text != null)
+            tvText.setText(text);
+
+        builder.setView(viewDialog);
+        final AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        final String[] statuses = context.getResources().getStringArray(
+                R.array.rods_nums);
+
+        StringChooseAdapter adapter = new StringChooseAdapter(context, statuses, selected);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                adapter.setSelected(position);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        tvOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (adapter.getSelected() >= 0)
+                    listener.onOk(Integer.toString(adapter.getSelected() + 1));
                 dialog.dismiss();
             }
         });

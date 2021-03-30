@@ -13,13 +13,13 @@ import androidx.annotation.Nullable;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.models.ViolationDictionaryItem;
 
-public class RegisterStatusAdapter extends ArrayAdapter<String> {
+public class StringChooseAdapter extends ArrayAdapter<String> {
 
     private Context context;
     private String[] dict;
     private int selected;
 
-    public RegisterStatusAdapter(Context context, String[] dict, int selected) {
+    public StringChooseAdapter(Context context, String[] dict, int selected) {
         super(context, R.layout.list_dialog_item, dict);
         this.context = context;
         this.dict = dict;

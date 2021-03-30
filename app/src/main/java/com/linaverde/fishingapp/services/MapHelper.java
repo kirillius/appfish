@@ -119,7 +119,7 @@ public class MapHelper {
             marks.add(new MapMark(curr));
             curr = curr - currStep;
         }
-        MapAdapter adapter = new MapAdapter(context, inflater, marks);
+        MapAdapter adapter = new MapAdapter(context, inflater, marks, mapDetail.getInt("cellHeight"),true);
         map.setAdapter(adapter);
         //setDistance(distBig, distSmall);
     }
