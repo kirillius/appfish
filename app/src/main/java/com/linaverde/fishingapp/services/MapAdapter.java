@@ -27,17 +27,20 @@ public class MapAdapter extends BaseAdapter {
 
     private List<MapMark> rodsMarks;
 
-    private boolean editable;
+    private final boolean editable;
 
-    private int cellHeight;
+    private final int cellHeight;
 
-    public MapAdapter(Context context, LayoutInflater inflater, List<MapMark> marks, int cellHeight, boolean editable) {
+    private final int editableRod;
+
+    public MapAdapter(Context context, LayoutInflater inflater, List<MapMark> marks, int cellHeight, int editableRod) {
         this.context = context;
         this.inflater = inflater;
         this.marks = marks;
-        this.editable = editable;
+        editable = editableRod > 0;
         rodsMarks = new ArrayList<>();
         this.cellHeight = cellHeight;
+        this.editableRod = editableRod;
     }
 
     @Override
@@ -64,7 +67,6 @@ public class MapAdapter extends BaseAdapter {
         } else {
             rowView = inflater.inflate(R.layout.map_grid_item, parent, false);
             int rodId = marks.get(position).getRodId();
-            Log.d("rodId", Integer.toString(rodId));
             switch (rodId) {
                 case 1:
                     ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_1));
@@ -88,33 +90,45 @@ public class MapAdapter extends BaseAdapter {
                 rowView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int selected;
-                        if (rodId == 0){
-                            selected = -1;
-                        } else {
-                            selected = rodId-1;
+                        for (int i = 0; i < rodsMarks.size(); i++) {
+                            if (rodsMarks.get(i).getRodId() == editableRod) {
+                                rodsMarks.get(i).setRodId(0);
+                                rodsMarks.remove(i);
+                                break;
+                            }
                         }
-                        DialogBuilder.createSelectRodOnMapDialog(context, inflater, "Выберите удочку", selected, new CompleteActionListener() {
-                            @Override
-                            public void onOk(String input) {
-                                Log.d("New mark", input);
-                                for(int i = 0; i < rodsMarks.size(); i++){
-                                    if (rodsMarks.get(i).getRodId() == Integer.parseInt(input)){
-                                        rodsMarks.get(i).setRodId(0);
-                                        rodsMarks.remove(i);
-                                        rodsMarks.add(marks.get(position));
-                                        break;
-                                    }
-                                }
-                                marks.get(position).setRodId(Integer.parseInt(input));
-                                MapAdapter.this.notifyDataSetChanged();
-                            }
+                        rodsMarks.add(marks.get(position));
+                        marks.get(position).setRodId(editableRod);
+                        MapAdapter.this.notifyDataSetChanged();
+//                        int selected;
+//                        if (rodId == 0){
+//                            selected = -1;
+//                        } else {
+//                            selected = rodId-1;
+//                        }
+//                        DialogBuilder.createSelectRodOnMapDialog(context, inflater, "Выберите удочку", selected, new CompleteActionListener() {
+//                            @Override
+//                            public void onOk(String input) {
+//                                Log.d("New mark", input);
+//                                for(int i = 0; i < rodsMarks.size(); i++){
+//                                    if (rodsMarks.get(i).getRodId() == Integer.parseInt(input)){
+//                                        rodsMarks.get(i).setRodId(0);
+//                                        rodsMarks.remove(i);
+//                                        rodsMarks.add(marks.get(position));
+//                                        break;
+//                                    }
+//                                }
+//                                marks.get(position).setRodId(Integer.parseInt(input));
+//                                MapAdapter.this.notifyDataSetChanged();
+//                            }
+//
+//                            @Override
+//                            public void onCancel() {
+//
+//                            }
+//                        });
 
-                            @Override
-                            public void onCancel() {
 
-                            }
-                        });
                     }
                 });
             }
@@ -124,5 +138,9 @@ public class MapAdapter extends BaseAdapter {
         rowView.requestLayout();
 
         return rowView;
+    }
+
+    public List<MapMark> getRodsMarks() {
+        return rodsMarks;
     }
 }

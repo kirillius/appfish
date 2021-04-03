@@ -20,6 +20,7 @@ import com.linaverde.fishingapp.fragments.TimeFragment;
 import com.linaverde.fishingapp.fragments.TopMapFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.interfaces.RequestListener;
+import com.linaverde.fishingapp.interfaces.RodPositionChangedListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
 import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.NavigationHelper;
@@ -27,10 +28,11 @@ import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
 import com.linaverde.fishingapp.services.UserInfo;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MapActivity extends AppCompatActivity implements TopMenuEventListener {
+public class MapActivity extends AppCompatActivity implements TopMenuEventListener, RodPositionChangedListener {
 
     ContentLoadingProgressBar progressBar;
     DrawerLayout drawer;
@@ -74,7 +76,8 @@ public class MapActivity extends AppCompatActivity implements TopMenuEventListen
                     if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
                         TopMapFragment TopFragment = TopMapFragment.newInstance(Integer.toString(json.getInt("sector")));
                         TimeFragment timeFragment = new TimeFragment();
-                        MapFragment mapFragment = MapFragment.newInstance(json.toString());
+                        String rods = json.getJSONArray("rods").toString();
+                        MapFragment mapFragment = MapFragment.newInstance(json.toString(), rods, -1);
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.add(R.id.top_menu_fragment, TopFragment);
@@ -128,4 +131,8 @@ public class MapActivity extends AppCompatActivity implements TopMenuEventListen
         ProtocolHelper.getProtocol(this, matchId, progressBar);
     }
 
+    @Override
+    public void rodPositionChanged(int rodId, String landmark, double distance) {
+        //эта активность используется только для просмотра
+    }
 }

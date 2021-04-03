@@ -13,8 +13,10 @@ import androidx.core.widget.ContentLoadingProgressBar;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
+import com.linaverde.fishingapp.interfaces.RodPositionChangedListener;
 import com.linaverde.fishingapp.interfaces.RodsSettingsChangeListener;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,14 +29,43 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
     RodsSettingsChangeListener changeListener;
     ContentLoadingProgressBar progressBar;
     LayoutInflater inflater;
+    RodPositionChangedListener positionChangedListener;
+    JSONObject landmarkObj;
+    JSONObject distanceObj;
+    JSONArray rodsPositions;
+    UserInfo userInfo;
+    int rodId;
+    JSONObject mapJson;
 
     public RodsSettingsListAdapter(Context context, List<JSONObject> values,
-                                   ContentLoadingProgressBar progressBar, RodsSettingsChangeListener changeListener) {
+                                   ContentLoadingProgressBar progressBar, int rodId, RodsSettingsChangeListener changeListener) {
         super(context, R.layout.rods_settings_list_item, values);
         this.context = context;
         this.values = values;
         this.changeListener = changeListener;
         this.progressBar = progressBar;
+        this.rodId = rodId;
+        userInfo = new UserInfo(context);
+
+        RequestHelper requestHelper = new RequestHelper(getContext());
+        progressBar.show();
+        requestHelper.executeGet("map", new String[]{"match", "team"}, new String[]{userInfo.getMatchId(), userInfo.getTeamId()}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                try {
+                    rodsPositions = json.getJSONArray("rods");
+                    mapJson = json;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                progressBar.hide();
+            }
+
+            @Override
+            public void onError(int responseCode) {
+
+            }
+        });
     }
 
     @Override
@@ -55,6 +86,10 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
         try {
             JSONObject object = values.get(position);
             paramId = object.getJSONObject("param").getString("id");
+            if (paramId.equals("LANDMARK"))
+                landmarkObj = object;
+            if (paramId.equals("DISTANCE"))
+                distanceObj = object;
             tvName.setText(object.getJSONObject("param").getString("name"));
             Object value = object.get("value");
             if (value.getClass() == JSONObject.class) {
@@ -71,6 +106,7 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
                 @Override
                 public void onClick(View v) {
                     String type = null;
+                    String id = null;
                     CompleteActionListener listener = new CompleteActionListener() {
                         @Override
                         public void onOk(String input) {
@@ -97,20 +133,42 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
 
                         }
                     };
+
                     try {
                         type = object.getJSONObject("param").getString("type");
-                        switch (type) {
-                            case "number":
-                                DialogBuilder.createInputNumberDialog(getContext(), inflater,
-                                        "Введите числовое значение", false, listener);
-                                break;
-                            case "string":
-                                DialogBuilder.createInputStringDialog(getContext(), inflater,
-                                        "Введите значение", listener);
-                                break;
-                            case "object":
-                                createTypeSelect(finalParamId, finalValueId, tvName, listener);
-                                break;
+                        id = object.getJSONObject("param").getString("id");
+                        if (id.equals("DISTANCE") || id.equals("LANDMARK")) {
+                            RodPositionChangedListener positionListener = new RodPositionChangedListener() {
+                                @Override
+                                public void rodPositionChanged(int rodId, String landmark, double distance) {
+                                    try {
+                                        distanceObj.remove("value");
+                                        distanceObj.put("value",  Double.toString(distance));
+                                        landmarkObj.remove("value");
+                                        landmarkObj.put("value", landmark);
+                                        changeListener.paramChanged("LANDMARK", landmark);
+                                        changeListener.paramChanged("DISTANCE", Double.toString(distance));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            };
+                            Log.d("Rodid to map", Integer.toString(rodId));
+                            changeListener.openMap(positionListener);
+                        } else {
+                            switch (type) {
+                                case "number":
+                                    DialogBuilder.createInputNumberDialog(getContext(), inflater,
+                                            "Введите числовое значение", false, listener);
+                                    break;
+                                case "string":
+                                    DialogBuilder.createInputStringDialog(getContext(), inflater,
+                                            "Введите значение", listener);
+                                    break;
+                                case "object":
+                                    createTypeSelect(finalParamId, finalValueId, tvName, listener);
+                                    break;
+                            }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -124,6 +182,7 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
 
         return rowView;
     }
+
 
     private void createTypeSelect(String paramId, String valueId, TextView tvName, CompleteActionListener listener) {
         RodsSettingsStorage storage = new RodsSettingsStorage(context);
@@ -150,5 +209,13 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
                         }
                     });
         }
+    }
+
+    public JSONObject getRodPositionJson() throws JSONException {
+        JSONObject rod = new JSONObject();
+        rod.put("id", rodId);
+        rod.put("landmark", landmarkObj.getString("value"));
+        rod.put("distance", distanceObj.getString("value"));
+        return rod;
     }
 }

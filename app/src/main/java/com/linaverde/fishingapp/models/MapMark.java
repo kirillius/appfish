@@ -7,24 +7,26 @@ public class MapMark {
     private String landmark;
     private boolean isInfo;
 
-    public MapMark(){
-        distance = -1;
-        isInfo = false;
-        landmark = null;
-        rodId = 0;
-    }
 
-    public MapMark(double distance){
+    public MapMark(double distance) {
         this.distance = distance;
         this.isInfo = true;
-        landmark = null;
-        rodId = 0;
+        this.landmark = null;
+        this.rodId = 0;
     }
 
-    public MapMark(double distance, int rodId, String landmark){
+    public MapMark(String landmark, double distance) {
+        this.distance = distance;
+        this.isInfo = false;
+        this.landmark = landmark;
+        this.rodId = 0;
+    }
+
+    public MapMark(double distance, int rodId, String landmark) {
         this.distance = distance;
         this.rodId = rodId;
         this.landmark = landmark;
+        this.isInfo = false;
     }
 
     public double getDistance() {

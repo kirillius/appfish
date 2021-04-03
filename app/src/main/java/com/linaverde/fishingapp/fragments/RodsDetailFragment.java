@@ -18,10 +18,13 @@ import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
+import com.linaverde.fishingapp.interfaces.RequestListener;
+import com.linaverde.fishingapp.interfaces.RodPositionChangedListener;
 import com.linaverde.fishingapp.interfaces.RodsSettingsChangeListener;
 import com.linaverde.fishingapp.interfaces.RodsSettingsListener;
 import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.services.DialogBuilder;
+import com.linaverde.fishingapp.services.RequestHelper;
 import com.linaverde.fishingapp.services.RodsSettingsListAdapter;
 import com.linaverde.fishingapp.services.UserInfo;
 
@@ -48,6 +51,9 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
     RodsSettingsChangeListener rodsSettingsChangeListener;
     RodsSettingsListener listener;
     private ContentLoadingProgressBar progressBar;
+    MapFragment mapFragment = null;
+    UserInfo userInfo;
+    JSONArray rodsPositions = null;
 
     public RodsDetailFragment() {
         // Required empty public constructor
@@ -60,6 +66,20 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
         args.putString(TYPE, type);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void changeRodPosition(JSONObject rodObj) {
+        try {
+            for (int i = 0; i < rodsPositions.length(); i++) {
+                if (rodsPositions.getJSONObject(i).getInt("id") == rodObj.getInt("id")) {
+                    rodsPositions.remove(i);
+                    rodsPositions.put(rodObj);
+                    break;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -84,7 +104,7 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rods_detail, container, false);
 
-        UserInfo userInfo = new UserInfo(getContext());
+        userInfo = new UserInfo(getContext());
         ((TextView) view.findViewById(R.id.tv_team_name)).setText(userInfo.getCaption());
         buttons = view.findViewById(R.id.ll_buttons);
         progressBar = view.findViewById(R.id.progress_bar);
@@ -96,6 +116,7 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
 
         try {
             rodId = settings.getJSONArray("rods").getJSONObject(0).getInt("rodId");
+
             switch (rodId) {
                 case 2:
                     ((ImageView) view.findViewById(R.id.iv_rod_icon)).setImageDrawable(getContext().getDrawable(R.drawable.rod_2_icon));
@@ -107,6 +128,8 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                     ((ImageView) view.findViewById(R.id.iv_rod_icon)).setImageDrawable(getContext().getDrawable(R.drawable.rod_4_icon));
                     break;
             }
+
+
             Log.d("RodId", Integer.toString(rodId));
             JSONArray array = settings.getJSONArray("rods").getJSONObject(0).getJSONArray("settings");
             for (int i = 0; i < array.length(); i++) {
@@ -119,8 +142,8 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                 }
             }
 
-            adapter1 = new RodsSettingsListAdapter(getContext(), section1, progressBar, this);
-            adapter2 = new RodsSettingsListAdapter(getContext(), section2, progressBar, this);
+            adapter1 = new RodsSettingsListAdapter(getContext(), section1, progressBar, rodId,this);
+            adapter2 = new RodsSettingsListAdapter(getContext(), section2, progressBar, rodId, this);
 
             ((ListView) view.findViewById(R.id.list_rods_settings_1)).setAdapter(adapter1);
             ((ListView) view.findViewById(R.id.list_rods_settings_2)).setAdapter(adapter2);
@@ -238,6 +261,10 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        if (newParams.length() != 0) {
+            buttons.setVisibility(View.VISIBLE);
+        }
         return view;
     }
 
@@ -265,6 +292,41 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
         adapter2.notifyDataSetChanged();
         if (newParams.length() != 0) {
             buttons.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void openMap(RodPositionChangedListener positionChangedListener) {
+        if (mapFragment == null) {
+            progressBar.show();
+            RequestHelper requestHelper = new RequestHelper(getContext());
+            requestHelper.executeGet("map", new String[]{"match", "team"}, new String[]{userInfo.getMatchId(), userInfo.getTeamId()}, new RequestListener() {
+                @Override
+                public void onComplete(JSONObject json) {
+                    try {
+                        rodsPositions = json.getJSONArray("rods");
+                        mapFragment = MapFragment.newInstance(json.toString(), rodsPositions.toString(), rodId);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    progressBar.hide();
+                    listener.openMapFragment(mapFragment, positionChangedListener);
+                }
+
+                @Override
+                public void onError(int responseCode) {
+
+                }
+            });
+        } else {
+            try {
+                rodsPositions = mapFragment.getRodsPositions();
+                changeRodPosition(adapter1.getRodPositionJson());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            mapFragment.setRodsPositions(rodsPositions);
+            listener.openMapFragment(mapFragment, positionChangedListener);
         }
     }
 
