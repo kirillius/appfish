@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.interfaces.MapRodClickedListener;
 import com.linaverde.fishingapp.models.MapMark;
 
 import org.json.JSONArray;
@@ -34,9 +35,11 @@ public class MapHelper {
     JSONArray landmark;
     JSONArray rods;
     int editableRod;
+    MapRodClickedListener listener;
 
 
-    public MapHelper(Context context, LayoutInflater inflater, GridView map, LinearLayout llMarks, LinearLayout arrow, JSONObject mapDetail, JSONArray rods, int editableRod) {
+    public MapHelper(Context context, LayoutInflater inflater, GridView map, LinearLayout llMarks,
+                     LinearLayout arrow, JSONObject mapDetail, JSONArray rods, int editableRod, MapRodClickedListener listener) {
         this.context = context;
         this.map = map;
         this.llMarks = llMarks;
@@ -44,6 +47,7 @@ public class MapHelper {
         this.inflater = inflater;
         this.editableRod = editableRod;
         this.rods = rods;
+        this.listener = listener;
         try {
             landmark = mapDetail.getJSONArray("landmark");
             setLandmarks(arrow);
@@ -125,11 +129,8 @@ public class MapHelper {
             marks.add(new MapMark(curr));
             curr = curr - currStep;
         }
-        if (editableRod > 0)
-            adapter = new MapAdapter(context, inflater, marks, mapDetail.getInt("cellHeight"), editableRod);
-        else {
-            adapter = new MapAdapter(context, inflater, marks, mapDetail.getInt("cellHeight"), editableRod);
-        }
+
+        adapter = new MapAdapter(context, inflater, marks, mapDetail.getInt("cellHeight"), editableRod, listener);
         map.setAdapter(adapter);
         //setDistance(distBig, distSmall);
     }

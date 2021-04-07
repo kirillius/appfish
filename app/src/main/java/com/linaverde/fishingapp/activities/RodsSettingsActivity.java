@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -14,7 +13,6 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
-import com.linaverde.fishingapp.fragments.DrawQueueFragment;
 import com.linaverde.fishingapp.fragments.MapFragment;
 import com.linaverde.fishingapp.fragments.RodTopFragment;
 import com.linaverde.fishingapp.fragments.RodsDetailFragment;
@@ -22,7 +20,6 @@ import com.linaverde.fishingapp.fragments.RodsMainFragment;
 import com.linaverde.fishingapp.fragments.TimeFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
-import com.linaverde.fishingapp.interfaces.IOnBackPressed;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.RodPositionChangedListener;
 import com.linaverde.fishingapp.interfaces.RodsSettingsListener;
@@ -33,7 +30,6 @@ import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
 import com.linaverde.fishingapp.services.UserInfo;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEventListener, RodsSettingsListener, RodPositionChangedListener {
@@ -48,6 +44,8 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
     boolean spod = true;
     boolean needUpdate = false;
     RodsDetailFragment currentDetailedFragment;
+    String rodType;
+    boolean mainFirst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,14 +80,31 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
 
         Bundle b = getIntent().getExtras();
 
-        if (!b.isEmpty())
+        if (b != null) {
             spod = b.getBoolean("spod");
+        } else {
+            spod = true;
+        }
 
-        progressBar.show();
-        setMainFragment();
+        if (spod) {
+            rodType = "spod";
+        } else {
+            rodType = "carp";
+        }
+
+        if (b != null && b.containsKey("rodId")) {
+            mainFirst = false;
+            int rodId = b.getInt("rodId");
+            rodsDetailedReqired(rodType, rodId);
+        } else {
+            mainFirst = true;
+            setMainFragment();
+        }
+
     }
 
     public void setMainFragment() {
+        progressBar.show();
         RequestListener listener = new RequestListener() {
             @Override
             public void onComplete(JSONObject json) {
@@ -107,14 +122,8 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
             }
         };
 
-
-        if (spod) {
-            requestHelper.executeGet("rods", new String[]{"team", "rodType", "allParams"},
-                    new String[]{userInfo.getTeamId(), "spod", "false"}, listener);
-        } else {
-            requestHelper.executeGet("rods", new String[]{"team", "rodType", "allParams"},
-                    new String[]{userInfo.getTeamId(), "carp", "false"}, listener);
-        }
+        requestHelper.executeGet("rods", new String[]{"team", "rodType", "allParams"},
+                new String[]{userInfo.getTeamId(), rodType, "false"}, listener);
     }
 
     @Override
@@ -130,7 +139,8 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, currentDetailedFragment);
                         fragmentTransaction.replace(R.id.top_menu_fragment, new RodTopFragment());
-                        fragmentTransaction.addToBackStack("RodsMain");
+                        if (mainFirst)
+                            fragmentTransaction.addToBackStack("RodsMain");
                         if (!fragmentManager.isDestroyed())
                             fragmentTransaction.commit();
                         progressBar.hide();
@@ -156,7 +166,8 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, currentDetailedFragment);
                         fragmentTransaction.replace(R.id.top_menu_fragment, new RodTopFragment());
-                        fragmentTransaction.addToBackStack("RodsMain");
+                        if (mainFirst)
+                            fragmentTransaction.addToBackStack("RodsMain");
                         if (!fragmentManager.isDestroyed())
                             fragmentTransaction.commit();
                         progressBar.hide();
@@ -176,9 +187,13 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
                 newParams, new RequestListener() {
                     @Override
                     public void onComplete(JSONObject json) {
-                        //updateDetailedFragment(rodType, rodID);
                         fragmentManager.popBackStack();
-                        setMainFragment();
+                        progressBar.hide();
+                        if (mainFirst) {
+                            setMainFragment();
+                        } else {
+                            updateDetailedFragment(rodType, rodID);
+                        }
                     }
 
                     @Override
@@ -202,7 +217,7 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
 
     @Override
     public void openMapFragment(MapFragment MapFragment, RodPositionChangedListener listener) {
-        MapFragment.setListener(listener);
+        MapFragment.setPositionChangedListener(listener);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.replace(R.id.content_fragment, MapFragment);

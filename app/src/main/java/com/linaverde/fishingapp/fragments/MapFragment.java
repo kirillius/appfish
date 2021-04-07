@@ -12,13 +12,12 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.interfaces.MapRodClickedListener;
 import com.linaverde.fishingapp.interfaces.RodPositionChangedListener;
-import com.linaverde.fishingapp.interfaces.RodsSettingsListener;
 import com.linaverde.fishingapp.services.MapHelper;
 
 import org.json.JSONArray;
@@ -35,7 +34,8 @@ public class MapFragment extends Fragment {
     private JSONArray rods;
     private int editableRod;
 
-    RodPositionChangedListener listener = null;
+    RodPositionChangedListener positionChangedListener = null;
+    MapRodClickedListener mapRodClickedListener = null;
 
     public MapFragment() {
         // Required empty public constructor
@@ -79,8 +79,8 @@ public class MapFragment extends Fragment {
         return rods;
     }
 
-    public void setListener(RodPositionChangedListener listener) {
-        this.listener = listener;
+    public void setPositionChangedListener(RodPositionChangedListener positionChangedListener) {
+        this.positionChangedListener = positionChangedListener;
     }
 
     @Override
@@ -95,7 +95,8 @@ public class MapFragment extends Fragment {
             llButtons.setVisibility(View.VISIBLE);
         }
 
-        MapHelper mapHelper = new MapHelper(getContext(), getLayoutInflater(), gridView, llTableNames, view.findViewById(R.id.ll_width), jsonObject, rods, editableRod);
+        MapHelper mapHelper = new MapHelper(getContext(), getLayoutInflater(), gridView, llTableNames,
+                view.findViewById(R.id.ll_width), jsonObject, rods, editableRod, mapRodClickedListener);
         try {
             ((TextView) view.findViewById(R.id.ll_width_value)).setText(jsonObject.getString("width"));
         } catch (JSONException e) {
@@ -113,8 +114,8 @@ public class MapFragment extends Fragment {
                 Log.d("editable rod", Integer.toString(editableRod));
                 Log.d("new landmark", mapHelper.getLandmark(editableRod));
                 Log.d("new distance", Double.toString(mapHelper.getDistance(editableRod)));
-                if (listener != null) {
-                    listener.rodPositionChanged(editableRod, mapHelper.getLandmark(editableRod), mapHelper.getDistance(editableRod));
+                if (positionChangedListener != null) {
+                    positionChangedListener.rodPositionChanged(editableRod, mapHelper.getLandmark(editableRod), mapHelper.getDistance(editableRod));
                     getActivity().onBackPressed();
                 }
             }
@@ -128,6 +129,24 @@ public class MapFragment extends Fragment {
         });
 
         return view;
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof MapRodClickedListener) {
+            //init the listener
+            mapRodClickedListener = (MapRodClickedListener) context;
+        } else {
+            mapRodClickedListener = null;
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        positionChangedListener = null;
     }
 
 }

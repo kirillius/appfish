@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -19,6 +20,7 @@ import com.linaverde.fishingapp.fragments.RodsFragment;
 import com.linaverde.fishingapp.fragments.TimeFragment;
 import com.linaverde.fishingapp.fragments.TopMapFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
+import com.linaverde.fishingapp.interfaces.MapRodClickedListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.RodPositionChangedListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
@@ -32,7 +34,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MapActivity extends AppCompatActivity implements TopMenuEventListener, RodPositionChangedListener {
+public class MapActivity extends AppCompatActivity implements TopMenuEventListener, RodPositionChangedListener,
+        MapRodClickedListener {
 
     ContentLoadingProgressBar progressBar;
     DrawerLayout drawer;
@@ -135,4 +138,15 @@ public class MapActivity extends AppCompatActivity implements TopMenuEventListen
     public void rodPositionChanged(int rodId, String landmark, double distance) {
         //эта активность используется только для просмотра
     }
+
+    @Override
+    public void openSettingsList(int rodId) {
+        Intent intent = new Intent(MapActivity.this, RodsSettingsActivity.class);
+        Bundle args = new Bundle();
+        args.putBoolean("spod", false);
+        args.putInt("rodId", rodId);
+        intent.putExtras(args);
+        startActivity(intent);
+    }
+
 }

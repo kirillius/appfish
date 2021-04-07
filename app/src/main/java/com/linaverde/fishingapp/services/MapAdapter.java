@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
+import com.linaverde.fishingapp.interfaces.MapRodClickedListener;
 import com.linaverde.fishingapp.models.MapMark;
 
 import java.util.ArrayList;
@@ -32,8 +33,10 @@ public class MapAdapter extends BaseAdapter {
     private final int cellHeight;
 
     private final int editableRod;
+    MapRodClickedListener listener;
 
-    public MapAdapter(Context context, LayoutInflater inflater, List<MapMark> marks, int cellHeight, int editableRod) {
+    public MapAdapter(Context context, LayoutInflater inflater, List<MapMark> marks, int cellHeight, int editableRod,
+                      MapRodClickedListener listener) {
         this.context = context;
         this.inflater = inflater;
         this.marks = marks;
@@ -41,6 +44,7 @@ public class MapAdapter extends BaseAdapter {
         rodsMarks = new ArrayList<>();
         this.cellHeight = cellHeight;
         this.editableRod = editableRod;
+        this.listener = listener;
     }
 
     @Override
@@ -90,47 +94,29 @@ public class MapAdapter extends BaseAdapter {
                 rowView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        for (int i = 0; i < rodsMarks.size(); i++) {
-                            if (rodsMarks.get(i).getRodId() == editableRod) {
-                                rodsMarks.get(i).setRodId(0);
-                                rodsMarks.remove(i);
-                                break;
+                        if (rodId <= 0) {
+                            for (int i = 0; i < rodsMarks.size(); i++) {
+                                if (rodsMarks.get(i).getRodId() == editableRod) {
+                                    rodsMarks.get(i).setRodId(0);
+                                    rodsMarks.remove(i);
+                                    break;
+                                }
                             }
+                            rodsMarks.add(marks.get(position));
+                            marks.get(position).setRodId(editableRod);
+                            MapAdapter.this.notifyDataSetChanged();
                         }
-                        rodsMarks.add(marks.get(position));
-                        marks.get(position).setRodId(editableRod);
-                        MapAdapter.this.notifyDataSetChanged();
-//                        int selected;
-//                        if (rodId == 0){
-//                            selected = -1;
-//                        } else {
-//                            selected = rodId-1;
-//                        }
-//                        DialogBuilder.createSelectRodOnMapDialog(context, inflater, "Выберите удочку", selected, new CompleteActionListener() {
-//                            @Override
-//                            public void onOk(String input) {
-//                                Log.d("New mark", input);
-//                                for(int i = 0; i < rodsMarks.size(); i++){
-//                                    if (rodsMarks.get(i).getRodId() == Integer.parseInt(input)){
-//                                        rodsMarks.get(i).setRodId(0);
-//                                        rodsMarks.remove(i);
-//                                        rodsMarks.add(marks.get(position));
-//                                        break;
-//                                    }
-//                                }
-//                                marks.get(position).setRodId(Integer.parseInt(input));
-//                                MapAdapter.this.notifyDataSetChanged();
-//                            }
-//
-//                            @Override
-//                            public void onCancel() {
-//
-//                            }
-//                        });
-
-
                     }
                 });
+            } else {
+                if (rodId > 0 && listener != null) {
+                    rowView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            listener.openSettingsList(rodId);
+                        }
+                    });
+                }
             }
         }
         int dimensionInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cellHeight, context.getResources().getDisplayMetrics());
