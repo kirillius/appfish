@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.activities.MapActivity;
+import com.linaverde.fishingapp.activities.RecordActivity;
 import com.linaverde.fishingapp.activities.RodsSettingsActivity;
 import com.linaverde.fishingapp.activities.StatisticActivity;
 import com.linaverde.fishingapp.services.UserInfo;
@@ -36,7 +37,7 @@ public class TournamentUserFragment extends Fragment {
 
     TextView tvTournamentName;
     UserInfo userInfo;
-    RelativeLayout rlOnlineProtocol, rlMap, rlRodsWork, rlRodsSpod;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,10 +49,13 @@ public class TournamentUserFragment extends Fragment {
         tvTournamentName = view.findViewById(R.id.tv_tournament_name);
         tvTournamentName.setText(userInfo.getMatchName());
 
+        RelativeLayout rlOnlineProtocol, rlMap, rlRodsWork, rlRodsSpod, rlRecord;
+
         rlOnlineProtocol = view.findViewById(R.id.list_online_protocol);
         rlMap = view.findViewById(R.id.list_map_sector);
         rlRodsWork = view.findViewById(R.id.list_work_rods);
         rlRodsSpod = view.findViewById(R.id.list_spod_rods);
+        rlRecord = view.findViewById(R.id.button_record);
 
         rlOnlineProtocol.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +100,14 @@ public class TournamentUserFragment extends Fragment {
                 args.putString("matchId", userInfo.getMatchId());
                 args.putString("teamId", userInfo.getTeamId());
                 intent.putExtras(args);
+                startActivity(intent);
+            }
+        });
+
+        rlRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RecordActivity.class);
                 startActivity(intent);
             }
         });

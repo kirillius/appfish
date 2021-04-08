@@ -36,15 +36,17 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
     UserInfo userInfo;
     int rodId;
     JSONObject mapJson;
+    String rodType;
 
     public RodsSettingsListAdapter(Context context, List<JSONObject> values,
-                                   ContentLoadingProgressBar progressBar, int rodId, RodsSettingsChangeListener changeListener) {
+                                   ContentLoadingProgressBar progressBar, int rodId, String rodType, RodsSettingsChangeListener changeListener) {
         super(context, R.layout.rods_settings_list_item, values);
         this.context = context;
         this.values = values;
         this.changeListener = changeListener;
         this.progressBar = progressBar;
         this.rodId = rodId;
+        this.rodType = rodType;
         userInfo = new UserInfo(context);
 
         RequestHelper requestHelper = new RequestHelper(getContext());
@@ -189,8 +191,8 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
         if (storage.getParams(paramId) == null) {
             RequestHelper requestHelper = new RequestHelper(context);
             progressBar.show();
-            requestHelper.executeGet("rodparams", new String[]{"params"},
-                    new String[]{paramId}, new RequestListener() {
+            requestHelper.executeGet("rodparams", new String[]{"params", "rodType"},
+                    new String[]{paramId, rodType}, new RequestListener() {
                         @Override
                         public void onComplete(JSONObject json) {
                             progressBar.hide();

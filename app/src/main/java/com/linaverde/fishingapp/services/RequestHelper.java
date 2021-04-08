@@ -73,9 +73,9 @@ public class RequestHelper {
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 Log.d("Request", "links request error with code " + statusCode);
-                if (errorResponse != null) {
-                    String res = new String(errorResponse, StandardCharsets.UTF_8);
-                }
+//                if (errorResponse != null) {
+//                    String res = new String(errorResponse, StandardCharsets.UTF_8);
+//                }
                 listener.onError(statusCode);
             }
 
@@ -112,9 +112,9 @@ public class RequestHelper {
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 Log.d("Request", "docs request error with code " + statusCode);
-                if (errorResponse.length > 0) {
-                    String res = new String(errorResponse, StandardCharsets.UTF_8);
-                }
+//                if (errorResponse.length > 0) {
+//                    String res = new String(errorResponse, StandardCharsets.UTF_8);
+//                }
                 ((Activity) context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 listener.onError(statusCode);
             }
@@ -156,7 +156,7 @@ public class RequestHelper {
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 Log.d("Request", method + " request error with code " + statusCode);
-                Log.d("Request", method + " post request failed with error " + new String(errorResponse, StandardCharsets.UTF_8));
+                //Log.d("Request", method + " post request failed with error " + new String(errorResponse, StandardCharsets.UTF_8));
                 ((Activity) context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 listener.onError(statusCode);
             }
@@ -219,7 +219,7 @@ public class RequestHelper {
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 Log.d("Request", method + " post request failed with code " + statusCode);
-                Log.d("Request", method + " post request failed with error " + new String(errorResponse, StandardCharsets.UTF_8));
+                //Log.d("Request", method + " post request failed with error " + new String(errorResponse, StandardCharsets.UTF_8));
                 ((Activity) context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 listener.onError(statusCode);
             }
@@ -250,10 +250,10 @@ public class RequestHelper {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.d("Request", "weather get request failed with code " + statusCode);
-                if (responseBody.length > 0) {
-                    String res = new String(responseBody, StandardCharsets.UTF_8);
-                    Log.d("Request", "weather error " + res);
-                }
+//                if (responseBody.length > 0) {
+//                    String res = new String(responseBody, StandardCharsets.UTF_8);
+//                    Log.d("Request", "weather error " + res);
+//                }
             }
         });
     }

@@ -6,8 +6,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@null">
+        android:layout_height="0dp"
+        android:background="@null"
+        android:layout_weight="2">
 
         <View
             android:layout_width="match_parent"
@@ -16,17 +17,11 @@
             android:background="@drawable/dark_gradient" />
 
         <View
-            android:layout_above="@id/bottom"
             android:layout_width="match_parent"
             android:layout_height="76dp"
-            android:background="@drawable/light_gradient" />
-
-        <View
-            android:id="@+id/bottom"
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:background="@drawable/dark_gradient"
+            android:background="@drawable/light_gradient"
             android:layout_alignParentBottom="true"/>
+
 
         <TextView
             android:id="@+id/tv_tournament_name"
@@ -214,6 +209,51 @@
         </LinearLayout>
 
     </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:layout_width="match_parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:background="@drawable/dark_gradient"
+            android:layout_alignParentTop="true"/>
+
+        <RelativeLayout
+            android:id="@+id/button_record"
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:layout_marginStart="@dimen/se_margin"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="@dimen/se_margin"
+            android:background="@drawable/button_dark"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="64dp"
+                android:text="@string/fishing_record"
+                android:textAppearance="@style/Roboto"
+                android:textSize="30sp" />
+
+            <ImageView
+                android:layout_width="17dp"
+                android:layout_height="26dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="21dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/arrow_right" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
 
 
 </LinearLayout>

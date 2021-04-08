@@ -13,8 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
+import com.linaverde.fishingapp.services.RequestHelper;
 import com.linaverde.fishingapp.services.UserInfo;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class TopMenuFragment extends Fragment {
@@ -23,17 +28,20 @@ public class TopMenuFragment extends Fragment {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String USER = "param";
+    private static final String SECTOR = "sector";
 
     private boolean user;
+    private boolean sector;
 
     public TopMenuFragment() {
         // Required empty public constructor
     }
 
-    public static TopMenuFragment newInstance(boolean user) {
+    public static TopMenuFragment newInstance(boolean user, boolean sector) {
         TopMenuFragment fragment = new TopMenuFragment();
         Bundle args = new Bundle();
         args.putBoolean(USER, user);
+        args.putBoolean(SECTOR, sector);
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,6 +50,7 @@ public class TopMenuFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            sector = getArguments().getBoolean(SECTOR);
             user = getArguments().getBoolean(USER);
         }
     }
@@ -76,9 +85,30 @@ public class TopMenuFragment extends Fragment {
             }
             tvUserCaption.setText(userInfo.getCaption());
         } else {
-            tvUsername.setText(R.string.tournament);
             tvUserCaption.setVisibility(View.GONE);
             view.findViewById(R.id.iv_user_icon).setVisibility(View.GONE);
+            if (sector) {
+                tvUsername.setText("Cектор" );
+                UserInfo userInfo = new UserInfo(getContext());
+                RequestHelper requestHelper = new RequestHelper(getContext());
+                requestHelper.executeGet("map", new String[]{"match", "team"}, new String[]{userInfo.getMatchId(), userInfo.getTeamId()}, new RequestListener() {
+                    @Override
+                    public void onComplete(JSONObject json) {
+                        try {
+                            tvUsername.setText("Cектор " + json.getString("sector"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(int responseCode) {
+
+                    }
+                });
+            } else {
+                tvUsername.setText(R.string.tournament);
+            }
         }
 
         menu = view.findViewById(R.id.top_menu);

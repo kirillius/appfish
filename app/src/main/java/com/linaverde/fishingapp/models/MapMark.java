@@ -4,8 +4,10 @@ public class MapMark {
 
     private double distance;
     private int rodId;
+    private int spodId;
     private String landmark;
     private boolean isInfo;
+
 
 
     public MapMark(double distance) {
@@ -13,6 +15,7 @@ public class MapMark {
         this.isInfo = true;
         this.landmark = null;
         this.rodId = 0;
+        this.spodId = 0;
     }
 
     public MapMark(String landmark, double distance) {
@@ -20,6 +23,7 @@ public class MapMark {
         this.isInfo = false;
         this.landmark = landmark;
         this.rodId = 0;
+        this.spodId = 0;
     }
 
     public MapMark(double distance, int rodId, String landmark) {
@@ -27,8 +31,16 @@ public class MapMark {
         this.rodId = rodId;
         this.landmark = landmark;
         this.isInfo = false;
+        this.spodId = 0;
     }
 
+    public MapMark(double distance, int rodId, String landmark, int spodId) {
+        this.distance = distance;
+        this.rodId = rodId;
+        this.landmark = landmark;
+        this.isInfo = false;
+        this.spodId = spodId;
+    }
     public double getDistance() {
         return distance;
     }
@@ -55,5 +67,13 @@ public class MapMark {
 
     public boolean isInfo() {
         return isInfo;
+    }
+
+    public int getSpodId() {
+        return spodId;
+    }
+
+    public void setSpodId(int spodId) {
+        this.spodId = spodId;
     }
 }

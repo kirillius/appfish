@@ -83,7 +83,7 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
 
         bottomFragmentContainer = findViewById(R.id.bottom_fragment);
 
-        TopMenuFragment menuFragment = TopMenuFragment.newInstance(false);
+        TopMenuFragment menuFragment = TopMenuFragment.newInstance(false, false);
         TimeFragment timeFragment = new TimeFragment();
 
         fragmentManager = getSupportFragmentManager();

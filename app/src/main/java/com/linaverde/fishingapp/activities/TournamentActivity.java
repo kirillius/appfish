@@ -52,7 +52,7 @@ public class TournamentActivity extends FragmentActivity implements TopMenuEvent
         });
 
         UserInfo userInfo = new UserInfo(this);
-        TopMenuFragment menuFragment = TopMenuFragment.newInstance(true);
+        TopMenuFragment menuFragment = TopMenuFragment.newInstance(true, false);
             matchId = userInfo.getMatchId();
 
         FragmentManager fragmentManager = getSupportFragmentManager();

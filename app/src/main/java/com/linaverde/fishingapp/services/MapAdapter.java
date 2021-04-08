@@ -33,10 +33,13 @@ public class MapAdapter extends BaseAdapter {
     private final int cellHeight;
 
     private final int editableRod;
+
     MapRodClickedListener listener;
 
-    public MapAdapter(Context context, LayoutInflater inflater, List<MapMark> marks, int cellHeight, int editableRod,
-                      MapRodClickedListener listener) {
+    private final boolean showSpod;
+
+    public MapAdapter(Context context, LayoutInflater inflater, List<MapMark> marks, int cellHeight,
+                      int editableRod, boolean showSpod, MapRodClickedListener listener) {
         this.context = context;
         this.inflater = inflater;
         this.marks = marks;
@@ -45,6 +48,7 @@ public class MapAdapter extends BaseAdapter {
         this.cellHeight = cellHeight;
         this.editableRod = editableRod;
         this.listener = listener;
+        this.showSpod = showSpod;
     }
 
     @Override
@@ -71,54 +75,133 @@ public class MapAdapter extends BaseAdapter {
         } else {
             rowView = inflater.inflate(R.layout.map_grid_item, parent, false);
             int rodId = marks.get(position).getRodId();
-            switch (rodId) {
-                case 1:
-                    ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_1));
-                    rodsMarks.add(marks.get(position));
-                    break;
-                case 2:
-                    ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_2));
-                    rodsMarks.add(marks.get(position));
-                    break;
-                case 3:
-                    ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_3));
-                    rodsMarks.add(marks.get(position));
-                    break;
-                case 4:
-                    ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_4));
-                    rodsMarks.add(marks.get(position));
-                    break;
-            }
+            int spodId = marks.get(position).getSpodId();
 
-            if (editable) {
-                rowView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (rodId <= 0) {
-                            for (int i = 0; i < rodsMarks.size(); i++) {
-                                if (rodsMarks.get(i).getRodId() == editableRod) {
-                                    rodsMarks.get(i).setRodId(0);
-                                    rodsMarks.remove(i);
-                                    break;
-                                }
-                            }
-                            rodsMarks.add(marks.get(position));
-                            marks.get(position).setRodId(editableRod);
-                            MapAdapter.this.notifyDataSetChanged();
+            if (!showSpod) {
+                switch (rodId) {
+                    case 1:
+                        if (rodId != editableRod) {
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_1));
+                        } else {
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_1_gr));
                         }
-                    }
-                });
-            } else {
-                if (rodId > 0 && listener != null) {
+                        rodsMarks.add(marks.get(position));
+                        break;
+                    case 2:
+                        if (rodId != editableRod) {
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_2));
+                        } else {
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_2_gr));
+                        }
+                        rodsMarks.add(marks.get(position));
+                        break;
+                    case 3:
+                        if (rodId != editableRod) {
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_3));
+                        } else {
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_3_gr));
+                        }
+                        rodsMarks.add(marks.get(position));
+                        break;
+                    case 4:
+                        if (rodId != editableRod) {
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_4));
+                        } else {
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_4_gr));
+                        }
+                        rodsMarks.add(marks.get(position));
+                        break;
+                }
+                if (spodId > 0) {
+                    //Log.d("Spod place", "spod id drawing" + Integer.toString(spodId));
+                    rowView.setBackground(context.getDrawable(R.drawable.spod_rod_back));
+                }
+                if (editable) {
                     rowView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            listener.openSettingsList(rodId);
+                            if (rodId <= 0) {
+                                for (int i = 0; i < rodsMarks.size(); i++) {
+                                    if (rodsMarks.get(i).getRodId() == editableRod) {
+                                        rodsMarks.get(i).setRodId(0);
+                                        rodsMarks.remove(i);
+                                        break;
+                                    }
+                                }
+                                rodsMarks.add(marks.get(position));
+                                marks.get(position).setRodId(editableRod);
+                                MapAdapter.this.notifyDataSetChanged();
+                            }
+                        }
+                    });
+                } else {
+                    if (rodId > 0 && listener != null) {
+                        rowView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                listener.openSettingsList(rodId);
+                            }
+                        });
+                    }
+                }
+            } else {
+                switch (spodId) {
+                    case 1:
+                        if (spodId != editableRod) {
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_1));
+                        } else {
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_1_gr));
+                        }
+                        rodsMarks.add(marks.get(position));
+                        break;
+                    case 2:
+                        if (spodId != editableRod) {
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_2));
+                        } else {
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_2_gr));
+                        }
+                        rodsMarks.add(marks.get(position));
+                        break;
+                    case 3:
+                        if (spodId != editableRod) {
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_3));
+                        } else {
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_3_gr));
+                        }
+                        rodsMarks.add(marks.get(position));
+                        break;
+                    case 4:
+                        if (spodId != editableRod) {
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_4));
+                        } else {
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_4_gr));
+                        }
+                        rodsMarks.add(marks.get(position));
+                        break;
+                }
+                if (editable) {
+                    rowView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (spodId <= 0) {
+                                for (int i = 0; i < rodsMarks.size(); i++) {
+                                    if (rodsMarks.get(i).getSpodId() == editableRod) {
+                                        rodsMarks.get(i).setSpodId(0);
+                                        rodsMarks.remove(i);
+                                        break;
+                                    }
+                                }
+                                rodsMarks.add(marks.get(position));
+                                marks.get(position).setSpodId(editableRod);
+                                MapAdapter.this.notifyDataSetChanged();
+                            }
                         }
                     });
                 }
             }
         }
+
+
         int dimensionInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cellHeight, context.getResources().getDisplayMetrics());
         rowView.getLayoutParams().height = dimensionInDp;
         rowView.requestLayout();

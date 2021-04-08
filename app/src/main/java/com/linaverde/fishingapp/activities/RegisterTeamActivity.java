@@ -81,7 +81,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
 
         bottomFragmentContainer = findViewById(R.id.bottom_fragment);
 
-        TopMenuFragment menuFragment = TopMenuFragment.newInstance(true);
+        TopMenuFragment menuFragment = TopMenuFragment.newInstance(true, false);
         TimeFragment timeFragment = new TimeFragment();
 
         fragmentManager = getSupportFragmentManager();

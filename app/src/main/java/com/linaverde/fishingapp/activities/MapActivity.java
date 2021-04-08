@@ -43,12 +43,13 @@ public class MapActivity extends AppCompatActivity implements TopMenuEventListen
     String matchId, teamId;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    UserInfo userInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_three_fragments);
-        UserInfo userInfo = new UserInfo(this);
+        userInfo = new UserInfo(this);
 
         drawer = findViewById(R.id.drawer_layout);
         progressBar = findViewById(R.id.progress_bar);
@@ -70,7 +71,8 @@ public class MapActivity extends AppCompatActivity implements TopMenuEventListen
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
-        RequestHelper requestHelper = new RequestHelper(this);
+        requestHelper = new RequestHelper(this);
+
         requestHelper.executeGet("map", new String[]{"match", "team"}, new String[]{userInfo.getMatchId(), userInfo.getTeamId()}, new RequestListener() {
             @Override
             public void onComplete(JSONObject json) {
@@ -79,8 +81,7 @@ public class MapActivity extends AppCompatActivity implements TopMenuEventListen
                     if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
                         TopMapFragment TopFragment = TopMapFragment.newInstance(Integer.toString(json.getInt("sector")));
                         TimeFragment timeFragment = new TimeFragment();
-                        String rods = json.getJSONArray("rods").toString();
-                        MapFragment mapFragment = MapFragment.newInstance(json.toString(), rods, -1);
+                        MapFragment mapFragment = MapFragment.newInstance(json.toString(), -1, false);
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.add(R.id.top_menu_fragment, TopFragment);
@@ -146,7 +147,45 @@ public class MapActivity extends AppCompatActivity implements TopMenuEventListen
         args.putBoolean("spod", false);
         args.putInt("rodId", rodId);
         intent.putExtras(args);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            return;
+        } else if (requestCode == 1){
+            if (resultCode == RESULT_OK){
+                progressBar.show();
+                requestHelper.executeGet("map", new String[]{"match", "team"}, new String[]{userInfo.getMatchId(), userInfo.getTeamId()}, new RequestListener() {
+                    @Override
+                    public void onComplete(JSONObject json) {
+                        progressBar.hide();
+                        try {
+                            if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                                MapFragment mapFragment = MapFragment.newInstance(json.toString(), -1, false);
+                                fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                                fragmentTransaction.replace(R.id.content_fragment, mapFragment);
+                                if (!fragmentManager.isDestroyed())
+                                    fragmentTransaction.commit();
+                            } else {
+                                //DialogBuilder.createDefaultDialog(RodsActivity.this, getLayoutInflater(), json.getString("error"), null);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(int responseCode) {
+
+                    }
+                });
+            }
+        }
     }
 
 }

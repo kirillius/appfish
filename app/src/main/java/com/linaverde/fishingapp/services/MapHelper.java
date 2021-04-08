@@ -34,21 +34,25 @@ public class MapHelper {
     LayoutInflater inflater;
     JSONArray landmark;
     JSONArray rods;
+    JSONArray spod;
     int editableRod;
     MapRodClickedListener listener;
+    boolean showSpod;
 
 
     public MapHelper(Context context, LayoutInflater inflater, GridView map, LinearLayout llMarks,
-                     LinearLayout arrow, JSONObject mapDetail, JSONArray rods, int editableRod, MapRodClickedListener listener) {
+                     LinearLayout arrow, JSONObject mapDetail, int editableRod, boolean showSpod, MapRodClickedListener listener) {
         this.context = context;
         this.map = map;
         this.llMarks = llMarks;
         this.mapDetail = mapDetail;
         this.inflater = inflater;
         this.editableRod = editableRod;
-        this.rods = rods;
         this.listener = listener;
+        this.showSpod = showSpod;
         try {
+            this.rods = mapDetail.getJSONArray("rods");
+            this.spod = mapDetail.getJSONArray("spod");
             landmark = mapDetail.getJSONArray("landmark");
             setLandmarks(arrow);
             setMap();
@@ -98,6 +102,21 @@ public class MapHelper {
                         break;
                     }
                 }
+                for (int j = 0; j < spod.length(); j++) {
+                    String sMark = spod.getJSONObject(j).getString("landmark");
+                    int sDist = spod.getJSONObject(j).getInt("distance");
+                    if (landmark.getString(i).equals(sMark) && curr >= sDist && curr - currStep < sDist) {
+                        if (newMark == null) {
+                            Log.d("Spod", "create new spod grid item");
+                            newMark = new MapMark(sDist, 0, sMark, spod.getJSONObject(j).getInt("id"));
+                        } else {
+                            Log.d("Spod", "update current grid item");
+                            newMark.setSpodId(spod.getJSONObject(j).getInt("id"));
+
+                        }
+                        break;
+                    }
+                }
                 if (newMark == null) {
                     marks.add(new MapMark(landmark.getString(i), curr));
                 } else {
@@ -120,6 +139,21 @@ public class MapHelper {
                         break;
                     }
                 }
+                for (int j = 0; j < spod.length(); j++) {
+                    String sMark = spod.getJSONObject(j).getString("landmark");
+                    int sDist = spod.getJSONObject(j).getInt("distance");
+                    if (landmark.getString(i).equals(sMark) && curr >= sDist && curr - currStep < sDist) {
+                        if (newMark == null) {
+                            Log.d("Spod", "create new spod grid item");
+                            newMark = new MapMark(sDist, 0, sMark, spod.getJSONObject(j).getInt("id"));
+                        } else {
+                            Log.d("Spod", "update current grid item");
+                            newMark.setSpodId(spod.getJSONObject(j).getInt("id"));
+
+                        }
+                        break;
+                    }
+                }
                 if (newMark == null) {
                     marks.add(new MapMark(landmark.getString(i), curr));
                 } else {
@@ -130,7 +164,8 @@ public class MapHelper {
             curr = curr - currStep;
         }
 
-        adapter = new MapAdapter(context, inflater, marks, mapDetail.getInt("cellHeight"), editableRod, listener);
+
+        adapter = new MapAdapter(context, inflater, marks, mapDetail.getInt("cellHeight"), editableRod, showSpod, listener);
         map.setAdapter(adapter);
         //setDistance(distBig, distSmall);
     }

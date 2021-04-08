@@ -142,8 +142,8 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                 }
             }
 
-            adapter1 = new RodsSettingsListAdapter(getContext(), section1, progressBar, rodId,this);
-            adapter2 = new RodsSettingsListAdapter(getContext(), section2, progressBar, rodId, this);
+            adapter1 = new RodsSettingsListAdapter(getContext(), section1, progressBar, rodId, rodType,this);
+            adapter2 = new RodsSettingsListAdapter(getContext(), section2, progressBar, rodId, rodType,this);
 
             ((ListView) view.findViewById(R.id.list_rods_settings_1)).setAdapter(adapter1);
             ((ListView) view.findViewById(R.id.list_rods_settings_2)).setAdapter(adapter2);
@@ -297,37 +297,21 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
 
     @Override
     public void openMap(RodPositionChangedListener positionChangedListener) {
-        if (mapFragment == null) {
-            progressBar.show();
-            RequestHelper requestHelper = new RequestHelper(getContext());
-            requestHelper.executeGet("map", new String[]{"match", "team"}, new String[]{userInfo.getMatchId(), userInfo.getTeamId()}, new RequestListener() {
-                @Override
-                public void onComplete(JSONObject json) {
-                    try {
-                        rodsPositions = json.getJSONArray("rods");
-                        mapFragment = MapFragment.newInstance(json.toString(), rodsPositions.toString(), rodId);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    progressBar.hide();
-                    listener.openMapFragment(mapFragment, positionChangedListener);
-                }
-
-                @Override
-                public void onError(int responseCode) {
-
-                }
-            });
-        } else {
-            try {
-                rodsPositions = mapFragment.getRodsPositions();
-                changeRodPosition(adapter1.getRodPositionJson());
-            } catch (JSONException e) {
-                e.printStackTrace();
+        progressBar.show();
+        RequestHelper requestHelper = new RequestHelper(getContext());
+        requestHelper.executeGet("map", new String[]{"match", "team"}, new String[]{userInfo.getMatchId(), userInfo.getTeamId()}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                mapFragment = MapFragment.newInstance(json.toString(), rodId, rodType.equals("spod"));
+                progressBar.hide();
+                listener.openMapFragment(mapFragment, positionChangedListener);
             }
-            mapFragment.setRodsPositions(rodsPositions);
-            listener.openMapFragment(mapFragment, positionChangedListener);
-        }
+
+            @Override
+            public void onError(int responseCode) {
+
+            }
+        });
     }
 
     public boolean isJSONValid(String test) {

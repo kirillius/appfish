@@ -1,3 +1,5 @@
 <resources>
     <dimen name="se_margin">60dp</dimen>
+    <dimen name="record_grid_margin">5dp</dimen>
+    <dimen name="record_greed_text_size">16sp</dimen>
 </resources>

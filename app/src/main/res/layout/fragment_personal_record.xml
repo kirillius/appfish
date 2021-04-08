@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.PersonalRecordFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/se_margin"
+        android:layout_marginEnd="@dimen/se_margin">
+
+        <LinearLayout
+            android:id="@+id/ll_rods_names"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/rod_1_rec" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/rod_2_rec" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/rod_3_rec" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/rod_4_rec" />
+
+        </LinearLayout>
+
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/grid_rods"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/ll_timers"
+            android:layout_below="@id/ll_rods_names"
+            android:layout_margin="10dp"
+            android:layout_marginStart="@dimen/se_margin"
+            android:layout_marginEnd="@dimen/se_margin"
+            android:layout_marginBottom="10dp"
+            app:columnCount="4"
+            app:rowCount="4">
+
+            <RelativeLayout
+                android:id="@+id/set_btn1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/record_grid_margin"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1">
+
+                <ImageView
+                    android:id="@+id/set_btn1_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/record_btn_back" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="40dp"
+                    android:gravity="center"
+                    android:text="@string/record_set_rod"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="@dimen/record_greed_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/set_btn2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/record_grid_margin"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1">
+
+                <ImageView
+                    android:id="@+id/set_btn2_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/record_btn_back" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="40dp"
+                    android:gravity="center"
+                    android:text="@string/record_set_rod"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="@dimen/record_greed_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/set_btn3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/record_grid_margin"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1">
+
+                <ImageView
+                    android:id="@+id/set_btn3_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/record_btn_back" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="40dp"
+                    android:gravity="center"
+                    android:text="@string/record_set_rod"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="@dimen/record_greed_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/set_btn4"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/record_grid_margin"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1">
+
+                <ImageView
+                    android:id="@+id/set_btn4_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/record_btn_back" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="40dp"
+                    android:gravity="center"
+                    android:text="@string/record_set_rod"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="@dimen/record_greed_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/bite_btn1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/record_grid_margin"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1">
+
+                <ImageView
+                    android:id="@+id/bite_btn1_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/record_btn_back" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="40dp"
+                    android:gravity="center"
+                    android:text="@string/record_bite"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="@dimen/record_greed_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/bite_btn2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/record_grid_margin"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1">
+
+                <ImageView
+                    android:id="@+id/bite_btn2_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/record_btn_back" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="40dp"
+                    android:gravity="center"
+                    android:text="@string/record_bite"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="@dimen/record_greed_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/bite_btn3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/record_grid_margin"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1">
+
+                <ImageView
+                    android:id="@+id/bite_btn3_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/record_btn_back" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="40dp"
+                    android:gravity="center"
+                    android:text="@string/record_bite"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="@dimen/record_greed_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/bite_btn4"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/record_grid_margin"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1">
+
+                <ImageView
+                    android:id="@+id/bite_btn4_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/record_btn_back" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="40dp"
+                    android:gravity="center"
+                    android:text="@string/record_bite"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="@dimen/record_greed_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fish_btn1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/record_grid_margin"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1">
+
+                <ImageView
+                    android:id="@+id/fish_btn1_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/record_btn_back" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="40dp"
+                    android:gravity="center"
+                    android:text="@string/record_fish"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="@dimen/record_greed_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fish_btn2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/record_grid_margin"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1">
+
+                <ImageView
+                    android:id="@+id/fish_btn2_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/record_btn_back" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="40dp"
+                    android:gravity="center"
+                    android:text="@string/record_fish"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="@dimen/record_greed_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fish_btn3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/record_grid_margin"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1">
+
+                <ImageView
+                    android:id="@+id/fish_btn3_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/record_btn_back" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="40dp"
+                    android:gravity="center"
+                    android:text="@string/record_fish"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="@dimen/record_greed_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fish_btn4"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/record_grid_margin"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1">
+
+                <ImageView
+                    android:id="@+id/fish_btn4_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/record_btn_back" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="40dp"
+                    android:gravity="center"
+                    android:text="@string/record_fish"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="@dimen/record_greed_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/gone_btn1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/record_grid_margin"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1">
+
+                <ImageView
+                    android:id="@+id/gone_btn1_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/record_btn_back" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="40dp"
+                    android:gravity="center"
+                    android:text="@string/record_gone"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="@dimen/record_greed_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/gone_btn2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/record_grid_margin"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1">
+
+                <ImageView
+                    android:id="@+id/gone_btn2_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/record_btn_back" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="40dp"
+                    android:gravity="center"
+                    android:text="@string/record_gone"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="@dimen/record_greed_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/gone_btn3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/record_grid_margin"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1">
+
+                <ImageView
+                    android:id="@+id/gone_btn3_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/record_btn_back" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="40dp"
+                    android:gravity="center"
+                    android:text="@string/record_gone"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="@dimen/record_greed_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/gone_btn4"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/record_grid_margin"
+                app:layout_columnSpan="1"
+                app:layout_columnWeight="1"
+                app:layout_rowSpan="1"
+                app:layout_rowWeight="1">
+
+                <ImageView
+                    android:id="@+id/gone_btn4_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/record_btn_back" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="40dp"
+                    android:gravity="center"
+                    android:text="@string/record_gone"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="@dimen/record_greed_text_size" />
+            </RelativeLayout>
+
+        </androidx.gridlayout.widget.GridLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_timers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/record_timer_1"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/record_grid_margin"
+                android:layout_marginEnd="@dimen/record_grid_margin"
+                android:layout_weight="1"
+                android:background="@drawable/record_timer_back"
+                android:gravity="center"
+                android:text="00:00"
+                android:textAlignment="center"
+                android:textAppearance="@style/Roboto"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/record_timer_2"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/record_grid_margin"
+                android:layout_marginEnd="@dimen/record_grid_margin"
+                android:layout_weight="1"
+                android:background="@drawable/record_timer_back"
+                android:gravity="center"
+                android:text="00:00"
+                android:textAlignment="center"
+                android:textAppearance="@style/Roboto"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/record_timer_3"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/record_grid_margin"
+                android:layout_marginEnd="@dimen/record_grid_margin"
+                android:layout_weight="1"
+                android:background="@drawable/record_timer_back"
+                android:gravity="center"
+                android:text="00:00"
+                android:textAlignment="center"
+                android:textAppearance="@style/Roboto"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/record_timer_4"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/record_grid_margin"
+                android:layout_marginEnd="@dimen/record_grid_margin"
+                android:layout_weight="1"
+                android:background="@drawable/record_timer_back"
+                android:gravity="center"
+                android:text="00:00"
+                android:textAlignment="center"
+                android:textAppearance="@style/Roboto"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

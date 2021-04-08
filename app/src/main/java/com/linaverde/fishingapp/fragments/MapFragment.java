@@ -27,12 +27,12 @@ import org.json.JSONObject;
 public class MapFragment extends Fragment {
 
     private static final String JSON_MAP = "json";
-    private static final String RODS_ARRAY = "rods_array";
     private static final String ROD_ID = "rodId";
+    private static final String SPOD = "spod";
 
     private JSONObject jsonObject;
-    private JSONArray rods;
     private int editableRod;
+    private boolean showSpod;
 
     RodPositionChangedListener positionChangedListener = null;
     MapRodClickedListener mapRodClickedListener = null;
@@ -41,12 +41,12 @@ public class MapFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static MapFragment newInstance(String json, String rods, int rodId) {
+    public static MapFragment newInstance(String json, int rodId, boolean spod) {
         MapFragment fragment = new MapFragment();
         Bundle args = new Bundle();
         args.putString(JSON_MAP, json);
         args.putInt(ROD_ID, rodId);
-        args.putString(RODS_ARRAY, rods);
+        args.putBoolean(SPOD, spod);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,7 +58,7 @@ public class MapFragment extends Fragment {
             try {
                 jsonObject = new JSONObject(getArguments().getString(JSON_MAP));
                 editableRod = getArguments().getInt(ROD_ID);
-                rods = new JSONArray(getArguments().getString(RODS_ARRAY));
+                showSpod = getArguments().getBoolean(SPOD);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -71,13 +71,6 @@ public class MapFragment extends Fragment {
     LinearLayout llButtons;
     RelativeLayout confirm, cancel;
 
-    public void setRodsPositions(JSONArray rodsPositions) {
-        rods = rodsPositions;
-    }
-
-    public JSONArray getRodsPositions(){
-        return rods;
-    }
 
     public void setPositionChangedListener(RodPositionChangedListener positionChangedListener) {
         this.positionChangedListener = positionChangedListener;
@@ -96,7 +89,7 @@ public class MapFragment extends Fragment {
         }
 
         MapHelper mapHelper = new MapHelper(getContext(), getLayoutInflater(), gridView, llTableNames,
-                view.findViewById(R.id.ll_width), jsonObject, rods, editableRod, mapRodClickedListener);
+                view.findViewById(R.id.ll_width), jsonObject, editableRod, showSpod,  mapRodClickedListener);
         try {
             ((TextView) view.findViewById(R.id.ll_width_value)).setText(jsonObject.getString("width"));
         } catch (JSONException e) {

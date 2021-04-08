@@ -64,7 +64,7 @@ public class QueueActivity extends AppCompatActivity implements TopMenuEventList
             }
         });
 
-        TopMenuFragment menuFragment = TopMenuFragment.newInstance(false);
+        TopMenuFragment menuFragment = TopMenuFragment.newInstance(false, false);
         TimeFragment timeFragment = new TimeFragment();
 
         fragmentManager = getSupportFragmentManager();

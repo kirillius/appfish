@@ -130,6 +130,11 @@
         <item>4</item>
     </string-array>
     <string name="width">Ширина</string>
+    <string name="fishing_record">Учет ловли</string>
+    <string name="record_set_rod">Заброс</string>
+    <string name="record_bite">Поклевка</string>
+    <string name="record_fish">Рыба</string>
+    <string name="record_gone">Сход</string>
 
 
 </resources>

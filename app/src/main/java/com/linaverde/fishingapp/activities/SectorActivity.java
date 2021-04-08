@@ -66,7 +66,7 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
 
         userInfo = new UserInfo(this);
 
-        TopMenuFragment menuFragment = TopMenuFragment.newInstance(false);
+        TopMenuFragment menuFragment = TopMenuFragment.newInstance(false, false);
         TimeFragment timeFragment = new TimeFragment();
 
         fragmentManager = getSupportFragmentManager();
