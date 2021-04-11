@@ -40,6 +40,7 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
 
     private static final String JSON = "json";
     private static final String TYPE = "spod";
+    private static final String CAST = "cast";
 
     private JSONObject settings;
     private String rodType;
@@ -54,16 +55,18 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
     MapFragment mapFragment = null;
     UserInfo userInfo;
     JSONArray rodsPositions = null;
+    private boolean cast;
 
     public RodsDetailFragment() {
         // Required empty public constructor
     }
 
-    public static RodsDetailFragment newInstance(String json, String type) {
+    public static RodsDetailFragment newInstance(String json, String type, boolean cast) {
         RodsDetailFragment fragment = new RodsDetailFragment();
         Bundle args = new Bundle();
         args.putString(JSON, json);
         args.putString(TYPE, type);
+        args.putBoolean(CAST, cast);
         fragment.setArguments(args);
         return fragment;
     }
@@ -92,6 +95,7 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                 e.printStackTrace();
             }
             rodType = getArguments().getString(TYPE);
+            cast = getArguments().getBoolean(CAST);
 
         }
         newParams = new JSONArray();
@@ -142,8 +146,8 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                 }
             }
 
-            adapter1 = new RodsSettingsListAdapter(getContext(), section1, progressBar, rodId, rodType, this);
-            adapter2 = new RodsSettingsListAdapter(getContext(), section2, progressBar, rodId, rodType, this);
+            adapter1 = new RodsSettingsListAdapter(getContext(), section1, progressBar, rodId, rodType, cast,this);
+            adapter2 = new RodsSettingsListAdapter(getContext(), section2, progressBar, rodId, rodType, cast,this);
 
             ((ListView) view.findViewById(R.id.list_rods_settings_1)).setAdapter(adapter1);
             ((ListView) view.findViewById(R.id.list_rods_settings_2)).setAdapter(adapter2);
@@ -154,7 +158,7 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
             cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.updateDetailedFragment(rodType, rodId);
+                    listener.updateDetailedFragment(rodType, rodId, cast);
                 }
             });
 

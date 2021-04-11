@@ -23,6 +23,7 @@ public class RodsMainSettingsGridAdapter extends BaseAdapter {
     private JSONArray values;
     private LayoutInflater inflater;
     private int rodID;
+    private boolean cast;
 
     public RodsMainSettingsGridAdapter(Context context, LayoutInflater inflater, JSONObject values) {
         this.context = context;
@@ -30,6 +31,7 @@ public class RodsMainSettingsGridAdapter extends BaseAdapter {
         try {
             this.rodID = values.getInt("rodId");
             this.values = values.getJSONArray("settings");
+            this.cast = values.getBoolean("cast");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -80,5 +82,9 @@ public class RodsMainSettingsGridAdapter extends BaseAdapter {
 
     public int getRodID(){
         return rodID;
+    }
+
+    public boolean isCast() {
+        return cast;
     }
 }

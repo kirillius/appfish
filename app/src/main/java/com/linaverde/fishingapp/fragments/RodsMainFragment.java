@@ -1,6 +1,8 @@
 package com.linaverde.fishingapp.fragments;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -64,14 +67,14 @@ public class RodsMainFragment extends Fragment {
 
         TextView tv = view.findViewById(R.id.tv_rods_type);
 
-        if (spod){
+        if (spod) {
             tv.setText(getString(R.string.settings_rods_spod));
         } else {
             tv.setText(getString(R.string.settings_rods_work));
         }
 
         String rodType;
-        if (spod){
+        if (spod) {
             rodType = "spod";
         } else {
             rodType = "carp";
@@ -81,49 +84,78 @@ public class RodsMainFragment extends Fragment {
         try {
             JSONArray rods = settings.getJSONArray("rods");
             adapterRod1 = new RodsMainSettingsGridAdapter(getContext(), getLayoutInflater(), rods.getJSONObject(0));
-            ((GridView)view.findViewById(R.id.rod1_main_settings_grid)).setAdapter(adapterRod1);
+            ((GridView) view.findViewById(R.id.rod1_main_settings_grid)).setAdapter(adapterRod1);
             adapterRod2 = new RodsMainSettingsGridAdapter(getContext(), getLayoutInflater(), rods.getJSONObject(1));
-            ((GridView)view.findViewById(R.id.rod2_main_settings_grid)).setAdapter(adapterRod2);
+            ((GridView) view.findViewById(R.id.rod2_main_settings_grid)).setAdapter(adapterRod2);
             adapterRod3 = new RodsMainSettingsGridAdapter(getContext(), getLayoutInflater(), rods.getJSONObject(2));
-            ((GridView)view.findViewById(R.id.rod3_main_settings_grid)).setAdapter(adapterRod3);
+            ((GridView) view.findViewById(R.id.rod3_main_settings_grid)).setAdapter(adapterRod3);
             adapterRod4 = new RodsMainSettingsGridAdapter(getContext(), getLayoutInflater(), rods.getJSONObject(3));
-            ((GridView)view.findViewById(R.id.rod4_main_settings_grid)).setAdapter(adapterRod4);
+            ((GridView) view.findViewById(R.id.rod4_main_settings_grid)).setAdapter(adapterRod4);
 
-            ((LinearLayout)view.findViewById(R.id.iv_rod1)).setOnClickListener(new View.OnClickListener() {
+            ((LinearLayout) view.findViewById(R.id.iv_rod1)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.rodsDetailedReqired(rodType, adapterRod1.getRodID());
+                    listener.rodsDetailedReqired(rodType, adapterRod1.getRodID(), adapterRod1.isCast());
                 }
             });
 
-            ((LinearLayout)view.findViewById(R.id.iv_rod2)).setOnClickListener(new View.OnClickListener() {
+            ((LinearLayout) view.findViewById(R.id.iv_rod2)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.rodsDetailedReqired(rodType, adapterRod2.getRodID());
+                    listener.rodsDetailedReqired(rodType, adapterRod2.getRodID(), adapterRod2.isCast());
                 }
             });
 
-            ((LinearLayout)view.findViewById(R.id.iv_rod3)).setOnClickListener(new View.OnClickListener() {
+            ((LinearLayout) view.findViewById(R.id.iv_rod3)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.rodsDetailedReqired(rodType, adapterRod3.getRodID());
+                    listener.rodsDetailedReqired(rodType, adapterRod3.getRodID(), adapterRod3.isCast());
                 }
             });
 
-            ((LinearLayout)view.findViewById(R.id.iv_rod4)).setOnClickListener(new View.OnClickListener() {
+            ((LinearLayout) view.findViewById(R.id.iv_rod4)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.rodsDetailedReqired(rodType, adapterRod4.getRodID());
+                    listener.rodsDetailedReqired(rodType, adapterRod4.getRodID(), adapterRod4.isCast());
                 }
             });
+
+
+            String rodName;
+            if (spod) {
+                rodName = "Сподовое удилище";
+            } else {
+                rodName = "Рабочее удилище";
+            }
+
+            for (int i = 1; i <= 4; i++) {
+                int currRes;
+                String ID;
+                //название удочек в зависимости от типа
+                ID = "rod_name_" + i;
+                currRes = getResources().getIdentifier(ID, "id", getContext().getPackageName());
+                ((TextView) view.findViewById(currRes)).setText(rodName);
+
+                ID = "rod_" + i + "_back";
+                currRes = getResources().getIdentifier(ID, "id", getContext().getPackageName());
+                int imageRes;
+                String imageId;
+                Drawable d;
+                if (rods.getJSONObject(i - 1).getBoolean("cast")) {
+                    imageId = "rod_" + i + "_back_red";
+                    imageRes = getResources().getIdentifier(imageId, "drawable", getContext().getPackageName());
+                } else {
+                    imageId = "rod_" + i + "_back_gr";
+                    imageRes = getResources().getIdentifier(imageId, "drawable", getContext().getPackageName());
+                }
+                d = getContext().getDrawable(imageRes);
+                ((ImageView) view.findViewById(currRes)).setImageDrawable(d);
+            }
+
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-
-
 
         return view;
     }

@@ -142,11 +142,12 @@ public class MapActivity extends AppCompatActivity implements TopMenuEventListen
     }
 
     @Override
-    public void openSettingsList(int rodId) {
+    public void openSettingsList(int rodId, boolean cast) {
         Intent intent = new Intent(MapActivity.this, RodsSettingsActivity.class);
         Bundle args = new Bundle();
         args.putBoolean("spod", false);
         args.putInt("rodId", rodId);
+        args.putBoolean("cast", cast);
         intent.putExtras(args);
         startActivityForResult(intent, 1);
     }

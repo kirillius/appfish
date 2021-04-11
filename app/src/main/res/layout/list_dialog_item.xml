@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/iv_spinner_item"
-        android:layout_width="9dp"
-        android:layout_height="9dp"
+        android:layout_width="@dimen/dropdown_list_circle_size"
+        android:layout_height="@dimen/dropdown_list_circle_size"
         android:layout_centerVertical="true"
         android:layout_marginStart="5dp"
         android:adjustViewBounds="true"
@@ -25,5 +25,5 @@
         android:singleLine="true"
         android:text="Рыба"
         android:textAppearance="@style/Roboto"
-        android:textSize="24sp" />
+        android:textSize="@dimen/dropdown_list_text_size" />
 </RelativeLayout>

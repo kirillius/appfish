@@ -57,7 +57,7 @@ public class MapAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public MapMark getItem(int position) {
         return marks.get(position);
     }
 
@@ -139,7 +139,7 @@ public class MapAdapter extends BaseAdapter {
                         rowView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                listener.openSettingsList(rodId);
+                                listener.openSettingsList(rodId, getItem(position).isCast());
                             }
                         });
                     }

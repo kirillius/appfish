@@ -113,10 +113,9 @@
     <string name="foul">Нарушение</string>
     <string name="sector_map">Карта сектора</string>
     <string name="settings_rods_work">Настройка рабочих удилищ</string>
-    <string name="settings_rods_spod">Настройка сподовых удочек</string>
+    <string name="settings_rods_spod">Настройка сподовых удилищ</string>
     <string name="protocol">Протокол</string>
     <string name="team_stats">Статистика команды</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="change_pin">Сменить пин</string>
     <string-array name="register_status">
         <item>Зарегистрирована</item>

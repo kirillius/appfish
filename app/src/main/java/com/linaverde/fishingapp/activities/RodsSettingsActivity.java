@@ -97,7 +97,8 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
         if (b != null && b.containsKey("rodId")) {
             mainFirst = false;
             int rodId = b.getInt("rodId");
-            rodsDetailedReqired(rodType, rodId);
+            boolean cast = b.getBoolean("cast");
+            rodsDetailedReqired(rodType, rodId, cast);
         } else {
             mainFirst = true;
             setMainFragment();
@@ -152,14 +153,14 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
     }
 
     @Override
-    public void rodsDetailedReqired(String rodType, int rodID) {
+    public void rodsDetailedReqired(String rodType, int rodID, boolean cast) {
         progressBar.show();
         requestHelper.executeGet("rods", new String[]{"team", "rodType", "rod", "allParams"},
                 new String[]{userInfo.getTeamId(), rodType, Integer.toString(rodID), "true"}, new RequestListener() {
                     @Override
                     public void onComplete(JSONObject json) {
                         needUpdate = true;
-                        currentDetailedFragment = RodsDetailFragment.newInstance(json.toString(), rodType);
+                        currentDetailedFragment = RodsDetailFragment.newInstance(json.toString(), rodType, cast);
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, currentDetailedFragment);
@@ -179,7 +180,7 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
     }
 
     @Override
-    public void updateDetailedFragment(String rodType, int rodID) {
+    public void updateDetailedFragment(String rodType, int rodID, boolean cast) {
         if (!mainFirst) {
             Intent intent = new Intent();
             setResult(RESULT_CANCELED, intent);
@@ -190,7 +191,7 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
                     new String[]{userInfo.getTeamId(), rodType, Integer.toString(rodID), "true"}, new RequestListener() {
                         @Override
                         public void onComplete(JSONObject json) {
-                            currentDetailedFragment = RodsDetailFragment.newInstance(json.toString(), rodType);
+                            currentDetailedFragment = RodsDetailFragment.newInstance(json.toString(), rodType, cast);
                             fragmentTransaction = fragmentManager.beginTransaction();
                             fragmentManager.popBackStack();
                             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
