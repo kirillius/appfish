@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
+import com.linaverde.fishingapp.interfaces.RodsSettingsParamSwithcListener;
 import com.linaverde.fishingapp.models.FishDictionaryItem;
 import com.linaverde.fishingapp.models.ViolationDictionaryItem;
 
@@ -235,7 +236,7 @@ public class DialogBuilder {
 
     }
 
-    public static void createRodSettingsSelectDialog(Context context, LayoutInflater inflater, String text, JSONArray dict, String selectedId, final CompleteActionListener listener) {
+    public static void createRodSettingsSelectDialog(Context context, LayoutInflater inflater, String text, JSONArray dict, String selectedId, final RodsSettingsParamSwithcListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View viewDialog = inflater.inflate(R.layout.dialog_listview, null);
         TextView tvText, tvOk, tvCancel;
@@ -243,7 +244,6 @@ public class DialogBuilder {
         tvText = viewDialog.findViewById(R.id.tv_dialog);
         tvOk = viewDialog.findViewById(R.id.tv_ok);
         tvCancel = viewDialog.findViewById(R.id.tv_cancel);
-
         listView = viewDialog.findViewById(R.id.lv_dialog);
 
         if (text != null)
@@ -283,10 +283,19 @@ public class DialogBuilder {
             }
         });
 
+        EditText addinfo;
+        addinfo = viewDialog.findViewById(R.id.et_addinfo);
+        addinfo.setVisibility(View.VISIBLE);
+
         tvOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onOk(adapter.getItem(adapter.getSelected()).toString());
+                String info = addinfo.getText().toString();
+                if (info.isEmpty()) {
+                    listener.onOk(adapter.getItem(adapter.getSelected()).toString(), false);
+                } else {
+                    listener.onOk(info, true);
+                }
                 dialog.dismiss();
             }
         });

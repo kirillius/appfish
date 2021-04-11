@@ -273,7 +273,7 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
     }
 
     @Override
-    public void paramChanged(String paramId, String value) {
+    public void paramChanged(String paramId, String value, boolean addinfo) {
         try {
             JSONObject object = new JSONObject();
             object.put("paramId", paramId);
@@ -283,10 +283,16 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                     break;
                 }
             }
+
             if (isJSONValid(value)) {
                 object.put("valueId", (new JSONObject(value)).getString("id"));
             } else {
-                object.put("valueId", value);
+                if (addinfo){
+                    object.put("addinfo", value);
+                    object.put("valueId", "");
+                } else {
+                    object.put("valueId", value);
+                }
             }
             newParams.put(object);
         } catch (JSONException e) {

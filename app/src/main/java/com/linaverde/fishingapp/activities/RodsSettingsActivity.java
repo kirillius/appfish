@@ -267,8 +267,8 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
     @Override
     public void rodPositionChanged(int rodId, String landmark, double distance) {
         fragmentManager.popBackStack();
-        currentDetailedFragment.paramChanged("LANDMARK", landmark);
-        currentDetailedFragment.paramChanged("DISTANCE", Double.toString(distance));
+        currentDetailedFragment.paramChanged("LANDMARK", landmark, false);
+        currentDetailedFragment.paramChanged("DISTANCE", Double.toString(distance), false);
     }
 
     @Override

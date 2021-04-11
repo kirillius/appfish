@@ -15,6 +15,7 @@ import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.RodPositionChangedListener;
 import com.linaverde.fishingapp.interfaces.RodsSettingsChangeListener;
+import com.linaverde.fishingapp.interfaces.RodsSettingsParamSwithcListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -97,8 +98,12 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
             tvName.setText(object.getJSONObject("param").getString("name"));
             Object value = object.get("value");
             if (value.getClass() == JSONObject.class) {
-                tvValue.setText(((JSONObject) value).getString("name"));
-                valueId = ((JSONObject) value).getString("id");
+                if (((JSONObject) value).has("addInfo") && !((JSONObject) value).getString("addInfo").equals("")) {
+                    tvValue.setText(((JSONObject) value).getString("addInfo"));
+                } else {
+                    tvValue.setText(((JSONObject) value).getString("name"));
+                    valueId = ((JSONObject) value).getString("id");
+                }
             } else {
                 tvValue.setText(value.toString());
             }
@@ -117,20 +122,40 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
                             public void onOk(String input) {
                                 if (!input.isEmpty()) {
                                     try {
-                                        if (value.getClass() != JSONObject.class) {
-                                            values.get(position).remove("value");
-                                            values.get(position).put("value", input);
-                                        } else {
-                                            values.get(position).remove("value");
-                                            values.get(position).put("value", new JSONObject(input));
-                                        }
+                                        values.get(position).remove("value");
+                                        values.get(position).put("value", input);
                                         changeListener.paramChanged(object.getJSONObject("param").getString("id"),
-                                                input);
+                                                input, false);
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
                                 }
 
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        };
+
+                        RodsSettingsParamSwithcListener rodsSwithcListener = new RodsSettingsParamSwithcListener() {
+                            @Override
+                            public void onOk(String input, boolean info) {
+                                if (!input.isEmpty()) {
+                                    try {
+                                        values.get(position).remove("value");
+                                        if (!info) {
+                                            values.get(position).put("value", new JSONObject(input));
+                                        } else {
+                                            values.get(position).put("value", input);
+                                        }
+                                        changeListener.paramChanged(object.getJSONObject("param").getString("id"),
+                                                input, info);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
                             }
 
                             @Override
@@ -151,8 +176,8 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
                                             distanceObj.put("value", Double.toString(distance));
                                             landmarkObj.remove("value");
                                             landmarkObj.put("value", landmark);
-                                            changeListener.paramChanged("LANDMARK", landmark);
-                                            changeListener.paramChanged("DISTANCE", Double.toString(distance));
+                                            changeListener.paramChanged("LANDMARK", landmark, false);
+                                            changeListener.paramChanged("DISTANCE", Double.toString(distance), false);
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
@@ -171,17 +196,19 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
                                                 "Введите значение", listener);
                                         break;
                                     case "object":
-                                        createTypeSelect(finalParamId, finalValueId, tvName, listener);
+                                        createTypeSelect(finalParamId, finalValueId, tvName, rodsSwithcListener);
                                         break;
                                 }
                             }
-                        } catch (JSONException e) {
+                        } catch (
+                                JSONException e) {
                             e.printStackTrace();
                         }
 
                     }
                 });
-        } catch (JSONException e) {
+        } catch (
+                JSONException e) {
             e.printStackTrace();
         }
 
@@ -189,7 +216,7 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
     }
 
 
-    private void createTypeSelect(String paramId, String valueId, TextView tvName, CompleteActionListener listener) {
+    private void createTypeSelect(String paramId, String valueId, TextView tvName, RodsSettingsParamSwithcListener listener) {
         RodsSettingsStorage storage = new RodsSettingsStorage(context);
         if (storage.getParams(paramId) == null) {
             RequestHelper requestHelper = new RequestHelper(context);

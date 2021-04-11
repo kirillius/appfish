@@ -179,6 +179,9 @@ public class RequestHelper {
                 logParam += keys[i] + "=" + values[i] + ";";
             }
         Log.d("Request", "init " + method + " post request with params " + logParam);
+        if (json != null) {
+            Log.d("Request", json);
+        }
 
         if (json != null) {
             Log.d("Request", method + " request json " + json);

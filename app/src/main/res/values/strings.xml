@@ -134,6 +134,6 @@
     <string name="record_bite">Поклевка</string>
     <string name="record_fish">Рыба</string>
     <string name="record_gone">Сход</string>
-
+    <string name="addinfo_hint">Введите своё значение</string>
 
 </resources>
