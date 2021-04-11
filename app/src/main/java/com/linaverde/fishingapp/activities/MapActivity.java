@@ -81,7 +81,8 @@ public class MapActivity extends AppCompatActivity implements TopMenuEventListen
                     if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
                         TopMapFragment TopFragment = TopMapFragment.newInstance(Integer.toString(json.getInt("sector")));
                         TimeFragment timeFragment = new TimeFragment();
-                        MapFragment mapFragment = MapFragment.newInstance(json.toString(), -1, false);
+                        String rods = json.getJSONArray("rods").toString();
+                        MapFragment mapFragment = MapFragment.newInstance(json.toString(), -1, rods, false);
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.add(R.id.top_menu_fragment, TopFragment);
@@ -164,7 +165,8 @@ public class MapActivity extends AppCompatActivity implements TopMenuEventListen
                         progressBar.hide();
                         try {
                             if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                                MapFragment mapFragment = MapFragment.newInstance(json.toString(), -1, false);
+                                String rods = json.getJSONArray("rods").toString();
+                                MapFragment mapFragment = MapFragment.newInstance(json.toString(), -1, rods,false);
                                 fragmentTransaction = fragmentManager.beginTransaction();
                                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                                 fragmentTransaction.replace(R.id.content_fragment, mapFragment);

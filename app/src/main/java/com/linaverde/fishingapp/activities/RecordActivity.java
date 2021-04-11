@@ -16,11 +16,14 @@ import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.fragments.PersonalRecordFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
+import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
 import com.linaverde.fishingapp.services.NavigationHelper;
 import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
 import com.linaverde.fishingapp.services.UserInfo;
+
+import org.json.JSONObject;
 
 public class RecordActivity extends AppCompatActivity implements TopMenuEventListener {
 
@@ -32,7 +35,8 @@ public class RecordActivity extends AppCompatActivity implements TopMenuEventLis
 
     RequestHelper requestHelper;
 
-    String matchId, matchName;
+    String matchId;
+    String teamId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +63,39 @@ public class RecordActivity extends AppCompatActivity implements TopMenuEventLis
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
-        fragmentTransaction.add(R.id.content_fragment, new PersonalRecordFragment());
+        //fragmentTransaction.add(R.id.content_fragment, new PersonalRecordFragment());
         if (!fragmentManager.isDestroyed())
             fragmentTransaction.commit();
 
         UserInfo userInfo = new UserInfo(this);
         matchId = userInfo.getMatchId();
-        matchName = userInfo.getMatchName();
+        teamId = userInfo.getTeamId();
+
+        requestHelper = new RequestHelper(this);
+        progressBar.show();
+        requestHelper.executeGet("catching", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                progressBar.hide();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.content_fragment, PersonalRecordFragment.newInstance(json.toString()));
+                if (!fragmentManager.isDestroyed())
+                    fragmentTransaction.commit();
+//                fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.add(R.id.content_fragment, new PersonalRecordFragment());
+//                if (!fragmentManager.isDestroyed())
+//                    fragmentTransaction.commit();
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.content_fragment, new PersonalRecordFragment());
+                if (!fragmentManager.isDestroyed())
+                    fragmentTransaction.commit();
+            }
+        });
     }
 
     @Override

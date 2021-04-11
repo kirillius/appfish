@@ -28,10 +28,12 @@ public class MapFragment extends Fragment {
 
     private static final String JSON_MAP = "json";
     private static final String ROD_ID = "rodId";
+    private static final String RODS_ARRAY = "rods_array";
     private static final String SPOD = "spod";
 
     private JSONObject jsonObject;
     private int editableRod;
+    private JSONArray rods;
     private boolean showSpod;
 
     RodPositionChangedListener positionChangedListener = null;
@@ -41,12 +43,13 @@ public class MapFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static MapFragment newInstance(String json, int rodId, boolean spod) {
+    public static MapFragment newInstance(String json, int rodId, String rods, boolean spod) {
         MapFragment fragment = new MapFragment();
         Bundle args = new Bundle();
         args.putString(JSON_MAP, json);
         args.putInt(ROD_ID, rodId);
         args.putBoolean(SPOD, spod);
+        args.putString(RODS_ARRAY, rods);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,6 +62,7 @@ public class MapFragment extends Fragment {
                 jsonObject = new JSONObject(getArguments().getString(JSON_MAP));
                 editableRod = getArguments().getInt(ROD_ID);
                 showSpod = getArguments().getBoolean(SPOD);
+                rods = new JSONArray(getArguments().getString(RODS_ARRAY));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -74,6 +78,14 @@ public class MapFragment extends Fragment {
 
     public void setPositionChangedListener(RodPositionChangedListener positionChangedListener) {
         this.positionChangedListener = positionChangedListener;
+    }
+
+    public void setRodsPositions(JSONArray rodsPositions) {
+        rods = rodsPositions;
+    }
+
+    public JSONArray getRodsPositions(){
+        return rods;
     }
 
     @Override
@@ -105,10 +117,10 @@ public class MapFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("editable rod", Integer.toString(editableRod));
-                Log.d("new landmark", mapHelper.getLandmark(editableRod));
-                Log.d("new distance", Double.toString(mapHelper.getDistance(editableRod)));
+                Log.d("new landmark", mapHelper.getLandmark(editableRod, showSpod));
+                Log.d("new distance", Double.toString(mapHelper.getDistance(editableRod, showSpod)));
                 if (positionChangedListener != null) {
-                    positionChangedListener.rodPositionChanged(editableRod, mapHelper.getLandmark(editableRod), mapHelper.getDistance(editableRod));
+                    positionChangedListener.rodPositionChanged(editableRod, mapHelper.getLandmark(editableRod, showSpod), mapHelper.getDistance(editableRod, showSpod));
                     getActivity().onBackPressed();
                 }
             }

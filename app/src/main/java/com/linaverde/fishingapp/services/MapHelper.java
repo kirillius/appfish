@@ -170,23 +170,37 @@ public class MapHelper {
         //setDistance(distBig, distSmall);
     }
 
-    public String getLandmark(int rodId) {
+    public String getLandmark(int rodId, boolean spod) {
         List<MapMark> rodsMarks = adapter.getRodsMarks();
+
         for (int i = 0; i < rodsMarks.size(); i++) {
-            if (rodId == rodsMarks.get(i).getRodId()) {
-                return rodsMarks.get(i).getLandmark();
+            if (!spod) {
+                if (rodId == rodsMarks.get(i).getRodId()) {
+                    return rodsMarks.get(i).getLandmark();
+                }
+            } else {
+                if (rodId == rodsMarks.get(i).getSpodId()) {
+                    return rodsMarks.get(i).getLandmark();
+                }
             }
         }
         return "";
     }
 
-    public double getDistance(int rodId) {
+    public double getDistance(int rodId, boolean spod) {
         List<MapMark> rodsMarks = adapter.getRodsMarks();
         for (int i = 0; i < rodsMarks.size(); i++) {
-            if (rodId == rodsMarks.get(i).getRodId()) {
-                return rodsMarks.get(i).getDistance();
+            if (!spod) {
+                if (rodId == rodsMarks.get(i).getRodId()) {
+                    return rodsMarks.get(i).getDistance();
+                }
+            } else {
+                if (rodId == rodsMarks.get(i).getSpodId()) {
+                    return rodsMarks.get(i).getDistance();
+                }
             }
         }
+
         return -1;
     }
 
