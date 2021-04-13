@@ -1,6 +1,11 @@
 package com.linaverde.fishingapp.models;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.app.NotificationCompat;
 import androidx.core.widget.ContentLoadingProgressBar;
 
 import com.linaverde.fishingapp.R;
@@ -46,6 +52,7 @@ public class RecordButtonsAccumulator {
         this.teamId = teamId;
         this.progressBar = progressBar;
 
+
         try {
             rodId = info.getInt("id");
             event = info.getString("event");
@@ -56,7 +63,7 @@ public class RecordButtonsAccumulator {
             this.startTime = Integer.parseInt(timeValues[0]) * 60 + Integer.parseInt(timeValues[1]);
 
             //установка таймера в кастомное значение, если уже был заброс
-            if (event != null && !event.equals("null")) {
+            if (event.equals("1")) {
                 String eventTime = info.getString("eventDate");
                 eventTime = eventTime.substring(eventTime.indexOf("T") + 1);
                 String[] eventValues = eventTime.split(":");
@@ -78,6 +85,7 @@ public class RecordButtonsAccumulator {
                         @Override
                         public void onFinish() {
                             tvTimer.setText("00:00");
+                            createNotification();
                         }
                     };
                     timer.start();
@@ -156,6 +164,7 @@ public class RecordButtonsAccumulator {
                     @Override
                     public void onFinish() {
                         tvTimer.setText("00:00");
+                        createNotification();
                     }
                 };
                 timer.start();
@@ -257,5 +266,39 @@ public class RecordButtonsAccumulator {
         biteBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_back));
         fishBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_back));
         goneBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_back));
+    }
+
+    private static String CHANNEL_ID = "g_carp";
+
+    private void createNotification() {
+
+        Uri ringURI =
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            CharSequence name = "g_carpfishing";
+            String Description = "G-Carpfishing Notify";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+            mChannel.setDescription(Description);
+            mChannel.enableLights(true);
+            mChannel.setLightColor(Color.RED);
+            mChannel.enableVibration(true);
+            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            mChannel.setShowBadge(false);
+            notificationManager.createNotificationChannel(mChannel);
+        }
+
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(context, CHANNEL_ID)
+                        .setSmallIcon(R.drawable.rod_icon)
+                        .setContentTitle("G-CARPFISHING")
+                        .setContentText("Вышло время заброса удочки номер " + rodId + "!")
+                        .setSound(ringURI);
+
+        notificationManager.notify(rodId, builder.build());
+
     }
 }
