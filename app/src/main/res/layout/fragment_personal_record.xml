@@ -25,9 +25,8 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
-                android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/rod_1_rec" />
+                android:src="@drawable/rod_num_1" />
 
             <ImageView
                 android:layout_width="0dp"
@@ -35,9 +34,8 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
-                android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/rod_2_rec" />
+                android:src="@drawable/rod_num_2" />
 
             <ImageView
                 android:layout_width="0dp"
@@ -45,9 +43,8 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
-                android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/rod_3_rec" />
+                android:src="@drawable/rod_num_3" />
 
             <ImageView
                 android:layout_width="0dp"
@@ -55,9 +52,8 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
-                android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/rod_4_rec" />
+                android:src="@drawable/rod_num_4" />
 
         </LinearLayout>
 
@@ -551,7 +547,7 @@
             <TextView
                 android:id="@+id/record_timer_1"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/record_grid_margin"
                 android:layout_marginEnd="@dimen/record_grid_margin"
@@ -561,12 +557,12 @@
                 android:text="00:00"
                 android:textAlignment="center"
                 android:textAppearance="@style/Roboto"
-                android:textSize="20sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/record_timer_2"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/record_grid_margin"
                 android:layout_marginEnd="@dimen/record_grid_margin"
@@ -576,12 +572,12 @@
                 android:text="00:00"
                 android:textAlignment="center"
                 android:textAppearance="@style/Roboto"
-                android:textSize="20sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/record_timer_3"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/record_grid_margin"
                 android:layout_marginEnd="@dimen/record_grid_margin"
@@ -591,12 +587,12 @@
                 android:text="00:00"
                 android:textAlignment="center"
                 android:textAppearance="@style/Roboto"
-                android:textSize="20sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/record_timer_4"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/record_grid_margin"
                 android:layout_marginEnd="@dimen/record_grid_margin"
@@ -606,9 +602,17 @@
                 android:text="00:00"
                 android:textAlignment="center"
                 android:textAppearance="@style/Roboto"
-                android:textSize="20sp" />
+                android:textSize="22sp" />
 
         </LinearLayout>
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:visibility="visible"
+            android:layout_centerInParent="true"
+            style="?android:attr/progressBarStyleLarge"/>
 
     </RelativeLayout>
 

@@ -98,7 +98,9 @@ public class MapHelper {
                     String cMark = rods.getJSONObject(j).getString("landmark");
                     int cDist = rods.getJSONObject(j).getInt("distance");
                     if (landmark.getString(i).equals(cMark) && curr >= cDist && curr - currStep < cDist) {
-                        newMark = new MapMark(cDist, rods.getJSONObject(j).getInt("id"), cMark, rods.getJSONObject(j).getBoolean("cast"));
+                        newMark = new MapMark(cDist, rods.getJSONObject(j).getInt("id"), cMark,
+                                rods.getJSONObject(j).getString("comment"),
+                                rods.getJSONObject(j).getBoolean("cast"));
                         break;
                     }
                 }
@@ -135,7 +137,9 @@ public class MapHelper {
                     String cMark = rods.getJSONObject(j).getString("landmark");
                     int cDist = rods.getJSONObject(j).getInt("distance");
                     if (landmark.getString(i).equals(cMark) && curr >= cDist && curr - currStep < cDist) {
-                        newMark = new MapMark(cDist, rods.getJSONObject(j).getInt("id"), cMark, rods.getJSONObject(j).getBoolean("cast"));
+                        newMark = new MapMark(cDist, rods.getJSONObject(j).getInt("id"), cMark,
+                                rods.getJSONObject(j).getString("comment"),
+                                rods.getJSONObject(j).getBoolean("cast"));
                         break;
                     }
                 }

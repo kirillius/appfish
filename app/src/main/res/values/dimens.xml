@@ -1,7 +1,7 @@
 <resources>
     <dimen name="se_margin">60dp</dimen>
     <dimen name="record_grid_margin">2dp</dimen>
-    <dimen name="record_greed_text_size">18sp</dimen>
+    <dimen name="record_greed_text_size">24sp</dimen>
     <dimen name="dropdown_list_text_size">30sp</dimen>
     <dimen name="dropdown_list_circle_size">14dp</dimen>
 </resources>

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
@@ -140,6 +141,18 @@ public class MapAdapter extends BaseAdapter {
                             @Override
                             public void onClick(View v) {
                                 listener.openSettingsList(rodId, getItem(position).isCast());
+                            }
+                        });
+
+                        rowView.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                String comment = getItem(position).getComment();
+                                if (!comment.equals(" ") && !comment.equals("")) {
+                                    Toast.makeText(context, comment, Toast.LENGTH_LONG).show();
+                                    return true;
+                                }
+                                return false;
                             }
                         });
                     }
