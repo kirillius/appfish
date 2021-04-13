@@ -51,7 +51,7 @@ public class RecordButtonsAccumulator {
         this.tvTimer = tvTimer;
         this.teamId = teamId;
         this.progressBar = progressBar;
-
+        CastTimerAccumulator timerAccumulator = CastTimerAccumulator.getInstance();
 
         try {
             rodId = info.getInt("id");
@@ -63,17 +63,14 @@ public class RecordButtonsAccumulator {
             this.startTime = Integer.parseInt(timeValues[0]) * 60 + Integer.parseInt(timeValues[1]);
 
             //установка таймера в кастомное значение, если уже был заброс
-            if (event.equals("1")) {
-                String eventTime = info.getString("eventDate");
+            if (event.equals("1") || event.equals("2")) {
+                String eventTime = info.getString("castDate");
                 eventTime = eventTime.substring(eventTime.indexOf("T") + 1);
                 String[] eventValues = eventTime.split(":");
                 int eventEndsAt = Integer.parseInt(eventValues[0]) * 360 + Integer.parseInt(eventValues[1]) * 60 + Integer.parseInt(eventValues[2]) + this.startTime;
-                int timeLeft = eventEndsAt - getCurrentTime();
-//                Log.d("Rod Id", Integer.toString(rodId));
-//                Log.d("Timer settings current time", Integer.toString(getCurrentTime()));
-//                Log.d("Timer settings event started", Integer.toString(eventEndsAt));
-//                Log.d("Timer settings diff", Integer.toString(timeLeft));
+                int timeLeft = eventEndsAt - CastTimerAccumulator.getCurrentTime();
                 if (timeLeft > 0) {
+                    timerAccumulator.stopTimer(rodId);
                     timer = new CountDownTimer(timeLeft * 1000, 1000) {
                         @Override
                         public void onTick(long millisUntilFinished) {
@@ -85,7 +82,7 @@ public class RecordButtonsAccumulator {
                         @Override
                         public void onFinish() {
                             tvTimer.setText("00:00");
-                            createNotification();
+                            CastTimerAccumulator.createNotification(context, rodId);
                         }
                     };
                     timer.start();
@@ -164,7 +161,7 @@ public class RecordButtonsAccumulator {
                     @Override
                     public void onFinish() {
                         tvTimer.setText("00:00");
-                        createNotification();
+                        CastTimerAccumulator.createNotification(context, rodId);
                     }
                 };
                 timer.start();
@@ -236,11 +233,6 @@ public class RecordButtonsAccumulator {
         return formattedDate;
     }
 
-    private int getCurrentTime() {
-        DateFormat df = new SimpleDateFormat("HH:mm:ss");
-        String[] timeSplit = df.format(Calendar.getInstance().getTime()).split(":");
-        return Integer.parseInt(timeSplit[0]) * 360 + Integer.parseInt(timeSplit[1]) * 60 + Integer.parseInt(timeSplit[2]);
-    }
 
     private void setBack(String event) {
         setBackToBlack();
@@ -268,37 +260,5 @@ public class RecordButtonsAccumulator {
         goneBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_back));
     }
 
-    private static String CHANNEL_ID = "g_carp";
 
-    private void createNotification() {
-
-        Uri ringURI =
-                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            CharSequence name = "g_carpfishing";
-            String Description = "G-Carpfishing Notify";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
-            mChannel.setDescription(Description);
-            mChannel.enableLights(true);
-            mChannel.setLightColor(Color.RED);
-            mChannel.enableVibration(true);
-            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
-            mChannel.setShowBadge(false);
-            notificationManager.createNotificationChannel(mChannel);
-        }
-
-        NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(context, CHANNEL_ID)
-                        .setSmallIcon(R.drawable.rod_icon)
-                        .setContentTitle("G-CARPFISHING")
-                        .setContentText("Вышло время заброса удочки номер " + rodId + "!")
-                        .setSound(ringURI);
-
-        notificationManager.notify(rodId, builder.build());
-
-    }
 }

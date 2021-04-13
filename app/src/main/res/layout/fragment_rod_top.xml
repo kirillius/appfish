@@ -20,17 +20,16 @@
         android:layout_marginBottom="24dp">
 
         <TextView
+            android:id="@+id/tv_rod_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:ellipsize="end"
             android:gravity="center_vertical"
-            android:maxWidth="400dp"
             android:singleLine="true"
             android:text="@string/settings_rods"
             android:textAppearance="@style/Roboto"
             android:textColor="@color/white"
-            android:textSize="38sp" />
+            android:textSize="34sp" />
 
     </LinearLayout>
 

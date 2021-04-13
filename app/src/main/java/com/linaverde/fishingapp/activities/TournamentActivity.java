@@ -1,6 +1,7 @@
 package com.linaverde.fishingapp.activities;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -13,11 +14,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.fragments.PersonalRecordFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.fragments.TournamentFragment;
 import com.linaverde.fishingapp.fragments.TournamentUserFragment;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
+import com.linaverde.fishingapp.models.CastTimerAccumulator;
+import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.NavigationHelper;
 import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
@@ -53,26 +57,48 @@ public class TournamentActivity extends FragmentActivity implements TopMenuEvent
 
         UserInfo userInfo = new UserInfo(this);
         TopMenuFragment menuFragment = TopMenuFragment.newInstance(true, false);
-            matchId = userInfo.getMatchId();
+        matchId = userInfo.getMatchId();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
 
+        CastTimerAccumulator accumulator = CastTimerAccumulator.getInstance();
+        if (!accumulator.isTimersAlreadyCreated()) {
+
+            RequestHelper requestHelper = new RequestHelper(this);
+            requestHelper.executeGet("catching", new String[]{"match", "team"}, new String[]{matchId, userInfo.getTeamId()}, new RequestListener() {
+                @Override
+                public void onComplete(JSONObject json) {
+                    progressBar.hide();
+                    try {
+                        accumulator.createTimers(TournamentActivity.this, json.getJSONArray("rods"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(int responseCode) {
+                    progressBar.hide();
+                    DialogBuilder.createDefaultDialog(TournamentActivity.this, getLayoutInflater(),
+                            TournamentActivity.this.getString(R.string.request_error), null);
+                }
+            });
+        }
 
         if (userInfo.getUserType() == 1 || userInfo.getUserType() == 4) {
-            progressBar.hide();
             TournamentFragment JTFragment = new TournamentFragment();
             fragmentTransaction.add(R.id.content_fragment, JTFragment);
             if (!fragmentManager.isDestroyed())
                 fragmentTransaction.commit();
         } else {
-            progressBar.hide();
             TournamentUserFragment JTFragment = new TournamentUserFragment();
             fragmentTransaction.add(R.id.content_fragment, JTFragment);
             if (!fragmentManager.isDestroyed())
                 fragmentTransaction.commit();
         }
+
     }
 
     @Override

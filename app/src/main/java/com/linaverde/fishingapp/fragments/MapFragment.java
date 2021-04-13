@@ -100,8 +100,7 @@ public class MapFragment extends Fragment {
             llButtons.setVisibility(View.VISIBLE);
         }
 
-        MapHelper mapHelper = new MapHelper(getContext(), getLayoutInflater(), gridView, llTableNames,
-                view.findViewById(R.id.ll_width), jsonObject, editableRod, showSpod,  mapRodClickedListener);
+        MapHelper mapHelper = new MapHelper(getContext(), getLayoutInflater(), gridView, llTableNames, jsonObject, editableRod, showSpod,  mapRodClickedListener);
         try {
             ((TextView) view.findViewById(R.id.ll_width_value)).setText(jsonObject.getString("width"));
         } catch (JSONException e) {

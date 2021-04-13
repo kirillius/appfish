@@ -33,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -146,8 +147,50 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                 }
             }
 
-            adapter1 = new RodsSettingsListAdapter(getContext(), section1, progressBar, rodId, rodType, cast,this);
-            adapter2 = new RodsSettingsListAdapter(getContext(), section2, progressBar, rodId, rodType, cast,this);
+            Comparator<JSONObject> comparator = new Comparator<JSONObject>() {
+                @Override
+                public int compare(JSONObject o1, JSONObject o2) {
+                    try {
+                        if (o1.getJSONObject("param").getInt("groupId") <
+                                o2.getJSONObject("param").getInt("groupId")) {
+                            return -1;
+                        } else if (o1.getJSONObject("param").getInt("groupId") >
+                                o2.getJSONObject("param").getInt("groupId")) {
+                            return 1;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    return 0;
+                }
+            };
+
+            //сгруппировали по groupId
+            section1.sort(comparator);
+            section2.sort(comparator);
+
+            int i = 1;
+            while (i < section1.size()) {
+                if (section1.get(i - 1).getJSONObject("param").getInt("groupId") !=
+                        section1.get(i).getJSONObject("param").getInt("groupId")) {
+                    section1.add(i, (new JSONObject()).put("divider", true));
+                    i++;
+                }
+                i++;
+            }
+
+            i = 1;
+            while (i < section2.size()) {
+                if (section2.get(i - 1).getJSONObject("param").getInt("groupId") !=
+                        section2.get(i).getJSONObject("param").getInt("groupId")) {
+                    section2.add(i, (new JSONObject()).put("divider", true));
+                    i++;
+                }
+                i++;
+            }
+
+            adapter1 = new RodsSettingsListAdapter(getContext(), section1, progressBar, rodId, rodType, cast, this);
+            adapter2 = new RodsSettingsListAdapter(getContext(), section2, progressBar, rodId, rodType, cast, this);
 
             ((ListView) view.findViewById(R.id.list_rods_settings_1)).setAdapter(adapter1);
             ((ListView) view.findViewById(R.id.list_rods_settings_2)).setAdapter(adapter2);
@@ -169,48 +212,52 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                         boolean added;
                         for (int i = 0; i < section1.size(); i++) {
                             added = false;
-                            String param = section1.get(i).getJSONObject("param").getString("id");
-                            for (int j = 0; j < newParams.length(); j++) {
-                                String changed;
-                                changed = newParams.getJSONObject(j).getString("paramId");
-                                if (param.equals(changed)) {
-                                    added = true;
-                                    break;
+                            if (!section1.get(i).has("divider")) {
+                                String param = section1.get(i).getJSONObject("param").getString("id");
+                                for (int j = 0; j < newParams.length(); j++) {
+                                    String changed;
+                                    changed = newParams.getJSONObject(j).getString("paramId");
+                                    if (param.equals(changed)) {
+                                        added = true;
+                                        break;
+                                    }
                                 }
-                            }
-                            if (!added) {
-                                JSONObject missedParam = new JSONObject();
-                                missedParam.put("paramId", param);
-                                Object value = section1.get(i).get("value");
-                                if (value.getClass() == JSONObject.class) {
-                                    missedParam.put("valueId", ((JSONObject) value).getString("id"));
-                                } else {
-                                    missedParam.put("valueId", value);
+                                if (!added) {
+                                    JSONObject missedParam = new JSONObject();
+                                    missedParam.put("paramId", param);
+                                    Object value = section1.get(i).get("value");
+                                    if (value.getClass() == JSONObject.class) {
+                                        missedParam.put("valueId", ((JSONObject) value).getString("id"));
+                                    } else {
+                                        missedParam.put("valueId", value);
+                                    }
+                                    newParams.put(missedParam);
                                 }
-                                newParams.put(missedParam);
                             }
                         }
                         for (int i = 0; i < section2.size(); i++) {
                             added = false;
-                            String param = section2.get(i).getJSONObject("param").getString("id");
-                            for (int j = 0; j < newParams.length(); j++) {
-                                String changed;
-                                changed = newParams.getJSONObject(j).getString("paramId");
-                                if (param.equals(changed)) {
-                                    added = true;
-                                    break;
+                            if (!section2.get(i).has("divider")) {
+                                String param = section2.get(i).getJSONObject("param").getString("id");
+                                for (int j = 0; j < newParams.length(); j++) {
+                                    String changed;
+                                    changed = newParams.getJSONObject(j).getString("paramId");
+                                    if (param.equals(changed)) {
+                                        added = true;
+                                        break;
+                                    }
                                 }
-                            }
-                            if (!added) {
-                                JSONObject missedParam = new JSONObject();
-                                missedParam.put("paramId", param);
-                                Object value = section2.get(i).get("value");
-                                if (value.getClass() == JSONObject.class) {
-                                    missedParam.put("valueId", ((JSONObject) value).getString("id"));
-                                } else {
-                                    missedParam.put("valueId", value);
+                                if (!added) {
+                                    JSONObject missedParam = new JSONObject();
+                                    missedParam.put("paramId", param);
+                                    Object value = section2.get(i).get("value");
+                                    if (value.getClass() == JSONObject.class) {
+                                        missedParam.put("valueId", ((JSONObject) value).getString("id"));
+                                    } else {
+                                        missedParam.put("valueId", value);
+                                    }
+                                    newParams.put(missedParam);
                                 }
-                                newParams.put(missedParam);
                             }
                         }
                         if (timerJson != null) {
@@ -287,7 +334,7 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
             if (isJSONValid(value)) {
                 object.put("valueId", (new JSONObject(value)).getString("id"));
             } else {
-                if (addinfo){
+                if (addinfo) {
                     object.put("addinfo", value);
                     object.put("valueId", "");
                 } else {
@@ -308,26 +355,26 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
     @Override
     public void openMap(RodPositionChangedListener positionChangedListener) {
         if (mapFragment == null) {
-        progressBar.show();
-        RequestHelper requestHelper = new RequestHelper(getContext());
-        requestHelper.executeGet("map", new String[]{"match", "team"}, new String[]{userInfo.getMatchId(), userInfo.getTeamId()}, new RequestListener() {
-            @Override
-            public void onComplete(JSONObject json) {
-                try {
-                    rodsPositions = json.getJSONArray("rods");
-                    mapFragment = MapFragment.newInstance(json.toString(), rodId, rodsPositions.toString(), rodType.equals("spod"));
-                    progressBar.hide();
-                    listener.openMapFragment(mapFragment, positionChangedListener);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            progressBar.show();
+            RequestHelper requestHelper = new RequestHelper(getContext());
+            requestHelper.executeGet("map", new String[]{"match", "team"}, new String[]{userInfo.getMatchId(), userInfo.getTeamId()}, new RequestListener() {
+                @Override
+                public void onComplete(JSONObject json) {
+                    try {
+                        rodsPositions = json.getJSONArray("rods");
+                        mapFragment = MapFragment.newInstance(json.toString(), rodId, rodsPositions.toString(), rodType.equals("spod"));
+                        progressBar.hide();
+                        listener.openMapFragment(mapFragment, positionChangedListener);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void onError(int responseCode) {
+                @Override
+                public void onError(int responseCode) {
 
-            }
-        });
+                }
+            });
         } else {
             try {
                 rodsPositions = mapFragment.getRodsPositions();

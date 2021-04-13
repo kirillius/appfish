@@ -164,7 +164,7 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.replace(R.id.content_fragment, currentDetailedFragment);
-                        fragmentTransaction.replace(R.id.top_menu_fragment, new RodTopFragment());
+                        fragmentTransaction.replace(R.id.top_menu_fragment, RodTopFragment.newInstance(rodType));
                         if (mainFirst)
                             fragmentTransaction.addToBackStack("RodsMain");
                         if (!fragmentManager.isDestroyed())
@@ -196,7 +196,7 @@ public class RodsSettingsActivity extends AppCompatActivity implements TopMenuEv
                             fragmentManager.popBackStack();
                             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                             fragmentTransaction.replace(R.id.content_fragment, currentDetailedFragment);
-                            fragmentTransaction.replace(R.id.top_menu_fragment, new RodTopFragment());
+                            fragmentTransaction.replace(R.id.top_menu_fragment, RodTopFragment.newInstance(rodType));
                             if (mainFirst)
                                 fragmentTransaction.addToBackStack("RodsMain");
                             if (!fragmentManager.isDestroyed())

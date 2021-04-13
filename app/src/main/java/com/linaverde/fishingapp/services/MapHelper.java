@@ -41,7 +41,7 @@ public class MapHelper {
 
 
     public MapHelper(Context context, LayoutInflater inflater, GridView map, LinearLayout llMarks,
-                     LinearLayout arrow, JSONObject mapDetail, int editableRod, boolean showSpod, MapRodClickedListener listener) {
+                     JSONObject mapDetail, int editableRod, boolean showSpod, MapRodClickedListener listener) {
         this.context = context;
         this.map = map;
         this.llMarks = llMarks;
@@ -54,7 +54,7 @@ public class MapHelper {
             this.rods = mapDetail.getJSONArray("rods");
             this.spod = mapDetail.getJSONArray("spod");
             landmark = mapDetail.getJSONArray("landmark");
-            setLandmarks(arrow);
+            setLandmarks();
             setMap();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -68,14 +68,13 @@ public class MapHelper {
         Log.d("Column width", Integer.toString(map.getRequestedColumnWidth()));
     }
 
-    private void setLandmarks(LinearLayout arrow) throws JSONException {
+    private void setLandmarks() throws JSONException {
         for (int i = 0; i < landmark.length(); i++) {
             TextView view = (TextView) inflater.inflate(R.layout.landmark, llMarks, false);
             view.setText(landmark.getString(i));
             llMarks.addView(view);
         }
         llMarks.setWeightSum(landmark.length() + 1);
-        arrow.setWeightSum(landmark.length() + 1);
 
     }
 

@@ -82,131 +82,138 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
     public View getView(int position, View convertView, ViewGroup parent) {
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.rods_settings_list_item,
-                parent, false);
-        String paramId = null;
-        String valueId = null;
-        TextView tvName = rowView.findViewById(R.id.grid_param_name);
-        TextView tvValue = rowView.findViewById(R.id.grid_param_value);
+        View rowView = null;
         try {
             JSONObject object = values.get(position);
-            paramId = object.getJSONObject("param").getString("id");
-            if (paramId.equals("LANDMARK"))
-                landmarkObj = object;
-            if (paramId.equals("DISTANCE"))
-                distanceObj = object;
-            tvName.setText(object.getJSONObject("param").getString("name"));
-            Object value = object.get("value");
-            if (value.getClass() == JSONObject.class) {
-                if (((JSONObject) value).has("addInfo") && !((JSONObject) value).getString("addInfo").equals("")) {
-                    tvValue.setText(((JSONObject) value).getString("addInfo"));
-                } else {
-                    tvValue.setText(((JSONObject) value).getString("name"));
-                    valueId = ((JSONObject) value).getString("id");
-                }
+            if (object.has("divider")) {
+                rowView = inflater.inflate(R.layout.list_divider, parent, false);
             } else {
-                tvValue.setText(value.toString());
-            }
+                rowView = inflater.inflate(R.layout.rods_settings_list_item,
+                        parent, false);
+                String paramId = null;
+                String valueId = null;
+                TextView tvName = rowView.findViewById(R.id.grid_param_name);
+                TextView tvValue = rowView.findViewById(R.id.grid_param_value);
 
 
-            String finalParamId = paramId;
-            String finalValueId = valueId;
-            if (!cast)
-                rowView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String type = null;
-                        String id = null;
-                        CompleteActionListener listener = new CompleteActionListener() {
-                            @Override
-                            public void onOk(String input) {
-                                if (!input.isEmpty()) {
-                                    try {
-                                        values.get(position).remove("value");
-                                        values.get(position).put("value", input);
-                                        changeListener.paramChanged(object.getJSONObject("param").getString("id"),
-                                                input, false);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
+                paramId = object.getJSONObject("param").getString("id");
+                if (paramId.equals("LANDMARK"))
+                    landmarkObj = object;
+                if (paramId.equals("DISTANCE"))
+                    distanceObj = object;
+                tvName.setText(object.getJSONObject("param").getString("name"));
+                Object value = object.get("value");
+                if (value.getClass() == JSONObject.class) {
+                    if (((JSONObject) value).has("addInfo") && !((JSONObject) value).getString("addInfo").equals("")) {
+                        tvValue.setText(((JSONObject) value).getString("addInfo"));
+                    } else {
+                        tvValue.setText(((JSONObject) value).getString("name"));
+                        valueId = ((JSONObject) value).getString("id");
+                    }
+                } else {
+                    tvValue.setText(value.toString());
+                }
 
-                            }
 
-                            @Override
-                            public void onCancel() {
-
-                            }
-                        };
-
-                        RodsSettingsParamSwithcListener rodsSwithcListener = new RodsSettingsParamSwithcListener() {
-                            @Override
-                            public void onOk(String input, boolean info) {
-                                if (!input.isEmpty()) {
-                                    try {
-                                        values.get(position).remove("value");
-                                        if (!info) {
-                                            values.get(position).put("value", new JSONObject(input));
-                                        } else {
-                                            values.get(position).put("value", input);
-                                        }
-                                        changeListener.paramChanged(object.getJSONObject("param").getString("id"),
-                                                input, info);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onCancel() {
-
-                            }
-                        };
-
-                        try {
-                            type = object.getJSONObject("param").getString("type");
-                            id = object.getJSONObject("param").getString("id");
-                            if (id.equals("DISTANCE") || id.equals("LANDMARK")) {
-                                RodPositionChangedListener positionListener = new RodPositionChangedListener() {
-                                    @Override
-                                    public void rodPositionChanged(int rodId, String landmark, double distance) {
+                String finalParamId = paramId;
+                String finalValueId = valueId;
+                if (!cast)
+                    rowView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String type = null;
+                            String id = null;
+                            CompleteActionListener listener = new CompleteActionListener() {
+                                @Override
+                                public void onOk(String input) {
+                                    if (!input.isEmpty()) {
                                         try {
-                                            distanceObj.remove("value");
-                                            distanceObj.put("value", Double.toString(distance));
-                                            landmarkObj.remove("value");
-                                            landmarkObj.put("value", landmark);
-                                            changeListener.paramChanged("LANDMARK", landmark, false);
-                                            changeListener.paramChanged("DISTANCE", Double.toString(distance), false);
+                                            values.get(position).remove("value");
+                                            values.get(position).put("value", input);
+                                            changeListener.paramChanged(object.getJSONObject("param").getString("id"),
+                                                    input, false);
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
                                     }
-                                };
-                                Log.d("Rodid to map", Integer.toString(rodId));
-                                changeListener.openMap(positionListener);
-                            } else {
-                                switch (type) {
-                                    case "number":
-                                        DialogBuilder.createInputNumberDialog(getContext(), inflater,
-                                                "Введите числовое значение", false, listener);
-                                        break;
-                                    case "string":
-                                        DialogBuilder.createInputStringDialog(getContext(), inflater,
-                                                "Введите значение", listener);
-                                        break;
-                                    case "object":
-                                        createTypeSelect(finalParamId, finalValueId, tvName, rodsSwithcListener);
-                                        break;
-                                }
-                            }
-                        } catch (
-                                JSONException e) {
-                            e.printStackTrace();
-                        }
 
-                    }
-                });
+                                }
+
+                                @Override
+                                public void onCancel() {
+
+                                }
+                            };
+
+                            RodsSettingsParamSwithcListener rodsSwithcListener = new RodsSettingsParamSwithcListener() {
+                                @Override
+                                public void onOk(String input, boolean info) {
+                                    if (!input.isEmpty()) {
+                                        try {
+                                            values.get(position).remove("value");
+                                            if (!info) {
+                                                values.get(position).put("value", new JSONObject(input));
+                                            } else {
+                                                values.get(position).put("value", input);
+                                            }
+                                            changeListener.paramChanged(object.getJSONObject("param").getString("id"),
+                                                    input, info);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancel() {
+
+                                }
+                            };
+
+                            try {
+                                type = object.getJSONObject("param").getString("type");
+                                id = object.getJSONObject("param").getString("id");
+                                if (id.equals("DISTANCE") || id.equals("LANDMARK")) {
+                                    RodPositionChangedListener positionListener = new RodPositionChangedListener() {
+                                        @Override
+                                        public void rodPositionChanged(int rodId, String landmark, double distance) {
+                                            try {
+                                                distanceObj.remove("value");
+                                                distanceObj.put("value", Double.toString(distance));
+                                                landmarkObj.remove("value");
+                                                landmarkObj.put("value", landmark);
+                                                changeListener.paramChanged("LANDMARK", landmark, false);
+                                                changeListener.paramChanged("DISTANCE", Double.toString(distance), false);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    };
+                                    Log.d("Rodid to map", Integer.toString(rodId));
+                                    changeListener.openMap(positionListener);
+                                } else {
+                                    switch (type) {
+                                        case "number":
+                                            DialogBuilder.createInputNumberDialog(getContext(), inflater,
+                                                    "Введите числовое значение", false, listener);
+                                            break;
+                                        case "string":
+                                            DialogBuilder.createInputStringDialog(getContext(), inflater,
+                                                    "Введите значение", listener);
+                                            break;
+                                        case "object":
+                                            createTypeSelect(finalParamId, finalValueId, tvName, rodsSwithcListener);
+                                            break;
+                                    }
+                                }
+                            } catch (
+                                    JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+            }
         } catch (
                 JSONException e) {
             e.printStackTrace();

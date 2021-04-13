@@ -114,6 +114,8 @@
     <string name="sector_map">Карта сектора</string>
     <string name="settings_rods_work">Настройка рабочих удилищ</string>
     <string name="settings_rods_spod">Настройка сподовых удилищ</string>
+    <string name="settings_work">Настройка рабочего удилища</string>
+    <string name="settings_spod">Настройка сподового удилища</string>
     <string name="protocol">Протокол</string>
     <string name="team_stats">Статистика команды</string>
     <string name="change_pin">Сменить пин</string>
@@ -135,5 +137,6 @@
     <string name="record_fish">Рыба</string>
     <string name="record_gone">Сход</string>
     <string name="addinfo_hint">Введите своё значение</string>
+    <string name="distance">Дальность</string>
 
 </resources>
