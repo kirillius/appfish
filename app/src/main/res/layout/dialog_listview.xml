@@ -2,12 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_marginStart="96dp"
     android:layout_marginEnd="96dp"
     android:background="@drawable/notification_back"
     android:gravity="center_horizontal"
-    android:maxHeight="700dp"
     android:orientation="vertical">
 
     <TextView
@@ -28,17 +27,15 @@
         android:layout_below="@id/tv_dialog"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:textAlignment="center">
-
-    </ListView>
+        android:textAlignment="center"
+        android:maxHeight="400dp"
+        android:layout_above="@id/et_addinfo"/>
 
 
     <EditText
-        android:visibility="gone"
         android:id="@+id/et_addinfo"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@id/lv_dialog"
         android:layout_gravity="center"
         android:layout_marginStart="40dp"
         android:layout_marginTop="10dp"
@@ -49,18 +46,20 @@
         android:textAlignment="center"
         android:textAppearance="@style/Roboto"
         android:textColor="@color/white"
-        android:textSize="@dimen/dropdown_list_text_size" />
+        android:textSize="@dimen/dropdown_list_text_size"
+        android:visibility="gone"
+        android:layout_above="@id/ll_dialog_buttons"/>
 
 
     <LinearLayout
         android:id="@+id/ll_dialog_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/et_addinfo"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="20dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
 
         <TextView
             android:id="@+id/tv_ok"

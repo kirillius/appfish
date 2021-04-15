@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">G-Carpfishing</string>
-    <string name="action_settings">Settings</string>
 
     <string name="url_backend">http://89.17.51.75:4089/carpfishing_test/hs/v1</string>
 
@@ -30,29 +29,19 @@
     <string name="end_reg">Завершить регистрацию</string>
     <string name="open_reg">Открыть регистрацию</string>
     <string name="confirm_reg">Подвтердить регистрацию</string>
-    <string name="unconfirm_reg">Отменить регистрацию</string>
     <string name="end_reg_match_question">Вы уверены, что хотите завершить регистрацию турнира?</string>
     <string name="open_reg_match_question">Вы уверены, что хотите открыть регистрацию турнира?</string>
-    <string name="end_reg_team_question">Подтвердить регистрацию?</string>
-    <string name="open_reg_team_question">Отменить регистрацию?</string>
     <string name="end_reg_match">Регистрация турнира успешно завершена</string>
     <string name="open_reg_match">Регистрация турнира успешно открыта</string>
-    <string name="end_reg_team">Регистрация команды успешно завершена</string>
     <string name="reg_status_updated">Статус регистрации обновлен</string>
-    <string name="open_reg_team">Регистрация команды успешно отменена</string>
     <string name="end_draw">Завершить жеребьевку</string>
     <string name="open_draw">Открыть жеребьевку</string>
-    <string name="fish_count">Количество рыбы</string>
     <string name="voilations">Замечание</string>
     <string name="queue">Очередь</string>
     <string name="enter_queue">Ведите номер очереди</string>
     <string name="enter_sector">Ведите номер сектора</string>
-    <string name="queue_empty">Остались команды без номера очереди</string>
-    <string name="sector_empty">Остались команды без номера сектора</string>
     <string name="queue_zero">Номер очереди должен быть больше 0</string>
     <string name="sector_zero">Номер сектора должен быть больше 0</string>
-    <string name="queue_unic">Номер очереди должен быть уникален</string>
-    <string name="sector_unic">Номер сектора должен быть уникален</string>
     <string name="queue_draw_end">Жеребьевка очереди завершена</string>
     <string name="sector_draw_end">Жеребьевка секторов завершена</string>
     <string name="queue_draw_open">Жеребьевка очереди открыта</string>
@@ -74,14 +63,12 @@
     <string name="stage_continue">Открыт</string>
     <string name="status">Статус</string>
     <string name="input_weight">Введите вес</string>
-    <string name="input_new_time">Введите новое время</string>
     <string name="select_fish_type">Выберите тип рыбы</string>
     <string name="select_violation_type">Выберите вид нарушения</string>
     <string name="pin_code">ПИН-КОД</string>
     <string name="end_weighting_question">Вы уверены, что хотите завершить этап взвешивания?</string>
     <string name="end_weighting_success">Этап взвешивания завершен</string>
     <string name="sms">Вам придет SMS с кодом</string>
-    <string name="ending">Завершение</string>
     <string name="violation_type">Тип нарушения</string>
     <string name="confirm">Подтвердить</string>
     <string name="protocol_sent">Протоколы отправлены</string>
@@ -107,7 +94,6 @@
 
     <string name="values">Значения</string>
     <string name="draw_confirm">Подтвердите отправку данных</string>
-    <string name="register_rods">Регистрация удочек</string>
     <string name="date">Дата</string>
     <string name="weight">Вес</string>
     <string name="foul">Нарушение</string>
@@ -116,7 +102,6 @@
     <string name="settings_rods_spod">Настройка сподовых удилищ</string>
     <string name="settings_work">Настройка рабочего удилища</string>
     <string name="settings_spod">Настройка сподового удилища</string>
-    <string name="protocol">Протокол</string>
     <string name="team_stats">Статистика команды</string>
     <string name="change_pin">Сменить пин</string>
     <string-array name="register_status">
@@ -132,11 +117,12 @@
     </string-array>
     <string name="width">Ширина</string>
     <string name="fishing_record">Учет ловли</string>
-    <string name="record_set_rod">Заброс</string>
     <string name="record_bite">Поклевка</string>
     <string name="record_fish">Рыба</string>
     <string name="record_gone">Сход</string>
     <string name="addinfo_hint">Введите своё значение</string>
-    <string name="distance">Дальность</string>
+
+    <string name="cast_count_spod">Спод. Количество забросов</string>
+    <string name="cast_count_cobra">Кобра. Количество забросов</string>
 
 </resources>

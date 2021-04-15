@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
@@ -32,7 +33,7 @@ public class RecordActivity extends AppCompatActivity implements TopMenuEventLis
     FragmentManager fragmentManager;
 
     ContentLoadingProgressBar progressBar;
-
+    FragmentContainerView bottomFragmentContainer;
     RequestHelper requestHelper;
 
     String matchId;
@@ -41,11 +42,12 @@ public class RecordActivity extends AppCompatActivity implements TopMenuEventLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_two_fragments);
+        setContentView(R.layout.activity_three_fragments);
 
         drawer = findViewById(R.id.drawer_layout);
         progressBar = findViewById(R.id.progress_bar);
-        //progressBar.show();
+        bottomFragmentContainer = findViewById(R.id.bottom_fragment);
+        bottomFragmentContainer.setVisibility(View.GONE);
         progressBar.hide();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);

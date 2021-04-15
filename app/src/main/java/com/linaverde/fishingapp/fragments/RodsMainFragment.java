@@ -121,33 +121,26 @@ public class RodsMainFragment extends Fragment {
             });
 
 
-            String rodName;
-            if (spod) {
-                rodName = "Сподовое удилище";
-            } else {
-                rodName = "Рабочее удилище";
-            }
-
-            for (int i = 1; i <= 4; i++) {
+            for (int i = 0; i < 4; i++) {
                 int currRes;
                 String ID;
-                //название удочек в зависимости от типа
-                ID = "rod_name_" + i;
+                int rodId = rods.getJSONObject(i).getInt("rodId");
+                String rodName = rods.getJSONObject(i).getString("rodName");
+                ID = "rod_name_" + rodId;
                 currRes = getResources().getIdentifier(ID, "id", getContext().getPackageName());
                 ((TextView) view.findViewById(currRes)).setText(rodName);
 
-                ID = "rod_" + i + "_back";
+                ID = "rod_" + rodId + "_back";
                 currRes = getResources().getIdentifier(ID, "id", getContext().getPackageName());
                 int imageRes;
                 String imageId;
                 Drawable d;
-                if (rods.getJSONObject(i - 1).getBoolean("cast")) {
-                    imageId = "rod_" + i + "_back_red";
-                    imageRes = getResources().getIdentifier(imageId, "drawable", getContext().getPackageName());
+                if (rods.getJSONObject(i).getBoolean("cast")) {
+                    imageId = "rod_" + rodId + "_back_gr";
                 } else {
-                    imageId = "rod_" + i + "_back_gr";
-                    imageRes = getResources().getIdentifier(imageId, "drawable", getContext().getPackageName());
+                    imageId = "rod_" + rodId + "_back_red";
                 }
+                imageRes = getResources().getIdentifier(imageId, "drawable", getContext().getPackageName());
                 d = getContext().getDrawable(imageRes);
                 ((ImageView) view.findViewById(currRes)).setImageDrawable(d);
             }

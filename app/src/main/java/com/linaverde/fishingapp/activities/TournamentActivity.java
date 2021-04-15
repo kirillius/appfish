@@ -63,31 +63,9 @@ public class TournamentActivity extends FragmentActivity implements TopMenuEvent
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
 
-        CastTimerAccumulator accumulator = CastTimerAccumulator.getInstance();
-        if (!accumulator.isTimersAlreadyCreated()) {
-
-            RequestHelper requestHelper = new RequestHelper(this);
-            requestHelper.executeGet("catching", new String[]{"match", "team"}, new String[]{matchId, userInfo.getTeamId()}, new RequestListener() {
-                @Override
-                public void onComplete(JSONObject json) {
-                    progressBar.hide();
-                    try {
-                        accumulator.createTimers(TournamentActivity.this, json.getJSONArray("rods"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onError(int responseCode) {
-                    progressBar.hide();
-                    DialogBuilder.createDefaultDialog(TournamentActivity.this, getLayoutInflater(),
-                            TournamentActivity.this.getString(R.string.request_error), null);
-                }
-            });
-        }
 
         if (userInfo.getUserType() == 1 || userInfo.getUserType() == 4) {
+            progressBar.hide();
             TournamentFragment JTFragment = new TournamentFragment();
             fragmentTransaction.add(R.id.content_fragment, JTFragment);
             if (!fragmentManager.isDestroyed())
@@ -97,8 +75,31 @@ public class TournamentActivity extends FragmentActivity implements TopMenuEvent
             fragmentTransaction.add(R.id.content_fragment, JTFragment);
             if (!fragmentManager.isDestroyed())
                 fragmentTransaction.commit();
-        }
 
+            CastTimerAccumulator accumulator = CastTimerAccumulator.getInstance();
+            if (!accumulator.isTimersAlreadyCreated()) {
+
+                RequestHelper requestHelper = new RequestHelper(this);
+                requestHelper.executeGet("catching", new String[]{"match", "team"}, new String[]{matchId, userInfo.getTeamId()}, new RequestListener() {
+                    @Override
+                    public void onComplete(JSONObject json) {
+                        progressBar.hide();
+                        try {
+                            accumulator.createTimers(TournamentActivity.this, json.getJSONArray("rods"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(int responseCode) {
+                        progressBar.hide();
+                        DialogBuilder.createDefaultDialog(TournamentActivity.this, getLayoutInflater(),
+                                TournamentActivity.this.getString(R.string.request_error), null);
+                    }
+                });
+            }
+        }
     }
 
     @Override

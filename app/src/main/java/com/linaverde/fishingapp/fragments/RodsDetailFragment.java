@@ -121,7 +121,6 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
 
         try {
             rodId = settings.getJSONArray("rods").getJSONObject(0).getInt("rodId");
-
             switch (rodId) {
                 case 2:
                     ((ImageView) view.findViewById(R.id.iv_rod_icon)).setImageDrawable(getContext().getDrawable(R.drawable.rod_2_icon));

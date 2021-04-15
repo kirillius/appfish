@@ -7,8 +7,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -27,6 +31,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class DialogBuilder {
+
+    private static final int MAX_HEIGHT = 1200;
 
     public static void createDefaultDialog(Context context, LayoutInflater inflater, String text, final CompleteActionListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -232,9 +238,27 @@ public class DialogBuilder {
 
         if (!((Activity) context).isFinishing()) {
             dialog.show();
+
+            ViewTreeObserver vto = viewDialog.getViewTreeObserver();
+            vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                public boolean onPreDraw() {
+                    viewDialog.getViewTreeObserver().removeOnPreDrawListener(this);
+                    Log.d("Dialog width", Integer.toString(viewDialog.getMeasuredWidth()));
+                    Log.d("Dialog height", Integer.toString(viewDialog.getMeasuredHeight()));
+                    if (viewDialog.getMeasuredHeight() > MAX_HEIGHT) {
+                        //dialog.getWindow().setLayout(viewDialog.getMeasuredWidth(), MAX_HEIGHT);
+                        ViewGroup.LayoutParams lp =  viewDialog.getLayoutParams();
+                        lp.height = MAX_HEIGHT;
+                        lp.width = viewDialog.getMeasuredWidth();
+                        viewDialog.setLayoutParams(lp);
+                    }
+                    return true;
+                }
+            });
         }
 
     }
+
 
     public static void createRodSettingsSelectDialog(Context context, LayoutInflater inflater, String text, JSONArray dict, String selectedId, final RodsSettingsParamSwithcListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -310,7 +334,26 @@ public class DialogBuilder {
 
         if (!((Activity) context).isFinishing()) {
             dialog.show();
+
+            ViewTreeObserver vto = viewDialog.getViewTreeObserver();
+            vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                public boolean onPreDraw() {
+                    viewDialog.getViewTreeObserver().removeOnPreDrawListener(this);
+                    Log.d("Dialog width", Integer.toString(viewDialog.getMeasuredWidth()));
+                    Log.d("Dialog height", Integer.toString(viewDialog.getMeasuredHeight()));
+                    if (viewDialog.getMeasuredHeight() > MAX_HEIGHT) {
+                        //dialog.getWindow().setLayout(viewDialog.getMeasuredWidth(), MAX_HEIGHT);
+                        ViewGroup.LayoutParams lp =  viewDialog.getLayoutParams();
+                        lp.height = MAX_HEIGHT;
+                        lp.width = viewDialog.getMeasuredWidth();
+                        viewDialog.setLayoutParams(lp);
+                    }
+                    return true;
+                }
+            });
         }
+
+
     }
 
     public static void createSelectViolationTypeDialog(Context context, LayoutInflater inflater, String text, ViolationDictionaryItem[] dict, String selectedId, final CompleteActionListener listener) {
@@ -368,6 +411,23 @@ public class DialogBuilder {
 
         if (!((Activity) context).isFinishing()) {
             dialog.show();
+
+            ViewTreeObserver vto = viewDialog.getViewTreeObserver();
+            vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                public boolean onPreDraw() {
+                    viewDialog.getViewTreeObserver().removeOnPreDrawListener(this);
+                    Log.d("Dialog width", Integer.toString(viewDialog.getMeasuredWidth()));
+                    Log.d("Dialog height", Integer.toString(viewDialog.getMeasuredHeight()));
+                    if (viewDialog.getMeasuredHeight() > MAX_HEIGHT) {
+                        //dialog.getWindow().setLayout(viewDialog.getMeasuredWidth(), MAX_HEIGHT);
+                        ViewGroup.LayoutParams lp =  viewDialog.getLayoutParams();
+                        lp.height = MAX_HEIGHT;
+                        lp.width = viewDialog.getMeasuredWidth();
+                        viewDialog.setLayoutParams(lp);
+                    }
+                    return true;
+                }
+            });
         }
 
     }
@@ -536,6 +596,23 @@ public class DialogBuilder {
 
         if (!((Activity) context).isFinishing()) {
             dialog.show();
+
+            ViewTreeObserver vto = viewDialog.getViewTreeObserver();
+            vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                public boolean onPreDraw() {
+                    viewDialog.getViewTreeObserver().removeOnPreDrawListener(this);
+                    Log.d("Dialog width", Integer.toString(viewDialog.getMeasuredWidth()));
+                    Log.d("Dialog height", Integer.toString(viewDialog.getMeasuredHeight()));
+                    if (viewDialog.getMeasuredHeight() > MAX_HEIGHT) {
+                        //dialog.getWindow().setLayout(viewDialog.getMeasuredWidth(), MAX_HEIGHT);
+                        ViewGroup.LayoutParams lp =  viewDialog.getLayoutParams();
+                        lp.height = MAX_HEIGHT;
+                        lp.width = viewDialog.getMeasuredWidth();
+                        viewDialog.setLayoutParams(lp);
+                    }
+                    return true;
+                }
+            });
         }
 
     }

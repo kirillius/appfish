@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -64,7 +65,7 @@ public class MapHelper {
 
     public void movePonton(ImageView ponton) {
         ViewGroup.MarginLayoutParams marginParams = (ViewGroup.MarginLayoutParams) ponton.getLayoutParams();
-        marginParams.setMargins(0, 0, map.getRequestedColumnWidth(), 0);
+        marginParams.setMargins(0, 0, adapter.getColumnWidth(), 0);
         Log.d("Column width", Integer.toString(map.getRequestedColumnWidth()));
     }
 
@@ -99,7 +100,8 @@ public class MapHelper {
                     if (landmark.getString(i).equals(cMark) && curr >= cDist && curr - currStep < cDist) {
                         newMark = new MapMark(cDist, rods.getJSONObject(j).getInt("id"), cMark,
                                 rods.getJSONObject(j).getString("comment"),
-                                rods.getJSONObject(j).getBoolean("cast"));
+                                rods.getJSONObject(j).getBoolean("cast"),
+                                rods.getJSONObject(j).getInt("depth"));
                         break;
                     }
                 }
@@ -138,7 +140,8 @@ public class MapHelper {
                     if (landmark.getString(i).equals(cMark) && curr >= cDist && curr - currStep < cDist) {
                         newMark = new MapMark(cDist, rods.getJSONObject(j).getInt("id"), cMark,
                                 rods.getJSONObject(j).getString("comment"),
-                                rods.getJSONObject(j).getBoolean("cast"));
+                                rods.getJSONObject(j).getBoolean("cast"),
+                                rods.getJSONObject(j).getInt("depth"));
                         break;
                     }
                 }
@@ -207,7 +210,4 @@ public class MapHelper {
         return -1;
     }
 
-    public void print() {
-
-    }
 }

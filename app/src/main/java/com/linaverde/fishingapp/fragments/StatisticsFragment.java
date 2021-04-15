@@ -15,17 +15,11 @@ import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.StatisticTeamNameClicked;
-import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.services.StatisticAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 public class StatisticsFragment extends Fragment {
 
@@ -72,7 +66,7 @@ public class StatisticsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_statistics, container, false);
+        View view = inflater.inflate(R.layout.fragment_statistics_comand, container, false);
 
         TextView tvTournamentName = view.findViewById(R.id.tv_tournament_name);
         tvTournamentName.setText(tournamentName);

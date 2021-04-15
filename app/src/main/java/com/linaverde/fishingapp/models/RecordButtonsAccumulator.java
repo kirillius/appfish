@@ -45,6 +45,7 @@ public class RecordButtonsAccumulator {
     String teamId;
     String event;
     ContentLoadingProgressBar progressBar;
+    boolean timeIsAlreadyOut = false;
 
     public RecordButtonsAccumulator(Context context, String teamId, TextView tvTimer, JSONObject info, ContentLoadingProgressBar progressBar) {
         this.context = context;
@@ -63,13 +64,16 @@ public class RecordButtonsAccumulator {
             this.startTime = Integer.parseInt(timeValues[0]) * 60 + Integer.parseInt(timeValues[1]);
 
             //установка таймера в кастомное значение, если уже был заброс
-            if (event.equals("1") || event.equals("2")) {
+            if (event.equals("1")) {
                 String eventTime = info.getString("castDate");
                 eventTime = eventTime.substring(eventTime.indexOf("T") + 1);
                 String[] eventValues = eventTime.split(":");
                 int eventEndsAt = Integer.parseInt(eventValues[0]) * 360 + Integer.parseInt(eventValues[1]) * 60 + Integer.parseInt(eventValues[2]) + this.startTime;
+                Log.d(Integer.toString(rodId) + "event ends at", Integer.toString(eventEndsAt));
                 int timeLeft = eventEndsAt - CastTimerAccumulator.getCurrentTime();
-                if (timeLeft > 0) {
+                Log.d(Integer.toString(rodId) + " currTime", Integer.toString(timeLeft));
+                Log.d(Integer.toString(rodId) + " time left", Integer.toString(timeLeft));
+                if (timeLeft > 0 && timeLeft <= startTime && (event.equals("1") || event.equals("2"))) {
                     timerAccumulator.stopTimer(rodId);
                     timer = new CountDownTimer(timeLeft * 1000, 1000) {
                         @Override
@@ -83,9 +87,16 @@ public class RecordButtonsAccumulator {
                         public void onFinish() {
                             tvTimer.setText("00:00");
                             CastTimerAccumulator.createNotification(context, rodId);
+                            if (setBack != null) {
+                                setBackToBlack();
+                                setBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_red));
+                            }
+
                         }
                     };
                     timer.start();
+                } else if (timeLeft <=0 || timeLeft > startTime) {
+                    timeIsAlreadyOut = true;
                 }
             }
 
@@ -162,6 +173,8 @@ public class RecordButtonsAccumulator {
                     public void onFinish() {
                         tvTimer.setText("00:00");
                         CastTimerAccumulator.createNotification(context, rodId);
+                        setBackToBlack();
+                        setBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_red));
                     }
                 };
                 timer.start();
@@ -181,6 +194,8 @@ public class RecordButtonsAccumulator {
                 Log.d("Event", "bite" + rodId + "clicked");
                 wasBite = true;
                 progressBar.show();
+                if (timer != null)
+                    timer.cancel();
                 requestHelper.executePost("catching", new String[]{"team", "rod", "event", "time"},
                         new String[]{teamId, Integer.toString(rodId), "2", getCurrentDateTime()}, null, listener);
             }
@@ -235,21 +250,26 @@ public class RecordButtonsAccumulator {
 
 
     private void setBack(String event) {
-        setBackToBlack();
-        switch (event) {
-            case "1":
-                setBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_green));
-                break;
-            case "2":
-                biteBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_green));
-                wasBite = true;
-                break;
-            case "3":
-                fishBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_green));
-                break;
-            case "4":
-                goneBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_red));
-                break;
+        if (!timeIsAlreadyOut) {
+            setBackToBlack();
+                switch (event) {
+                    case "1":
+                        setBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_green));
+                        break;
+                    case "2":
+                        biteBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_green));
+                        wasBite = true;
+                        break;
+                    case "3":
+                        fishBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_green));
+                        break;
+                    case "4":
+                        goneBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_red));
+                        break;
+                }
+        } else {
+            setBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_red));
+            timeIsAlreadyOut = false;
         }
     }
 
@@ -259,6 +279,5 @@ public class RecordButtonsAccumulator {
         fishBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_back));
         goneBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_back));
     }
-
 
 }

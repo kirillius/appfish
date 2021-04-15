@@ -104,12 +104,12 @@ public class StatisticsDayFragment extends Fragment {
 
             try {
                 JSONObject total = mStartParam.getJSONObject("total");
-                TextView resultCoun = view.findViewById(R.id.tv_result_stat_count);
-                resultCoun.setText(Integer.toString(total.getInt("quantity")));
-                TextView resultAvr = view.findViewById(R.id.tv_result_stat_avr);
-                resultAvr.setText(Integer.toString(total.getInt("avgWeight")));
-                TextView resultSum = view.findViewById(R.id.tv_result_stat_sum);
-                resultSum.setText(Integer.toString(total.getInt("weight")));
+                ((TextView) view.findViewById(R.id.tv_result_stat_count)).setText(Integer.toString(total.getInt("quantity")));
+                ((TextView) view.findViewById(R.id.tv_result_stat_avr)).setText(Integer.toString(total.getInt("avgWeight")));
+                ((TextView) view.findViewById(R.id.tv_result_stat_sum)).setText(Integer.toString(total.getInt("weight")));
+                ((TextView) view.findViewById(R.id.tv_leaderWeight)).setText(total.getString("leaderWeight"));
+                ((TextView) view.findViewById(R.id.tv_bigFishWeight)).setText(total.getString("bigFishWeight"));
+                ((TextView) view.findViewById(R.id.tv_koiWeight)).setText(total.getString("koiWeight"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

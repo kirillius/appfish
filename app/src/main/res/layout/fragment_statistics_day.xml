@@ -336,17 +336,73 @@
                 android:textSize="22sp" />
         </LinearLayout>
 
-        <ImageView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ll_result"
             android:layout_marginStart="@dimen/se_margin"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="@dimen/se_margin"
-            android:adjustViewBounds="true"
-            android:background="@null"
-            android:scaleType="centerInside"
-            android:src="@drawable/stats_comment" />
+            android:layout_marginBottom="15dp">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/stats_red_shield" />
+
+            <TextView
+                android:id="@+id/tv_leaderWeight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:textAppearance="@style/Roboto"
+                android:textSize="26sp"
+                android:layout_marginStart="10dp"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/stats_yellow_shield" />
+
+            <TextView
+                android:id="@+id/tv_bigFishWeight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:textAppearance="@style/Roboto"
+                android:textSize="26sp"
+                android:layout_marginStart="10dp"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/stats_green_shield" />
+
+            <TextView
+                android:id="@+id/tv_koiWeight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:textAppearance="@style/Roboto"
+                android:textSize="26sp"
+                android:layout_marginStart="10dp"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

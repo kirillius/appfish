@@ -6,6 +6,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,6 +39,8 @@ public class MapAdapter extends BaseAdapter {
     MapRodClickedListener listener;
 
     private final boolean showSpod;
+
+    int columnWidth;
 
     public MapAdapter(Context context, LayoutInflater inflater, List<MapMark> marks, int cellHeight,
                       int editableRod, boolean showSpod, MapRodClickedListener listener) {
@@ -77,41 +80,45 @@ public class MapAdapter extends BaseAdapter {
             rowView = inflater.inflate(R.layout.map_grid_item, parent, false);
             int rodId = marks.get(position).getRodId();
             int spodId = marks.get(position).getSpodId();
+            int depth = marks.get(position).getDepth();
 
             if (!showSpod) {
                 switch (rodId) {
                     case 1:
                         if (rodId != editableRod) {
-                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_1));
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_1_half));
                         } else {
-                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_1_gr));
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_1_half_gr));
                         }
                         rodsMarks.add(marks.get(position));
                         break;
                     case 2:
                         if (rodId != editableRod) {
-                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_2));
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_2_half));
                         } else {
-                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_2_gr));
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_2_half_gr));
                         }
                         rodsMarks.add(marks.get(position));
                         break;
                     case 3:
                         if (rodId != editableRod) {
-                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_3));
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_3_half));
                         } else {
-                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_3_gr));
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_3_half_gr));
                         }
                         rodsMarks.add(marks.get(position));
                         break;
                     case 4:
                         if (rodId != editableRod) {
-                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_4));
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_4_half));
                         } else {
-                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_4_gr));
+                            ((ImageView) rowView.findViewById(R.id.iv_mark)).setImageDrawable(context.getDrawable(R.drawable.rod_num_4_half_gr));
                         }
                         rodsMarks.add(marks.get(position));
                         break;
+                }
+                if (rodId > 0 && !editable) {
+                    ((TextView) rowView.findViewById(R.id.tv_mark)).setText(depth + " м");
                 }
                 if (spodId > 0) {
                     //Log.d("Spod place", "spod id drawing" + Integer.toString(spodId));
@@ -219,10 +226,29 @@ public class MapAdapter extends BaseAdapter {
         rowView.getLayoutParams().height = dimensionInDp;
         rowView.requestLayout();
 
+        if (position == 0) {
+            getColumnWidth(rowView);
+        }
+
         return rowView;
     }
 
     public List<MapMark> getRodsMarks() {
         return rodsMarks;
+    }
+
+    private void getColumnWidth(View view) {
+        ViewTreeObserver vto = view.getViewTreeObserver();
+        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            public boolean onPreDraw() {
+                view.getViewTreeObserver().removeOnPreDrawListener(this);
+                columnWidth = view.getMeasuredWidth();
+                return true;
+            }
+        });
+    }
+
+    public int getColumnWidth() {
+        return columnWidth;
     }
 }

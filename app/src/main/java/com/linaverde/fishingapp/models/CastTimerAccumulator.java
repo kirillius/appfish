@@ -64,7 +64,7 @@ public class CastTimerAccumulator {
             String[] eventValues = eventTime.split(":");
             int eventEndsAt = Integer.parseInt(eventValues[0]) * 360 + Integer.parseInt(eventValues[1]) * 60 + Integer.parseInt(eventValues[2]) + startTime;
             int timeLeft = eventEndsAt - getCurrentTime();
-            String event =  object.getString("event");
+            String event = object.getString("event");
             if (timeLeft > 0 && (event.equals("1") || event.equals("2"))) {
                 timers[rodId - 1] = new CountDownTimer(timeLeft * 1000, 1000) {
                     @Override
@@ -93,7 +93,10 @@ public class CastTimerAccumulator {
     public static void createNotification(Context context, int rodId) {
 
         Uri ringURI =
-                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        if (ringURI == null) {
+            ringURI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        }
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 

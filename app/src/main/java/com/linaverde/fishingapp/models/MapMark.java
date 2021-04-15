@@ -9,6 +9,7 @@ public class MapMark {
     private boolean isInfo;
     private boolean cast;
     private String comment;
+    private int depth;
 
 
 
@@ -20,6 +21,7 @@ public class MapMark {
         this.spodId = 0;
         this.cast = false;
         this.comment = null;
+        this.depth = 0;
     }
 
     public MapMark(String landmark, double distance) {
@@ -30,9 +32,10 @@ public class MapMark {
         this.spodId = 0;
         this.cast = false;
         this.comment = null;
+        this.depth = 0;
     }
 
-    public MapMark(double distance, int rodId, String landmark, String comment, boolean cast) {
+    public MapMark(double distance, int rodId, String landmark, String comment, boolean cast, int depth) {
         this.distance = distance;
         this.rodId = rodId;
         this.landmark = landmark;
@@ -41,6 +44,7 @@ public class MapMark {
         this.cast = cast;
         this.cast = false;
         this.comment = comment;
+        this.depth = depth;
     }
 
     public MapMark(double distance, int rodId, String landmark, int spodId) {
@@ -51,6 +55,7 @@ public class MapMark {
         this.spodId = spodId;
         this.cast = false;
         this.comment = null;
+        this.depth = 0;
     }
     public double getDistance() {
         return distance;
@@ -94,5 +99,9 @@ public class MapMark {
 
     public String getComment() {
         return comment;
+    }
+
+    public int getDepth() {
+        return depth;
     }
 }
