@@ -11,12 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.models.CastTimerAccumulator;
+import com.linaverde.fishingapp.services.UserInfo;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Objects;
 
 public class TimeFragment extends Fragment {
 
@@ -37,65 +40,25 @@ public class TimeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_time, container, false);
 
         Calendar rightNow = Calendar.getInstance();
-        int currentTime = rightNow.get(Calendar.HOUR_OF_DAY); // gets hour in 24h format
+        int currHour = rightNow.get(Calendar.HOUR_OF_DAY);
 
-        Log.d("Current time", String.valueOf(currentTime));
-        switch (currentTime) {
-            case 6:
-                view.findViewById(R.id.time_icon_1).setVisibility(View.VISIBLE);
-                break;
-            case 7:
-                view.findViewById(R.id.time_icon_2).setVisibility(View.VISIBLE);
-                break;
-            case 8:
-                view.findViewById(R.id.time_icon_3).setVisibility(View.VISIBLE);
-                break;
-            case 9:
-                view.findViewById(R.id.time_icon_4).setVisibility(View.VISIBLE);
-                break;
-            case 10:
-                view.findViewById(R.id.time_icon_5).setVisibility(View.VISIBLE);
-                break;
-            case 11:
-                view.findViewById(R.id.time_icon_6).setVisibility(View.VISIBLE);
-                break;
-            case 12:
-                view.findViewById(R.id.time_icon_7).setVisibility(View.VISIBLE);
-                break;
-            case 13:
-                view.findViewById(R.id.time_icon_8).setVisibility(View.VISIBLE);
-                break;
-            case 14:
-                view.findViewById(R.id.time_icon_9).setVisibility(View.VISIBLE);
-                break;
-            case 15:
-                view.findViewById(R.id.time_icon_10).setVisibility(View.VISIBLE);
-                break;
-            case 16:
-                view.findViewById(R.id.time_icon_11).setVisibility(View.VISIBLE);
-                break;
-            case 17:
-                view.findViewById(R.id.time_icon_12).setVisibility(View.VISIBLE);
-                break;
-            case 18:
-                view.findViewById(R.id.time_icon_13).setVisibility(View.VISIBLE);
-                break;
-            case 19:
-                view.findViewById(R.id.time_icon_14).setVisibility(View.VISIBLE);
-                break;
-            case 20:
-                view.findViewById(R.id.time_icon_15).setVisibility(View.VISIBLE);
-                break;
-            case 21:
-                view.findViewById(R.id.time_icon_16).setVisibility(View.VISIBLE);
-                break;
-            case 22:
-                view.findViewById(R.id.time_icon_17).setVisibility(View.VISIBLE);
-                break;
-            default:
-                view.findViewById(R.id.time_icon_18).setVisibility(View.VISIBLE);
-                break;
-        }
+        UserInfo userInfo = new UserInfo(getContext());
+        String startTime = userInfo.getTime();
+        String[] eventValues = startTime.split(":");
+        int startHour = Integer.parseInt(eventValues[0]);
+
+        int diff = currHour - startHour;
+        if (diff < 0)
+            diff = 24 + diff;
+
+        Log.d("CurrHour", Integer.toString(currHour));
+        Log.d("StartHour", Integer.toString(startHour));
+        Log.d("Difference", Integer.toString(diff));
+
+        int i = diff+1;
+        String buttonID = "time_icon_" + i;
+        int currRes = getResources().getIdentifier(buttonID, "id", getContext().getPackageName());
+        view.findViewById(currRes).setVisibility(View.VISIBLE);
 
 
         return view;

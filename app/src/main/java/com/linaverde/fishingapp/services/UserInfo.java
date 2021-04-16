@@ -17,6 +17,7 @@ public class UserInfo {
     public static final String APP_PREFERENCES_CHECKIN = "checkIn";
     public static final String APP_PREFERENCES_QUEUE = "queue";
     public static final String APP_PREFERENCES_SECTOR = "sector";
+    public static final String APP_PREFERENCES_START_TIME = "time";
 
     private SharedPreferences mSettings;
     private Context context;
@@ -39,11 +40,12 @@ public class UserInfo {
         mSettings.edit().remove(APP_PREFERENCES_CHECKIN).apply();
         mSettings.edit().remove(APP_PREFERENCES_QUEUE).apply();
         mSettings.edit().remove(APP_PREFERENCES_SECTOR).apply();
+        mSettings.edit().remove(APP_PREFERENCES_START_TIME).apply();
     }
 
     public void saveUser(String login, String password, String userName, int type, String pond,
                          String matchId, String matchName, String teamId, String caption,
-                         boolean checkIn, boolean queue, boolean sector){
+                         boolean checkIn, boolean queue, boolean sector, String time){
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putString(APP_PREFERENCES_USER_LOGIN, login);
         editor.putString(APP_PREFERENCES_USER_PASSWORD, password);
@@ -57,6 +59,7 @@ public class UserInfo {
         editor.putBoolean(APP_PREFERENCES_CHECKIN, checkIn);
         editor.putBoolean(APP_PREFERENCES_QUEUE, queue);
         editor.putBoolean(APP_PREFERENCES_SECTOR, sector);
+        editor.putString(APP_PREFERENCES_START_TIME, time);
         editor.apply();
     }
 
@@ -165,4 +168,11 @@ public class UserInfo {
 
     }
 
+    public String getTime(){
+        if (mSettings.contains(APP_PREFERENCES_START_TIME)) {
+            return mSettings.getString(APP_PREFERENCES_START_TIME, "");
+        } else {
+            return "";
+        }
+    }
 }

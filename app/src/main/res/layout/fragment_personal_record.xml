@@ -586,6 +586,7 @@
                 android:background="@drawable/top_black_grad">
 
                 <TextView
+                    android:id="@+id/spod_1"
                     android:layout_marginTop="10dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -599,6 +600,7 @@
                     android:textSize="22sp" />
 
                 <TextView
+                    android:id="@+id/spod_2"
                     android:layout_marginTop="10dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -612,6 +614,7 @@
                     android:textSize="22sp" />
 
                 <TextView
+                    android:id="@+id/spod_3"
                     android:layout_marginTop="10dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -625,6 +628,7 @@
                     android:textSize="22sp" />
 
                 <TextView
+                    android:id="@+id/spod_4"
                     android:layout_marginTop="10dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -662,6 +666,7 @@
                 android:background="@drawable/top_black_grad">
 
                 <TextView
+                    android:id="@+id/cobr_1"
                     android:layout_marginTop="10dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -675,6 +680,7 @@
                     android:textSize="22sp" />
 
                 <TextView
+                    android:id="@+id/cobr_2"
                     android:layout_marginTop="10dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -688,6 +694,7 @@
                     android:textSize="22sp" />
 
                 <TextView
+                    android:id="@+id/cobr_3"
                     android:layout_marginTop="10dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -701,6 +708,7 @@
                     android:textSize="22sp" />
 
                 <TextView
+                    android:id="@+id/cobr_4"
                     android:layout_marginTop="10dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

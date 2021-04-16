@@ -128,17 +128,19 @@ public class PersonalRecordFragment extends Fragment {
                 buttonID = "record_timer_" + id;
                 currRes = getResources().getIdentifier(buttonID, "id", getContext().getPackageName());
                 TextView timer = ((TextView) view.findViewById(currRes));
-                String time = null;
 
-                time = catchInfo.getJSONObject(i).getString("timer");
+                //инициализация счетчиков
 
-                time = time.substring(time.indexOf(":") + 1);
-                timer.setText(time);
-                String[] timeValues = time.split(":");
-                int startTime = Integer.parseInt(timeValues[0]) * 60 + Integer.parseInt(timeValues[1]);
+                buttonID = "spod_" + id;
+                currRes = getResources().getIdentifier(buttonID, "id", getContext().getPackageName());
+                TextView spod = ((TextView) view.findViewById(currRes));
+
+                buttonID = "cobr_" + id;
+                currRes = getResources().getIdentifier(buttonID, "id", getContext().getPackageName());
+                TextView cobr = ((TextView) view.findViewById(currRes));
 
                 RecordButtonsAccumulator acc = new RecordButtonsAccumulator(getContext(), userInfo.getTeamId(),
-                        timer, catchInfo.getJSONObject(i), progressBar);
+                        timer, catchInfo.getJSONObject(i), spod, cobr, progressBar);
 
                 acc.setButtonsBack(backs);
                 acc.setButtons(btn);

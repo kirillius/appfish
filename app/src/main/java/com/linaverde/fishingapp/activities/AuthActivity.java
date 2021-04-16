@@ -75,7 +75,8 @@ public class AuthActivity extends AppCompatActivity {
                             try {
                                 userInfo.saveUser(sLogin, sPassword, json.getString("userName"), json.getInt("userType"), json.getString("pond"),
                                         json.getString("matchId"), json.getString("matchName"), json.getString("teamId"), json.getString("caption"),
-                                        json.getBoolean("isCheckInClosed"), json.getBoolean("isQueueClosed"), json.getBoolean("isSectorClosed"));
+                                        json.getBoolean("isCheckInClosed"), json.getBoolean("isQueueClosed"), json.getBoolean("isSectorClosed"),
+                                        json.getString("startTime"));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

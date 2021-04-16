@@ -18,6 +18,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.widget.ContentLoadingProgressBar;
 
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.activities.AuthActivity;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.RequestHelper;
@@ -44,14 +45,23 @@ public class RecordButtonsAccumulator {
     RequestListener listener;
     String teamId;
     String event;
+    TextView spodCounter, cobrCounter;
     ContentLoadingProgressBar progressBar;
     boolean timeIsAlreadyOut = false;
+    CountDownTimer counterClicked;
+    int spodStart, cobrStart;
+    int tempSpod, tempCobr;
 
-    public RecordButtonsAccumulator(Context context, String teamId, TextView tvTimer, JSONObject info, ContentLoadingProgressBar progressBar) {
+    public RecordButtonsAccumulator(Context context, String teamId, TextView tvTimer, JSONObject info,
+                                    TextView spod, TextView cobr,
+                                    ContentLoadingProgressBar progressBar) {
         this.context = context;
         this.tvTimer = tvTimer;
         this.teamId = teamId;
         this.progressBar = progressBar;
+        this.spodCounter = spod;
+        this.cobrCounter = cobr;
+
         CastTimerAccumulator timerAccumulator = CastTimerAccumulator.getInstance();
 
         try {
@@ -95,10 +105,18 @@ public class RecordButtonsAccumulator {
                         }
                     };
                     timer.start();
-                } else if (timeLeft <=0 || timeLeft > startTime) {
+                } else if (timeLeft <= 0 || timeLeft > startTime) {
                     timeIsAlreadyOut = true;
                 }
             }
+
+            spodCounter.setText(info.getString("spod"));
+            cobrCounter.setText(info.getString("cobra"));
+
+            spodStart = info.getInt("spod");
+            cobrStart = info.getInt("cobra");
+
+            setCounters();
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -129,6 +147,8 @@ public class RecordButtonsAccumulator {
                 DialogBuilder.createDefaultDialog(context, LayoutInflater.from(context), context.getString(R.string.request_error), null);
             }
         };
+
+
     }
 
     public void setButtons(RelativeLayout[] btn) {
@@ -252,21 +272,21 @@ public class RecordButtonsAccumulator {
     private void setBack(String event) {
         if (!timeIsAlreadyOut) {
             setBackToBlack();
-                switch (event) {
-                    case "1":
-                        setBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_green));
-                        break;
-                    case "2":
-                        biteBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_green));
-                        wasBite = true;
-                        break;
-                    case "3":
-                        fishBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_green));
-                        break;
-                    case "4":
-                        goneBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_red));
-                        break;
-                }
+            switch (event) {
+                case "1":
+                    setBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_green));
+                    break;
+                case "2":
+                    biteBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_green));
+                    wasBite = true;
+                    break;
+                case "3":
+                    fishBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_green));
+                    break;
+                case "4":
+                    goneBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_red));
+                    break;
+            }
         } else {
             setBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_red));
             timeIsAlreadyOut = false;
@@ -278,6 +298,110 @@ public class RecordButtonsAccumulator {
         biteBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_back));
         fishBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_back));
         goneBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_back));
+    }
+
+    private void setCounters() {
+
+        RequestListener li = new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                progressBar.hide();
+                Log.d("Request", "Молодцы огурцы все отправили");
+                spodStart = tempSpod;
+                cobrStart = tempCobr;
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(context, LayoutInflater.from(context), context.getString(R.string.request_error), null);
+                spodCounter.setText(Integer.toString(spodStart));
+                cobrCounter.setText(Integer.toString(cobrStart));
+
+            }
+        };
+
+        counterClicked = new CountDownTimer(5000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                try {
+                    progressBar.show();
+                    JSONArray json = new JSONArray();
+                    JSONObject spodParam = new JSONObject();
+                    spodParam.put("paramId", "SPOD_QTY");
+                    spodParam.put("valueId", Integer.parseInt(spodCounter.getText().toString()));
+                    JSONObject cobrParam = new JSONObject();
+                    cobrParam.put("paramId", "COBR_QTY");
+                    cobrParam.put("valueId", Integer.parseInt(cobrCounter.getText().toString()));
+                    json.put(spodParam);
+                    json.put(cobrParam);
+                    requestHelper.executePost("rods", new String[]{"team", "rod", "rodType"},
+                            new String[]{teamId, Integer.toString(rodId), "carp"},
+                            json.toString(), li);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    progressBar.hide();
+                }
+            }
+        };
+
+        spodCounter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                counterClicked.cancel();
+                int curr = Integer.parseInt(spodCounter.getText().toString());
+                curr += 1;
+                spodCounter.setText(Integer.toString(curr));
+                tempSpod = curr;
+                counterClicked.start();
+            }
+        });
+
+        spodCounter.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                counterClicked.cancel();
+                int curr = Integer.parseInt(spodCounter.getText().toString());
+                if (curr > 0)
+                    curr -= 1;
+                tempSpod = curr;
+                spodCounter.setText(Integer.toString(curr));
+                counterClicked.start();
+                return true;
+            }
+        });
+
+        cobrCounter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                counterClicked.cancel();
+                int curr = Integer.parseInt(cobrCounter.getText().toString());
+                curr += 1;
+                tempCobr = curr;
+                cobrCounter.setText(Integer.toString(curr));
+                counterClicked.start();
+            }
+        });
+
+        cobrCounter.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                counterClicked.cancel();
+                int curr = Integer.parseInt(cobrCounter.getText().toString());
+                if (curr > 0)
+                    curr -= 1;
+                tempSpod = curr;
+                cobrCounter.setText(Integer.toString(curr));
+                counterClicked.start();
+                return true;
+            }
+        });
+
     }
 
 }

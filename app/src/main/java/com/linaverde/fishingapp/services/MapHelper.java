@@ -70,6 +70,9 @@ public class MapHelper {
     }
 
     private void setLandmarks() throws JSONException {
+        TextView empty = (TextView) inflater.inflate(R.layout.landmark, llMarks, false);
+        empty.setText("");
+        llMarks.addView(empty);
         for (int i = 0; i < landmark.length(); i++) {
             TextView view = (TextView) inflater.inflate(R.layout.landmark, llMarks, false);
             view.setText(landmark.getString(i));
@@ -92,6 +95,7 @@ public class MapHelper {
         double currBot = distBig.getDouble("bottom");
         double currStep = distBig.getDouble("step");
         while (curr >= currBot) {
+            marks.add(new MapMark(curr));
             for (int i = 0; i < landmark.length(); i++) {
                 MapMark newMark = null;
                 for (int j = 0; j < rods.length(); j++) {
@@ -126,12 +130,12 @@ public class MapHelper {
                     marks.add(newMark);
                 }
             }
-            marks.add(new MapMark(curr));
             curr = curr - currStep;
         }
         currBot = distSmall.getDouble("bottom");
         currStep = distSmall.getDouble("step");
         while (curr >= currBot) {
+            marks.add(new MapMark(curr));
             for (int i = 0; i < landmark.length(); i++) {
                 MapMark newMark = null;
                 for (int j = 0; j < rods.length(); j++) {
@@ -166,7 +170,6 @@ public class MapHelper {
                     marks.add(newMark);
                 }
             }
-            marks.add(new MapMark(curr));
             curr = curr - currStep;
         }
 

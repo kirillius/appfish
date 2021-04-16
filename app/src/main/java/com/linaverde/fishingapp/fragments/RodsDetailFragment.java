@@ -137,12 +137,15 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
             Log.d("RodId", Integer.toString(rodId));
             JSONArray array = settings.getJSONArray("rods").getJSONObject(0).getJSONArray("settings");
             for (int i = 0; i < array.length(); i++) {
-                if (array.getJSONObject(i).getJSONObject("param").getString("id").equals("TIMER")) {
+                String paramId = array.getJSONObject(i).getJSONObject("param").getString("id");
+                if (paramId.equals("TIMER")) {
                     timerJson = array.getJSONObject(i);
-                } else if (array.getJSONObject(i).getJSONObject("param").getInt("section") == 1) {
-                    section1.add(array.getJSONObject(i));
-                } else {
-                    section2.add(array.getJSONObject(i));
+                } else if (!paramId.equals("COBR_QTY") && !paramId.equals("SPOD_QTY")) {
+                    if (array.getJSONObject(i).getJSONObject("param").getInt("section") == 1) {
+                        section1.add(array.getJSONObject(i));
+                    } else {
+                        section2.add(array.getJSONObject(i));
+                    }
                 }
             }
 
@@ -265,6 +268,13 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                             missedParam.put("valueId", timerJson.getString("value"));
                             newParams.put(missedParam);
                         }
+                        JSONObject spodParam = new JSONObject();
+                        spodParam.put("paramId", "SPOD_QTY");
+                        spodParam.put("valueId", 0);
+                        JSONObject cobrParam = new JSONObject();
+                        cobrParam.put("paramId", "COBR_QTY");
+                        cobrParam.put("valueId", 0);
+                        newParams.put(spodParam); newParams.put(cobrParam);
                         listener.sendRodsSettings(rodType, rodId, newParams.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
