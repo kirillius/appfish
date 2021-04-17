@@ -10,9 +10,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.activities.AuthActivity;
 import com.linaverde.fishingapp.activities.RegisterTeamActivity;
+import com.linaverde.fishingapp.activities.StatisticActivity;
+import com.linaverde.fishingapp.activities.TeamStatisticsActivity;
 import com.linaverde.fishingapp.activities.TeamsActivity;
 import com.linaverde.fishingapp.activities.TournamentActivity;
 import com.linaverde.fishingapp.activities.WeatherActivity;
+import com.linaverde.fishingapp.fragments.DetailedStatsFragment;
 
 public class NavigationHelper {
 
@@ -29,11 +32,22 @@ public class NavigationHelper {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             context.startActivity(intent);
-        } else if (id == R.id.nav_weather) {
-            Intent intent = new Intent(context, WeatherActivity.class);
+//        } else if (id == R.id.nav_weather) {
+//            Intent intent = new Intent(context, WeatherActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//            context.startActivity(intent);
+        } else if (id == R.id.nav_team_stats) {
+            UserInfo userInfo = new UserInfo(context);
+            Intent intent = new Intent(context, TeamStatisticsActivity.class);
+            Bundle args = new Bundle();
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            args.putString("matchId", userInfo.getMatchId());
+            args.putString("teamId", userInfo.getTeamId());
+            args.putString("matchName", userInfo.getMatchName());
+            intent.putExtras(args);
             context.startActivity(intent);
         } else if (id == R.id.nav_exit) {
             UserInfo userInfo = new UserInfo(context);

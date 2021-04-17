@@ -34,6 +34,7 @@ import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.NavigationHelper;
 import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
+import com.linaverde.fishingapp.services.UserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,6 +62,12 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.bringToFront();
+        UserInfo userInfo = new UserInfo(this);
+        if(userInfo.getUserType() == 1 || userInfo.getUserType() == 4) {
+            navigationView.inflateMenu(R.menu.nav_menu_judge);
+        } else {
+            navigationView.inflateMenu(R.menu.nav_menu_user);
+        }
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

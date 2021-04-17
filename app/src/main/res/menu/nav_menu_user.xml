@@ -8,9 +8,12 @@
         <item
             android:id="@+id/nav_teams"
             android:title="Команды" />
-        <item
+        <!--<item
             android:id="@+id/nav_weather"
-            android:title="Погода" />
+            android:title="Погода" />-->
+        <item
+            android:id="@+id/nav_team_stats"
+            android:title="Статистика команды" />
         <item
             android:id="@+id/nav_exit"
             android:title="Выйти" />

@@ -64,11 +64,10 @@ public class DetailedDayStatsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detailed_day_stats, container, false);
-        Log.d("Fragment", "DETAILED DAY STATS FRAGMENT");
+        //Log.d("Fragment", "DETAILED DAY STATS FRAGMENT");
         TextView tvTournamentName = view.findViewById(R.id.tv_team_name);
         UserInfo userInfo = new UserInfo(getContext());
         tvTournamentName.setText(userInfo.getMatchName());
-
 
         ListView statList = view.findViewById(R.id.lv_stats);
         try {

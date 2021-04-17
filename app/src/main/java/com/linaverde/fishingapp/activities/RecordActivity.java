@@ -49,9 +49,14 @@ public class RecordActivity extends AppCompatActivity implements TopMenuEventLis
         bottomFragmentContainer = findViewById(R.id.bottom_fragment);
         bottomFragmentContainer.setVisibility(View.GONE);
         progressBar.hide();
-
+        UserInfo userInfo = new UserInfo(this);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.bringToFront();
+        if(userInfo.getUserType() == 1 || userInfo.getUserType() == 4) {
+            navigationView.inflateMenu(R.menu.nav_menu_judge);
+        } else {
+            navigationView.inflateMenu(R.menu.nav_menu_user);
+        }
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -69,7 +74,7 @@ public class RecordActivity extends AppCompatActivity implements TopMenuEventLis
         if (!fragmentManager.isDestroyed())
             fragmentTransaction.commit();
 
-        UserInfo userInfo = new UserInfo(this);
+
         matchId = userInfo.getMatchId();
         teamId = userInfo.getTeamId();
 

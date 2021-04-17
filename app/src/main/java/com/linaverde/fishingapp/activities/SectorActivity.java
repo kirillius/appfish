@@ -53,9 +53,14 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
         drawer = findViewById(R.id.drawer_layout);
         progressBar = findViewById(R.id.progress_bar);
         progressBar.show();
-
+        userInfo = new UserInfo(this);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.bringToFront();
+        if(userInfo.getUserType() == 1 || userInfo.getUserType() == 4) {
+            navigationView.inflateMenu(R.menu.nav_menu_judge);
+        } else {
+            navigationView.inflateMenu(R.menu.nav_menu_user);
+        }
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -64,7 +69,7 @@ public class SectorActivity extends AppCompatActivity implements TopMenuEventLis
             }
         });
 
-        userInfo = new UserInfo(this);
+
 
         TopMenuFragment menuFragment = TopMenuFragment.newInstance(false, false);
         TimeFragment timeFragment = new TimeFragment();

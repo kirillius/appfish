@@ -51,6 +51,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         android:background="@color/darkBlueBackground"
-        app:menu="@menu/navigation_menu" />
+         />
 
 </androidx.drawerlayout.widget.DrawerLayout>

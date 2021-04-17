@@ -72,9 +72,14 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
 
         progressBar = findViewById(R.id.progress_bar);
         progressBar.show();
-
+        UserInfo userInfo = new UserInfo(RegisterTeamActivity.this);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.bringToFront();
+        if(userInfo.getUserType() == 1 || userInfo.getUserType() == 4) {
+            navigationView.inflateMenu(R.menu.nav_menu_judge);
+        } else {
+            navigationView.inflateMenu(R.menu.nav_menu_user);
+        }
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -95,7 +100,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
         if (!fragmentManager.isDestroyed())
             fragmentTransaction.commit();
 
-        UserInfo userInfo = new UserInfo(RegisterTeamActivity.this);
+
         matchId = userInfo.getMatchId();
         matchName = userInfo.getMatchName();
 

@@ -57,6 +57,11 @@ public class MapActivity extends AppCompatActivity implements TopMenuEventListen
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.bringToFront();
+        if(userInfo.getUserType() == 1 || userInfo.getUserType() == 4) {
+            navigationView.inflateMenu(R.menu.nav_menu_judge);
+        } else {
+            navigationView.inflateMenu(R.menu.nav_menu_user);
+        }
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
