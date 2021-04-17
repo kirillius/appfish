@@ -377,6 +377,32 @@ public class WeightingActivity extends AppCompatActivity implements TopMenuEvent
             fragmentTransaction.commit();
     }
 
+    @Override
+    public void fishDeleted(String fishId, String stageId, String teamId, String pin, String pin2, int sector) {
+        progressBar.show();
+        requestHelper.executeDelete("weighing", new String[]{"stage", "team", "id"}, new String[]{stageId, teamId, fishId}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                try {
+                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                        updateFishList(teamId, stageId, pin, pin2, sector);
+                    } else {
+                        progressBar.hide();
+                        DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), json.getString("error"), null);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(WeightingActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+            }
+        });
+    }
+
 
     @Override
     public void violationChangedRequest(String stageId, String teamId, String violation, int sector) {

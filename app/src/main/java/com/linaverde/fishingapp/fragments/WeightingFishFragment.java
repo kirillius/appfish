@@ -19,10 +19,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.interfaces.FishChangedRequestListener;
 import com.linaverde.fishingapp.interfaces.FishListChangeActionListener;
 import com.linaverde.fishingapp.models.Fish;
 import com.linaverde.fishingapp.models.FishDictionaryItem;
+import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.FishAdapter;
 import com.linaverde.fishingapp.services.UserInfo;
 
@@ -143,6 +145,24 @@ public class WeightingFishFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     listener.fishChanged(adapter.getItem(position).toString(), dict.toString(), pin, pin2, teamId, stageId, sector);
+                }
+            });
+
+            lvFishes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), "Вы действительно хотите удалить эту позицию взвешивания?", new CompleteActionListener() {
+                        @Override
+                        public void onOk(String input) {
+                            listener.fishDeleted(adapter.getId(position),stageId, teamId, pin, pin2, sector);
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                    return true;
                 }
             });
 

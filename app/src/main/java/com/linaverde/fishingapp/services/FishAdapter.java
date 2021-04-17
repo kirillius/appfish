@@ -55,8 +55,11 @@ public class FishAdapter extends ArrayAdapter<Fish> {
             }
         }
 
-
         return rowView;
+    }
+
+    public String getId(int pos){
+        return values.get(pos).getId();
     }
 
 }

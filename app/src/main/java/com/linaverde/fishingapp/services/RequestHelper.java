@@ -169,6 +169,48 @@ public class RequestHelper {
 
     }
 
+    public void executeDelete(String method, String[] keys, String[] values, RequestListener listener){
+        AsyncHttpClient client = new AsyncHttpClient();
+        String logParam = "";
+        RequestParams params = new RequestParams();
+        if (keys != null)
+            for (int i = 0; i < keys.length; i++) {
+                params.put(keys[i], values[i]);
+                logParam += keys[i] + "=" + values[i] + ";";
+            }
+        Log.d("DELETE", "init " + method + " get request with params " + logParam);
+
+        ((Activity) context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        client.delete(context.getResources().getString(R.string.url_backend) + "/" + method, params, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                // called when response HTTP status is "200 OK"
+                Log.d("DELETE", method + " request successful");
+                Log.d("DELETE", "answer: " + new String(response, StandardCharsets.UTF_8));
+                ((Activity) context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                listener.onComplete(getAnswerBytes(response));
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                Log.d("Request", method + " request error with code " + statusCode);
+                //Log.d("Request", method + " post request failed with error " + new String(errorResponse, StandardCharsets.UTF_8));
+                ((Activity) context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                listener.onError(statusCode);
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                // called when request is retried
+            }
+        });
+
+    }
+
     public void executePost(String method, String[] keys, String[] values, String json, RequestListener listener) {
         AsyncHttpClient client = new AsyncHttpClient();
         String logParam = "";
