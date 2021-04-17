@@ -274,7 +274,8 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                         JSONObject cobrParam = new JSONObject();
                         cobrParam.put("paramId", "COBR_QTY");
                         cobrParam.put("valueId", 0);
-                        newParams.put(spodParam); newParams.put(cobrParam);
+                        newParams.put(spodParam);
+                        newParams.put(cobrParam);
                         listener.sendRodsSettings(rodType, rodId, newParams.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -290,32 +291,33 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                 llTimer.setVisibility(View.VISIBLE);
                 ((TextView) view.findViewById(R.id.timer_value)).setText(timeValue);
                 String finalTimeValue = timeValue;
-                llTimer.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DialogBuilder.createTimeInputDialog(getContext(), getLayoutInflater(), "Введите время заброса", null, new CompleteActionListener() {
-                            @Override
-                            public void onOk(String input) {
-                                if (!input.equals(finalTimeValue)) {
-                                    buttons.setVisibility(View.VISIBLE);
-                                    Log.d("New timer value", dateValue + "T" + input);
-                                    ((TextView) view.findViewById(R.id.timer_value)).setText(input);
-                                    timerJson.remove("value");
-                                    try {
-                                        timerJson.put("value", dateValue + "T" + input);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                if (!cast)
+                    llTimer.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            DialogBuilder.createTimeInputDialog(getContext(), getLayoutInflater(), "Введите время заброса", null, new CompleteActionListener() {
+                                @Override
+                                public void onOk(String input) {
+                                    if (!input.equals(finalTimeValue)) {
+                                        buttons.setVisibility(View.VISIBLE);
+                                        Log.d("New timer value", dateValue + "T" + input);
+                                        ((TextView) view.findViewById(R.id.timer_value)).setText(input);
+                                        timerJson.remove("value");
+                                        try {
+                                            timerJson.put("value", dateValue + "T" + input);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
                                 }
-                            }
 
-                            @Override
-                            public void onCancel() {
+                                @Override
+                                public void onCancel() {
 
-                            }
-                        });
-                    }
-                });
+                                }
+                            });
+                        }
+                    });
             }
 
         } catch (JSONException e) {

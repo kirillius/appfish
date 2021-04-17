@@ -10,6 +10,8 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -100,6 +102,8 @@ public class RecordButtonsAccumulator {
                             if (setBack != null) {
                                 setBackToBlack();
                                 setBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_red));
+                                Animation animation = AnimationUtils.loadAnimation(context, R.anim.simple_alpha);
+                                setBack.startAnimation(animation);
                             }
 
                         }
@@ -195,6 +199,8 @@ public class RecordButtonsAccumulator {
                         CastTimerAccumulator.createNotification(context, rodId);
                         setBackToBlack();
                         setBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_red));
+                        Animation animation = AnimationUtils.loadAnimation(context, R.anim.simple_alpha);
+                        setBack.startAnimation(animation);
                     }
                 };
                 timer.start();

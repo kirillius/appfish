@@ -3,6 +3,7 @@ package com.linaverde.fishingapp.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.linaverde.fishingapp.activities.MapActivity;
 import com.linaverde.fishingapp.activities.RecordActivity;
 import com.linaverde.fishingapp.activities.RodsSettingsActivity;
 import com.linaverde.fishingapp.activities.StatisticActivity;
+import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.UserInfo;
 
 import org.json.JSONException;
@@ -37,6 +39,7 @@ public class TournamentUserFragment extends Fragment {
 
     TextView tvTournamentName;
     UserInfo userInfo;
+    ContentLoadingProgressBar progressBar;
 
 
     @Override
@@ -48,6 +51,8 @@ public class TournamentUserFragment extends Fragment {
 
         tvTournamentName = view.findViewById(R.id.tv_tournament_name);
         tvTournamentName.setText(userInfo.getMatchName());
+        progressBar = view.findViewById(R.id.progress_bar);
+        progressBar.hide();
 
         RelativeLayout rlOnlineProtocol, rlMap, rlRodsWork, rlRodsSpod, rlRecord;
 
@@ -109,6 +114,14 @@ public class TournamentUserFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RecordActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        ((TextView) view.findViewById(R.id.catch_stats_pdf)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserInfo userInfo = new UserInfo(getContext());
+                ProtocolHelper.getCatchStats(getContext(), userInfo.getMatchId(), userInfo.getTeamId(), progressBar);
             }
         });
 

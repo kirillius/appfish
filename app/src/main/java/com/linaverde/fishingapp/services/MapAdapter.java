@@ -40,7 +40,6 @@ public class MapAdapter extends BaseAdapter {
 
     private final boolean showSpod;
 
-    int columnWidth;
 
     public MapAdapter(Context context, LayoutInflater inflater, List<MapMark> marks, int cellHeight,
                       int editableRod, boolean showSpod, MapRodClickedListener listener) {
@@ -128,7 +127,7 @@ public class MapAdapter extends BaseAdapter {
                     rowView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (rodId <= 0) {
+                            if (rodId <= 0 && getItem(position).getLandmark().equals(getExpectedLandmark(editableRod)) ) {
                                 for (int i = 0; i < rodsMarks.size(); i++) {
                                     if (rodsMarks.get(i).getRodId() == editableRod) {
                                         rodsMarks.get(i).setRodId(0);
@@ -203,7 +202,7 @@ public class MapAdapter extends BaseAdapter {
                     rowView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (spodId <= 0) {
+                            if (spodId <= 0 && getItem(position).getLandmark().equals(getExpectedLandmark(editableRod))) {
                                 for (int i = 0; i < rodsMarks.size(); i++) {
                                     if (rodsMarks.get(i).getSpodId() == editableRod) {
                                         rodsMarks.get(i).setSpodId(0);
@@ -221,14 +220,9 @@ public class MapAdapter extends BaseAdapter {
             }
         }
 
-
         int dimensionInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cellHeight, context.getResources().getDisplayMetrics());
         rowView.getLayoutParams().height = dimensionInDp;
         rowView.requestLayout();
-
-        if (position == 0) {
-            getColumnWidth(rowView);
-        }
 
         return rowView;
     }
@@ -237,18 +231,19 @@ public class MapAdapter extends BaseAdapter {
         return rodsMarks;
     }
 
-    private void getColumnWidth(View view) {
-        ViewTreeObserver vto = view.getViewTreeObserver();
-        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            public boolean onPreDraw() {
-                view.getViewTreeObserver().removeOnPreDrawListener(this);
-                columnWidth = view.getMeasuredWidth();
-                return true;
-            }
-        });
-    }
 
-    public int getColumnWidth() {
-        return columnWidth;
+    public String getExpectedLandmark(int rodId){ //метод ограничения на время турнира, потом будет изменен
+        switch (rodId){
+            case 1:
+                return "A";
+            case 2:
+                return "B";
+            case 3:
+                return "C";
+            case 4:
+                return "D";
+            default:
+                return "";
+        }
     }
 }

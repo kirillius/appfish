@@ -354,15 +354,36 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/stats_red_shield" />
 
-            <TextView
-                android:id="@+id/tv_leaderWeight"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="2"
-                android:textAppearance="@style/Roboto"
-                android:textSize="26sp"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginStart="10dp">
+
+                <TextView
+                    android:id="@+id/tv_leaderTeam"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="17sp"
+                    android:text="Команда"
+                    android:ellipsize="end"
+                    android:singleLine="true"/>
+
+                <TextView
+                    android:id="@+id/tv_leaderWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="26sp"
+                    />
+            </LinearLayout>
+
+
 
             <ImageView
                 android:layout_width="0dp"
@@ -373,15 +394,34 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/stats_yellow_shield" />
 
-            <TextView
-                android:id="@+id/tv_bigFishWeight"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="2"
-                android:textAppearance="@style/Roboto"
-                android:textSize="26sp"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginStart="10dp">
+
+                <TextView
+                    android:id="@+id/tv_koiTeam"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="17sp"
+                    android:text="Команда"
+                    android:ellipsize="end"
+                    android:singleLine="true"/>
+
+                <TextView
+                    android:id="@+id/tv_koiWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="26sp"
+                    />
+            </LinearLayout>
 
             <ImageView
                 android:layout_width="0dp"
@@ -392,15 +432,34 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/stats_green_shield" />
 
-            <TextView
-                android:id="@+id/tv_koiWeight"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="2"
-                android:textAppearance="@style/Roboto"
-                android:textSize="26sp"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginStart="10dp">
+
+                <TextView
+                    android:id="@+id/tv_bigFishTeam"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="17sp"
+                    android:text="Команда"
+                    android:ellipsize="end"
+                    android:singleLine="true"/>
+
+                <TextView
+                    android:id="@+id/tv_bigFishWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textAppearance="@style/Roboto"
+                    android:textSize="26sp"
+                    />
+            </LinearLayout>
 
         </LinearLayout>
 

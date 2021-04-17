@@ -120,4 +120,76 @@ public class ProtocolHelper {
         });
 
     }
+
+    public static void getCatchStats(Context context, String matchId, String teamId, ContentLoadingProgressBar progressBar){
+
+        RequestHelper requestHelper = new RequestHelper(context);
+        progressBar.show();
+        requestHelper.executeGet("catchstats", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                progressBar.hide();
+                try {
+                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                        String base64 = json.getString("doc");
+                        //base64 = base64.replaceAll("/r/n", "");
+                        String root = context.getFilesDir().toString();
+
+                        Log.d("ResponseEnv", root);
+
+                        File myDir = new File(root);
+                        if (!myDir.exists()) {
+                            myDir.mkdirs();
+                        }
+
+
+                        String fname = "catchProtocol.pdf";
+                        File file = new File(myDir, fname);
+                        if (file.exists())
+                            file.delete();
+                        try {
+
+                            FileOutputStream out = new FileOutputStream(file);
+                            byte[] pdfAsBytes = Base64.decode(base64, 0);
+                            out.write(pdfAsBytes);
+                            out.flush();
+                            out.close();
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        File imgFile = new File(myDir, fname);
+                        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+
+                        Uri uri;
+                        if (Build.VERSION.SDK_INT < 24) {
+                            uri = Uri.fromFile(file);
+                        } else {
+                            uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", imgFile);
+                        }
+
+                        sendIntent.setDataAndType(uri, "application/pdf");
+                        sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        context.startActivity(sendIntent);
+
+
+                    } else {
+                        DialogBuilder.createDefaultDialog(context, LayoutInflater.from(context), json.getString("error"), null);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                progressBar.hide();
+                DialogBuilder.createDefaultDialog(context, LayoutInflater.from(context), context.getString(R.string.request_error), null);
+            }
+        });
+
+    }
 }

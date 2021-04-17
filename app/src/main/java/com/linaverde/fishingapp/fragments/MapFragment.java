@@ -106,9 +106,7 @@ public class MapFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        mapHelper.movePonton((ImageView) view.findViewById(R.id.iv_ponton));
-
+        
         cancel = view.findViewById(R.id.rl_cancel);
         confirm = view.findViewById(R.id.rl_confirm);
 

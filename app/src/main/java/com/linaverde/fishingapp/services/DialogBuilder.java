@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -33,6 +34,11 @@ import org.json.JSONObject;
 public class DialogBuilder {
 
     private static final int MAX_HEIGHT = 1200;
+
+    public static void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 
     public static void createDefaultDialog(Context context, LayoutInflater inflater, String text, final CompleteActionListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -125,6 +131,7 @@ public class DialogBuilder {
             @Override
             public void onClick(View v) {
                 listener.onOk(etNumber.getText().toString());
+                hideKeyboardFrom(context, viewDialog);
                 dialog.dismiss();
             }
         });
@@ -133,6 +140,7 @@ public class DialogBuilder {
             @Override
             public void onClick(View v) {
                 listener.onCancel();
+                hideKeyboardFrom(context, viewDialog);
                 dialog.dismiss();
             }
         });
@@ -164,6 +172,7 @@ public class DialogBuilder {
             @Override
             public void onClick(View v) {
                 listener.onOk(etString.getText().toString());
+                hideKeyboardFrom(context, viewDialog);
                 dialog.dismiss();
             }
         });
@@ -172,6 +181,7 @@ public class DialogBuilder {
             @Override
             public void onClick(View v) {
                 listener.onCancel();
+                hideKeyboardFrom(context, viewDialog);
                 dialog.dismiss();
             }
         });

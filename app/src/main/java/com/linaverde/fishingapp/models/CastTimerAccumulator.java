@@ -1,12 +1,17 @@
 package com.linaverde.fishingapp.models;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioAttributes;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.CountDownTimer;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
@@ -92,13 +97,22 @@ public class CastTimerAccumulator {
 
     public static void createNotification(Context context, int rodId) {
 
+
+
         Uri ringURI =
-                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                Uri.parse("android.resource://"
+                        + context.getPackageName() + "/"
+                        + R.raw.alarm);
         if (ringURI == null) {
+            Log.d("ringUri", "is null");
             ringURI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         }
 
+        context.grantUriPermission("com.linaverde.fishingapp", ringURI, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             CharSequence name = "g_carpfishing";
@@ -111,15 +125,26 @@ public class CastTimerAccumulator {
             mChannel.enableVibration(true);
             mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
             mChannel.setShowBadge(false);
+
+            if(ringURI != null){
+                AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .setUsage(AudioAttributes.USAGE_ALARM)
+                        .build();
+                mChannel.setSound(ringURI,audioAttributes);
+            }
+
             notificationManager.createNotificationChannel(mChannel);
         }
+
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context, CHANNEL_ID)
                         .setSmallIcon(R.drawable.rod_icon)
                         .setContentTitle("G-CARPFISHING")
                         .setContentText("Вышло время заброса удочки номер " + rodId + "!")
-                        .setSound(ringURI);
+                        .setSound(ringURI)
+                        .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE);
 
         notificationManager.notify(rodId, builder.build());
 

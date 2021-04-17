@@ -63,12 +63,6 @@ public class MapHelper {
 
     }
 
-    public void movePonton(ImageView ponton) {
-        ViewGroup.MarginLayoutParams marginParams = (ViewGroup.MarginLayoutParams) ponton.getLayoutParams();
-        marginParams.setMargins(0, 0, adapter.getColumnWidth(), 0);
-        Log.d("Column width", Integer.toString(map.getRequestedColumnWidth()));
-    }
-
     private void setLandmarks() throws JSONException {
         TextView empty = (TextView) inflater.inflate(R.layout.landmark, llMarks, false);
         empty.setText("");

@@ -98,6 +98,8 @@ public class TournamentActivity extends FragmentActivity implements TopMenuEvent
                                 TournamentActivity.this.getString(R.string.request_error), null);
                     }
                 });
+            } else {
+                progressBar.hide();
             }
         }
     }
