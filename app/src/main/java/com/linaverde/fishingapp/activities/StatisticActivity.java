@@ -156,51 +156,38 @@ public class StatisticActivity extends AppCompatActivity implements TopMenuEvent
 
     private void updateDay() {
         progressBar.show();
-        if (selectedDay == null) {
-            requestHelper.executeGet("stats", new String[]{"match"}, new String[]{matchId}, new RequestListener() {
-                @Override
-                public void onComplete(JSONObject json) {
-                    progressBar.hide();
-                    StatisticsDayFragment statisticsFragment = StatisticsDayFragment.newInstance(json.toString(), matchName, true);
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.content_fragment, statisticsFragment);
-                    if (!fragmentManager.isDestroyed())
-                        fragmentTransaction.commit();
-                }
-
-                @Override
-                public void onError(int responseCode) {
-                    DialogBuilder.createDefaultDialog(StatisticActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
-                }
-            });
-        } else {
-            requestHelper.executeGet("stats", new String[]{"match", "day"}, new String[]{matchId, selectedDay}, new RequestListener() {
-                @Override
-                public void onComplete(JSONObject json) {
-                    progressBar.hide();
-                    String error = null;
-                    try {
-                        error = json.getString("error");
-                        if (error.equals("") || error == null || error.equals("null")) {
-                            StatisticsDayFragment statisticsFragment = StatisticsDayFragment.newInstance(json.toString(), matchName, true);
-                            fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.content_fragment, statisticsFragment);
-                            if (!fragmentManager.isDestroyed())
-                                fragmentTransaction.commit();
-                        } else {
-                            DialogBuilder.createDefaultDialog(StatisticActivity.this, getLayoutInflater(), error, null);
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+        RequestListener listener =  new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                progressBar.hide();
+                String error = null;
+                try {
+                    error = json.getString("error");
+                    if (error.equals("") || error == null || error.equals("null")) {
+                        StatisticsDayFragment statisticsFragment = StatisticsDayFragment.newInstance(json.toString(), matchName, true);
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.content_fragment, statisticsFragment);
+                        if (!fragmentManager.isDestroyed())
+                            fragmentTransaction.commit();
+                    } else {
+                        DialogBuilder.createDefaultDialog(StatisticActivity.this, getLayoutInflater(), error, null);
                     }
-                }
 
-                @Override
-                public void onError(int responseCode) {
-                    DialogBuilder.createDefaultDialog(StatisticActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            });
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                DialogBuilder.createDefaultDialog(StatisticActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+            }
+        };
+
+        if (selectedDay == null) {
+            requestHelper.executeGet("stats", new String[]{"match"}, new String[]{matchId}, listener);
+        } else {
+            requestHelper.executeGet("stats", new String[]{"match", "day"}, new String[]{matchId, selectedDay}, listener);
         }
     }
 

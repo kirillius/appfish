@@ -125,5 +125,7 @@
     <string name="cast_count_spod">Спод. Количество забросов</string>
     <string name="cast_count_cobra">Кобра. Количество забросов</string>
     <string name="catch_stats">Статистика ловли</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

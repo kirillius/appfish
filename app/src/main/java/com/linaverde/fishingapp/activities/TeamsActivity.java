@@ -16,17 +16,21 @@ import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
+import com.linaverde.fishingapp.fragments.DetailedDayStatsFragment;
 import com.linaverde.fishingapp.fragments.LogoTopMenuFragment;
 import com.linaverde.fishingapp.fragments.RegisterOneTeamFragment;
+import com.linaverde.fishingapp.fragments.StatisticsDayFragment;
 import com.linaverde.fishingapp.fragments.StatisticsFragment;
 import com.linaverde.fishingapp.fragments.TeamListFragment;
 import com.linaverde.fishingapp.fragments.TimeFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.fragments.ViolationsFragment;
+import com.linaverde.fishingapp.interfaces.DetailedStatisticDayClicked;
 import com.linaverde.fishingapp.interfaces.IOnBackPressed;
 import com.linaverde.fishingapp.interfaces.OneTeamClickListener;
 import com.linaverde.fishingapp.interfaces.QueueUpdateListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
+import com.linaverde.fishingapp.interfaces.StatisticDayClicked;
 import com.linaverde.fishingapp.interfaces.StatisticTeamNameClicked;
 import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.interfaces.TeamListener;
@@ -42,7 +46,8 @@ import com.linaverde.fishingapp.services.UserInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class TeamsActivity extends AppCompatActivity implements TopMenuEventListener, TeamListener, OneTeamClickListener, StatisticTeamNameClicked {
+public class TeamsActivity extends AppCompatActivity implements TopMenuEventListener, TeamListener,
+        OneTeamClickListener, StatisticTeamNameClicked, DetailedStatisticDayClicked {
 
     DrawerLayout drawer;
     ContentLoadingProgressBar progressBar;
@@ -224,16 +229,15 @@ public class TeamsActivity extends AppCompatActivity implements TopMenuEventList
         });
     }
 
+    String selectedDay = null;
+
     @Override
     public void onStatisticsClicked(String teamId) {
         progressBar.show();
-        requestHelper.executeGet("stats", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
+        requestHelper.executeGet("statsdetail", new String[]{"match", "team"}, new String[]{matchId, teamId}, new RequestListener() {
             @Override
             public void onComplete(JSONObject json) {
-                Log.d("Test auth", "Request fine");
-                StatisticsFragment statisticsFragment = null;
-
-                statisticsFragment = StatisticsFragment.newInstance(json.toString(), userInfo.getMatchName(), false);
+                DetailedDayStatsFragment statisticsFragment = DetailedDayStatsFragment.newInstance(json.toString(), teamId);
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.content_fragment, statisticsFragment);
                 fragmentTransaction.addToBackStack("OneTeamFragment");
@@ -259,4 +263,73 @@ public class TeamsActivity extends AppCompatActivity implements TopMenuEventList
     public void teamClicked(String teamId, String teamName) {
         //в этой активности указана статистика конкретной команды
     }
+
+
+    @Override
+    public void dayOneClicked(String teamId) {
+        selectedDay = "1";
+        updateDay(teamId);
+    }
+
+    @Override
+    public void dayTwoClicked(String teamId) {
+        selectedDay = "2";
+        updateDay(teamId);
+    }
+
+    @Override
+    public void dayThreeClicked(String teamId) {
+        selectedDay = "3";
+        updateDay(teamId);
+    }
+
+    @Override
+    public void dayFourClicked(String teamId) {
+        selectedDay = "4";
+        updateDay(teamId);
+    }
+
+    @Override
+    public void onlineClicked(String teamId) {
+        selectedDay = null;
+        updateDay(teamId);
+    }
+
+    private void updateDay(String teamId) {
+        progressBar.show();
+        RequestListener listener = new RequestListener() {
+            @Override
+            public void onComplete(JSONObject json) {
+                progressBar.hide();
+                String error = null;
+                try {
+                    error = json.getString("error");
+                    if (error.equals("") || error == null || error.equals("null")) {
+                        DetailedDayStatsFragment statisticsFragment = DetailedDayStatsFragment.newInstance(json.toString(), teamId);
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.content_fragment, statisticsFragment);
+                        if (!fragmentManager.isDestroyed())
+                            fragmentTransaction.commit();
+                    } else {
+                        DialogBuilder.createDefaultDialog(TeamsActivity.this, getLayoutInflater(), error, null);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(int responseCode) {
+                DialogBuilder.createDefaultDialog(TeamsActivity.this, getLayoutInflater(), getString(R.string.request_error), null);
+            }
+        };
+
+        if (selectedDay == null) {
+            requestHelper.executeGet("statsdetail", new String[]{"match", "team"}, new String[]{matchId, teamId}, listener);
+        } else {
+            requestHelper.executeGet("statsdetail", new String[]{"match", "team", "day"}, new String[]{matchId, teamId, selectedDay}, listener);
+        }
+    }
+
 }

@@ -138,7 +138,8 @@ public class RegisterOneTeamFragment extends Fragment implements IOnBackPressed,
         statistics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onStatisticsClicked(teamId);
+                    listener.onStatisticsClicked(teamId);
+
             }
         });
 

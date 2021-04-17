@@ -106,7 +106,7 @@ public class MapFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        
+
         cancel = view.findViewById(R.id.rl_cancel);
         confirm = view.findViewById(R.id.rl_confirm);
 

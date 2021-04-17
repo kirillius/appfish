@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.StatisticsFragment">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/dark_gradient" />
+
+    <TextView
+        android:id="@+id/tv_team_name"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:layout_marginStart="@dimen/se_margin"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="@dimen/se_margin"
+        android:layout_marginBottom="34dp"
+        android:background="@drawable/button_bottom_gradient"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="@string/tournament"
+        android:textAlignment="center"
+        android:textAppearance="@style/Roboto.MatchName" />
+
+    <LinearLayout
+        android:id="@+id/ll_days"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_team_name"
+        android:layout_marginStart="@dimen/se_margin"
+        android:layout_marginEnd="@dimen/se_margin"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:text="@string/statistics"
+            android:textAppearance="@style/Roboto"
+            android:textSize="26sp" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_day_1"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/day_red" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="1"
+                android:textAppearance="@style/Roboto"
+                android:textSize="24sp" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_day_2"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/day_red" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="2"
+                android:textAppearance="@style/Roboto"
+                android:textSize="24sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_day_3"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/day_red" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="3"
+                android:textAppearance="@style/Roboto"
+                android:textSize="24sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_day_4"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/day_red" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="4"
+                android:textAppearance="@style/Roboto"
+                android:textSize="24sp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_online"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:layout_weight="3"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/online" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/table_names"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_days"
+        android:layout_marginStart="@dimen/se_margin"
+        android:layout_marginEnd="@dimen/se_margin"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:text="@string/date"
+            android:textAppearance="@style/Roboto"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:text="@string/time"
+            android:textAlignment="center"
+            android:textAppearance="@style/Roboto"
+            android:textSize="22sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:text="@string/fishes"
+            android:textAlignment="center"
+            android:textAppearance="@style/Roboto"
+            android:textSize="22sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="55dp"
+            android:layout_weight="2"
+            android:text="@string/weight"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/Roboto"
+            android:textSize="22sp" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_stats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/result"
+        android:layout_below="@id/table_names"
+        android:layout_marginStart="@dimen/se_margin"
+        android:layout_marginEnd="@dimen/se_margin"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:layout_alignBottom="@id/lv_stats"
+        android:background="@drawable/light_gradient" />
+
+    <RelativeLayout
+        android:id="@+id/result"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_alignParentBottom="true">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/dark_gradient" />
+
+        <LinearLayout
+            android:id="@+id/ll_result_names"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/se_margin"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="@dimen/se_margin"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_weight="2"
+                android:text="Средний вес"
+                android:textAlignment="textEnd"
+                android:textAppearance="@style/Roboto"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="55dp"
+                android:layout_weight="2"
+                android:text="Общий вес"
+                android:textAlignment="textEnd"
+                android:textAppearance="@style/Roboto"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_result"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_below="@id/ll_result_names"
+            android:layout_marginStart="@dimen/se_margin"
+            android:layout_marginEnd="@dimen/se_margin"
+            android:background="@drawable/result_back">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginStart="16dp"
+                android:layout_weight="3"
+                android:text="@string/result"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/Roboto"
+                android:textSize="22sp" />
+
+
+            <TextView
+                android:id="@+id/tv_result_avr_weight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_weight="2"
+                android:textAlignment="textEnd"
+                android:textAppearance="@style/Roboto"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/tv_result_weight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="55dp"
+                android:layout_weight="2"
+                android:textAlignment="textEnd"
+                android:textAppearance="@style/Roboto"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_result"
+            android:layout_marginStart="@dimen/se_margin"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="@dimen/se_margin"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/stats_comment" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
