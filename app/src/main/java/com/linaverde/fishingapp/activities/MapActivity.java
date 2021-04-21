@@ -15,22 +15,17 @@ import android.view.MenuItem;
 import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.fragments.MapFragment;
-import com.linaverde.fishingapp.fragments.RodTopFragment;
-import com.linaverde.fishingapp.fragments.RodsFragment;
 import com.linaverde.fishingapp.fragments.TimeFragment;
 import com.linaverde.fishingapp.fragments.TopMapFragment;
-import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.interfaces.MapRodClickedListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.RodPositionChangedListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
-import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.NavigationHelper;
 import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

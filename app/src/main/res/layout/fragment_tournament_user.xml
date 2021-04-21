@@ -82,7 +82,7 @@
                         android:paddingStart="40dp"
                         android:text="@string/online_protocol"
                         android:textAppearance="@style/Roboto"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/main_menu_text_size" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -114,7 +114,7 @@
                         android:paddingStart="40dp"
                         android:text="@string/sector_map"
                         android:textAppearance="@style/Roboto"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/main_menu_text_size" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -146,7 +146,7 @@
                         android:paddingStart="40dp"
                         android:text="@string/settings_rods_work"
                         android:textAppearance="@style/Roboto"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/main_menu_text_size" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -176,7 +176,7 @@
                         android:paddingStart="40dp"
                         android:text="@string/settings_rods_spod"
                         android:textAppearance="@style/Roboto"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/main_menu_text_size" />
                 </RelativeLayout>
 
             </androidx.gridlayout.widget.GridLayout>

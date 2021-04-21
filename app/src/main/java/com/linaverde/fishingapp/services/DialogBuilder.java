@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,6 +122,8 @@ public class DialogBuilder {
 
         if (pin) {
             etNumber.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+            etNumber.setHint("ПИН");
+            etNumber.setHintTextColor(context.getResources().getColor(R.color.gray, null));
         }
 
         builder.setView(viewDialog);

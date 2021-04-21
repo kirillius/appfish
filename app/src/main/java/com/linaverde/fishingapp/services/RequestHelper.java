@@ -264,7 +264,7 @@ public class RequestHelper {
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 Log.d("Request", method + " post request failed with code " + statusCode);
-                //Log.d("Request", method + " post request failed with error " + new String(errorResponse, StandardCharsets.UTF_8));
+                Log.d("Request", method + " post request failed with error " + new String(errorResponse, StandardCharsets.UTF_8));
                 ((Activity) context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 listener.onError(statusCode);
             }

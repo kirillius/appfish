@@ -1,6 +1,5 @@
 package com.linaverde.fishingapp.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,14 +16,12 @@ import android.widget.TextView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.activities.QueueActivity;
 import com.linaverde.fishingapp.activities.RegisterTeamActivity;
-import com.linaverde.fishingapp.activities.RodsActivity;
 import com.linaverde.fishingapp.activities.SectorActivity;
 import com.linaverde.fishingapp.activities.StatisticActivity;
 import com.linaverde.fishingapp.activities.WeightingActivity;
 import com.linaverde.fishingapp.interfaces.RequestListener;
-import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.services.RequestHelper;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;

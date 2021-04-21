@@ -8,18 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.linaverde.fishingapp.R;
-import com.linaverde.fishingapp.models.CastTimerAccumulator;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.Objects;
 
 public class TimeFragment extends Fragment {
 

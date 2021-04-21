@@ -18,10 +18,7 @@ import com.linaverde.fishingapp.activities.RecordActivity;
 import com.linaverde.fishingapp.activities.RodsSettingsActivity;
 import com.linaverde.fishingapp.activities.StatisticActivity;
 import com.linaverde.fishingapp.services.ProtocolHelper;
-import com.linaverde.fishingapp.services.UserInfo;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.linaverde.fishingapp.models.UserInfo;
 
 public class TournamentUserFragment extends Fragment {
 

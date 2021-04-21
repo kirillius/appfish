@@ -1,7 +1,6 @@
 package com.linaverde.fishingapp.activities;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
-import com.linaverde.fishingapp.fragments.PersonalRecordFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.fragments.TournamentFragment;
 import com.linaverde.fishingapp.fragments.TournamentUserFragment;
@@ -25,10 +23,12 @@ import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.NavigationHelper;
 import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.ParseException;
 
 public class TournamentActivity extends FragmentActivity implements TopMenuEventListener {
 
@@ -91,7 +91,7 @@ public class TournamentActivity extends FragmentActivity implements TopMenuEvent
                         progressBar.hide();
                         try {
                             accumulator.createTimers(TournamentActivity.this, json.getJSONArray("rods"));
-                        } catch (JSONException e) {
+                        } catch (JSONException | ParseException e) {
                             e.printStackTrace();
                         }
                     }

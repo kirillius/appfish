@@ -22,11 +22,10 @@ import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.RodPositionChangedListener;
 import com.linaverde.fishingapp.interfaces.RodsSettingsChangeListener;
 import com.linaverde.fishingapp.interfaces.RodsSettingsListener;
-import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.RequestHelper;
 import com.linaverde.fishingapp.services.RodsSettingsListAdapter;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;

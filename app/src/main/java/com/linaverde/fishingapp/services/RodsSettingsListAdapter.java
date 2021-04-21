@@ -16,12 +16,18 @@ import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.RodPositionChangedListener;
 import com.linaverde.fishingapp.interfaces.RodsSettingsChangeListener;
 import com.linaverde.fishingapp.interfaces.RodsSettingsParamSwithcListener;
+import com.linaverde.fishingapp.models.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
 
@@ -90,13 +96,12 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
             } else {
                 rowView = inflater.inflate(R.layout.rods_settings_list_item,
                         parent, false);
-                String paramId = null;
+
                 String valueId = null;
                 TextView tvName = rowView.findViewById(R.id.grid_param_name);
                 TextView tvValue = rowView.findViewById(R.id.grid_param_value);
 
-
-                paramId = object.getJSONObject("param").getString("id");
+                String paramId = object.getJSONObject("param").getString("id");
                 if (paramId.equals("LANDMARK"))
                     landmarkObj = object;
                 if (paramId.equals("DISTANCE"))
@@ -121,8 +126,7 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
                     rowView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String type = null;
-                            String id = null;
+
                             CompleteActionListener listener = new CompleteActionListener() {
                                 @Override
                                 public void onOk(String input) {
@@ -171,8 +175,7 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
                             };
 
                             try {
-                                type = object.getJSONObject("param").getString("type");
-                                id = object.getJSONObject("param").getString("id");
+                                String id = object.getJSONObject("param").getString("id");
                                 if (id.equals("DISTANCE") || id.equals("LANDMARK")) {
                                     RodPositionChangedListener positionListener = new RodPositionChangedListener() {
                                         @Override
@@ -192,6 +195,8 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
                                     Log.d("Rodid to map", Integer.toString(rodId));
                                     changeListener.openMap(positionListener);
                                 } else {
+                                    String lastUpdate = object.getJSONObject("param").getString("updateDate");
+                                    String type = object.getJSONObject("param").getString("type");
                                     switch (type) {
                                         case "number":
                                             DialogBuilder.createInputNumberDialog(getContext(), inflater,
@@ -202,7 +207,7 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
                                                     "Введите значение", listener);
                                             break;
                                         case "object":
-                                            createTypeSelect(finalParamId, finalValueId, tvName, rodsSwithcListener);
+                                            createTypeSelect(lastUpdate, finalParamId, finalValueId, tvName, rodsSwithcListener);
                                             break;
                                     }
                                 }
@@ -223,31 +228,53 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
     }
 
 
-    private void createTypeSelect(String paramId, String valueId, TextView tvName, RodsSettingsParamSwithcListener listener) {
+    private void createTypeSelect(String lastUpdate, String paramId, String valueId, TextView tvName, RodsSettingsParamSwithcListener listener) {
         RodsSettingsStorage storage = new RodsSettingsStorage(context);
         if (storage.getParams(paramId) == null) {
-            RequestHelper requestHelper = new RequestHelper(context);
-            progressBar.show();
-            requestHelper.executeGet("rodparams", new String[]{"params", "rodType"},
-                    new String[]{paramId, rodType}, new RequestListener() {
-                        @Override
-                        public void onComplete(JSONObject json) {
-                            progressBar.hide();
-                            try {
-                                DialogBuilder.createRodSettingsSelectDialog(context, inflater, "Выберите значение",
-                                        json.getJSONArray("params").getJSONObject(0).getJSONArray("values"), valueId, listener);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onError(int responseCode) {
-                            progressBar.hide();
-                            DialogBuilder.createDefaultDialog(context, inflater, "Невозможно получить список значений", null);
-                        }
-                    });
+            getNewParamDict(storage, lastUpdate, paramId, valueId, tvName, listener);
+        } else {
+            String updateTime = storage.getTime(paramId);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            try {
+                Date savedDate = format.parse(updateTime);
+                Date lastDate = format.parse(lastUpdate);
+                if (savedDate.equals(lastDate)){
+                    Log.d("Param Storage", paramId + " saved instanse is up-to-date");
+                    DialogBuilder.createRodSettingsSelectDialog(context, inflater, "Выберите значение",
+                            storage.getParams(paramId), valueId, listener);
+                } else if (savedDate.before(lastDate)) {
+                    Log.d("Param Storage", paramId + " saved instanse is out-of-date");
+                    getNewParamDict(storage, lastUpdate, paramId, valueId, tvName, listener);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    private void getNewParamDict(RodsSettingsStorage storage, String date, String paramId, String valueId, TextView tvName, RodsSettingsParamSwithcListener listener){
+        RequestHelper requestHelper = new RequestHelper(context);
+        progressBar.show();
+        requestHelper.executeGet("rodparams", new String[]{"params", "rodType"},
+                new String[]{paramId, rodType}, new RequestListener() {
+                    @Override
+                    public void onComplete(JSONObject json) {
+                        progressBar.hide();
+                        try {
+                            storage.saveParam(paramId, json.getJSONArray("params").getJSONObject(0).getJSONArray("values").toString(), date);
+                            DialogBuilder.createRodSettingsSelectDialog(context, inflater, "Выберите значение",
+                                    json.getJSONArray("params").getJSONObject(0).getJSONArray("values"), valueId, listener);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(int responseCode) {
+                        progressBar.hide();
+                        DialogBuilder.createDefaultDialog(context, inflater, "Невозможно получить список значений", null);
+                    }
+                });
     }
 
     public JSONObject getRodPositionJson() throws JSONException {

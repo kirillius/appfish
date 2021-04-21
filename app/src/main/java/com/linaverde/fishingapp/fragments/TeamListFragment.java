@@ -14,13 +14,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
-import com.linaverde.fishingapp.interfaces.QueueUpdateListener;
-import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.interfaces.TeamListener;
 import com.linaverde.fishingapp.models.TeamsQueue;
 import com.linaverde.fishingapp.services.RequestHelper;
 import com.linaverde.fishingapp.services.SectorAdapter;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;

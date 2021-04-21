@@ -15,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
-import com.linaverde.fishingapp.activities.QueueActivity;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.interfaces.QueueUpdateListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
@@ -23,7 +22,7 @@ import com.linaverde.fishingapp.models.TeamsQueue;
 import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.QueueAdapter;
 import com.linaverde.fishingapp.services.RequestHelper;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;

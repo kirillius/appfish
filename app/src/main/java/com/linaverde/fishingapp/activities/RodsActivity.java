@@ -22,7 +22,7 @@ import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.NavigationHelper;
 import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;

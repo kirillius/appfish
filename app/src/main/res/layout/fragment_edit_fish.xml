@@ -168,7 +168,9 @@
             android:inputType="number"
             android:textAlignment="center"
             android:textSize="25sp"
-            android:textAppearance="@style/Roboto"/>
+            android:textAppearance="@style/Roboto"
+            android:imeOptions="actionDone"
+            />
 
     </LinearLayout>
 

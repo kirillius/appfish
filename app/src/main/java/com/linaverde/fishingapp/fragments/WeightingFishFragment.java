@@ -5,14 +5,10 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -21,16 +17,14 @@ import android.widget.TextView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.interfaces.FishChangedRequestListener;
-import com.linaverde.fishingapp.interfaces.FishListChangeActionListener;
 import com.linaverde.fishingapp.models.Fish;
 import com.linaverde.fishingapp.models.FishDictionaryItem;
 import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.FishAdapter;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,10 +145,14 @@ public class WeightingFishFragment extends Fragment {
             lvFishes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                    DialogBuilder.createTwoButtons(getContext(), getLayoutInflater(), "Вы действительно хотите удалить эту позицию взвешивания?", new CompleteActionListener() {
+                    DialogBuilder.createInputNumberDialog(getContext(), getLayoutInflater(), "Вы действительно хотите удалить эту позицию взвешивания?", true, new CompleteActionListener() {
                         @Override
                         public void onOk(String input) {
-                            listener.fishDeleted(adapter.getId(position),stageId, teamId, pin, pin2, sector);
+                            if (input.equals(pin) || input.equals(pin2)) {
+                                listener.fishDeleted(adapter.getId(position), stageId, teamId, pin, pin2, sector);
+                            } else {
+                                DialogBuilder.createDefaultDialog(getContext(), getLayoutInflater(), "Неверный пин", null);
+                            }
                         }
 
                         @Override

@@ -30,8 +30,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class RecordButtonsAccumulator {
 
@@ -42,7 +44,6 @@ public class RecordButtonsAccumulator {
     private ImageView setBack, biteBack, fishBack, goneBack;
     private int startTime;
     private CountDownTimer timer;
-    boolean wasBite;
     RequestHelper requestHelper;
     RequestListener listener;
     String teamId;
@@ -53,6 +54,7 @@ public class RecordButtonsAccumulator {
     CountDownTimer counterClicked;
     int spodStart, cobrStart;
     int tempSpod, tempCobr;
+    TimerPauseValue pausedValues;
 
     public RecordButtonsAccumulator(Context context, String teamId, TextView tvTimer, JSONObject info,
                                     TextView spod, TextView cobr,
@@ -64,30 +66,32 @@ public class RecordButtonsAccumulator {
         this.spodCounter = spod;
         this.cobrCounter = cobr;
 
+        pausedValues = new TimerPauseValue(context);
+
         CastTimerAccumulator timerAccumulator = CastTimerAccumulator.getInstance();
 
         try {
             rodId = info.getInt("id");
             event = info.getString("event");
             String time = info.getString("timer");
+
             time = time.substring(time.indexOf(":") + 1);
             this.tvTimer.setText(time);
             String[] timeValues = time.split(":");
             this.startTime = Integer.parseInt(timeValues[0]) * 60 + Integer.parseInt(timeValues[1]);
-
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             //установка таймера в кастомное значение, если уже был заброс
             if (event.equals("1")) {
-                String eventTime = info.getString("castDate");
-                eventTime = eventTime.substring(eventTime.indexOf("T") + 1);
-                String[] eventValues = eventTime.split(":");
-                int eventEndsAt = Integer.parseInt(eventValues[0]) * 360 + Integer.parseInt(eventValues[1]) * 60 + Integer.parseInt(eventValues[2]) + this.startTime;
-                Log.d(Integer.toString(rodId) + "event ends at", Integer.toString(eventEndsAt));
-                int timeLeft = eventEndsAt - CastTimerAccumulator.getCurrentTime();
-                Log.d(Integer.toString(rodId) + " currTime", Integer.toString(timeLeft));
-                Log.d(Integer.toString(rodId) + " time left", Integer.toString(timeLeft));
-                if (timeLeft > 0 && timeLeft <= startTime && (event.equals("1") || event.equals("2"))) {
+                Date dateCastEndsAt = format.parse(info.getString("castDate"));
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(dateCastEndsAt);
+                calendar.add(Calendar.SECOND, startTime);
+                dateCastEndsAt = calendar.getTime();
+                Date currDate = Calendar.getInstance().getTime();
+                long diff = dateCastEndsAt.getTime() - currDate.getTime();
+                if (diff > 0 && diff < startTime * 1000) {
                     timerAccumulator.stopTimer(rodId);
-                    timer = new CountDownTimer(timeLeft * 1000, 1000) {
+                    timer = new CountDownTimer(diff, 1000) {
                         @Override
                         public void onTick(long millisUntilFinished) {
                             int sec = (int) (millisUntilFinished / 1000);
@@ -109,9 +113,14 @@ public class RecordButtonsAccumulator {
                         }
                     };
                     timer.start();
-                } else if (timeLeft <= 0 || timeLeft > startTime) {
+                } else {
                     timeIsAlreadyOut = true;
+                    tvTimer.setText("00:00");
                 }
+            }
+            else if (event.equals("5")) {
+                String currTime = Integer.toString((startTime) / 60) + ":" + Integer.toString(startTime % 60);
+                tvTimer.setText(currTime);
             }
 
             spodCounter.setText(info.getString("spod"));
@@ -122,7 +131,7 @@ public class RecordButtonsAccumulator {
 
             setCounters();
 
-        } catch (JSONException e) {
+        } catch (JSONException | ParseException e) {
             e.printStackTrace();
         }
 
@@ -136,7 +145,8 @@ public class RecordButtonsAccumulator {
                     JSONArray array = json.getJSONArray("rods");
                     for (int i = 0; i < 4; i++) {
                         if (array.getJSONObject(i).getInt("id") == rodId) {
-                            setBack(array.getJSONObject(i).getString("event"));
+                            event = array.getJSONObject(i).getString("event");
+                            setBack(event);
                             break;
                         }
                     }
@@ -181,34 +191,42 @@ public class RecordButtonsAccumulator {
             @Override
             public void onClick(View v) {
                 Log.d("Event", "set" + rodId + "clicked");
-                String setTime = Integer.toString(startTime / 60) + ":" + Integer.toString(startTime % 60);
-                tvTimer.setText(setTime);
-                if (timer != null)
-                    timer.cancel();
-                timer = new CountDownTimer(startTime * 1000, 1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        int sec = (int) (millisUntilFinished / 1000);
-                        String currTime = Integer.toString((sec) / 60) + ":" + Integer.toString(sec % 60);
-                        tvTimer.setText(currTime);
-                    }
+                if (event.equals("5") || event.equals("3") || event.equals("4")) {
+                    if (timer != null)
+                        timer.cancel();
+                    timer = new CountDownTimer(startTime * 1000, 1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            int sec = (int) (millisUntilFinished / 1000);
+                            String currTime = Integer.toString((sec) / 60) + ":" + Integer.toString(sec % 60);
+                            tvTimer.setText(currTime);
+                        }
 
-                    @Override
-                    public void onFinish() {
-                        tvTimer.setText("00:00");
-                        CastTimerAccumulator.createNotification(context, rodId);
-                        setBackToBlack();
-                        setBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_red));
-                        Animation animation = AnimationUtils.loadAnimation(context, R.anim.simple_alpha);
-                        setBack.startAnimation(animation);
-                    }
-                };
-                timer.start();
+                        @Override
+                        public void onFinish() {
+                            tvTimer.setText("00:00");
+                            CastTimerAccumulator.createNotification(context, rodId);
+                            setBackToBlack();
+                            setBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_red));
+                            Animation animation = AnimationUtils.loadAnimation(context, R.anim.simple_alpha);
+                            setBack.startAnimation(animation);
+                        }
+                    };
+                    timer.start();
 
-                wasBite = false;
-                progressBar.show();
-                requestHelper.executePost("catching", new String[]{"team", "rod", "event", "time"},
-                        new String[]{teamId, Integer.toString(rodId), "1", getCurrentDateTime()}, null, listener);
+                    progressBar.show();
+                    requestHelper.executePost("catching", new String[]{"team", "rod", "event", "time"},
+                            new String[]{teamId, Integer.toString(rodId), "1", getCurrentDateTime()}, null, listener);
+                } else if (event.equals("1")) {
+                    //pausedValues.saveValue(Integer.toString(rodId), tvTimer.getText().toString());
+                    if (timer != null)
+                        timer.cancel();
+                    String setTime = Integer.toString(startTime / 60) + ":" + Integer.toString(startTime % 60);
+                    tvTimer.setText(setTime);
+                    //tvTimer.setText(pausedValues.getPausedTime(Integer.toString(rodId)));
+                    requestHelper.executePost("catching", new String[]{"team", "rod", "event", "time"},
+                            new String[]{teamId, Integer.toString(rodId), "5", getCurrentDateTime()}, null, listener);
+                }
 
 
             }
@@ -218,12 +236,14 @@ public class RecordButtonsAccumulator {
             @Override
             public void onClick(View v) {
                 Log.d("Event", "bite" + rodId + "clicked");
-                wasBite = true;
-                progressBar.show();
-                if (timer != null)
-                    timer.cancel();
-                requestHelper.executePost("catching", new String[]{"team", "rod", "event", "time"},
-                        new String[]{teamId, Integer.toString(rodId), "2", getCurrentDateTime()}, null, listener);
+
+                if (event.equals("1")) {
+                    if (timer != null)
+                        timer.cancel();
+                    progressBar.show();
+                    requestHelper.executePost("catching", new String[]{"team", "rod", "event", "time"},
+                            new String[]{teamId, Integer.toString(rodId), "2", getCurrentDateTime()}, null, listener);
+                }
             }
         });
 
@@ -232,10 +252,7 @@ public class RecordButtonsAccumulator {
             @Override
             public void onClick(View v) {
                 Log.d("Event", "fish" + rodId + "clicked");
-                if (wasBite) {
-                    wasBite = false;
-                    if (timer != null)
-                        timer.cancel();
+                if (event.equals("2")) {
                     progressBar.show();
                     requestHelper.executePost("catching", new String[]{"team", "rod", "event", "time"},
                             new String[]{teamId, Integer.toString(rodId), "3", getCurrentDateTime()}, null, listener);
@@ -247,10 +264,7 @@ public class RecordButtonsAccumulator {
             @Override
             public void onClick(View v) {
                 Log.d("Event", "gone" + rodId + "clicked");
-                if (wasBite) {
-                    if (timer != null)
-                        timer.cancel();
-                    wasBite = false;
+                if (event.equals("2")) {
                     progressBar.show();
                     requestHelper.executePost("catching", new String[]{"team", "rod", "event", "time"},
                             new String[]{teamId, Integer.toString(rodId), "4", getCurrentDateTime()}, null, listener);
@@ -280,11 +294,11 @@ public class RecordButtonsAccumulator {
             setBackToBlack();
             switch (event) {
                 case "1":
+                case "5":
                     setBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_green));
                     break;
                 case "2":
                     biteBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_green));
-                    wasBite = true;
                     break;
                 case "3":
                     fishBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_green));

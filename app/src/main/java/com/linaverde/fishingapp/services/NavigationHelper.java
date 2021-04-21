@@ -9,13 +9,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.activities.AuthActivity;
-import com.linaverde.fishingapp.activities.RegisterTeamActivity;
-import com.linaverde.fishingapp.activities.StatisticActivity;
 import com.linaverde.fishingapp.activities.TeamStatisticsActivity;
 import com.linaverde.fishingapp.activities.TeamsActivity;
 import com.linaverde.fishingapp.activities.TournamentActivity;
-import com.linaverde.fishingapp.activities.WeatherActivity;
-import com.linaverde.fishingapp.fragments.DetailedStatsFragment;
+import com.linaverde.fishingapp.models.UserInfo;
 
 public class NavigationHelper {
 

@@ -16,19 +16,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
-import com.linaverde.fishingapp.interfaces.FishChangedRequestListener;
 import com.linaverde.fishingapp.interfaces.ViolationChangedRequestListener;
-import com.linaverde.fishingapp.interfaces.ViolationListChangeListener;
-import com.linaverde.fishingapp.models.Fish;
-import com.linaverde.fishingapp.models.FishDictionaryItem;
 import com.linaverde.fishingapp.models.Violation;
 import com.linaverde.fishingapp.models.ViolationDictionaryItem;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 import com.linaverde.fishingapp.services.ViolationAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;

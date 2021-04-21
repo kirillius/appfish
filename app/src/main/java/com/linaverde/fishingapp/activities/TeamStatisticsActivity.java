@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.fragments.DetailedDayStatsFragment;
-import com.linaverde.fishingapp.fragments.StatisticsFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.interfaces.DetailedStatisticDayClicked;
 import com.linaverde.fishingapp.interfaces.RequestListener;
@@ -24,7 +23,7 @@ import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.NavigationHelper;
 import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;

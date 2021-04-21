@@ -1,17 +1,10 @@
 package com.linaverde.fishingapp.fragments;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 
-import android.os.CountDownTimer;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,20 +13,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
-import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.models.RecordButtonsAccumulator;
-import com.linaverde.fishingapp.services.RequestHelper;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class PersonalRecordFragment extends Fragment {

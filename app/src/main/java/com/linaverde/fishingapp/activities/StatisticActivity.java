@@ -8,33 +8,25 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.fragments.DetailedStatsFragment;
-import com.linaverde.fishingapp.fragments.LogoTopMenuFragment;
-import com.linaverde.fishingapp.fragments.RegisterOneTeamFragment;
 import com.linaverde.fishingapp.fragments.StatisticsDayFragment;
 import com.linaverde.fishingapp.fragments.StatisticsFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
-import com.linaverde.fishingapp.fragments.ViolationsFragment;
-import com.linaverde.fishingapp.interfaces.CompleteActionListener;
-import com.linaverde.fishingapp.interfaces.OneTeamClickListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.StatisticDayClicked;
 import com.linaverde.fishingapp.interfaces.StatisticTeamNameClicked;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
-import com.linaverde.fishingapp.models.Team;
 import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.NavigationHelper;
 import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,8 @@ import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.DetailedStatisticDayClicked;
-import com.linaverde.fishingapp.interfaces.StatisticDayClicked;
 import com.linaverde.fishingapp.services.DetailedStatisticAdapter;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -15,17 +15,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
-import com.linaverde.fishingapp.activities.AuthActivity;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.TeamListClickListener;
-import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
 import com.linaverde.fishingapp.models.Team;
 import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.RequestHelper;
-import com.linaverde.fishingapp.services.StatisticAdapter;
 import com.linaverde.fishingapp.services.TeamsAdapter;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -78,7 +78,7 @@
                     android:paddingStart="40dp"
                     android:text="@string/register_team"
                     android:textAppearance="@style/Roboto"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/main_menu_text_size" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -110,7 +110,7 @@
                     android:paddingStart="40dp"
                     android:text="@string/draw_queue"
                     android:textAppearance="@style/Roboto"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/main_menu_text_size" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -142,7 +142,7 @@
                     android:paddingStart="40dp"
                     android:text="@string/draw_sector"
                     android:textAppearance="@style/Roboto"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/main_menu_text_size" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -172,7 +172,7 @@
                     android:paddingStart="40dp"
                     android:text="@string/weighing"
                     android:textAppearance="@style/Roboto"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/main_menu_text_size" />
             </RelativeLayout>
 
         </androidx.gridlayout.widget.GridLayout>

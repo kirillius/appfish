@@ -14,6 +14,7 @@ import androidx.core.widget.ContentLoadingProgressBar;
 import com.linaverde.fishingapp.BuildConfig;
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.RequestListener;
+import com.linaverde.fishingapp.models.UserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,29 +25,32 @@ import java.io.FileOutputStream;
 public class ProtocolHelper {
 
     public static void sendProtocols(Context context, String matchId, ContentLoadingProgressBar progressBar) {
-        RequestHelper requestHelper = new RequestHelper(context);
-        progressBar.show();
-        requestHelper.executeGet("sendprotocols", new String[]{"match"}, new String[]{matchId}, new RequestListener() {
-            @Override
-            public void onComplete(JSONObject json) {
-                progressBar.hide();
-                try {
-                    if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
-                        DialogBuilder.createDefaultDialog(context, LayoutInflater.from(context), context.getString(R.string.protocol_sent), null);
-                    } else {
-                        DialogBuilder.createDefaultDialog(context, LayoutInflater.from(context), json.getString("error"), null);
+        UserInfo userInfo = new UserInfo(context);
+        if (userInfo.getUserType() == 1 || userInfo.getUserType() == 4) {
+            RequestHelper requestHelper = new RequestHelper(context);
+            progressBar.show();
+            requestHelper.executeGet("sendprotocols", new String[]{"match"}, new String[]{matchId}, new RequestListener() {
+                @Override
+                public void onComplete(JSONObject json) {
+                    progressBar.hide();
+                    try {
+                        if (json.getString("error").equals("") || json.getString("error").equals("null") || json.isNull("error")) {
+                            DialogBuilder.createDefaultDialog(context, LayoutInflater.from(context), context.getString(R.string.protocol_sent), null);
+                        } else {
+                            DialogBuilder.createDefaultDialog(context, LayoutInflater.from(context), json.getString("error"), null);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-            }
 
-            @Override
-            public void onError(int responseCode) {
-                progressBar.hide();
-                DialogBuilder.createDefaultDialog(context, LayoutInflater.from(context), context.getString(R.string.request_error), null);
-            }
-        });
+                @Override
+                public void onError(int responseCode) {
+                    progressBar.hide();
+                    DialogBuilder.createDefaultDialog(context, LayoutInflater.from(context), context.getString(R.string.request_error), null);
+                }
+            });
+        }
     }
 
     public static void getProtocol(Context context, String matchId, ContentLoadingProgressBar progressBar) {

@@ -64,15 +64,18 @@ public class MapHelper {
     }
 
     private void setLandmarks() throws JSONException {
-        TextView empty = (TextView) inflater.inflate(R.layout.landmark, llMarks, false);
-        empty.setText("");
-        llMarks.addView(empty);
+        TextView empty1 = (TextView) inflater.inflate(R.layout.landmark, llMarks, false);
+        empty1.setText("");
+        llMarks.addView(empty1);
         for (int i = 0; i < landmark.length(); i++) {
             TextView view = (TextView) inflater.inflate(R.layout.landmark, llMarks, false);
             view.setText(landmark.getString(i));
             llMarks.addView(view);
         }
-        llMarks.setWeightSum(landmark.length() + 1);
+        TextView empty2 = (TextView) inflater.inflate(R.layout.landmark, llMarks, false);
+        empty2.setText("");
+        llMarks.addView(empty2);
+        llMarks.setWeightSum(landmark.length() + 2);
 
     }
 
@@ -80,7 +83,7 @@ public class MapHelper {
     MapAdapter adapter;
 
     private void setMap() throws JSONException {
-        map.setNumColumns(landmark.length() + 1);
+        map.setNumColumns(landmark.length() + 2);
         JSONObject distBig, distSmall;
         distSmall = mapDetail.getJSONArray("distance").getJSONObject(0);
         distBig = mapDetail.getJSONArray("distance").getJSONObject(1);
@@ -124,6 +127,7 @@ public class MapHelper {
                     marks.add(newMark);
                 }
             }
+            marks.add(new MapMark(curr));
             curr = curr - currStep;
         }
         currBot = distSmall.getDouble("bottom");
@@ -164,6 +168,7 @@ public class MapHelper {
                     marks.add(newMark);
                 }
             }
+            marks.add(new MapMark(curr));
             curr = curr - currStep;
         }
 

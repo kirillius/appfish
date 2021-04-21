@@ -10,27 +10,22 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
-import com.linaverde.fishingapp.fragments.DrawQueueFragment;
 import com.linaverde.fishingapp.fragments.DrawSectorFragment;
-import com.linaverde.fishingapp.fragments.RegisterTeamListFragment;
 import com.linaverde.fishingapp.fragments.TimeFragment;
 import com.linaverde.fishingapp.fragments.TopMenuFragment;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.interfaces.QueueUpdateListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
-import com.linaverde.fishingapp.interfaces.TeamListClickListener;
 import com.linaverde.fishingapp.interfaces.TopMenuEventListener;
-import com.linaverde.fishingapp.models.Team;
 import com.linaverde.fishingapp.models.TeamsQueue;
 import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.NavigationHelper;
 import com.linaverde.fishingapp.services.ProtocolHelper;
 import com.linaverde.fishingapp.services.RequestHelper;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;

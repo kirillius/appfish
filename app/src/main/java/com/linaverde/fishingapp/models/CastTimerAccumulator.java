@@ -22,8 +22,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+
+import cz.msebera.android.httpclient.client.utils.DateUtils;
 
 public class CastTimerAccumulator {
 
@@ -53,36 +57,40 @@ public class CastTimerAccumulator {
         return timersAlreadyCreated;
     }
 
-    public void createTimers(Context context, JSONArray events) throws JSONException {
+    public void createTimers(Context context, JSONArray events) throws JSONException, ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         timersAlreadyCreated = true;
         for (int i = 0; i < events.length(); i++) {
             JSONObject object = events.getJSONObject(i);
             int rodId = object.getInt("id");
-            //считаем длительность
-            String time = object.getString("timer");
-            time = time.substring(time.indexOf(":") + 1);
-            String[] timeValues = time.split(":");
-            int startTime = Integer.parseInt(timeValues[0]) * 60 + Integer.parseInt(timeValues[1]);
-            //считаем время начала
-            String eventTime = object.getString("castDate");
-            eventTime = eventTime.substring(eventTime.indexOf("T") + 1);
-            String[] eventValues = eventTime.split(":");
-            int eventEndsAt = Integer.parseInt(eventValues[0]) * 360 + Integer.parseInt(eventValues[1]) * 60 + Integer.parseInt(eventValues[2]) + startTime;
-            int timeLeft = eventEndsAt - getCurrentTime();
             String event = object.getString("event");
-            if (timeLeft > 0 && (event.equals("1") || event.equals("2"))) {
-                timers[rodId - 1] = new CountDownTimer(timeLeft * 1000, 1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
+            if (event.equals("1")) {
+                String time = object.getString("timer");
+                time = time.substring(time.indexOf(":") + 1);
+                String[] timeValues = time.split(":");
+                int startTime = Integer.parseInt(timeValues[0]) * 60 + Integer.parseInt(timeValues[1]);
+                Date dateCastEndsAt = format.parse(object.getString("castDate"));
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(dateCastEndsAt);
+                calendar.add(Calendar.SECOND, startTime);
+                dateCastEndsAt = calendar.getTime();
+                Date currDate = Calendar.getInstance().getTime();
+                long diff = dateCastEndsAt.getTime() - currDate.getTime();
+                if (diff > 0 && diff < startTime * 1000) {
+                    timers[rodId - 1] = new CountDownTimer(diff, 1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onFinish() {
-                        createNotification(context, rodId);
-                    }
-                };
-                timers[rodId - 1].start();
+                        @Override
+                        public void onFinish() {
+                            createNotification(context, rodId);
+                        }
+                    };
+                    timers[rodId - 1].start();
+                    Log.d("Timer acc", rodId + " timer set");
+                }
             }
         }
 
@@ -96,7 +104,6 @@ public class CastTimerAccumulator {
     }
 
     public static void createNotification(Context context, int rodId) {
-
 
 
         Uri ringURI =
@@ -113,7 +120,6 @@ public class CastTimerAccumulator {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
 
-
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             CharSequence name = "g_carpfishing";
             String Description = "G-Carpfishing Notify";
@@ -126,12 +132,12 @@ public class CastTimerAccumulator {
             mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
             mChannel.setShowBadge(false);
 
-            if(ringURI != null){
+            if (ringURI != null) {
                 AudioAttributes audioAttributes = new AudioAttributes.Builder()
                         .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                         .setUsage(AudioAttributes.USAGE_ALARM)
                         .build();
-                mChannel.setSound(ringURI,audioAttributes);
+                mChannel.setSound(ringURI, audioAttributes);
             }
 
             notificationManager.createNotificationChannel(mChannel);

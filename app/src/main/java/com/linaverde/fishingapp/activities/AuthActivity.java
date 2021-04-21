@@ -3,12 +3,10 @@ package com.linaverde.fishingapp.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.ContentLoadingProgressBar;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.text.InputType;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -19,14 +17,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.linaverde.fishingapp.R;
-import com.linaverde.fishingapp.interfaces.CompleteActionListener;
 import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.services.DialogBuilder;
 import com.linaverde.fishingapp.services.RequestHelper;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;

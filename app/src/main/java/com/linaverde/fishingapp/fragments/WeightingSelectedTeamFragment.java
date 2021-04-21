@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.WeightingSelectedTeamClickListener;
-import com.linaverde.fishingapp.services.UserInfo;
+import com.linaverde.fishingapp.models.UserInfo;
 
 public class WeightingSelectedTeamFragment extends Fragment {
 
