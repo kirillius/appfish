@@ -12,6 +12,7 @@ import com.linaverde.fishingapp.activities.AuthActivity;
 import com.linaverde.fishingapp.activities.TeamStatisticsActivity;
 import com.linaverde.fishingapp.activities.TeamsActivity;
 import com.linaverde.fishingapp.activities.TournamentActivity;
+import com.linaverde.fishingapp.models.TimersCollection;
 import com.linaverde.fishingapp.models.UserInfo;
 
 public class NavigationHelper {
@@ -53,6 +54,10 @@ public class NavigationHelper {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+            TimersCollection collection = TimersCollection.getInstance();
+            collection.cancelAll();
+
             context.startActivity(intent);
         }
 

@@ -5,10 +5,12 @@ import android.os.Bundle;
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,17 +28,20 @@ import java.util.List;
 public class PersonalRecordFragment extends Fragment {
 
     private static final String CATCHING = "info";
+    private static final String ORIENTATION = "orientation";
 
     private JSONArray catchInfo;
+    private boolean vertical;
 
     public PersonalRecordFragment() {
         // Required empty public constructor
     }
 
-    public static PersonalRecordFragment newInstance(String catchInfo) {
+    public static PersonalRecordFragment newInstance(String catchInfo, boolean vertical) {
         PersonalRecordFragment fragment = new PersonalRecordFragment();
         Bundle args = new Bundle();
         args.putString(CATCHING, catchInfo);
+        args.putBoolean(ORIENTATION, vertical);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,6 +55,7 @@ public class PersonalRecordFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            vertical = getArguments().getBoolean(ORIENTATION);
         }
     }
 
@@ -66,6 +72,12 @@ public class PersonalRecordFragment extends Fragment {
         accumulator = new ArrayList<>();
         progressBar = view.findViewById(R.id.progress_bar);
         progressBar.hide();
+
+
+//        if (!vertical) {
+//            LinearLayout rodNum = view.findViewById(R.id.ll_rods_names);
+//            rodNum.setVisibility(View.GONE);
+//        }
 
         for (int i = 0; i < 4; i++) {
             try {
@@ -92,7 +104,7 @@ public class PersonalRecordFragment extends Fragment {
                 currRes = getResources().getIdentifier(buttonID, "id", getContext().getPackageName());
                 btn[3] = (RelativeLayout) view.findViewById(currRes);
 
-                //Инициализация беков
+                //Инициализация бэков
                 ImageView[] backs = new ImageView[4];
 
                 buttonID = "set_btn" + id + "_back";
@@ -110,6 +122,15 @@ public class PersonalRecordFragment extends Fragment {
                 buttonID = "gone_btn" + id + "_back";
                 currRes = getResources().getIdentifier(buttonID, "id", getContext().getPackageName());
                 backs[3] = ((ImageView) view.findViewById(currRes));
+
+                if (!vertical){
+                    Log.d("Orientation", "not vertical");
+                }
+                if (!vertical)
+                    for (int j = 0; j < 4; j++) {
+                        backs[j].setScaleType(ImageView.ScaleType.FIT_XY);
+                        backs[j].setAdjustViewBounds(false);
+                    }
 
                 //Инициализация таймера
                 buttonID = "record_timer_" + id;

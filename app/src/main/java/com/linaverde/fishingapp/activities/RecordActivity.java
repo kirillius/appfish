@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,21 +34,28 @@ public class RecordActivity extends AppCompatActivity implements TopMenuEventLis
     FragmentManager fragmentManager;
 
     ContentLoadingProgressBar progressBar;
-    FragmentContainerView bottomFragmentContainer;
+    FragmentContainerView topFrContainer;
     RequestHelper requestHelper;
 
     String matchId;
     String teamId;
 
+    private boolean getScreenVertical(){
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+            return true;
+        else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+            return false;
+        else
+            return false;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_three_fragments);
+        setContentView(R.layout.activity_two_fragments);
 
         drawer = findViewById(R.id.drawer_layout);
         progressBar = findViewById(R.id.progress_bar);
-        bottomFragmentContainer = findViewById(R.id.bottom_fragment);
-        bottomFragmentContainer.setVisibility(View.GONE);
         progressBar.hide();
         UserInfo userInfo = new UserInfo(this);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -74,6 +82,12 @@ public class RecordActivity extends AppCompatActivity implements TopMenuEventLis
         if (!fragmentManager.isDestroyed())
             fragmentTransaction.commit();
 
+        topFrContainer = findViewById(R.id.top_menu_fragment);
+        if (getScreenVertical()){
+            topFrContainer.setVisibility(View.VISIBLE);
+        } else {
+            topFrContainer.setVisibility(View.GONE);
+        }
 
         matchId = userInfo.getMatchId();
         teamId = userInfo.getTeamId();
@@ -85,7 +99,7 @@ public class RecordActivity extends AppCompatActivity implements TopMenuEventLis
             public void onComplete(JSONObject json) {
                 progressBar.hide();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.content_fragment, PersonalRecordFragment.newInstance(json.toString()));
+                fragmentTransaction.replace(R.id.content_fragment, PersonalRecordFragment.newInstance(json.toString(), getScreenVertical()));
                 if (!fragmentManager.isDestroyed())
                     fragmentTransaction.commit();
 //                fragmentTransaction = fragmentManager.beginTransaction();

@@ -55,6 +55,8 @@ public class RecordButtonsAccumulator {
     int spodStart, cobrStart;
     int tempSpod, tempCobr;
     TimerPauseValue pausedValues;
+    String timeStr;
+    TimersCollection collection;
 
     public RecordButtonsAccumulator(Context context, String teamId, TextView tvTimer, JSONObject info,
                                     TextView spod, TextView cobr,
@@ -69,6 +71,7 @@ public class RecordButtonsAccumulator {
         pausedValues = new TimerPauseValue(context);
 
         CastTimerAccumulator timerAccumulator = CastTimerAccumulator.getInstance();
+        collection = TimersCollection.getInstance();
 
         try {
             rodId = info.getInt("id");
@@ -76,7 +79,9 @@ public class RecordButtonsAccumulator {
             String time = info.getString("timer");
 
             time = time.substring(time.indexOf(":") + 1);
-            this.tvTimer.setText(time);
+            timeStr = time;
+            Log.d("Timer", timeStr);
+            this.tvTimer.setText(timeStr);
             String[] timeValues = time.split(":");
             this.startTime = Integer.parseInt(timeValues[0]) * 60 + Integer.parseInt(timeValues[1]);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -95,8 +100,13 @@ public class RecordButtonsAccumulator {
                         @Override
                         public void onTick(long millisUntilFinished) {
                             int sec = (int) (millisUntilFinished / 1000);
-                            String currTime = Integer.toString((sec) / 60) + ":" + Integer.toString(sec % 60);
-                            tvTimer.setText(currTime);
+                            String currMin = Integer.toString((sec) / 60);
+                            String cueeSec = Integer.toString(sec % 60);
+                            if (currMin.length() < 2)
+                                currMin = '0' + currMin;
+                            if (cueeSec.length() < 2)
+                                cueeSec = '0' + cueeSec;
+                            tvTimer.setText(currMin + ':' + cueeSec);
                         }
 
                         @Override
@@ -112,6 +122,7 @@ public class RecordButtonsAccumulator {
 
                         }
                     };
+                    collection.addTimer(timer);
                     timer.start();
                 } else {
                     timeIsAlreadyOut = true;
@@ -119,8 +130,7 @@ public class RecordButtonsAccumulator {
                 }
             }
             else if (event.equals("5")) {
-                String currTime = Integer.toString((startTime) / 60) + ":" + Integer.toString(startTime % 60);
-                tvTimer.setText(currTime);
+                tvTimer.setText(timeStr);
             }
 
             spodCounter.setText(info.getString("spod"));
@@ -198,8 +208,13 @@ public class RecordButtonsAccumulator {
                         @Override
                         public void onTick(long millisUntilFinished) {
                             int sec = (int) (millisUntilFinished / 1000);
-                            String currTime = Integer.toString((sec) / 60) + ":" + Integer.toString(sec % 60);
-                            tvTimer.setText(currTime);
+                            String currMin = Integer.toString((sec) / 60);
+                            String cueeSec = Integer.toString(sec % 60);
+                            if (currMin.length() < 2)
+                                currMin = '0' + currMin;
+                            if (cueeSec.length() < 2)
+                                cueeSec = '0' + cueeSec;
+                            tvTimer.setText(currMin + ':' + cueeSec);
                         }
 
                         @Override
@@ -212,7 +227,9 @@ public class RecordButtonsAccumulator {
                             setBack.startAnimation(animation);
                         }
                     };
+                    collection.addTimer(timer);
                     timer.start();
+                    collection.clearNull();
 
                     progressBar.show();
                     requestHelper.executePost("catching", new String[]{"team", "rod", "event", "time"},
@@ -221,8 +238,8 @@ public class RecordButtonsAccumulator {
                     //pausedValues.saveValue(Integer.toString(rodId), tvTimer.getText().toString());
                     if (timer != null)
                         timer.cancel();
-                    String setTime = Integer.toString(startTime / 60) + ":" + Integer.toString(startTime % 60);
-                    tvTimer.setText(setTime);
+                    collection.clearNull();
+                    tvTimer.setText(timeStr);
                     //tvTimer.setText(pausedValues.getPausedTime(Integer.toString(rodId)));
                     requestHelper.executePost("catching", new String[]{"team", "rod", "event", "time"},
                             new String[]{teamId, Integer.toString(rodId), "5", getCurrentDateTime()}, null, listener);

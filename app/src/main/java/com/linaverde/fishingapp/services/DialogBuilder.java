@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -31,6 +32,8 @@ import com.linaverde.fishingapp.models.ViolationDictionaryItem;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.regex.Pattern;
 
 public class DialogBuilder {
 
@@ -124,6 +127,8 @@ public class DialogBuilder {
             etNumber.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
             etNumber.setHint("ПИН");
             etNumber.setHintTextColor(context.getResources().getColor(R.color.gray, null));
+        } else {
+            etNumber.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2)});
         }
 
         builder.setView(viewDialog);
@@ -153,6 +158,8 @@ public class DialogBuilder {
         }
 
     }
+
+
 
     public static void createInputStringDialog(Context context, LayoutInflater inflater, String text, final CompleteActionListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
