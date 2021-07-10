@@ -116,7 +116,7 @@
         <item>4</item>
     </string-array>
     <string name="width">Ширина</string>
-    <string name="fishing_record">Учет ловли</string>
+    <string name="fishing_record">Работа в секторе</string>
     <string name="record_bite">Поклевка</string>
     <string name="record_fish">Рыба</string>
     <string name="record_gone">Сход</string>
@@ -124,7 +124,7 @@
 
     <string name="cast_count_spod">Спод. Количество забросов</string>
     <string name="cast_count_cobra">Кобра. Количество забросов</string>
-    <string name="catch_stats">Статистика ловли</string>
+    <string name="catch_stats">Статистика ловли команды</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

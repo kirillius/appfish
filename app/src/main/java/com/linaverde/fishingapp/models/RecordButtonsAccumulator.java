@@ -34,6 +34,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class RecordButtonsAccumulator {
 
@@ -78,12 +79,12 @@ public class RecordButtonsAccumulator {
             event = info.getString("event");
             String time = info.getString("timer");
 
-            time = time.substring(time.indexOf(":") + 1);
+            time = time.substring(time.indexOf("T") + 1);
             timeStr = time;
             Log.d("Timer", timeStr);
             this.tvTimer.setText(timeStr);
             String[] timeValues = time.split(":");
-            this.startTime = Integer.parseInt(timeValues[0]) * 60 + Integer.parseInt(timeValues[1]);
+            this.startTime = Integer.parseInt(timeValues[0]) * 60 * 60 + Integer.parseInt(timeValues[1]) * 60 + Integer.parseInt(timeValues[2]);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             //установка таймера в кастомное значение, если уже был заброс
             if (event.equals("1")) {
@@ -99,14 +100,12 @@ public class RecordButtonsAccumulator {
                     timer = new CountDownTimer(diff, 1000) {
                         @Override
                         public void onTick(long millisUntilFinished) {
-                            int sec = (int) (millisUntilFinished / 1000);
-                            String currMin = Integer.toString((sec) / 60);
-                            String cueeSec = Integer.toString(sec % 60);
-                            if (currMin.length() < 2)
-                                currMin = '0' + currMin;
-                            if (cueeSec.length() < 2)
-                                cueeSec = '0' + cueeSec;
-                            tvTimer.setText(currMin + ':' + cueeSec);
+                            long millis = millisUntilFinished;
+                            //Convert milliseconds into hour,minute and seconds
+                            String hms = String.format("%02d:%02d:%02d",
+                                    TimeUnit.MILLISECONDS.toHours(millis),
+                                    TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)), TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+                            tvTimer.setText(hms);//set text
                         }
 
                         @Override
@@ -126,7 +125,7 @@ public class RecordButtonsAccumulator {
                     timer.start();
                 } else {
                     timeIsAlreadyOut = true;
-                    tvTimer.setText("00:00");
+                    tvTimer.setText("00:00:00");
                 }
             }
             else if (event.equals("5")) {
@@ -207,19 +206,17 @@ public class RecordButtonsAccumulator {
                     timer = new CountDownTimer(startTime * 1000, 1000) {
                         @Override
                         public void onTick(long millisUntilFinished) {
-                            int sec = (int) (millisUntilFinished / 1000);
-                            String currMin = Integer.toString((sec) / 60);
-                            String cueeSec = Integer.toString(sec % 60);
-                            if (currMin.length() < 2)
-                                currMin = '0' + currMin;
-                            if (cueeSec.length() < 2)
-                                cueeSec = '0' + cueeSec;
-                            tvTimer.setText(currMin + ':' + cueeSec);
+                            long millis = millisUntilFinished;
+                            //Convert milliseconds into hour,minute and seconds
+                            String hms = String.format("%02d:%02d:%02d",
+                                    TimeUnit.MILLISECONDS.toHours(millis),
+                                    TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)), TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+                            tvTimer.setText(hms);//set text
                         }
 
                         @Override
                         public void onFinish() {
-                            tvTimer.setText("00:00");
+                            tvTimer.setText("00:00:00");
                             CastTimerAccumulator.createNotification(context, rodId);
                             setBackToBlack();
                             setBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_red));
@@ -311,7 +308,6 @@ public class RecordButtonsAccumulator {
             setBackToBlack();
             switch (event) {
                 case "1":
-                case "5":
                     setBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_green));
                     break;
                 case "2":
@@ -322,6 +318,9 @@ public class RecordButtonsAccumulator {
                     break;
                 case "4":
                     goneBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_red));
+                    break;
+                case "5":
+                    setBack.setImageDrawable(context.getDrawable(R.drawable.record_btn_red));
                     break;
             }
         } else {

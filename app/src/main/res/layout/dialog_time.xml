@@ -35,43 +35,15 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="34dp"
             android:layout_weight="6"
-            android:background="@color/white"
-            android:digits="0123456789"
-            android:inputType="number"
-            android:maxLength="2"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="25sp"
-            android:visibility="gone"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text=":"
-            android:textAlignment="center"
-            android:textAppearance="@style/Roboto"
-            android:textSize="25sp"
-            android:visibility="gone"/>
-
-        <EditText
-            android:id="@+id/et_min"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="60dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="34dp"
-            android:layout_weight="6"
             android:background="@drawable/button_bottom_gradient"
             android:digits="0123456789"
+            android:hint="ЧАС"
             android:inputType="number"
             android:maxLength="2"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="25sp"
-            android:hint="МИН"
             android:textColorHint="@color/gray"
-            />
+            android:textSize="25sp" />
 
         <TextView
             android:layout_width="0dp"
@@ -83,6 +55,34 @@
             android:textSize="25sp" />
 
         <EditText
+            android:id="@+id/et_min"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginBottom="34dp"
+            android:layout_weight="6"
+            android:background="@drawable/button_bottom_gradient"
+            android:digits="0123456789"
+            android:hint="МИН"
+            android:inputType="number"
+            android:maxLength="2"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=":"
+            android:textAlignment="center"
+            android:textAppearance="@style/Roboto"
+            android:textSize="25sp"
+            android:visibility="gone" />
+
+        <EditText
             android:id="@+id/et_sec"
             android:layout_width="0dp"
             android:layout_height="50dp"
@@ -92,13 +92,14 @@
             android:layout_weight="6"
             android:background="@drawable/button_bottom_gradient"
             android:digits="0123456789"
+            android:hint="СЕК"
             android:inputType="number"
             android:maxLength="2"
             android:textAlignment="center"
             android:textColor="@color/white"
+            android:textColorHint="@color/gray"
             android:textSize="25sp"
-            android:hint="СЕК"
-            android:textColorHint="@color/gray" />
+            android:visibility="gone" />
 
     </LinearLayout>
 

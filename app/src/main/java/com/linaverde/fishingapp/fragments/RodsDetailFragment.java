@@ -267,14 +267,14 @@ public class RodsDetailFragment extends Fragment implements RodsSettingsChangeLi
                             missedParam.put("valueId", timerJson.getString("value"));
                             newParams.put(missedParam);
                         }
-                        JSONObject spodParam = new JSONObject();
-                        spodParam.put("paramId", "SPOD_QTY");
-                        spodParam.put("valueId", 0);
-                        JSONObject cobrParam = new JSONObject();
-                        cobrParam.put("paramId", "COBR_QTY");
-                        cobrParam.put("valueId", 0);
-                        newParams.put(spodParam);
-                        newParams.put(cobrParam);
+//                        JSONObject spodParam = new JSONObject();
+//                        spodParam.put("paramId", "SPOD_QTY");
+//                        spodParam.put("valueId", 0);
+//                        JSONObject cobrParam = new JSONObject();
+//                        cobrParam.put("paramId", "COBR_QTY");
+//                        cobrParam.put("valueId", 0);
+//                        newParams.put(spodParam);
+//                        newParams.put(cobrParam);
                         listener.sendRodsSettings(rodType, rodId, newParams.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
