@@ -7,11 +7,11 @@
     <TextView
         android:id="@+id/tv_grid_item"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="@dimen/_18sdp"
         android:gravity="center"
         android:textAlignment="center"
         android:textAppearance="@style/Roboto"
-        android:textSize="16sp"
-        android:layout_margin="5dp"
+        android:textSize="@dimen/_6ssp"
+        android:layout_margin="@dimen/_2sdp"
         android:background="@null"/>
 </LinearLayout>

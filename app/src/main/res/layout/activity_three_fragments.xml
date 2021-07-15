@@ -17,7 +17,7 @@
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/top_menu_fragment"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="@dimen/_115sdp"
             android:layout_alignParentTop="true" />
 
 
@@ -31,14 +31,14 @@
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/bottom_fragment"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="@dimen/_31sdp"
             android:layout_alignParentBottom="true" />
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/progress_bar"
             style="?android:attr/progressBarStyleLarge"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/progress_bar"
+            android:layout_height="@dimen/progress_bar"
             android:layout_centerInParent="true"
             android:visibility="visible" />
 
@@ -51,6 +51,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         android:background="@color/darkBlueBackground"
-         />
+        style="@style/NavigationViewStyle"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

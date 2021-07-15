@@ -7,13 +7,13 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="@dimen/_62sdp"
         android:layout_alignParentTop="true"
         android:background="@drawable/dark_gradient" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="76dp"
+        android:layout_height="@dimen/_28sdp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/light_gradient" />
 
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/se_margin"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/_12sdp"
         android:layout_marginEnd="@dimen/se_margin"
         android:orientation="horizontal">
 
@@ -50,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/table_names"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/_8sdp"
         android:orientation="vertical"
         android:weightSum="20"
         android:layout_above="@id/ll_buttons">
@@ -62,7 +62,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="76dp"
+                android:layout_height="@dimen/_28sdp"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/light_gradient" />
 
@@ -72,9 +72,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/se_margin"
                 android:layout_marginEnd="@dimen/se_margin"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="@dimen/_8sdp"
                 android:divider="@android:color/transparent"
-                android:dividerHeight="8dp" />
+                android:dividerHeight="@dimen/_3sdp" />
 
         </RelativeLayout>
 
@@ -85,7 +85,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="@dimen/_62sdp"
                 android:layout_alignParentTop="true"
                 android:background="@drawable/dark_gradient" />
 
@@ -94,20 +94,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/se_margin"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/se_margin"
                 android:divider="@android:color/transparent"
-                android:dividerHeight="8dp" />
+                android:dividerHeight="@dimen/_3sdp" />
 
         </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/ll_timer"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="@dimen/_16sdp"
             android:layout_marginStart="@dimen/se_margin"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginBottom="@dimen/_6sdp"
             android:layout_marginEnd="@dimen/se_margin"
             android:background="@drawable/result_back"
             android:visibility="gone">
@@ -118,10 +118,10 @@
                 android:layout_weight="1"
                 android:text="@string/time"
                 android:textAppearance="@style/Roboto"
-                android:textSize="22sp"
+                android:textSize="@dimen/_8ssp"
                 android:gravity="center_vertical"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="15dp"/>
+                android:layout_marginStart="@dimen/_6sdp"/>
 
             <TextView
                 android:id="@+id/timer_value"
@@ -131,11 +131,11 @@
                 android:text="Значение"
                 android:textAlignment="viewEnd"
                 android:textAppearance="@style/Roboto"
-                android:textSize="22sp"
+                android:textSize="@dimen/_8ssp"
                 android:gravity="center_vertical"
                 android:layout_gravity="center_vertical"
                 tools:ignore="RtlCompat"
-                android:layout_marginEnd="15dp"
+                android:layout_marginEnd="@dimen/_6sdp"
                 />
         </LinearLayout>
 
@@ -150,26 +150,26 @@
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:visibility="gone"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="@dimen/_2sdp">
 
         <RelativeLayout
             android:id="@+id/rl_confirm"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="@dimen/_23sdp"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="@dimen/_4sdp"
             android:layout_weight="1"
             android:background="@drawable/stat_back_red">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="62dp"
+                android:layout_height="@dimen/_24sdp"
                 android:layout_centerInParent="true"
                 android:singleLine="true"
                 android:text="@string/confirm"
                 android:textAlignment="center"
                 android:textAppearance="@style/Roboto"
-                android:textSize="30sp"
+                android:textSize="@dimen/_12ssp"
                 android:background="@drawable/button_big_bottom_gradient"
                 android:gravity="center"/>
 
@@ -178,21 +178,21 @@
         <RelativeLayout
             android:id="@+id/rl_cancel"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="@dimen/_23sdp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="@dimen/_4sdp"
             android:layout_weight="1"
             android:background="@drawable/stat_back_red">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="62dp"
+                android:layout_height="@dimen/_24sdp"
                 android:layout_centerInParent="true"
                 android:singleLine="true"
                 android:text="@string/cancel"
                 android:textAlignment="center"
                 android:textAppearance="@style/Roboto"
-                android:textSize="30sp"
+                android:textSize="@dimen/_12ssp"
                 android:background="@drawable/button_big_bottom_gradient"
                 android:gravity="center"/>
 
@@ -203,8 +203,8 @@
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progress_bar"
         style="?android:attr/progressBarStyleLarge"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/progress_bar"
+        android:layout_height="@dimen/progress_bar"
         android:layout_centerInParent="true"
         android:visibility="visible" />
 

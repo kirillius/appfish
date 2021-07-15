@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Roboto">
-        <item name="android:textSize">28sp</item>
+        <item name="android:textSize">@dimen/_11ssp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/lato_regular</item>
         <item name="android:fontFeatureSettings">smcp</item>
@@ -9,7 +9,7 @@
     </style>
 
     <style name="Roboto.MatchName">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">@dimen/_9ssp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/lato_regular</item>
         <item name="android:fontFeatureSettings">smcp</item>
@@ -17,7 +17,7 @@
     </style>
 
     <style name="Roboto.StatsItem">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">@dimen/_8ssp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/lato_regular</item>
         <item name="android:fontFeatureSettings">smcp</item>
@@ -25,11 +25,17 @@
     </style>
 
     <style name="Roboto.StatsTableNames">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">@dimen/_6ssp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/lato_regular</item>
         <item name="android:fontFeatureSettings">smcp</item>
         <item name="android:gravity">center</item>
     </style>
+
+    <style name="NavigationViewStyle">
+        <item name="android:textSize">@dimen/_12ssp</item> <!-- menu item text size-->
+        <item name="android:listPreferredItemHeightSmall">@dimen/_16sdp</item><!-- menu item height-->
+    </style>
+
 
 </resources>

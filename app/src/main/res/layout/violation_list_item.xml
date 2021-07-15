@@ -2,19 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="77dp">
+    android:layout_height="@dimen/_30sdp">
 
     <TextView
         android:id="@+id/tv_violation_number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="@dimen/_6sdp"
         android:layout_weight="1"
         android:text=" "
         android:textAlignment="center"
         android:textAppearance="@style/Roboto"
-        android:textSize="28sp"
+        android:textSize="@dimen/_11ssp"
         android:visibility="gone"/>
 
     <TextView
@@ -22,12 +22,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="@dimen/_6sdp"
         android:layout_weight="1"
         android:text=" "
         android:textAlignment="center"
         android:textAppearance="@style/Roboto"
-        android:textSize="28sp"
+        android:textSize="@dimen/_11ssp"
         android:visibility="gone"/>
 
     <TextView
@@ -38,7 +38,7 @@
         android:layout_weight="3"
         android:text=" "
         android:textAppearance="@style/Roboto"
-        android:textSize="24sp"
+        android:textSize="@dimen/_9ssp"
         android:ellipsize="end"
         android:singleLine="true"/>
 

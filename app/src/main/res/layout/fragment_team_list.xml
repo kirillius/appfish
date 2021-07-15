@@ -7,24 +7,24 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="@dimen/_62sdp"
         android:layout_alignParentTop="true"
         android:background="@drawable/dark_gradient" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="76dp"
+        android:layout_height="@dimen/_28sdp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/light_gradient" />
 
     <TextView
         android:id="@+id/tv_tournament_name"
         android:layout_width="match_parent"
-        android:layout_height="62dp"
+        android:layout_height="@dimen/_24sdp"
         android:layout_marginStart="@dimen/se_margin"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/_12sdp"
         android:layout_marginEnd="@dimen/se_margin"
-        android:layout_marginBottom="34dp"
+        android:layout_marginBottom="@dimen/_13sdp"
         android:background="@drawable/button_bottom_gradient"
         android:ellipsize="end"
         android:singleLine="true"
@@ -38,14 +38,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_tournament_name"
         android:layout_marginStart="@dimen/se_margin"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="@dimen/_12sdp">
 
         <ImageView
             android:id="@+id/icon_queue"
-            android:layout_width="42dp"
-            android:layout_height="44dp"
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_17sdp"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="@dimen/_12sdp"
             android:adjustViewBounds="true"
             android:background="@null"
             android:scaleType="centerInside"
@@ -60,7 +60,7 @@
             android:text="@string/teams"
             android:textAppearance="@style/Roboto"
             android:textColor="@color/white"
-            android:textSize="26sp" />
+            android:textSize="@dimen/_10ssp" />
 
     </RelativeLayout>
 
@@ -71,7 +71,7 @@
         android:layout_below="@id/register_team"
         android:layout_marginStart="@dimen/se_margin"
         android:layout_marginEnd="@dimen/se_margin"
-        android:layout_marginBottom="29dp"
+        android:layout_marginBottom="@dimen/_11sdp"
         android:orientation="horizontal">
 
         <TextView
@@ -81,7 +81,7 @@
             android:layout_weight="2"
             android:text="@string/queue"
             android:textAppearance="@style/Roboto"
-            android:textSize="26sp" />
+            android:textSize="@dimen/_10ssp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -91,7 +91,7 @@
             android:text="@string/name"
             android:textAlignment="center"
             android:textAppearance="@style/Roboto"
-            android:textSize="26sp" />
+            android:textSize="@dimen/_10ssp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -101,7 +101,7 @@
             android:text="@string/sector"
             android:textAlignment="center"
             android:textAppearance="@style/Roboto"
-            android:textSize="26sp" />
+            android:textSize="@dimen/_10ssp" />
     </LinearLayout>
 
     <ListView
@@ -112,13 +112,13 @@
         android:layout_marginStart="@dimen/se_margin"
         android:layout_marginEnd="@dimen/se_margin"
         android:divider="@android:color/transparent"
-        android:dividerHeight="10.0sp" />
+        android:dividerHeight="@dimen/_4ssp" />
 
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progress_bar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/progress_bar"
+        android:layout_height="@dimen/progress_bar"
         android:visibility="visible"
         android:layout_centerInParent="true"
         style="?android:attr/progressBarStyleLarge"/>

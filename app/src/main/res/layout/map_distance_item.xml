@@ -2,10 +2,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tv_distance"
     android:layout_width="match_parent"
-    android:layout_height="30dp"
-    android:layout_margin="5dp"
+    android:layout_height="@dimen/_12sdp"
+    android:layout_margin="@dimen/_2sdp"
     android:background="@null"
     android:gravity="center"
     android:textAlignment="center"
     android:textAppearance="@style/Roboto"
-    android:textSize="16sp" />
+    android:textSize="@dimen/_6ssp" />

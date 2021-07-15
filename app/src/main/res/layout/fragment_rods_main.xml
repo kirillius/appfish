@@ -7,30 +7,30 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="@dimen/_62sdp"
         android:layout_alignParentTop="true"
         android:background="@drawable/dark_gradient" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="76dp"
+        android:layout_height="@dimen/_28sdp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/light_gradient" />
 
     <TextView
         android:id="@+id/tv_rods_type"
         android:layout_width="match_parent"
-        android:layout_height="62dp"
+        android:layout_height="@dimen/_24sdp"
         android:layout_marginStart="@dimen/se_margin"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/_12sdp"
         android:layout_marginEnd="@dimen/se_margin"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="@dimen/_8sdp"
         android:background="@drawable/button_bottom_gradient"
         android:ellipsize="end"
         android:singleLine="true"
         android:textAlignment="center"
         android:textAppearance="@style/Roboto.MatchName"
-        android:textSize="26sp" />
+        android:textSize="@dimen/_10ssp" />
 
     <LinearLayout
         android:id="@+id/main_settings"
@@ -39,7 +39,7 @@
         android:layout_below="@id/tv_rods_type"
         android:layout_marginStart="@dimen/se_margin"
         android:layout_marginEnd="@dimen/se_margin"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="@dimen/_12sdp"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -57,9 +57,9 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="@dimen/_6sdp"
                     android:layout_weight="20"
-                    android:layout_marginBottom="10dp">
+                    android:layout_marginBottom="@dimen/_4sdp">
 
                     <ImageView
                         android:id="@+id/rod_1_back"
@@ -77,9 +77,9 @@
                         android:layout_width="wrap_content"
                         style="@style/Roboto"
                         android:text="Удилище"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/_8ssp"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="20sp"
+                        android:layout_marginEnd="@dimen/_8ssp"
                         android:gravity="center"
                         android:layout_centerVertical="true" />
 
@@ -88,7 +88,7 @@
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="@dimen/_15sdp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
@@ -103,9 +103,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_rod1"
-                android:horizontalSpacing="10dp"
+                android:horizontalSpacing="@dimen/_4sdp"
                 android:numColumns="2"
-                android:verticalSpacing="5dp" />
+                android:verticalSpacing="@dimen/_2sdp" />
 
         </RelativeLayout>
 
@@ -124,9 +124,9 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="@dimen/_6sdp"
                     android:layout_weight="20"
-                    android:layout_marginBottom="10dp">
+                    android:layout_marginBottom="@dimen/_4sdp">
 
                     <ImageView
                         android:id="@+id/rod_2_back"
@@ -135,7 +135,8 @@
                         android:layout_gravity="center_vertical"
                         android:adjustViewBounds="true"
                         android:scaleType="centerInside"
-                        android:src="@drawable/rod_2_back_gr" />
+                        android:src="@drawable/rod_2_back_gr"
+                        android:layout_centerVertical="true"/>
 
                     <TextView
                         android:id="@+id/rod_name_2"
@@ -143,18 +144,18 @@
                         android:layout_width="wrap_content"
                         style="@style/Roboto"
                         android:text="Удилище"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/_8ssp"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="20sp"
+                        android:layout_marginEnd="@dimen/_8ssp"
                         android:gravity="center"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true" />
 
                 </RelativeLayout>
 
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="@dimen/_15sdp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
@@ -163,14 +164,15 @@
 
             </LinearLayout>
 
+
             <GridView
                 android:id="@+id/rod2_main_settings_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_rod2"
-                android:horizontalSpacing="10dp"
+                android:horizontalSpacing="@dimen/_4sdp"
                 android:numColumns="2"
-                android:verticalSpacing="5dp" />
+                android:verticalSpacing="@dimen/_2sdp" />
 
         </RelativeLayout>
 
@@ -189,9 +191,9 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="@dimen/_6sdp"
                     android:layout_weight="20"
-                    android:layout_marginBottom="10dp">
+                    android:layout_marginBottom="@dimen/_4sdp">
 
                     <ImageView
                         android:id="@+id/rod_3_back"
@@ -200,7 +202,8 @@
                         android:layout_gravity="center_vertical"
                         android:adjustViewBounds="true"
                         android:scaleType="centerInside"
-                        android:src="@drawable/rod_3_back_gr" />
+                        android:src="@drawable/rod_3_back_gr"
+                        android:layout_centerVertical="true"/>
 
                     <TextView
                         android:id="@+id/rod_name_3"
@@ -208,18 +211,18 @@
                         android:layout_width="wrap_content"
                         style="@style/Roboto"
                         android:text="Удилище"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/_8ssp"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="20sp"
+                        android:layout_marginEnd="@dimen/_8ssp"
                         android:gravity="center"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true" />
 
                 </RelativeLayout>
 
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="@dimen/_15sdp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
@@ -228,14 +231,15 @@
 
             </LinearLayout>
 
+
             <GridView
                 android:id="@+id/rod3_main_settings_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_rod3"
-                android:horizontalSpacing="10dp"
+                android:horizontalSpacing="@dimen/_4sdp"
                 android:numColumns="2"
-                android:verticalSpacing="5dp" />
+                android:verticalSpacing="@dimen/_2sdp" />
 
         </RelativeLayout>
 
@@ -254,9 +258,9 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="@dimen/_6sdp"
                     android:layout_weight="20"
-                    android:layout_marginBottom="10dp">
+                    android:layout_marginBottom="@dimen/_4sdp">
 
                     <ImageView
                         android:id="@+id/rod_4_back"
@@ -265,7 +269,8 @@
                         android:layout_gravity="center_vertical"
                         android:adjustViewBounds="true"
                         android:scaleType="centerInside"
-                        android:src="@drawable/rod_4_back_gr" />
+                        android:src="@drawable/rod_4_back_gr"
+                        android:layout_centerVertical="true"/>
 
                     <TextView
                         android:id="@+id/rod_name_4"
@@ -273,18 +278,18 @@
                         android:layout_width="wrap_content"
                         style="@style/Roboto"
                         android:text="Удилище"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/_8ssp"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="20sp"
+                        android:layout_marginEnd="@dimen/_8ssp"
                         android:gravity="center"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true" />
 
                 </RelativeLayout>
 
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="@dimen/_15sdp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
@@ -293,14 +298,15 @@
 
             </LinearLayout>
 
+
             <GridView
                 android:id="@+id/rod4_main_settings_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_rod4"
-                android:horizontalSpacing="10dp"
+                android:horizontalSpacing="@dimen/_4sdp"
                 android:numColumns="2"
-                android:verticalSpacing="5dp" />
+                android:verticalSpacing="@dimen/_2sdp" />
 
         </RelativeLayout>
 

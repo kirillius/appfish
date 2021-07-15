@@ -7,24 +7,24 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="@dimen/_62sdp"
         android:layout_alignParentTop="true"
         android:background="@drawable/dark_gradient" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/_23sdp"
         android:layout_marginStart="@dimen/se_margin"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/_4sdp"
         android:layout_marginEnd="@dimen/se_margin"
         android:background="@drawable/time_back">
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/_15sdp"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_2sdp"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             android:src="@drawable/icon_moon"
@@ -33,10 +33,10 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/_15sdp"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_2sdp"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             android:src="@drawable/icon_sun"
@@ -45,7 +45,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="@dimen/_23sdp"
             android:orientation="horizontal">
 
             <ImageView
@@ -53,7 +53,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="@dimen/_2sdp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
@@ -240,7 +240,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
@@ -252,7 +251,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
@@ -264,7 +262,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
@@ -276,7 +273,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
@@ -288,7 +284,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
@@ -300,7 +295,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
@@ -312,7 +306,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="@dimen/_2sdp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"

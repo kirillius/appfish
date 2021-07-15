@@ -7,7 +7,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="76dp"
+        android:layout_height="@dimen/_30sdp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/light_gradient" />
 
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp">
+        android:layout_marginBottom="@dimen/_10sdp">
 
         <TextView
             android:id="@+id/tv_sector_number"
@@ -26,26 +26,26 @@
             android:layout_gravity="center_vertical"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:maxWidth="400dp"
+            android:maxWidth="@dimen/_155sdp"
             android:singleLine="true"
             android:text="@string/settings_rods"
             android:textAppearance="@style/Roboto"
             android:textColor="@color/white"
-            android:textSize="38sp" />
+            android:textSize="@dimen/_15ssp" />
 
     </LinearLayout>
 
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="200dp"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_77sdp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="@dimen/_27sdp"
         android:adjustViewBounds="true"
         android:background="@null"
         android:scaleType="centerInside"
         android:src="@drawable/gps_icon"
         android:layout_above="@id/ll_sector_map"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="@dimen/_12sdp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -58,10 +58,10 @@
 
         <ImageButton
             android:id="@+id/top_menu"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/top_menu_button"
+            android:layout_height="@dimen/top_menu_button"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="@dimen/top_menu_button_margin"
             android:adjustViewBounds="true"
             android:background="@null"
             android:scaleType="centerInside"
@@ -69,20 +69,20 @@
 
         <ImageButton
             android:id="@+id/settings"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/top_menu_button"
+            android:layout_height="@dimen/top_menu_button"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="@dimen/top_menu_button_margin"
             android:adjustViewBounds="true"
             android:background="@null"
             android:scaleType="centerInside"
             android:src="@drawable/setting_icon"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <ImageButton
             android:id="@+id/top_gps"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/top_menu_button"
+            android:layout_height="@dimen/top_menu_button"
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
             android:background="@null"
@@ -101,22 +101,22 @@
 
         <ImageButton
             android:id="@+id/top_chat"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/top_menu_button"
+            android:layout_height="@dimen/top_menu_button"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="@dimen/top_menu_button_margin"
             android:adjustViewBounds="true"
             android:background="@null"
             android:scaleType="centerInside"
             android:src="@drawable/chat_icon"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <ImageButton
             android:id="@+id/top_message"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/top_menu_button"
+            android:layout_height="@dimen/top_menu_button"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="@dimen/top_menu_button_margin"
             android:adjustViewBounds="true"
             android:background="@null"
             android:scaleType="centerInside"
@@ -124,8 +124,8 @@
 
         <ImageButton
             android:id="@+id/top_sync"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/top_menu_button"
+            android:layout_height="@dimen/top_menu_button"
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
             android:background="@null"

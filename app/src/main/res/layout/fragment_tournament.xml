@@ -7,30 +7,30 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="533dp"
+        android:layout_height="@dimen/_200sdp"
         android:layout_weight="1"
         android:background="@null">
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="@dimen/_62sdp"
             android:layout_alignParentTop="true"
             android:background="@drawable/dark_gradient" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="76dp"
+            android:layout_height="@dimen/_28sdp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/light_gradient" />
 
         <TextView
             android:id="@+id/tv_tournament_name"
             android:layout_width="match_parent"
-            android:layout_height="62dp"
+            android:layout_height="@dimen/_25sdp"
             android:layout_marginStart="@dimen/se_margin"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="@dimen/_12sdp"
             android:layout_marginEnd="@dimen/se_margin"
-            android:layout_marginBottom="34dp"
+            android:layout_marginBottom="@dimen/_13sdp"
             android:background="@drawable/button_bottom_gradient"
             android:ellipsize="end"
             android:singleLine="true"
@@ -45,7 +45,7 @@
             android:layout_below="@id/tv_tournament_name"
             android:layout_marginStart="@dimen/se_margin"
             android:layout_marginEnd="@dimen/se_margin"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="@dimen/_8sdp"
             app:columnCount="2"
             app:rowCount="2">
 
@@ -72,10 +72,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
-                    android:layout_margin="40dp"
+                    android:layout_margin="@dimen/_16sdp"
                     android:lines="2"
                     android:minLines="2"
-                    android:paddingStart="40dp"
+                    android:paddingStart="@dimen/_16sdp"
                     android:text="@string/register_team"
                     android:textAppearance="@style/Roboto"
                     android:textSize="@dimen/main_menu_text_size" />
@@ -104,10 +104,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
-                    android:layout_margin="40dp"
+                    android:layout_margin="@dimen/_16sdp"
                     android:lines="2"
                     android:minLines="2"
-                    android:paddingStart="40dp"
+                    android:paddingStart="@dimen/_16sdp"
                     android:text="@string/draw_queue"
                     android:textAppearance="@style/Roboto"
                     android:textSize="@dimen/main_menu_text_size" />
@@ -136,10 +136,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
-                    android:layout_margin="40dp"
+                    android:layout_margin="@dimen/_16sdp"
                     android:lines="2"
                     android:minLines="2"
-                    android:paddingStart="40dp"
+                    android:paddingStart="@dimen/_16sdp"
                     android:text="@string/draw_sector"
                     android:textAppearance="@style/Roboto"
                     android:textSize="@dimen/main_menu_text_size" />
@@ -168,8 +168,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
-                    android:layout_margin="40dp"
-                    android:paddingStart="40dp"
+                    android:layout_margin="@dimen/_16sdp"
+                    android:paddingStart="@dimen/_16sdp"
                     android:text="@string/weighing"
                     android:textAppearance="@style/Roboto"
                     android:textSize="@dimen/main_menu_text_size" />
@@ -181,9 +181,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/tv_tournament_name"
-            android:layout_marginStart="60dp"
-            android:layout_marginEnd="60dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginStart="@dimen/_23sdp"
+            android:layout_marginEnd="@dimen/_23sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
             android:visibility="gone">
 
             <LinearLayout
@@ -195,7 +195,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/_4sdp"
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
@@ -205,7 +205,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/_4sdp"
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
@@ -220,12 +220,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="394dp"
+        android:layout_height="@dimen/_130sdp"
         android:layout_weight="1">
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="@dimen/_62sdp"
             android:layout_alignParentTop="true"
             android:background="@drawable/dark_gradient" />
 
@@ -234,14 +234,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="@dimen/_16sdp"
             android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/play"
-                android:layout_width="58dp"
-                android:layout_height="61dp"
-                android:layout_marginEnd="61dp"
+                android:layout_width="@dimen/auth_bottom_button_width"
+                android:layout_height="@dimen/auth_bottom_button_height"
+                android:layout_marginEnd="@dimen/auth_bottom_button_margin"
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:scaleType="centerInside"
@@ -249,9 +249,9 @@
 
             <ImageButton
                 android:id="@+id/network"
-                android:layout_width="58dp"
-                android:layout_height="61dp"
-                android:layout_marginEnd="61dp"
+                android:layout_width="@dimen/auth_bottom_button_width"
+                android:layout_height="@dimen/auth_bottom_button_height"
+                android:layout_marginEnd="@dimen/auth_bottom_button_margin"
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:scaleType="centerInside"
@@ -259,9 +259,9 @@
 
             <ImageButton
                 android:id="@+id/instagram"
-                android:layout_width="58dp"
-                android:layout_height="61dp"
-                android:layout_marginEnd="61dp"
+                android:layout_width="@dimen/auth_bottom_button_width"
+                android:layout_height="@dimen/auth_bottom_button_height"
+                android:layout_marginEnd="@dimen/auth_bottom_button_margin"
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:scaleType="centerInside"
@@ -269,8 +269,8 @@
 
             <ImageButton
                 android:id="@+id/facebook"
-                android:layout_width="58dp"
-                android:layout_height="61dp"
+                android:layout_width="@dimen/auth_bottom_button_width"
+                android:layout_height="@dimen/auth_bottom_button_height"
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:scaleType="centerInside"
@@ -317,10 +317,10 @@
         <RelativeLayout
             android:id="@+id/button_statistics"
             android:layout_width="match_parent"
-            android:layout_height="59dp"
+            android:layout_height="@dimen/_23sdp"
             android:layout_below="@id/button_exchange"
             android:layout_marginStart="@dimen/se_margin"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="@dimen/_16sdp"
             android:layout_marginEnd="@dimen/se_margin"
             android:background="@drawable/button_dark"
             android:orientation="horizontal">
@@ -329,18 +329,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginStart="64dp"
                 android:text="@string/online_protocol"
                 android:textAppearance="@style/Roboto"
-                android:textSize="30sp" />
+                android:textSize="@dimen/_12ssp" />
 
             <ImageView
-                android:layout_width="17dp"
-                android:layout_height="26dp"
+                android:layout_width="@dimen/_7sdp"
+                android:layout_height="@dimen/_10sdp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="21dp"
+                android:layout_marginEnd="@dimen/_8sdp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/arrow_right" />

@@ -7,30 +7,31 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="@dimen/_62sdp"
         android:layout_alignParentTop="true"
         android:background="@drawable/dark_gradient" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="76dp"
+        android:layout_height="@dimen/_28sdp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/light_gradient" />
 
     <TextView
         android:id="@+id/tv_tournament_name"
         android:layout_width="match_parent"
-        android:layout_height="62dp"
+        android:layout_height="@dimen/_25sdp"
         android:layout_marginStart="@dimen/se_margin"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/_12sdp"
         android:layout_marginEnd="@dimen/se_margin"
-        android:layout_marginBottom="34dp"
+        android:layout_marginBottom="@dimen/_13sdp"
         android:background="@drawable/button_bottom_gradient"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="@string/tournament"
         android:textAlignment="center"
-        android:textAppearance="@style/Roboto.MatchName" />
+        android:textAppearance="@style/Roboto.MatchName"
+        />
 
     <RelativeLayout
         android:id="@+id/register_team"
@@ -38,14 +39,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_tournament_name"
         android:layout_marginStart="@dimen/se_margin"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="@dimen/_12sdp">
 
         <ImageView
             android:id="@+id/icon_reg"
-            android:layout_width="42dp"
-            android:layout_height="44dp"
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_17sdp"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="@dimen/_12sdp"
             android:adjustViewBounds="true"
             android:background="@null"
             android:scaleType="centerInside"
@@ -60,7 +61,7 @@
             android:layout_toEndOf="@id/icon_reg"
             android:text="@string/register_team"
             android:textAppearance="@style/Roboto"
-            android:textSize="26sp" />
+            android:textSize="@dimen/_10ssp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -70,7 +71,7 @@
         android:layout_below="@id/register_team"
         android:layout_marginStart="@dimen/se_margin"
         android:layout_marginEnd="@dimen/se_margin"
-        android:layout_marginBottom="29dp"
+        android:layout_marginBottom="@dimen/_11sdp"
         android:orientation="horizontal">
 
         <TextView
@@ -80,7 +81,7 @@
             android:layout_weight="2"
             android:text="@string/number"
             android:textAppearance="@style/Roboto"
-            android:textSize="26sp" />
+            android:textSize="@dimen/_10ssp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -90,19 +91,19 @@
             android:text="@string/teams"
             android:textAlignment="center"
             android:textAppearance="@style/Roboto"
-            android:textSize="26sp" />
+            android:textSize="@dimen/_10ssp" />
 
         <ImageView
             android:id="@+id/iv_team_checkin"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
             android:adjustViewBounds="true"
             android:background="@null"
             android:scaleType="centerInside"
             android:src="@drawable/team_unckeck"
             android:gravity="center"
             android:layout_gravity="center"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="@dimen/_8sdp"
             android:visibility="invisible"/>
     </LinearLayout>
 
@@ -115,18 +116,18 @@
         android:layout_marginStart="@dimen/se_margin"
         android:layout_marginEnd="@dimen/se_margin"
         android:divider="@android:color/transparent"
-        android:dividerHeight="10.0sp" />
+        android:dividerHeight="@dimen/_4ssp" />
 
 
     <RelativeLayout
         android:id="@+id/button_end_reg"
         android:layout_width="match_parent"
-        android:layout_height="59dp"
+        android:layout_height="@dimen/_23sdp"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="@dimen/se_margin"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="@dimen/_15sdp"
         android:layout_marginEnd="@dimen/se_margin"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="@dimen/_15sdp"
         android:background="@drawable/button_dark"
         android:orientation="horizontal">
 
@@ -135,17 +136,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginStart="64dp"
+            android:layout_marginStart="@dimen/_24sdp"
             android:text="@string/end_reg"
-            android:textSize="30sp"
+            android:textSize="@dimen/_12ssp"
             android:textAppearance="@style/Roboto"/>
 
     </RelativeLayout>
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progress_bar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/progress_bar"
+        android:layout_height="@dimen/progress_bar"
         android:visibility="visible"
         android:layout_centerInParent="true"
         style="?android:attr/progressBarStyleLarge"/>

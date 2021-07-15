@@ -7,18 +7,18 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="@dimen/_62sdp"
         android:layout_alignParentTop="true"
         android:background="@drawable/dark_gradient" />
 
     <TextView
         android:id="@+id/tv_team_name"
         android:layout_width="match_parent"
-        android:layout_height="62dp"
+        android:layout_height="@dimen/_25sdp"
         android:layout_marginStart="@dimen/se_margin"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/_12sdp"
         android:layout_marginEnd="@dimen/se_margin"
-        android:layout_marginBottom="34dp"
+        android:layout_marginBottom="@dimen/_13sdp"
         android:background="@drawable/button_bottom_gradient"
         android:ellipsize="end"
         android:singleLine="true"
@@ -33,7 +33,7 @@
         android:layout_below="@id/tv_team_name"
         android:layout_marginStart="@dimen/se_margin"
         android:layout_marginEnd="@dimen/se_margin"
-        android:layout_marginBottom="26dp">
+        android:layout_marginBottom="@dimen/_10sdp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
             android:text="@string/online_protocol"
             android:textAlignment="center"
             android:textAppearance="@style/Roboto"
-            android:textSize="28sp" />
+            android:textSize="@dimen/_11ssp" />
 
         <TextView
             android:id="@+id/tv_date"
@@ -52,7 +52,7 @@
             android:text="01.01.2020"
             android:textAlignment="center"
             android:textAppearance="@style/Roboto"
-            android:textSize="28sp" />
+            android:textSize="@dimen/_11ssp" />
 
     </RelativeLayout>
 
@@ -63,7 +63,7 @@
         android:layout_below="@id/ll_stat_date"
         android:layout_marginStart="@dimen/se_margin"
         android:layout_marginEnd="@dimen/se_margin"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="@dimen/_2sdp"
         android:orientation="horizontal">
 
         <TextView
@@ -73,7 +73,7 @@
             android:layout_weight="3"
             android:text="@string/date"
             android:textAppearance="@style/Roboto"
-            android:textSize="24sp" />
+            android:textSize="@dimen/_9ssp" />
 
         <TextView
             android:layout_width="0dp"
@@ -83,7 +83,7 @@
             android:text="@string/time"
             android:textAlignment="center"
             android:textAppearance="@style/Roboto"
-            android:textSize="22sp" />
+            android:textSize="@dimen/_8ssp" />
 
         <TextView
             android:layout_width="0dp"
@@ -93,18 +93,18 @@
             android:text="@string/fishes"
             android:textAlignment="center"
             android:textAppearance="@style/Roboto"
-            android:textSize="22sp" />
+            android:textSize="@dimen/_8ssp" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="55dp"
+            android:layout_marginEnd="@dimen/_21sdp"
             android:layout_weight="2"
             android:text="@string/weight"
             android:textAlignment="textEnd"
             android:textAppearance="@style/Roboto"
-            android:textSize="22sp" />
+            android:textSize="@dimen/_8ssp" />
 
     </LinearLayout>
 
@@ -121,19 +121,19 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="76dp"
+        android:layout_height="@dimen/_30sdp"
         android:layout_alignBottom="@id/lv_stats"
         android:background="@drawable/light_gradient" />
 
     <RelativeLayout
         android:id="@+id/result"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="@dimen/_70sdp"
         android:layout_alignParentBottom="true">
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="@dimen/_62sdp"
             android:layout_alignParentTop="true"
             android:background="@drawable/dark_gradient" />
 
@@ -142,7 +142,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/se_margin"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/_2sdp"
             android:layout_marginEnd="@dimen/se_margin"
             android:orientation="horizontal">
 
@@ -159,25 +159,25 @@
                 android:text="Средний вес"
                 android:textAlignment="textEnd"
                 android:textAppearance="@style/Roboto"
-                android:textSize="20sp" />
+                android:textSize="@dimen/_8ssp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:layout_marginEnd="55dp"
+                android:layout_marginEnd="@dimen/_21sdp"
                 android:layout_weight="2"
                 android:text="Общий вес"
                 android:textAlignment="textEnd"
                 android:textAppearance="@style/Roboto"
-                android:textSize="20sp" />
+                android:textSize="@dimen/_8ssp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_result"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
+            android:layout_height="@dimen/_18sdp"
             android:layout_below="@id/ll_result_names"
             android:layout_marginStart="@dimen/se_margin"
             android:layout_marginEnd="@dimen/se_margin"
@@ -187,12 +187,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|start"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="@dimen/_6sdp"
                 android:layout_weight="3"
                 android:text="@string/result"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/Roboto"
-                android:textSize="22sp" />
+                android:textSize="@dimen/_8ssp" />
 
 
             <TextView
@@ -203,18 +203,18 @@
                 android:layout_weight="2"
                 android:textAlignment="textEnd"
                 android:textAppearance="@style/Roboto"
-                android:textSize="22sp" />
+                android:textSize="@dimen/_8ssp" />
 
             <TextView
                 android:id="@+id/tv_result_weight"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:layout_marginEnd="55dp"
+                android:layout_marginEnd="@dimen/_21sdp"
                 android:layout_weight="2"
                 android:textAlignment="textEnd"
                 android:textAppearance="@style/Roboto"
-                android:textSize="22sp" />
+                android:textSize="@dimen/_8ssp" />
         </LinearLayout>
 
         <ImageView
@@ -222,7 +222,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ll_result"
             android:layout_marginStart="@dimen/se_margin"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginEnd="@dimen/se_margin"
             android:adjustViewBounds="true"
             android:background="@null"

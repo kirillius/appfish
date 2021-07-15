@@ -1,8 +1,16 @@
 <resources>
-    <dimen name="se_margin">60dp</dimen>
-    <dimen name="record_grid_margin">2dp</dimen>
-    <dimen name="record_greed_text_size">26sp</dimen>
-    <dimen name="dropdown_list_text_size">30sp</dimen>
-    <dimen name="dropdown_list_circle_size">14dp</dimen>
-    <dimen name="main_menu_text_size">20sp</dimen>
+    <dimen name="se_margin">@dimen/_23sdp</dimen>
+    <dimen name="record_grid_margin">@dimen/_1sdp</dimen>
+    <dimen name="record_greed_text_size">@dimen/_10ssp</dimen>
+    <dimen name="dropdown_list_text_size">@dimen/_12ssp</dimen>
+    <dimen name="dropdown_list_circle_size">@dimen/_5sdp</dimen>
+    <dimen name="main_menu_text_size">@dimen/_5ssp</dimen>
+    <dimen name="auth_bottom_button_height">@dimen/_24sdp</dimen>
+    <dimen name="auth_bottom_button_width">@dimen/_23sdp</dimen>
+    <dimen name="auth_bottom_button_margin">@dimen/_24sdp</dimen>
+    <dimen name='progress_bar'>@dimen/_39sdp</dimen>
+    <dimen name="stats_day_image">@dimen/_14sdp</dimen>
+    <dimen name="stats_day_text">@dimen/_9ssp</dimen>
+    <dimen name="top_menu_button">@dimen/_19sdp</dimen>
+    <dimen name="top_menu_button_margin">@dimen/_12ssp</dimen>
 </resources>
