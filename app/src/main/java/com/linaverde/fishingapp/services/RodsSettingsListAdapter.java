@@ -119,6 +119,9 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
                     tvValue.setText(value.toString());
                 }
 
+                if (paramId.equals("DISTANCE"))
+                    tvValue.setText(tvValue.getText().toString() + "м");
+
 
                 String finalParamId = paramId;
                 String finalValueId = valueId;
@@ -169,6 +172,25 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
                                 }
 
                                 @Override
+                                public void onClear() {
+                                    progressBar.show();
+                                    RequestHelper requestHelper = new RequestHelper(context);
+                                    requestHelper.executeDelete("rods", new String[]{"team", "rod", "rodType"},
+                                            new String[]{userInfo.getTeamId(), Integer.toString(rodId), rodType},
+                                            new RequestListener() {
+                                                @Override
+                                                public void onComplete(JSONObject json) {
+                                                    progressBar.hide();
+                                                }
+
+                                                @Override
+                                                public void onError(int responseCode) {
+                                                    progressBar.hide();
+                                                }
+                                            });
+                                }
+
+                                @Override
                                 public void onCancel() {
 
                                 }
@@ -207,7 +229,8 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
                                                     "Введите значение", listener);
                                             break;
                                         case "object":
-                                            createTypeSelect(lastUpdate, finalParamId, finalValueId, tvName, rodsSwithcListener);
+                                            createTypeSelect(object.getJSONObject("param").getString("name"),lastUpdate,
+                                                    finalParamId, finalValueId, tvName, rodsSwithcListener);
                                             break;
                                     }
                                 }
@@ -228,23 +251,23 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
     }
 
 
-    private void createTypeSelect(String lastUpdate, String paramId, String valueId, TextView tvName, RodsSettingsParamSwithcListener listener) {
+    private void createTypeSelect(String settingName, String lastUpdate, String paramId, String valueId, TextView tvName, RodsSettingsParamSwithcListener listener) {
         RodsSettingsStorage storage = new RodsSettingsStorage(context);
         if (storage.getParams(paramId) == null) {
-            getNewParamDict(storage, lastUpdate, paramId, valueId, tvName, listener);
+            getNewParamDict(storage, settingName, lastUpdate, paramId, valueId, tvName, listener);
         } else {
             String updateTime = storage.getTime(paramId);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             try {
                 Date savedDate = format.parse(updateTime);
                 Date lastDate = format.parse(lastUpdate);
-                if (savedDate.equals(lastDate)){
+                if (savedDate.equals(lastDate)) {
                     Log.d("Param Storage", paramId + " saved instanse is up-to-date");
-                    DialogBuilder.createRodSettingsSelectDialog(context, inflater, "Выберите значение",
+                    DialogBuilder.createRodSettingsSelectDialog(context, inflater, settingName, "Выберите значение",
                             storage.getParams(paramId), valueId, listener);
                 } else if (savedDate.before(lastDate)) {
                     Log.d("Param Storage", paramId + " saved instanse is out-of-date");
-                    getNewParamDict(storage, lastUpdate, paramId, valueId, tvName, listener);
+                    getNewParamDict(storage, settingName, lastUpdate, paramId, valueId, tvName, listener);
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -252,7 +275,7 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
         }
     }
 
-    private void getNewParamDict(RodsSettingsStorage storage, String date, String paramId, String valueId, TextView tvName, RodsSettingsParamSwithcListener listener){
+    private void getNewParamDict(RodsSettingsStorage storage, String settingName, String date, String paramId, String valueId, TextView tvName, RodsSettingsParamSwithcListener listener) {
         RequestHelper requestHelper = new RequestHelper(context);
         progressBar.show();
         requestHelper.executeGet("rodparams", new String[]{"params", "rodType"},
@@ -262,7 +285,7 @@ public class RodsSettingsListAdapter extends ArrayAdapter<JSONObject> {
                         progressBar.hide();
                         try {
                             storage.saveParam(paramId, json.getJSONArray("params").getJSONObject(0).getJSONArray("values").toString(), date);
-                            DialogBuilder.createRodSettingsSelectDialog(context, inflater, "Выберите значение",
+                            DialogBuilder.createRodSettingsSelectDialog(context, inflater, settingName, "Выберите значение",
                                     json.getJSONArray("params").getJSONObject(0).getJSONArray("values"), valueId, listener);
                         } catch (JSONException e) {
                             e.printStackTrace();

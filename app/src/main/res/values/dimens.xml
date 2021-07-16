@@ -4,7 +4,7 @@
     <dimen name="record_greed_text_size">@dimen/_10ssp</dimen>
     <dimen name="dropdown_list_text_size">@dimen/_12ssp</dimen>
     <dimen name="dropdown_list_circle_size">@dimen/_5sdp</dimen>
-    <dimen name="main_menu_text_size">@dimen/_5ssp</dimen>
+    <dimen name="main_menu_text_size">@dimen/_7ssp</dimen>
     <dimen name="auth_bottom_button_height">@dimen/_24sdp</dimen>
     <dimen name="auth_bottom_button_width">@dimen/_23sdp</dimen>
     <dimen name="auth_bottom_button_margin">@dimen/_24sdp</dimen>

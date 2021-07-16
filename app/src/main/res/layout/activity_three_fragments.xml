@@ -32,7 +32,8 @@
             android:id="@+id/bottom_fragment"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_31sdp"
-            android:layout_alignParentBottom="true" />
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"/>
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/progress_bar"

@@ -87,12 +87,12 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
         bottomFragmentContainer = findViewById(R.id.bottom_fragment);
 
         TopMenuFragment menuFragment = TopMenuFragment.newInstance(true, false);
-        TimeFragment timeFragment = new TimeFragment();
+        //TimeFragment timeFragment = new TimeFragment();
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
-        fragmentTransaction.add(R.id.bottom_fragment, timeFragment);
+        //fragmentTransaction.add(R.id.bottom_fragment, timeFragment);
         if (!fragmentManager.isDestroyed())
             fragmentTransaction.commit();
 
@@ -160,7 +160,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
                         fragmentTransaction.addToBackStack("LogoFragment");
                         if (!fragmentManager.isDestroyed())
                             fragmentTransaction.commit();
-                        bottomFragmentContainer.setVisibility(View.GONE);
+                        //bottomFragmentContainer.setVisibility(View.GONE);
                     } else {
                         DialogBuilder.createDefaultDialog(RegisterTeamActivity.this, getLayoutInflater(), json.getString("error"), null);
                     }
@@ -344,9 +344,9 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
                 finish();
             } else {
                 getSupportFragmentManager().popBackStack();
-                if (count == 1) {
-                    bottomFragmentContainer.setVisibility(View.VISIBLE);
-                }
+//                if (count == 1) {
+//                    bottomFragmentContainer.setVisibility(View.VISIBLE);
+//                }
             }
         }
     }

@@ -72,12 +72,12 @@ public class TeamsActivity extends AppCompatActivity implements TopMenuEventList
         });
 
         TopMenuFragment menuFragment = TopMenuFragment.newInstance(false, false);
-        TimeFragment timeFragment = new TimeFragment();
+        //TimeFragment timeFragment = new TimeFragment();
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.top_menu_fragment, menuFragment);
-        fragmentTransaction.add(R.id.bottom_fragment, timeFragment);
+        //fragmentTransaction.add(R.id.bottom_fragment, timeFragment);
         if (!fragmentManager.isDestroyed())
             fragmentTransaction.commit();
 

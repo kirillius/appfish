@@ -25,6 +25,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.linaverde.fishingapp.R;
 import com.linaverde.fishingapp.interfaces.CompleteActionListener;
+import com.linaverde.fishingapp.interfaces.RequestListener;
 import com.linaverde.fishingapp.interfaces.RodsSettingsParamSwithcListener;
 import com.linaverde.fishingapp.models.FishDictionaryItem;
 import com.linaverde.fishingapp.models.ViolationDictionaryItem;
@@ -280,18 +281,27 @@ public class DialogBuilder {
     }
 
 
-    public static void createRodSettingsSelectDialog(Context context, LayoutInflater inflater, String text, JSONArray dict, String selectedId, final RodsSettingsParamSwithcListener listener) {
+    public static void createRodSettingsSelectDialog(Context context, LayoutInflater inflater, String settingName, String text,
+                                                     JSONArray dict, String selectedId, final RodsSettingsParamSwithcListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View viewDialog = inflater.inflate(R.layout.dialog_listview, null);
-        TextView tvText, tvOk, tvCancel;
+        TextView tvText, tvOk, tvCancel, tvSetting, tvClear;
         ListView listView;
         tvText = viewDialog.findViewById(R.id.tv_dialog);
         tvOk = viewDialog.findViewById(R.id.tv_ok);
         tvCancel = viewDialog.findViewById(R.id.tv_cancel);
+        tvSetting = viewDialog.findViewById(R.id.tv_setting_name);
+        tvClear = viewDialog.findViewById(R.id.tv_clear);
         listView = viewDialog.findViewById(R.id.lv_dialog);
 
         if (text != null)
             tvText.setText(text);
+
+        if (settingName != null){
+            tvSetting.setVisibility(View.VISIBLE);
+            tvSetting.setText(settingName);
+
+        }
 
         builder.setView(viewDialog);
         final AlertDialog dialog = builder.create();
@@ -343,6 +353,17 @@ public class DialogBuilder {
                 dialog.dismiss();
             }
         });
+
+//        tvClear.setVisibility(View.VISIBLE);
+//        tvClear.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                listener.onClear();
+//                dialog.dismiss();
+//            }
+//        });
+
+
 
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
