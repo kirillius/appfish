@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -72,6 +74,8 @@ public class RecordActivity extends AppCompatActivity implements TopMenuEventLis
                 return false;
             }
         });
+
+        initNavButtons();
 
         TopMenuFragment menuFragment = TopMenuFragment.newInstance(false, true);
 
@@ -147,5 +151,26 @@ public class RecordActivity extends AppCompatActivity implements TopMenuEventLis
     @Override
     public void onSyncClick() {
         ProtocolHelper.getProtocol(this, matchId, progressBar);
+    }
+
+    public void initNavButtons(){
+        Context context = RecordActivity.this;
+        findViewById(R.id.button_home).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, TournamentActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                context.startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.button_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 }

@@ -1,7 +1,10 @@
 package com.linaverde.fishingapp.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
@@ -60,6 +63,7 @@ public class TournamentActivity extends FragmentActivity implements TopMenuEvent
             }
         });
 
+        initNavButtons();
 
         TopMenuFragment menuFragment = TopMenuFragment.newInstance(true, false);
         matchId = userInfo.getMatchId();
@@ -148,5 +152,26 @@ public class TournamentActivity extends FragmentActivity implements TopMenuEvent
         } else {
             getSupportFragmentManager().popBackStack();
         }
+    }
+
+    public void initNavButtons(){
+        Context context = TournamentActivity.this;
+        findViewById(R.id.button_home).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, TournamentActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                context.startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.button_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 }

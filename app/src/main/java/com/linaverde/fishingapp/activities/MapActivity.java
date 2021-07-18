@@ -8,9 +8,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 import com.linaverde.fishingapp.R;
@@ -28,6 +30,8 @@ import com.linaverde.fishingapp.models.UserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Map;
 
 public class MapActivity extends AppCompatActivity implements TopMenuEventListener, RodPositionChangedListener,
         MapRodClickedListener {
@@ -64,6 +68,8 @@ public class MapActivity extends AppCompatActivity implements TopMenuEventListen
                 return false;
             }
         });
+
+        initNavButtons();
 
         matchId = userInfo.getMatchId();
         teamId = userInfo.getTeamId();
@@ -189,6 +195,27 @@ public class MapActivity extends AppCompatActivity implements TopMenuEventListen
                 });
             }
         }
+    }
+
+    public void initNavButtons(){
+        Context context = MapActivity.this;
+        findViewById(R.id.button_home).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, TournamentActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                context.startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.button_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
 }

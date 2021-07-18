@@ -10,6 +10,8 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -83,6 +85,8 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
                 return false;
             }
         });
+
+        initNavButtons();
 
         bottomFragmentContainer = findViewById(R.id.bottom_fragment);
 
@@ -418,5 +422,26 @@ public class RegisterTeamActivity extends AppCompatActivity implements TopMenuEv
         } else {
             requestHelper.executeGet("statsdetail", new String[]{"match", "team", "day"}, new String[]{matchId, teamId, selectedDay}, listener);
         }
+    }
+
+    public void initNavButtons(){
+        Context context = RegisterTeamActivity.this;
+        findViewById(R.id.button_home).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, TournamentActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                context.startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.button_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 }

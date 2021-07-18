@@ -127,5 +127,7 @@
     <string name="catch_stats">Статистика ловли команды</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="clear">Очистить</string>
+    <string name="home">Домой</string>
+    <string name="back">Назад</string>
 
 </resources>
